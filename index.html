@@ -1,0 +1,906 @@
+<title>내 공책 그정도 아님</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&family=Silkscreen&display=swap">
+<style>
+/* Layout: one game column — hero panel with the pixel character and gear on top, this year's season card, then bag, career log, hall of fame */
+:root{
+  --bg:#eceff4; --surface:#ffffff; --surface-2:#f4f6f9; --ink:#17202c; --muted:#677284; --line:#dce2ea;
+  --accent:#2c66d8; --accent-ink:#ffffff; --gold:#c4860f; --red:#cf4545; --good:#22915a;
+  --r0:#86909f; --r1:#22915a; --r2:#2c66d8; --r3:#8a4cd4; --r4:#cc8c0c;
+  --display:'Do Hyeon','Noto Sans KR',sans-serif;
+  --body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --pixel:'Silkscreen',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e131a; --surface:#161d27; --surface-2:#1d2632; --ink:#e6ecf3; --muted:#8e9aab; --line:#283444;
+  --accent:#6d9bff; --accent-ink:#0e131a; --gold:#f0bd48; --red:#f07575; --good:#5fd394;
+  --r0:#9aa4b3; --r1:#5fd394; --r2:#6d9bff; --r3:#b98cff; --r4:#f0bd48; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e131a; --surface:#161d27; --surface-2:#1d2632; --ink:#e6ecf3; --muted:#8e9aab; --line:#283444;
+  --accent:#6d9bff; --accent-ink:#0e131a; --gold:#f0bd48; --red:#f07575; --good:#5fd394;
+  --r0:#9aa4b3; --r1:#5fd394; --r2:#6d9bff; --r3:#b98cff; --r4:#f0bd48; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:30px} h2{font-size:22px} h3{font-size:18px}
+p{margin:0}
+.muted{color:var(--muted)} .small{font-size:12.5px}
+.px{font-family:var(--pixel);font-variant-numeric:tabular-nums;letter-spacing:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.between{justify-content:space-between}
+.stack{display:grid;gap:12px}
+.label{font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+button{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;line-height:1.3}
+button:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+button.primary:hover{filter:brightness(1.05)}
+button.sm{padding:4px 10px;font-size:12.5px;border-radius:8px}
+button.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:12.5px}
+input,select{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%}
+textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px}
+.topbar{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-inline:2px}
+.topbar .brand{font-family:var(--display);font-size:20px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:18px;align-items:start}
+.stage{border-radius:12px;overflow:hidden;line-height:0;background:#151823;border:1px solid var(--line)}
+.scene{width:100%;height:auto;aspect-ratio:40/28;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+.who{display:grid;gap:6px;min-width:0}
+.who .name{font-family:var(--display);font-size:28px;line-height:1.1;overflow-wrap:anywhere}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 9px;font-size:12px;border:1px solid var(--line);background:var(--surface-2)}
+.chip.r2{color:var(--accent);border-color:currentColor}
+.chip.r0{color:var(--muted)}
+.cpbox{display:flex;align-items:flex-end;gap:10px;margin-top:2px}
+.cpbox .num{font-family:var(--pixel);font-size:38px;line-height:1}
+.cpbox .meta{font-size:12px;color:var(--muted);line-height:1.4}
+.meter{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);position:relative;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:99px}
+.meter b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink)}
+.slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.slot{display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px;min-width:0}
+.ico{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;background:#23283a;border:2px solid #23283a;line-height:0}
+.ico canvas{max-width:40px;max-height:40px;image-rendering:pixelated;image-rendering:crisp-edges}
+.ico.empty{background:transparent;border:2px dashed var(--line)}
+.rb0{border-color:var(--r0)} .rb1{border-color:var(--r1)} .rb2{border-color:var(--r2)} .rb3{border-color:var(--r3)} .rb4{border-color:var(--r4)}
+.slot .nm{font-weight:700;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.slot .bn{font-size:11.5px;color:var(--good)}
+.rar0{color:var(--r0)} .rar1{color:var(--r1)} .rar2{color:var(--r2)} .rar3{color:var(--r3)} .rar4{color:var(--r4)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 14px}
+.stat{display:flex;align-items:baseline;gap:6px;font-size:13.5px}
+.stat .k{min-width:30px;color:var(--muted)}
+.stat.key .k{color:var(--ink);font-weight:700}
+.stat .v{font-family:var(--pixel);font-size:14px}
+.stat .b{font-size:11.5px;color:var(--good)}
+.tally{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;border-top:1px solid var(--line);padding-top:12px}
+.tally div{display:grid;justify-items:center;gap:0}
+.tally .px{font-size:18px}
+.tally .star{color:var(--gold)}
+.secret{font-family:var(--pixel);color:var(--muted)}
+/* season */
+.steps{display:flex;gap:4px}
+.steps span{font-size:12px;padding:3px 9px;border-radius:99px;color:var(--muted);background:var(--surface-2)}
+.steps span.on{background:var(--accent);color:var(--accent-ink)}
+.steps span.done{color:var(--ink)}
+.block{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.die{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);font-family:var(--pixel);font-size:12px;margin-right:3px;vertical-align:-4px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.opt{display:grid;gap:2px;text-align:left;padding:10px 12px}
+.opt b{font-size:14.5px}
+.opt small{color:var(--muted);font-size:12px}
+.opt[aria-pressed="true"]{border:2px solid var(--accent);padding:9px 11px;background:var(--surface)}
+.trainbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.trainbtns button{display:grid;justify-items:center;gap:0;padding:8px 4px}
+.trainbtns button.key{border-color:var(--accent)}
+.trainbtns small{font-family:var(--pixel);font-size:11px;color:var(--muted)}
+.logline{font-size:13.5px}
+.battle{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.battle:last-child{border-bottom:0}
+.battle .m{font-size:12px;color:var(--muted)}
+.battle .q{font-weight:500;min-width:0}
+.battle .sub{grid-column:2/4;font-size:12px;color:var(--muted)}
+.badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--surface-2);white-space:nowrap}
+.badge.g1{color:var(--good)} .badge.g2{color:var(--accent)} .badge.g3{color:var(--gold)} .badge.bad{color:var(--red)}
+.loot{font-size:12.5px;font-weight:700}
+.reslist{display:grid;gap:6px}
+.res{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;font-size:13.5px}
+.res .k{color:var(--muted);font-size:12.5px}
+.fade{animation:fade .35s ease-out both}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}}
+.stampwin{display:inline-block;color:var(--gold);font-family:var(--display);font-size:20px;border:2px solid var(--gold);border-radius:8px;padding:0 10px}
+/* bag */
+.bag{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.item{display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;min-width:0}
+.item .body{display:grid;gap:4px;min-width:0}
+.item .nm{font-weight:700;font-size:13.5px;overflow-wrap:anywhere}
+.item .new{font-family:var(--pixel);font-size:10px;color:var(--red);margin-left:4px}
+.diff.up{color:var(--good)} .diff.down{color:var(--red)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:500;color:var(--muted);font-size:12px}
+details summary{cursor:pointer;color:var(--muted);font-size:13.5px}
+.swatches{display:flex;gap:8px}
+.sw{width:30px;height:30px;border-radius:8px;padding:0;border:2px solid var(--line)}
+.sw[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--surface) inset}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:640px){
+  .hero{grid-template-columns:1fr;gap:12px}
+  .slots{grid-template-columns:1fr 1fr}
+  .slot{grid-template-columns:40px minmax(0,1fr);gap:8px;padding:6px}
+  .slot .ico{width:40px;height:40px}
+  .slot .ico canvas{max-width:34px;max-height:34px}
+  .who .name{font-size:24px}
+  .cpbox .num{font-size:32px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tally .px{font-size:16px}
+  .grid2{grid-template-columns:1fr}
+}
+</style>
+
+<main class="wrap" id="app"></main>
+
+<script>
+(() => {
+const SAVE_KEY = 'hero-notebook-save-v2', HALL_KEY = 'hero-notebook-hall-v1';
+const STATS = [['str','힘'],['agi','민첩'],['int','지능'],['vit','체력'],['spi','정신'],['luk','행운']];
+const SN = Object.fromEntries(STATS);
+const CLASSES = {
+  warrior:{name:'전사',key:['str','vit','agi'],desc:'맨 앞에서 버티고 베어낸다',styles:['균형형','강타형','철벽형'],titles:['불굴의 방패','붉은 도끼','전장의 사자']},
+  archer:{name:'궁수',key:['agi','luk','str'],desc:'멀리서 급소를 꿰뚫는다',styles:['균형형','속사형','저격형'],titles:['매의 눈','바람 사수','백발백중']},
+  mage:{name:'마법사',key:['int','spi','luk'],desc:'주문 하나로 판을 뒤집는다',styles:['균형형','파괴형','현자형'],titles:['폭풍의 현자','별을 읽는 자','화염 군주']},
+  cleric:{name:'성직자',key:['spi','vit','int'],desc:'동료를 살리고 어둠을 정화한다',styles:['균형형','신성형','수호형'],titles:['새벽의 손','정화의 등불','은빛 기도']},
+};
+const ORIGINS = ['북부 설원','동부 항구','남부 사막','서부 숲','중앙 왕도'];
+const FACTIONS = [
+  {name:'마을 자경단',lv:50,bonus:0},{name:'왕립 수련원',lv:52,bonus:0},{name:'변방 용병단',lv:58,bonus:0},
+  {name:'모험가 길드',lv:65,bonus:-2},{name:'왕국 기사단',lv:72,bonus:0},{name:'왕실 근위대',lv:80,bonus:1},{name:'전설의 원정대',lv:87,bonus:2},
+];
+const QUESTS = [
+  ['마을 외곽 늑대 퇴치','곡물창고 쥐떼 소탕','실종된 양 찾기','산적 정찰','폐가 유령 소동'],
+  ['교관과의 대련','폐광 탐사 실습','약초 채집 호위','야간 경계 훈련'],
+  ['상단 호위','고블린 소굴 토벌','국경 초소 방어','오크 약탈대 격퇴','다리 통행세 산적 소탕'],
+  ['던전 3층 공략','트롤 현상금 사냥','유적 조사 호위','늪지 히드라 토벌','거미 여왕 둥지 소각'],
+  ['국경 요새 탈환','흑기사단 격파','와이번 둥지 토벌','반란군 진압','망령 군단 저지'],
+  ['왕도 공성 방어','암살 길드 소탕','왕녀 호위 원정','거인족 회담 호위','마수의 숲 개척'],
+  ['고룡 레드혼 토벌','마왕군 전위 격파','심연의 문 봉인','리치 왕 토벌','하늘섬 탈환전'],
+];
+const MONTHS = ['2월','3월','5월','6월','8월','9월','11월'];
+const ROLES = ['예비대','분대원','선봉'];
+const POT = {2:65,3:68,4:70,5:73,6:76,7:79,8:82,9:85,10:88,11:91,12:95};
+const TRAITS = {
+  early:{name:'조숙형',desc:'21세까지 훈련 +1, 노쇠가 1년 빨리 시작'},
+  late:{name:'대기만성',desc:'21세까지 훈련 −1, 24~29세 훈련 +1'},
+  iron:{name:'강철몸',desc:'해마다 부상 1회를 털고 일어난다'},
+  glass:{name:'유리몸',desc:'훈련과 원정에서 더 쉽게 다친다'},
+  bold:{name:'대담함',desc:'대업·대륙 대전·영웅의 별 판정 +1'},
+  genius:{name:'천재',desc:'잠재력 +5'},
+};
+const TRAIT_KEYS = ['early','late','iron','glass','bold','genius'];
+const NAMES = ['아린','도윤','세라','카일','하람','리오','유나','테오'];
+const HAIRS = [['#2b2420','흑발'],['#7a4a24','갈색'],['#e0b95a','금발'],['#c94a3a','적발'],['#e6e6ee','은발']];
+
+/* ---------- equipment ---------- */
+const SLOTS = [['weapon','무기'],['helm','머리'],['armor','갑옷'],['shield','방패']];
+const SLOTN = Object.fromEntries(SLOTS);
+const RARITY = ['일반','고급','희귀','영웅','전설'];
+const SLOT_KEY = {weapon:0, armor:1, helm:2, shield:2};
+const SLOT_VAL = {weapon:[2,4,7,10,14], armor:[2,4,7,10,14], helm:[1,3,5,7,10], shield:[1,2,3,5,7]};
+const ITEM_NAMES = {
+  weapon:{warrior:['나무 검','청동 검','철검','미스릴 검','황금 성검'],archer:['나무 활','철궁','흑철 장궁','미스릴 활','황금 활'],
+          mage:['나무 지팡이','비틀린 지팡이','장식 지팡이','은 지팡이','별빛 지팡이'],cleric:['나무 곤봉','철 메이스','강철 모닝스타','미스릴 메이스','황금 메이스']},
+  armor:{warrior:['천 옷','가죽 갑옷','강철 테 갑옷','은빛 판금','황금 판금'],archer:['숲빛 옷','가죽 띠 조끼','사냥꾼 가죽 갑옷','숲빛 경갑','황금 경갑'],
+         mage:['수수한 로브','보랏빛 로브','허리띠 로브','청록 로브','마력 갑주'],cleric:['수련복','흰 조끼','은빛 사슬옷','은빛 판금','황금 판금']},
+  helm:{warrior:['머리띠','천 모자','깃털 철투구','청록 깃 투구','황금 뿔투구'],archer:['머리띠','숲빛 모자','숲빛 두건','은빛 두건','황금 깃 투구'],
+        mage:['머리띠','풀빛 고깔모자','주황 고깔모자','청록 고깔모자','대마법사 모자'],cleric:['머리띠','순례자 모자','깃털 철투구','보랏빛 깃 투구','황금 투구']},
+  shield:{warrior:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패'],archer:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패'],
+          mage:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패'],cleric:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패']},
+};
+
+const d6 = () => 1 + Math.floor(Math.random()*6);
+const roll2 = () => { const a=d6(), b=d6(); return {a,b,t:a+b}; };
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const clamp = (v,lo,hi) => Math.max(lo, Math.min(hi, v));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const die = (...xs) => xs.map(x => `<span class="die">${x}</span>`).join('');
+const sgn = n => n>0 ? `+${n}` : n<0 ? `−${-n}` : '±0';
+const uid = () => Math.random().toString(36).slice(2,9);
+
+let S = null;
+let draft = {name:pick(NAMES), origin:ORIGINS[4], cls:'warrior', cand:0, hair:1, hairStyle:0, skin:0};
+const app = document.getElementById('app');
+
+const store = {
+  get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} },
+};
+const save = () => { if (S) store.set(SAVE_KEY, S); };
+const hall = () => store.get(HALL_KEY) || [];
+
+/* ---------- core ---------- */
+const cls = () => CLASSES[S.cls];
+const itemName = (it, c) => ITEM_NAMES[it.slot][c][it.tier];
+const itemStat = (it, c) => CLASSES[c].key[SLOT_KEY[it.slot]];
+const itemVal = it => SLOT_VAL[it.slot][it.tier];
+const makeItem = (slot, tier) => ({id:uid(), slot, tier, isNew:true});
+function bonus(stat){
+  let b = 0;
+  for (const [s] of SLOTS){ const it = S.equip[s]; if (it && itemStat(it, S.cls)===stat) b += itemVal(it); }
+  return b;
+}
+const eff = k => S.stats[k] + bonus(k);
+const cp = () => Math.round(cls().key.reduce((s,k)=>s+eff(k),0)/3);
+const baseCP = () => Math.round(cls().key.reduce((s,k)=>s+S.stats[k],0)/3);
+const roleFor = () => { const lv = FACTIONS[S.fac].lv, c = cp(); return c>=lv ? 2 : c>=lv-4 ? 1 : 0; };
+function candidates(c){
+  const C = CLASSES[c], others = STATS.map(s=>s[0]).filter(k=>!C.key.includes(k));
+  const keyVals = [[45,45,45],[52,45,38],[38,45,52]], otherVals = [[40,35,30],[35,40,30],[30,40,35]];
+  return keyVals.map((kv,i) => { const st = {}; C.key.forEach((k,j)=>st[k]=kv[j]); others.forEach((k,j)=>st[k]=otherVals[i][j]); return {style:C.styles[i], stats:st}; });
+}
+function addStat(k, amt){
+  const isKey = cls().key.includes(k); let g = 0;
+  for (let i=0;i<amt;i++){
+    if (S.stats[k] >= 99) break;
+    S.stats[k]++;
+    if (isKey && baseCP() > S.pot){ S.stats[k]--; break; }
+    g++;
+  }
+  S.peak = Math.max(S.peak, cp());
+  return g;
+}
+const decStat = (k,amt) => { S.stats[k] = Math.max(1, S.stats[k]-amt); };
+const lowestKey = () => cls().key.slice().sort((a,b)=>S.stats[a]-S.stats[b])[0];
+function trainGain(d){
+  const a = S.age; let g = a<=21 ? d : a<=27 ? Math.ceil(d/2) : a<=30 ? (d>=4?1:0) : 0;
+  if (a<=30){
+    if (S.trait==='early' && a<=21) g+=1;
+    if (S.trait==='late' && a<=21) g=Math.max(0,g-1);
+    if (S.trait==='late' && a>=24 && a<=29) g+=1;
+    if (S.y.rivalA) g+=1;
+  }
+  return g;
+}
+function injure(sev){
+  const y = S.y;
+  if (S.trait==='iron' && !y.ironUsed){ y.ironUsed = true; return '쓰러졌지만 곧장 털고 일어났다.'; }
+  if (y.immune){ y.immune = false; return '푹 쉬어 둔 덕에 큰일은 피했다.'; }
+  const r = sev || d6();
+  if (r<=3){ y.missed += 1; return '<b style="color:var(--red)">가벼운 부상</b> · 원정 1회 결장'; }
+  if (r<=5){ y.missed += 2; decStat('agi',1); return '<b style="color:var(--red)">중상</b> · 원정 2회 결장, 민첩 −1'; }
+  y.missed = 99; y.seasonOut = true; decStat('vit',2);
+  return '<b style="color:var(--red)">시즌 아웃</b> · 남은 원정 전부 결장, 체력 −2';
+}
+function revealTrait(){ if (!S.traitShown){ S.traitShown = true; return true; } return false; }
+function lootTier(boost){
+  const base = [0,0,0,1,2,2,3][S.fac];
+  const r = d6(); let t = base + (r===6?1:0) - (r===1?1:0) + (boost||0);
+  const cap = (boost && S.fac>=5) ? 4 : 3;
+  return clamp(t, 0, cap);
+}
+function gainItem(it){
+  if (S.bag.length >= 16) return false;
+  S.bag.push(it); return true;
+}
+function itemLabel(it){ return `<span class="rar${it.tier}">${RARITY[it.tier]} ${itemName(it,S.cls)}</span>`; }
+
+/* ---------- year flow ---------- */
+function newGame(){
+  const c = candidates(draft.cls)[draft.cand];
+  const p = roll2(), t = d6(), trait = TRAIT_KEYS[t-1];
+  S = {
+    name: draft.name.trim() || '이름 없는 견습생', origin: draft.origin, cls: draft.cls, style: c.style, hair: draft.hair, hairStyle: draft.hairStyle||0, skin: draft.skin||0,
+    stats: {...c.stats}, pot: Math.min(99, POT[p.t] + (trait==='genius'?5:0)), trait, traitShown:false,
+    age:15, fac:0, peak:45, benchStreak:0, nextTrain:0,
+    equip:{weapon:{id:uid(),slot:'weapon',tier:0}, helm:null, armor:{id:uid(),slot:'armor',tier:0}, shield:null}, bag:[],
+    tot:{stars:0,titles:0,merit:0,wins:0,caps:0,missions:0,tourWins:0}, hist:[], awards:[], retired:false,
+  };
+  S.peak = cp();
+  startYear(true);
+}
+function startYear(first){
+  if (!first) S.age++;
+  const notes = [];
+  const ageStart = S.trait==='early' ? 29 : 30;
+  if (S.age >= ageStart){
+    const k = cls().key, rel = S.age - (ageStart - 30);
+    if (rel<=32){ decStat('agi',2); decStat('vit',1); notes.push('세월이 몸에 닿는다. 민첩 −2, 체력 −1.'); }
+    else if (rel<=35){ decStat('agi',3); decStat('vit',2); k.filter(x=>x!=='agi'&&x!=='vit').forEach(x=>decStat(x,1)); notes.push('몸이 예전 같지 않다. 민첩 −3, 체력 −2, 다른 핵심 능력 −1.'); }
+    else { decStat('agi',3); decStat('vit',2); STATS.forEach(([x])=>decStat(x,2)); notes.push('노장의 해. 모든 능력이 깎여 나간다.'); }
+  }
+  if (S.age >= 21 && revealTrait()) notes.push(`스물한 살, 자신의 기질을 깨달았다: <b>${TRAITS[S.trait].name}</b>.`);
+  S.y = { age:S.age, fac:S.fac, role:roleFor(), cpStart:cp(), notes, mod:0, firstBonus:0, missed:0,
+    trainLeft:3 + Math.min(1,S.nextTrain), train:[], ones:0, event:roll2(), eventDone:null, battles:null, review:null, offerDecided:false };
+  S.nextTrain = 0;
+  S.phase = 'event';
+  save();
+}
+function eventFor(t){
+  const k = cls().key;
+  const E = {
+    2:{t:'큰 부상',x:'훈련장에서 말이 날뛰었다. 떨어지는 순간 다리에서 소리가 났다.',c:[{l:'이를 악문다',f:()=>injure(6)}]},
+    3:{t:'단장 교체',x:'새 단장이 부임해 명단을 다시 짠다.',c:[{l:'명단을 확인한다',f:()=>{
+        const r=d6(), y=S.y;
+        if (r<=3){ y.role=Math.max(0,y.role-1); return `${die(r)} 새 단장은 너를 눈여겨보지 않는다. 올해는 <b>${ROLES[y.role]}</b>.`; }
+        y.role=Math.min(2,y.role+1); return `${die(r)} 새 단장이 너를 콕 집었다. 올해는 <b>${ROLES[y.role]}</b>.`; }}]},
+    4:{t:'슬럼프',x:'검이 무겁고 주문이 꼬인다. 이유 없이 손이 떨린다.',c:[
+        {l:'그냥 버틴다',d:'올해 원정 판정 −1',f:()=>{S.y.mod-=1;return '버티기로 했다. 원정 판정 −1.';}},
+        {l:'수련 하나를 내려놓는다',d:'훈련 1회 포기, 슬럼프 해소',f:()=>{S.y.trainLeft-=1;return '한 번 쉬어 가며 마음을 다잡았다. 훈련 1회 감소.';}}]},
+    5:{t:'라이벌 등장',x:`같은 ${cls().name} 자리를 노리는 실력자가 들어왔다.`,c:[
+        {l:'정면으로 경쟁한다',d:'원정 판정 −1, 훈련마다 +1',f:()=>{S.y.mod-=1;S.y.rivalA=true;return '서로를 갈아 넣는 한 해가 시작됐다.';}},
+        {l:'다른 곳을 알아본다',d:'연말 영입 제안 판정 +2',f:()=>{S.y.rivalB=true;return '조용히 다른 단체에 이름을 흘려 두었다.';}}]},
+    6:{t:'음유시인의 노래',x:'주점의 음유시인이 너에 대해 묻는다.',c:[
+        {l:'겸손하게 답한다',d:'변화 없음',f:()=>'"아직 배우는 중입니다." 노래는 무난하게 퍼졌다.'},
+        {l:'큰소리를 친다',d:'원정 판정 ±1 도박',f:()=>{const r=d6(); if(r<=3){S.y.mod-=1;return `${die(r)} 허세가 조롱거리가 됐다. 원정 판정 −1.`;} S.y.mod+=1; return `${die(r)} 노래가 전설처럼 퍼졌다. 원정 판정 +1.`;}}]},
+    7:{t:'떠돌이 상인',x:'짐수레를 끄는 상인이 낡은 장비 하나를 싸게 넘기겠다고 한다.',c:[
+        {l:'산다',d:'장비 1개 획득',f:()=>{const it=makeItem(pick(SLOTS)[0], lootTier()); return gainItem(it) ? `${itemLabel(it)}을(를) 손에 넣었다.` : '가방이 가득 차 있어 포기했다.';}},
+        {l:'수련에 집중한다',d:'훈련 1회 추가',f:()=>{S.y.trainLeft+=1;return '훈련 1회 추가.';}}]},
+    8:{t:'노기사의 가르침',x:'은퇴한 노기사가 한 가지를 가르쳐 주겠다고 한다.',c:STATS.map(([s,n])=>({l:n,d:k.includes(s)?'핵심 능력':'',f:()=>{const g=addStat(s,2);return `${n} +${g}.`;}}))},
+    9:{t:'마을의 환호',x:'고향 사람들이 첫 원정 길에 꽃을 던져 준다.',c:[{l:'손을 흔든다',f:()=>{S.y.firstBonus=2;return '첫 원정 판정 +2.';}}]},
+    10:{t:'비밀 수련장',x:'혹독하기로 소문난 산속 수련장에 초대받았다.',c:[
+        {l:'들어간다',d:'훈련 1회 추가, 주사위 1이면 부상',f:()=>{S.y.trainLeft+=1;S.y.risky=true;return '훈련 1회 추가. 다만 무리하면 다친다.';}},
+        {l:'쉬기로 한다',d:'올해 부상 1회 면제',f:()=>{S.y.immune=true;return '몸을 아꼈다. 올해 부상 1회 면제.';}}]},
+    11:{t:'각성',x:'원정 중 쓰러진 순간, 몸속에서 무언가가 깨어났다.',c:[{l:'힘을 받아들인다',f:()=>{const s=pick(k),r=d6(),g=addStat(s,r);return `${die(r)} ${SN[s]} +${g}.`;}}]},
+    12:{t:'운명의 계시',x:'신전의 무녀가 네 이마에 손을 얹고 운명을 읽는다.',c:[{l:'귀를 기울인다',f:()=>{revealTrait();S.pot=Math.min(99,S.pot+3);return `기질은 <b>${TRAITS[S.trait].name}</b>. 그릇이 조금 더 커졌다(잠재력 +3).`;}}]},
+  };
+  return E[t];
+}
+function doTrain(stat){
+  const y = S.y; if (y.trainLeft<=0) return;
+  const d = d6(), g0 = trainGain(d), g = addStat(stat, g0);
+  y.trainLeft--;
+  let note = '';
+  if (g0>0 && g<g0) note = cls().key.includes(stat) ? ' · 잠재력의 벽' : ' · 한계치';
+  if (S.age>30) note = ' · 나이 탓에 유지만 된다';
+  if (d===1){
+    y.ones++;
+    const hit = (S.trait==='glass' || y.risky) ? true : y.ones>=2;
+    if (hit && !y.trainHurt){ y.trainHurt = true; note += ' · ' + injure(); }
+  }
+  y.train.push({stat, d, g, note});
+  save(); render();
+}
+function doBattles(){
+  const y = S.y, lv = FACTIONS[S.fac].lv, qs = QUESTS[S.fac];
+  let n = y.role===2 ? 5 : y.role===1 ? 3 : 0, benchRoll = null;
+  if (y.role===0){ benchRoll = d6(); n = benchRoll>=4 ? 1 : 0; }
+  const months = MONTHS.slice().sort(()=>Math.random()-.5).slice(0,n).sort((a,b)=>MONTHS.indexOf(a)-MONTHS.indexOf(b));
+  const list = [];
+  for (let i=0;i<n;i++){
+    const q = pick(qs), m = months[i];
+    if (y.missed>0){ y.missed--; list.push({m,q,skip:true}); continue; }
+    const r = roll2();
+    const base = clamp(Math.trunc((cp()-lv)/3), -3, 3);
+    const mod = base + y.mod + (list.filter(b=>!b.skip).length===0 ? y.firstBonus : 0);
+    const tot = r.t + mod;
+    const R = tot<=4 ? ['부진',5.5,0,'발이 묶였다','bad'] : tot<=7 ? ['무난',6.5,0,'제 몫은 했다',''] : tot<=9 ? ['활약',7.5,1,'결정적인 한 수를 보탰다','g1'] : tot<=11 ? ['맹활약',8.5,2,'적의 우두머리를 쓰러뜨렸다','g2'] : ['전설적',9.5,3,'음유시인들이 노래로 만들었다','g3'];
+    const b = {m,q,a:r.a,bb:r.b,mod,tot,label:R[0],rating:R[1],merit:R[2],flavor:R[3],cls:R[4]};
+    if (R[0]==='전설적') S.nextTrain = 1;
+    const chance = [0,.3,.5,1][R[2]];
+    if (R[2]>0 && Math.random() < chance){
+      const it = makeItem(pick(SLOTS)[0], lootTier(R[2]===3 ? 1 : 0));
+      b.loot = gainItem(it) ? it : 'full';
+    }
+    if (r.t===2 || (S.trait==='glass' && r.t===3)) b.injury = injure();
+    list.push(b);
+  }
+  const played = list.filter(b=>!b.skip);
+  y.battles = {list, benchRoll, played:played.length,
+    avg: played.length ? played.reduce((s,b)=>s+b.rating,0)/played.length : null,
+    merit: played.reduce((s,b)=>s+b.merit,0)*3,
+    missions: played.length ? (y.role===2 ? 30+d6() : y.role===1 ? 15+d6() : d6()) : 0};
+  S.phase = 'battle'; save(); render();
+}
+const pathFromCP = c => c>=60 ? 4 : c>=55 ? 3 : c>=48 ? 2 : null;
+function doReview(){
+  const y = S.y, B = y.battles, R = {lines:[]};
+  const effRole = y.seasonOut ? 0 : y.role;
+  const avg = B.avg ?? 0, bold = S.trait==='bold' ? 1 : 0;
+  if (effRole===2){ const got=[]; for(let i=0;i<3;i++){ const k=lowestKey(); if(addStat(k,1)) got.push(SN[k]); } R.lines.push(['출전 성장', got.length ? `선봉 경험 · ${got.join(', ')} +1` : '잠재력의 벽에 막혔다']); }
+  else if (effRole===1){ const k=lowestKey(); const g=addStat(k,1); R.lines.push(['출전 성장', g ? `${SN[k]} +1` : '잠재력의 벽']); }
+  else if (S.age>=21){ S.pot=Math.max(40,S.pot-3); R.lines.push(['출전 성장', '<b style="color:var(--red)">예비대로 한 해를 보냈다. 잠재력 −3</b>']); }
+  else R.lines.push(['출전 성장', '예비대라 실전 경험이 없었다']);
+  S.benchStreak = effRole===0 ? S.benchStreak+1 : 0;
+  const fr = roll2(), fmod = FACTIONS[S.fac].bonus + (effRole===2 && avg>=8 ? 1 : 0) + bold, ft = fr.t + fmod;
+  const res = ft>=11 ? '대업 달성' : ft>=8 ? '상위권' : ft>=5 ? '중위권' : '부진';
+  R.win = res==='대업 달성';
+  let winLoot = '';
+  if (R.win){ const it = makeItem(pick(SLOTS)[0], Math.min(3, lootTier()+1)); winLoot = gainItem(it) ? ` · 보상 ${itemLabel(it)}` : ' · 가방이 가득 차 보상을 놓쳤다'; }
+  R.lines.push([`소속 성적`, `${die(fr.a,fr.b)} ${sgn(fmod)} → <b>${res}</b>${winLoot}`]);
+  if (effRole===2 && avg>=8){
+    const tr = roll2();
+    if (tr.t>=9){ R.title = pick(cls().titles); R.lines.push(['개인 칭호', `${die(tr.a,tr.b)} 올해의 <b>「${R.title}」</b>`]); }
+    else R.lines.push(['개인 칭호', `${die(tr.a,tr.b)} 후보에 올랐지만 놓쳤다`]);
+  }
+  if (S.age<=18 && cp()>=55 && y.role>=1) R.lines.push(['왕국', '견습 기사단에 소집됐다']);
+  if (cp()>=70 && effRole===2){
+    R.cap = true;
+    const kr = roll2(), km = Math.trunc((cp()-75)/5) + bold;
+    R.tour = kr.t + km >= 11;
+    R.lines.push(['왕국 수호단', `소집 · 대륙 대전 ${die(kr.a,kr.b)} ${sgn(km)} → ${R.tour ? '<b>우승</b>' : '탈락'}`]);
+  }
+  if (cp()>=85 && effRole===2 && avg>=8){
+    const sr = roll2(), sm = (R.win?2:0)+(R.title?1:0)+(R.tour?1:0)+(avg>=9?1:0)+(S.fac===6?1:0)+bold;
+    R.star = sr.t + sm >= 11;
+    let starLoot = '';
+    if (R.star){ const it = makeItem(pick(SLOTS)[0], 4); starLoot = gainItem(it) ? `<br>부상으로 ${itemLabel(it)}` : ''; }
+    R.lines.push(['영웅의 별', `${die(sr.a,sr.b)} ${sgn(sm)} → ${R.star ? '<span class="stampwin">수상</span>' : '아쉽게 놓쳤다'}${starLoot}`]);
+  } else if (cp()>=80) R.lines.push(['영웅의 별', '후보 조건 미달 (전투력 85 · 선봉 · 평점 8.0)']);
+  const T = S.tot;
+  T.merit += B.merit; T.missions += B.missions;
+  if (R.win) T.wins++; if (R.title) T.titles++; if (R.cap) T.caps++; if (R.tour) T.tourWins++; if (R.star) T.stars++;
+  if (R.title) S.awards.push(`${S.age}세 「${R.title}」`);
+  if (R.star) S.awards.push(`${S.age}세 영웅의 별`);
+  if (R.tour) S.awards.push(`${S.age}세 대륙 대전 우승`);
+  S.peak = Math.max(S.peak, cp());
+  if (S.age===17 || (S.fac===1 && S.age>=18)){
+    let to = pathFromCP(cp()), how = '';
+    if (to===null){ const tr = roll2(); if (tr.t>=8){ to = 2; how = `${die(tr.a,tr.b)} 입단 시험 통과`; } else { to = 1; how = `${die(tr.a,tr.b)} 입단 시험 탈락, 1년 더 수련`; } }
+    R.lines.push(['진로', `${how ? how+' · ' : ''}전투력 ${cp()} → <b>${FACTIONS[to].name}</b>`]);
+    S.fac = to;
+  } else if (S.age>=18){
+    if (B.avg!==null && avg>=7){
+      const orr = roll2(), om = Math.trunc((avg-7)*2) + (y.rivalB?2:0), ot = orr.t + om;
+      const up = ot>=12 ? 2 : ot>=10 ? 1 : 0;
+      const to = Math.min(6, S.fac + up);
+      if (up>0 && to>S.fac){ R.offer = {to, kind:'영입'}; R.lines.push(['영입 제안', `${die(orr.a,orr.b)} ${sgn(om)} → <b>${FACTIONS[to].name}</b>에서 손을 내밀었다`]); }
+      else R.lines.push(['영입 제안', `${die(orr.a,orr.b)} ${sgn(om)} → 관심만 보이고 끝났다`]);
+    }
+    if (!R.offer && S.benchStreak>=2 && S.fac>2){ R.offer = {to:S.fac-1, kind:'파견'}; R.lines.push(['파견 제안', `두 해째 예비대. ${FACTIONS[S.fac-1].name}로 내려가 뛰어 볼 수 있다`]); }
+  }
+  if (S.age>=33){
+    const rr = roll2();
+    R.retire = rr.t <= S.age-30;
+    R.lines.push(['은퇴 판정', `${die(rr.a,rr.b)} (${S.age-30} 이하면 은퇴) → ${R.retire ? '<b style="color:var(--red)">검을 내려놓을 때가 왔다</b>' : '한 해 더 싸운다'}`]);
+  }
+  S.hist.push({age:S.age, fac:y.fac, role:effRole, cpS:y.cpStart, cpE:cp(), avg:B.avg, merit:B.merit, res,
+    award:[R.star?'영웅의 별':'', R.title?`「${R.title}」`:'', R.tour?'대전 우승':''].filter(Boolean).join(' · ')});
+  y.review = R; y.offerDecided = !R.offer;
+  S.phase = 'review'; save(); render();
+}
+function decideOffer(accept){
+  const R = S.y.review;
+  if (accept){ S.fac = R.offer.to; R.offerResult = `${FACTIONS[S.fac].name}로 옮겼다.`; S.benchStreak = 0; }
+  else R.offerResult = '제안을 거절하고 남았다.';
+  S.y.offerDecided = true; save(); render();
+}
+function retire(){
+  S.retired = true; S.phase = 'retired';
+  const T = S.tot;
+  S.grade = T.stars>=3 ? '전설' : T.stars>=1 ? '영웅의 별' : S.peak>=85 ? '대륙급 영웅' : T.caps>0 ? '왕국 수호자' : S.hist.some(h=>h.role===2 && h.fac>=3) ? '정예 모험가' : '떠돌이 용병';
+  const h = hall();
+  h.push({name:S.name, cls:S.cls, stars:T.stars, peak:S.peak, titles:T.titles, merit:T.merit, age:S.age, grade:S.grade});
+  h.sort((a,b)=>b.stars-a.stars || b.peak-a.peak || b.titles-a.titles || b.merit-a.merit);
+  store.set(HALL_KEY, h.slice(0,30));
+  save(); render();
+}
+function equipItem(id){
+  const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
+  const it = S.bag[i], old = S.equip[it.slot];
+  it.isNew = false;
+  S.equip[it.slot] = it; S.bag.splice(i,1);
+  if (old) S.bag.push(old);
+  S.peak = Math.max(S.peak, cp());
+  save(); render();
+}
+function unequip(slot){
+  const it = S.equip[slot]; if (!it || S.bag.length>=16) return;
+  S.equip[slot] = null; S.bag.push(it); save(); render();
+}
+function dropItem(id){ S.bag = S.bag.filter(x=>x.id!==id); save(); render(); }
+
+/* ---------- paper doll (Kenney Roguelike Characters, CC0) ---------- */
+const SHEET_SRC = 'data:image/png;base64,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';
+const sheet = new Image();
+let sheetReady = false;
+const KT = {
+  weapon:{warrior:[[6,42],[6,43],[6,44],[6,46],[6,45]], archer:[[0,52],[1,52],[3,52],[4,52],[2,52]],
+          mage:[[0,42],[1,43],[2,44],[1,45],[4,42]], cleric:[[0,43],[0,47],[0,48],[8,47],[6,47]]},
+  armor:{warrior:[[5,10],[4,6],[4,11],[4,12],[9,12]], archer:[[5,6],[6,7],[9,7],[9,6],[9,10]],
+         mage:[[7,10],[2,14],[2,15],[2,10],[4,14]], cleric:[[5,12],[6,12],[3,13],[4,10],[9,10]]},
+  helm:{warrior:[[2,29],[2,31],[0,28],[1,28],[6,29]], archer:[[5,28],[5,31],[7,31],[7,29],[1,30]],
+        mage:[[4,28],[8,31],[8,28],[8,29],[8,30]], cleric:[[2,28],[4,30],[0,29],[1,29],[0,31]]},
+  shield:{warrior:[[0,33],[0,34],[0,38],[6,39],[5,34]], archer:[[0,33],[0,34],[0,38],[6,39],[5,34]],
+          mage:[[0,33],[0,34],[0,38],[6,39],[5,34]], cleric:[[0,33],[0,34],[0,38],[6,39],[5,34]]},
+};
+const LEGS_T = [[1,3],[1,3],[0,3],[2,3],[3,3]];
+const SKINS = [['#e5c49d','밝은 피부',[0,0]],['#c8a480','구릿빛',[1,0]],['#9f7c4d','어두운 피부',[2,0]],['#409c62','초록 피부',[3,0]]];
+const HAIR_BLOCK = [[4,23],[0,19],[4,19],[0,23],[8,19]];
+const HAIR_STYLES = [['짧은 머리',[0,0]],['땋은 머리',[1,3]],['묶은 머리',[2,1]],['수염',[0,3]]];
+
+function dollLayers(look){
+  const eq = look.equip || {}, c = look.cls, L = [];
+  L.push(SKINS[look.skin||0][2]);
+  L.push(LEGS_T[eq.armor ? eq.armor.tier : 0]);
+  if (eq.armor) L.push(KT.armor[c][eq.armor.tier]);
+  const hb = HAIR_BLOCK[look.hair||0], hs = HAIR_STYLES[look.hairStyle||0][1];
+  L.push([hb[0]+hs[0], hb[1]+hs[1]]);
+  if (eq.helm) L.push(KT.helm[c][eq.helm.tier]);
+  if (eq.shield) L.push(KT.shield[c][eq.shield.tier]);
+  if (eq.weapon) L.push(KT.weapon[c][eq.weapon.tier]);
+  return L;
+}
+const dollCache = new Map(), iconCache = new Map();
+function dollCanvas(look){
+  const L = dollLayers(look), k = L.map(t=>t.join(',')).join('|');
+  let cv = dollCache.get(k);
+  if (cv) return cv;
+  cv = document.createElement('canvas'); cv.width = 16; cv.height = 16;
+  const ctx = cv.getContext('2d');
+  for (const [r,c] of L) ctx.drawImage(sheet, c*17, r*17, 16, 16, 0, 0, 16, 16);
+  dollCache.set(k, cv); return cv;
+}
+function tileIcon(r, c){
+  const k = r+','+c; let v = iconCache.get(k);
+  if (v) return v;
+  const t = document.createElement('canvas'); t.width = 16; t.height = 16;
+  const tc = t.getContext('2d'); tc.drawImage(sheet, c*17, r*17, 16, 16, 0, 0, 16, 16);
+  const d = tc.getImageData(0,0,16,16).data;
+  let x0=16,y0=16,x1=-1,y1=-1;
+  for (let y=0;y<16;y++) for (let x=0;x<16;x++) if (d[(y*16+x)*4+3]){ if(x<x0)x0=x; if(y<y0)y0=y; if(x>x1)x1=x; if(y>y1)y1=y; }
+  if (x1<0){ x0=0; y0=0; x1=15; y1=15; }
+  v = document.createElement('canvas'); v.width = x1-x0+1; v.height = y1-y0+1;
+  v.getContext('2d').drawImage(t, x0, y0, v.width, v.height, 0, 0, v.width, v.height);
+  iconCache.set(k, v); return v;
+}
+
+/* ---------- scenes (40x28, same pixel density as the doll) ---------- */
+const SW = 40, SH = 28, GROUND = 24;
+function hex(c){ return [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)]; }
+function sceneData(fac, f){
+  const d = new Uint8ClampedArray(SW*SH*4);
+  const set = (x,y,c) => { x|=0; y|=0; if (x<0||y<0||x>=SW||y>=SH) return; const [r,g,b] = hex(c), i = (y*SW+x)*4; d[i]=r; d[i+1]=g; d[i+2]=b; d[i+3]=255; };
+  const rect = (x0,y0,x1,y1,c) => { for (let y=y0;y<=y1;y++) for (let x=x0;x<=x1;x++) set(x,y,c); };
+  const disc = (cx,cy,rad,c) => { for (let y=cy-rad;y<=cy+rad;y++) for (let x=cx-rad;x<=cx+rad;x++) if ((x-cx)**2+(y-cy)**2 <= rad*rad+rad*0.6) set(x,y,c); };
+  const tri = (x0,x1,apx,apy,base,c) => { for (let y=apy;y<=base;y++){ const t=(y-apy)/Math.max(1,base-apy), l=Math.round(apx-(apx-x0)*t), r=Math.round(apx+(x1-apx)*t); rect(l,y,r,y,c); } };
+  const cloud = (x,y) => { rect(x,y,x+6,y+1,'#ffffff'); rect(x+1,y-1,x+3,y-1,'#ffffff'); rect(x,y+1,x+6,y+1,'#dff1fd'); };
+  const twinkle = (pts) => pts.forEach(([x,y],i) => set(x,y, ((i+f)%3===0) ? '#ffffff' : '#9d93cf'));
+  const shadow = (c) => rect(15,GROUND,24,GROUND,c);
+  const flame = (x,y) => { set(x,y,(f&1)?'#ffe08a':'#ffb347'); set(x,y-1,(f&1)?'#ff7a3a':'#ffe08a'); if (f&1) set(x+1,y-1,'#ff7a3a'); else set(x-1,y-1,'#ff7a3a'); };
+  if (fac===0){
+    rect(0,0,SW-1,15,'#8ed1fb'); rect(0,16,SW-1,GROUND-1,'#b4e2fc');
+    cloud((3+Math.floor(f/2))%46-6,4); cloud((26+Math.floor(f/3))%46-6,8);
+    for (let x=0;x<SW;x++){ const h = 19 + Math.round(Math.sin(x/4)*1.2); rect(x,h,x,GROUND-1,'#8ad277'); }
+    rect(2,18,8,23,'#efdcb6'); rect(8,18,8,23,'#d4be95'); tri(1,9,5,14,17,'#d0574e'); rect(5,21,5,23,'#7a4b2a'); set(3,19,'#ffe39a');
+    rect(34,20,34,23,'#7a4b2a'); rect(32,15,36,19,'#4f9f3e'); rect(33,14,35,14,'#4f9f3e'); set(33,16,'#6bbd55'); set(34,15,'#6bbd55');
+    rect(0,GROUND,SW-1,SH-1,'#5fae4b'); rect(0,GROUND,SW-1,GROUND,'#77c35c');
+    rect(13,GROUND+1,26,SH-1,'#c9a46a'); rect(14,GROUND,25,GROUND,'#d6b37a'); shadow('#b18c56');
+    [3,9,30,37].forEach(x=>set(x,GROUND+2,'#4d9a3c'));
+  } else if (fac===1){
+    rect(0,0,SW-1,13,'#b4b3ea'); rect(0,14,SW-1,GROUND-1,'#d4d3f5');
+    for (let i=0;i<5;i++) set(4+i*8,2+(i*3)%7,'#ffffff');
+    rect(0,17,SW-1,GROUND-1,'#a3a6be'); for (let x=0;x<SW;x+=3) set(x,16,'#a3a6be');
+    for (let y=19;y<GROUND;y+=2) for (let x=(y&2)?0:2;x<SW;x+=4) set(x,y,'#9195ae');
+    rect(30,6,36,GROUND-1,'#8f93ad'); rect(36,6,36,GROUND-1,'#7a7e98'); tri(29,37,33,2,5,'#4f5aa0'); rect(33,10,33,12,'#ffd27a'); rect(33,16,33,18,'#ffd27a');
+    rect(0,GROUND,SW-1,SH-1,'#8a8ea6'); rect(0,GROUND,SW-1,GROUND,'#a2a6bd'); for (let x=0;x<SW;x+=5) rect(x,GROUND+1,x,SH-1,'#7a7e96'); shadow('#74788f');
+  } else if (fac===2){
+    rect(0,0,SW-1,8,'#e9875f'); rect(0,9,SW-1,15,'#f2a970'); rect(0,16,SW-1,GROUND-1,'#f7cf94');
+    disc(31,17,3,'#fff0c0');
+    for (let x=0;x<SW;x++){ const h = 20 + Math.round(Math.sin(x/3+1)); rect(x,h,x,GROUND-1,'#8f5f48'); }
+    tri(1,11,6,13,GROUND-1,'#8a5a3a'); tri(6,11,6,13,GROUND-1,'#6b4329'); rect(5,20,7,GROUND-1,'#3a2418');
+    tri(28,38,33,14,GROUND-1,'#8a5a3a'); tri(33,38,33,14,GROUND-1,'#6b4329'); rect(32,20,34,GROUND-1,'#3a2418');
+    rect(0,GROUND,SW-1,SH-1,'#a5845a'); rect(0,GROUND,SW-1,GROUND,'#bb9a6a'); shadow('#8c6d47');
+    rect(26,GROUND-1,28,GROUND-1,'#5a3a22'); flame(27,GROUND-2);
+  } else if (fac===3){
+    rect(0,0,SW-1,GROUND-1,'#2e3242');
+    for (let y=0;y<GROUND;y+=4){ rect(0,y,SW-1,y,'#252836'); for (let x=(y/4)%2?3:0;x<SW;x+=6) rect(x,y,x,y+3,'#252836'); }
+    rect(14,9,25,GROUND-1,'#1a1d27'); rect(15,8,24,8,'#1a1d27');
+    rect(4,13,4,15,'#5a3a22'); flame(4,12); rect(35,13,35,15,'#5a3a22'); flame(35,12);
+    rect(0,GROUND,SW-1,SH-1,'#4a4f63'); rect(0,GROUND,SW-1,GROUND,'#5f6580'); for (let x=2;x<SW;x+=6) rect(x,GROUND+1,x,SH-1,'#3d4154'); shadow('#3a3e50');
+  } else if (fac===4){
+    rect(0,0,SW-1,9,'#7fbef0'); rect(0,10,SW-1,GROUND-1,'#a9d4f6');
+    cloud((30+Math.floor(f/2))%46-6,4);
+    rect(0,13,SW-1,GROUND-1,'#a8aebb'); for (let x=0;x<SW;x+=4) rect(x,11,x+1,12,'#a8aebb');
+    for (let y=15;y<GROUND;y+=3) for (let x=(y%2)?0:2;x<SW;x+=5) set(x,y,'#959ba9');
+    rect(15,15,24,GROUND-1,'#3a3f4c'); rect(16,14,23,14,'#3a3f4c');
+    rect(5,14,8,19,'#c13b3d'); rect(5,20,5,20,'#c13b3d'); rect(8,20,8,20,'#c13b3d'); set(6,16,'#e8bd4a'); set(7,16,'#e8bd4a');
+    rect(31,14,34,19,'#c13b3d'); rect(31,20,31,20,'#c13b3d'); rect(34,20,34,20,'#c13b3d'); set(32,16,'#e8bd4a'); set(33,16,'#e8bd4a');
+    rect(0,GROUND,SW-1,SH-1,'#5f9e52'); rect(0,GROUND,SW-1,GROUND,'#79b968'); rect(14,GROUND,25,SH-1,'#b7ae9c'); shadow('#968d7c');
+  } else if (fac===5){
+    rect(0,0,SW-1,GROUND-1,'#2f3566');
+    rect(8,4,11,14,'#a9bcf5'); rect(9,3,10,3,'#a9bcf5'); rect(9,4,9,14,'#8aa0e6'); rect(28,4,31,14,'#a9bcf5'); rect(29,3,30,3,'#a9bcf5'); rect(29,4,29,14,'#8aa0e6');
+    rect(1,2,4,GROUND-1,'#e2deef'); rect(4,2,4,GROUND-1,'#b6b0cc'); rect(0,2,5,2,'#f2f0f8'); rect(35,2,38,GROUND-1,'#e2deef'); rect(38,2,38,GROUND-1,'#b6b0cc'); rect(34,2,39,2,'#f2f0f8');
+    rect(0,0,SW-1,1,'#9b2c3e'); for (let x=0;x<SW;x+=4) set(x,2,'#9b2c3e');
+    rect(0,GROUND,SW-1,SH-1,'#4e4462'); for (let y=GROUND;y<SH;y+=2) for (let x=(y%4)?0:2;x<SW;x+=4) rect(x,y,x+1,y,'#5c5172');
+    rect(13,GROUND,26,SH-1,'#b03447'); rect(13,GROUND,13,SH-1,'#e8bd4a'); rect(26,GROUND,26,SH-1,'#e8bd4a'); shadow('#8a2737');
+  } else {
+    rect(0,0,SW-1,11,'#130e2a'); rect(0,12,SW-1,19,'#1f1640'); rect(0,20,SW-1,GROUND-1,'#2c1e4e');
+    twinkle([[3,3],[9,7],[15,2],[22,5],[26,10],[37,13],[5,12],[18,9]]);
+    disc(32,6,3,'#f5ecd0'); set(31,5,'#e2d6b2'); set(33,8,'#e2d6b2');
+    for (let x=0;x<SW;x++){ const h = 17 + Math.round(Math.sin(x/5)*2 + Math.sin(x/2)); rect(x,h,x,GROUND-1,'#211838'); }
+    rect(2,15,4,GROUND-1,'#3a2f5e'); rect(2,14,2,14,'#3a2f5e'); rect(35,13,37,GROUND-1,'#3a2f5e'); rect(37,12,37,12,'#3a2f5e');
+    rect(0,GROUND,SW-1,SH-1,'#33284a'); rect(0,GROUND,SW-1,GROUND,'#4a3c66'); shadow('#241c36');
+    set(8+(f%3), 20-(f%4), '#ff9a4a'); set(30-(f%3), 18-(f%4), '#ff9a4a');
+  }
+  return new ImageData(d, SW, SH);
+}
+
+/* ---------- stage painting ---------- */
+let frame = 0;
+const off = document.createElement('canvas'); off.width = SW; off.height = SH;
+const octx = off.getContext('2d');
+function paintStage(cv, look, fac){
+  octx.putImageData(sceneData(fac, frame), 0, 0);
+  if (sheetReady) octx.drawImage(dollCanvas(look), 12, 8);
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth || 320, s = Math.max(1, Math.round(w*dpr/SW));
+  if (cv.width !== SW*s){ cv.width = SW*s; cv.height = SH*s; }
+  const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(off, 0, 0, SW*s, SH*s);
+}
+function draftLook(){ return {cls:draft.cls, hair:draft.hair, hairStyle:draft.hairStyle, skin:draft.skin, equip:{weapon:{tier:0}, armor:{tier:0}}}; }
+function myLook(){ return {cls:S.cls, hair:S.hair, hairStyle:S.hairStyle, skin:S.skin, equip:S.equip}; }
+function paintStages(){
+  document.querySelectorAll('canvas[data-hero]').forEach(cv => {
+    if (cv.dataset.hero==='draft') paintStage(cv, draftLook(), 0);
+    else if (S) paintStage(cv, myLook(), S.fac);
+  });
+}
+function paintIcons(){
+  if (!sheetReady) return;
+  const dpr = window.devicePixelRatio || 1;
+  document.querySelectorAll('.ico[data-icon]').forEach(el => {
+    const [slot, tier] = el.dataset.icon.split(':');
+    const cl = S ? S.cls : draft.cls;
+    const [r,c] = KT[slot][cl][+tier];
+    const src = tileIcon(r, c), cv = el.querySelector('canvas'); if (!cv) return;
+    const box = el.clientWidth ? el.clientWidth - 8 : 40;
+    const k = Math.max(1, Math.floor(box*dpr / Math.max(src.width, src.height)));
+    cv.width = src.width*k; cv.height = src.height*k;
+    const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(src, 0, 0, cv.width, cv.height);
+  });
+}
+function paintAll(){ paintStages(); paintIcons(); }
+sheet.onload = () => { sheetReady = true; dollCache.clear(); iconCache.clear(); paintAll(); };
+sheet.src = SHEET_SRC;
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion) setInterval(() => { frame++; paintStages(); }, 600);
+window.addEventListener('resize', () => paintAll());
+const ico = (slot, tier) => `<span class="ico rb${tier}" data-icon="${slot}:${tier}"><canvas></canvas></span>`;
+
+/* ---------- render ---------- */
+function heroPanel(){
+  const C = cls(), k = C.key, c = cp(), F = FACTIONS[S.fac];
+  const pct = clamp(c,0,99), req = F.lv;
+  const T = S.tot;
+  const role = S.phase!=='retired' && S.y ? S.y.role : null;
+  return `<section class="card stack" aria-label="내 캐릭터">
+    <div class="hero">
+      <div class="stage"><canvas class="scene" width="40" height="28" data-hero="me" role="img" aria-label="${esc(S.name)}의 도트 캐릭터"></canvas></div>
+      <div class="who">
+        <span class="label">${esc(S.origin)} · ${C.name} · ${esc(S.style)}</span>
+        <span class="name">${esc(S.name)}</span>
+        <div class="row small"><span>${S.age}세</span><span>${F.name}</span>${role!==null?`<span class="chip r${role}">${ROLES[role]}</span>`:''}</div>
+        <div class="cpbox"><span class="num">${c}</span><span class="meta">전투력<br>최고 <span class="px">${S.peak}</span></span></div>
+        <div class="meter" title="요구 전투력 ${req}"><i style="width:${pct}%"></i><b style="left:${req}%"></b></div>
+        <span class="small muted">선봉 기준 ${req} · 잠재력 ${S.retired ? `<span class="px">${S.pot}</span>` : '<span class="secret">??</span>'} · 기질 ${S.traitShown||S.retired ? `<b title="${TRAITS[S.trait].desc}">${TRAITS[S.trait].name}</b>` : '<span class="secret">???</span>'}</span>
+      </div>
+    </div>
+    <div class="slots">${SLOTS.map(([s,n])=>{
+      const it = S.equip[s];
+      return `<div class="slot">${it ? ico(s,it.tier) : '<span class="ico empty"></span>'}<div style="min-width:0"><div class="label">${n}</div>${it
+        ? `<div class="nm rar${it.tier}">${itemName(it,S.cls)}</div><div class="bn">${SN[itemStat(it,S.cls)]} +${itemVal(it)}</div>`
+        : `<div class="nm muted" style="font-weight:400">비어 있음</div>`}</div></div>`;}).join('')}</div>
+    <div class="stats">${STATS.map(([s,n])=>{ const b = bonus(s);
+      return `<div class="stat ${k.includes(s)?'key':''}"><span class="k">${n}</span><span class="v">${eff(s)}</span>${b?`<span class="b">+${b}</span>`:''}</div>`; }).join('')}</div>
+    <div class="tally">
+      <div><span class="px star">${T.stars}</span><span class="label">영웅의 별</span></div>
+      <div><span class="px">${T.titles}</span><span class="label">칭호</span></div>
+      <div><span class="px">${T.merit}</span><span class="label">공적</span></div>
+      <div><span class="px">${T.wins}</span><span class="label">대업</span></div>
+      <div><span class="px">${T.caps}</span><span class="label">수호단</span></div>
+    </div>
+  </section>`;
+}
+function steps(){
+  const st = [['event','사건'],['train','수련'],['battle','원정'],['review','결산']];
+  const idx = st.findIndex(s=>s[0]===S.phase);
+  return `<div class="steps">${st.map((s,i)=>`<span class="${i===idx?'on':i<idx?'done':''}">${s[1]}</span>`).join('')}</div>`;
+}
+function eventBlock(){
+  const y = S.y, E = eventFor(y.event.t);
+  if (y.eventDone) return `<div class="block"><div class="row"><h3>${E.t}</h3></div><p class="muted small">${E.x}</p><p class="logline fade">${y.eventDone}</p></div>`;
+  return `<div class="block"><div class="row"><h3>${E.t}</h3><span>${die(y.event.a,y.event.b)}</span></div><p>${E.x}</p>
+    <div class="choices">${E.c.map((c,i)=>`<button class="opt" data-act="event" data-i="${i}"><b>${c.l}</b>${c.d?`<small>${c.d}</small>`:''}</button>`).join('')}</div></div>`;
+}
+function trainBlock(){
+  const y = S.y, k = cls().key;
+  if (S.phase==='event') return '';
+  const done = y.train.map((t,i)=>`<p class="logline fade">수련 ${i+1} · ${SN[t.stat]} ${die(t.d)} → <b>+${t.g}</b>${t.note}</p>`).join('');
+  if (S.phase!=='train') return y.train.length ? `<div class="block"><h3>수련</h3>${done}</div>` : '';
+  const hint = S.age<=21 ? '주사위 눈만큼' : S.age<=27 ? '주사위 눈의 절반(올림)만큼' : S.age<=30 ? '4 이상이면 1' : '더 이상';
+  return `<div class="block"><div class="row between"><h3>수련</h3><span class="small muted">남은 횟수 <b class="px">${y.trainLeft}</b></span></div>
+    <p class="small muted">${S.age}세는 ${hint} 오른다. 파란 테두리가 ${cls().name}의 핵심 능력이다.</p>
+    ${done}
+    ${y.trainLeft>0 ? `<div class="trainbtns">${STATS.map(([s,n])=>`<button class="${k.includes(s)?'key':''}" data-act="train" data-s="${s}">${n}<small>${S.stats[s]}</small></button>`).join('')}</div>`
+      : `<div class="row"><button class="primary" data-act="battle">원정 떠나기</button></div>`}</div>`;
+}
+function battleBlock(){
+  const B = S.y.battles; if (!B) return '';
+  let h = `<div class="block"><h3>원정</h3>`;
+  if (B.benchRoll!==null) h += `<p class="logline">예비대 출전 기회 ${die(B.benchRoll)} ${B.benchRoll>=4 ? '→ 부름을 받았다' : '→ 올해는 부름이 없었다'}</p>`;
+  h += `<div>${B.list.map((b,i)=> b.skip
+    ? `<div class="battle fade" style="animation-delay:${i*.1}s"><span class="m">${b.m}</span><span class="q">${b.q}</span><span class="badge bad">결장</span></div>`
+    : `<div class="battle fade" style="animation-delay:${i*.1}s"><span class="m">${b.m}</span><span class="q">${b.q}</span><span class="badge ${b.cls}">${b.label} <span class="px">${b.rating.toFixed(1)}</span></span>
+        <span class="sub">${die(b.a,b.bb)} ${sgn(b.mod)} = ${b.tot} · ${b.flavor}${b.merit?` · 공적 ${b.merit}`:''}${b.injury?` · ${b.injury}`:''}
+        ${b.loot ? `<br><span class="loot">${b.loot==='full' ? '전리품이 있었지만 가방이 가득 찼다' : `전리품 · ${itemLabel(b.loot)}`}</span>` : ''}</span></div>`).join('')}</div>`;
+  if (B.played) h += `<p class="logline">평균 평점 <b class="px">${B.avg.toFixed(2)}</b> · 공적 <b class="px">${B.merit}</b> · 임무 <b class="px">${B.missions}</b>회</p>`;
+  h += `</div>`;
+  if (S.phase==='battle') h += `<div class="row"><button class="primary" data-act="review">한 해 결산</button></div>`;
+  return h;
+}
+function reviewBlock(){
+  const R = S.y.review; if (!R) return '';
+  let h = `<div class="block"><h3>결산</h3><div class="reslist">${R.lines.map(([a,b])=>`<div class="res fade"><span class="k">${a}</span><span>${b}</span></div>`).join('')}</div>`;
+  if (R.offer && !S.y.offerDecided){
+    h += `<p><b>${FACTIONS[R.offer.to].name}</b>(선봉 기준 ${FACTIONS[R.offer.to].lv})로 ${R.offer.kind==='파견'?'파견 갈까?':'옮길까?'} 지금 전투력 ${cp()}.</p>
+      <div class="row"><button class="primary" data-act="offer" data-v="1">${R.offer.kind==='파견'?'파견 간다':'옮긴다'}</button><button data-act="offer" data-v="0">남는다</button></div>`;
+  } else if (R.offerResult) h += `<p class="logline">→ ${R.offerResult}</p>`;
+  h += `</div>`;
+  if (S.y.offerDecided){
+    h += R.retire ? `<div class="row"><button class="primary" data-act="retire">은퇴식 열기</button></div>`
+      : `<div class="row"><button class="primary" data-act="next">${S.age+1}세로 넘어가기</button>${S.age>=30?'<button data-act="retire">스스로 은퇴한다</button>':''}</div>`;
+  }
+  return h;
+}
+function seasonCard(){
+  const y = S.y, F = FACTIONS[S.fac];
+  return `<section class="card stack">
+    <div class="row between"><h2>${S.age}세 시즌</h2>${steps()}</div>
+    <p class="small muted">${F.name} · 올해 <b style="color:var(--ink)">${ROLES[y.role]}</b>${y.role===2?' · 원정 5회':y.role===1?' · 원정 3회':' · 기회가 오면 원정 1회'}</p>
+    ${y.notes.map(n=>`<p class="logline">${n}</p>`).join('')}
+    ${eventBlock()}${trainBlock()}${battleBlock()}${reviewBlock()}
+  </section>`;
+}
+function bagCard(){
+  const items = S.bag.slice().sort((a,b)=>b.tier-a.tier);
+  const body = items.length ? `<div class="bag">${items.map(it=>{
+      const cur = S.equip[it.slot], d = itemVal(it) - (cur ? (itemStat(cur,S.cls)===itemStat(it,S.cls) ? itemVal(cur) : 0) : 0);
+      return `<div class="item">${ico(it.slot,it.tier)}<div class="body"><div class="label">${SLOTN[it.slot]} · ${RARITY[it.tier]}${it.isNew?'<span class="new">NEW</span>':''}</div>
+        <div class="nm rar${it.tier}">${itemName(it,S.cls)}</div>
+        <div class="small">${SN[itemStat(it,S.cls)]} +${itemVal(it)} <span class="diff ${d>0?'up':d<0?'down':''}">(${d>0?'▲'+d:d<0?'▼'+(-d):'같음'})</span></div>
+        <div class="row"><button class="sm primary" data-act="equip" data-id="${it.id}">장착</button><button class="sm" data-act="drop" data-id="${it.id}">버리기</button></div></div></div>`; }).join('')}</div>`
+    : `<p class="small muted">원정에서 활약하면 전리품이 떨어진다. 장착한 장비는 캐릭터 모습과 능력치에 바로 반영된다.</p>`;
+  const eqd = SLOTS.filter(([s])=>S.equip[s]).map(([s,n])=>`<button class="sm" data-act="unequip" data-s="${s}">${n} 벗기</button>`).join('');
+  return `<section class="card stack"><div class="row between"><h2>가방</h2><span class="small muted"><span class="px">${S.bag.length}</span>/16</span></div>${body}
+    ${!S.retired && eqd ? `<div class="row">${eqd}</div>` : ''}</section>`;
+}
+function historyCard(){
+  if (!S.hist.length) return '';
+  const rows = S.hist.slice().reverse().map(h=>`<tr><td>${h.age}</td><td>${FACTIONS[h.fac].name}</td><td>${ROLES[h.role]}</td><td>${h.cpS}→${h.cpE}</td><td>${h.avg==null?'—':h.avg.toFixed(2)}</td><td>${h.merit}</td><td>${h.res}</td><td>${h.award||''}</td></tr>`).join('');
+  return `<section class="card stack"><h2>커리어 기록</h2><div class="tablewrap"><table><thead><tr><th>나이</th><th>소속</th><th>역할</th><th>전투력</th><th>평점</th><th>공적</th><th>소속 성적</th><th>수상</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+function hallCard(){
+  const h = hall();
+  const body = h.length
+    ? `<div class="tablewrap"><table><thead><tr><th>#</th><th>이름</th><th>직업</th><th>영웅의 별</th><th>최고 전투력</th><th>칭호</th><th>공적</th><th>등급</th></tr></thead><tbody>
+      ${h.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${CLASSES[x.cls].name}</td><td>${x.stars}</td><td>${x.peak}</td><td>${x.titles}</td><td>${x.merit}</td><td>${x.grade}</td></tr>`).join('')}</tbody></table></div>`
+    : `<p class="small muted">아직 은퇴한 모험가가 없다. 커리어를 끝까지 마치면 여기에 이름이 남는다. 순위는 영웅의 별 → 최고 전투력 → 칭호 → 공적 순.</p>`;
+  return `<section class="card stack"><h2>명예의 전당</h2>${body}</section>`;
+}
+function saveCard(){
+  return `<section class="card"><details><summary>저장 파일 내보내기 · 가져오기</summary>
+    <div class="stack" style="margin-top:10px">
+      <p class="small muted">진행은 이 브라우저에 자동 저장된다. 다른 기기로 옮기려면 아래 내용을 복사해 두었다가 붙여 넣는다.</p>
+      <textarea id="savebox" rows="4" aria-label="저장 데이터">${S ? esc(JSON.stringify(S)) : ''}</textarea>
+      <div class="row"><button class="sm" data-act="copy">복사</button><button class="sm" data-act="import">붙여 넣은 내용 불러오기</button>
+      ${S && !S.retired ? '<button class="link" data-act="abandon">이 커리어 버리기</button>' : ''}</div>
+      <p class="small muted" id="savemsg" role="status"></p>
+    </div></details></section>`;
+}
+function createCard(){
+  const cands = candidates(draft.cls), C = CLASSES[draft.cls];
+  return `<section class="card stack">
+    <div class="hero">
+      <div class="stage"><canvas class="scene" width="40" height="28" data-hero="draft" role="img" aria-label="견습생 미리보기"></canvas></div>
+      <div class="who"><span class="label">마을 자경단 · 견습생 등록</span><span class="name">새 견습생</span>
+        <p class="small muted">열다섯 살 예비대에서 시작해 영웅의 별까지. 해마다 수련하고, 원정을 떠나고, 전리품으로 몸을 꾸민다.</p></div>
+    </div>
+    <div class="grid2">
+      <label class="stack" style="gap:4px"><span class="label">이름</span><input id="f-name" maxlength="12" value="${esc(draft.name)}"></label>
+      <label class="stack" style="gap:4px"><span class="label">출신</span><select id="f-origin">${ORIGINS.map(o=>`<option ${o===draft.origin?'selected':''}>${o}</option>`).join('')}</select></label>
+    </div>
+    <div class="grid2">
+      <div class="stack" style="gap:6px"><span class="label">피부</span>
+        <div class="swatches">${SKINS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="skin" data-v="${i}" aria-pressed="${i===draft.skin}" aria-label="${n}" title="${n}"></button>`).join('')}</div></div>
+      <div class="stack" style="gap:6px"><span class="label">머리색</span>
+        <div class="swatches">${HAIRS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="hair" data-v="${i}" aria-pressed="${i===draft.hair}" aria-label="${n}" title="${n}"></button>`).join('')}</div></div>
+    </div>
+    <div class="stack" style="gap:6px"><span class="label">머리 모양</span>
+      <div class="row">${HAIR_STYLES.map(([n],i)=>`<button class="opt" style="padding:6px 12px" data-act="hstyle" data-v="${i}" aria-pressed="${i===draft.hairStyle}">${n}</button>`).join('')}</div></div>
+    <div class="stack" style="gap:6px"><span class="label">직업</span>
+      <div class="choices">${Object.entries(CLASSES).map(([id,c])=>`<button class="opt" data-act="cls" data-v="${id}" aria-pressed="${id===draft.cls}"><b>${c.name}</b><small>${c.desc}</small><small>핵심 ${c.key.map(x=>SN[x]).join(' · ')}</small></button>`).join('')}</div></div>
+    <div class="stack" style="gap:6px"><span class="label">후보 · 셋 다 전투력 45, 능력치 합 240</span>
+      <div class="choices">${cands.map((cd,i)=>`<button class="opt" data-act="cand" data-v="${i}" aria-pressed="${i===draft.cand}"><b>${cd.style}</b>
+        <small>${STATS.map(([s,n])=>C.key.includes(s)?`<b style="color:var(--ink)">${n} ${cd.stats[s]}</b>`:`${n} ${cd.stats[s]}`).join(' · ')}</small></button>`).join('')}</div></div>
+    <p class="small muted">잠재력과 기질은 비밀이다. 기질은 스물한 살에, 잠재력은 은퇴할 때 드러난다.</p>
+    <div class="row"><button class="primary" data-act="start">견습생으로 등록</button></div>
+  </section>`;
+}
+function retiredCard(){
+  const T = S.tot;
+  return `<section class="card stack">
+    <div class="row between"><h2>은퇴식 · ${S.age}세</h2><span class="stampwin">${S.grade}</span></div>
+    <p>${esc(S.name)}은(는) ${S.hist.length}년의 모험을 마치고 무기를 내려놓았다. 최고 전투력 <b class="px">${S.peak}</b>, 잠재력은 <b class="px">${S.pot}</b>였다.</p>
+    <p class="small muted">대륙 대전 우승 ${T.tourWins}회 · 임무 ${T.missions}회</p>
+    ${S.awards.length ? `<p class="small">${S.awards.join(' · ')}</p>` : ''}
+    <div class="row"><button class="primary" data-act="new">새 견습생 받기</button></div>
+  </section>`;
+}
+function render(){
+  let h = `<div class="topbar"><span class="brand">내 공책 그정도 아님</span>${S && !S.retired ? `<span class="small muted">${S.hist.length+1}년차</span>` : ''}</div>`;
+  if (!S) h += createCard();
+  else if (S.phase==='retired') h += heroPanel() + retiredCard() + bagCard() + historyCard();
+  else h += heroPanel() + seasonCard() + bagCard() + historyCard();
+  h += hallCard() + saveCard();
+  app.innerHTML = h;
+  paintAll();
+}
+
+/* ---------- events ---------- */
+app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.target.value; });
+app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value; });
+app.addEventListener('click', async e => {
+  const b = e.target.closest('button[data-act]'); if (!b) return;
+  const a = b.dataset.act;
+  if (a==='cls'){ draft.cls = b.dataset.v; draft.cand = 0; render(); return; }
+  if (a==='cand'){ draft.cand = +b.dataset.v; render(); return; }
+  if (a==='hair'){ draft.hair = +b.dataset.v; render(); return; }
+  if (a==='skin'){ draft.skin = +b.dataset.v; render(); return; }
+  if (a==='hstyle'){ draft.hairStyle = +b.dataset.v; render(); return; }
+  if (a==='start'){ newGame(); render(); window.scrollTo({top:0}); return; }
+  if (a==='event'){ const E = eventFor(S.y.event.t); S.y.eventDone = E.c[+b.dataset.i].f(); S.phase = 'train'; save(); render(); return; }
+  if (a==='train'){ doTrain(b.dataset.s); return; }
+  if (a==='battle'){ doBattles(); return; }
+  if (a==='review'){ doReview(); return; }
+  if (a==='offer'){ decideOffer(b.dataset.v==='1'); return; }
+  if (a==='next'){ S.bag.forEach(x=>x.isNew=false); startYear(false); render(); window.scrollTo({top:0}); return; }
+  if (a==='retire'){ retire(); window.scrollTo({top:0}); return; }
+  if (a==='equip'){ equipItem(b.dataset.id); return; }
+  if (a==='unequip'){ unequip(b.dataset.s); return; }
+  if (a==='drop'){
+    if (b.dataset.confirm){ dropItem(b.dataset.id); return; }
+    b.dataset.confirm = '1'; b.textContent = '정말 버린다'; return;
+  }
+  if (a==='new'){ S = null; store.del(SAVE_KEY); draft = {name:pick(NAMES), origin:ORIGINS[4], cls:'warrior', cand:0, hair:1, hairStyle:0, skin:0}; render(); window.scrollTo({top:0}); return; }
+  if (a==='abandon'){
+    if (b.dataset.confirm){ S = null; store.del(SAVE_KEY); render(); return; }
+    b.dataset.confirm = '1'; b.textContent = '정말 버린다 (되돌릴 수 없음)'; return;
+  }
+  const msg = document.getElementById('savemsg'), box = document.getElementById('savebox');
+  if (a==='copy'){
+    try { await navigator.clipboard.writeText(box.value); msg.textContent = '복사했다.'; }
+    catch(err){ box.select(); msg.textContent = '자동 복사가 막혀 있다. 선택된 내용을 직접 복사한다.'; }
+    return;
+  }
+  if (a==='import'){
+    try {
+      const d = JSON.parse(box.value);
+      if (!d || !d.stats || !d.cls || !CLASSES[d.cls]) throw new Error();
+      S = migrate(d); save(); render(); window.scrollTo({top:0});
+    } catch(err){ msg.textContent = '불러오지 못했다. 저장 내용 전체를 그대로 붙여 넣었는지 확인한다.'; }
+  }
+});
+function migrate(d){
+  if (!d) return d;
+  if (!d.equip) d.equip = {weapon:{id:uid(),slot:'weapon',tier:0}, helm:null, armor:{id:uid(),slot:'armor',tier:0}, shield:null};
+  if ('cape' in d.equip){ d.equip.shield = d.equip.cape ? {...d.equip.cape, slot:'shield'} : null; delete d.equip.cape; }
+  if (!d.bag) d.bag = [];
+  d.bag.forEach(it => { if (it.slot==='cape') it.slot = 'shield'; });
+  if (d.hair==null) d.hair = 1;
+  if (d.hairStyle==null) d.hairStyle = 0;
+  if (d.skin==null) d.skin = 0;
+  return d;
+}
+function boot(data){
+  S = migrate((data && data.S) || store.get(SAVE_KEY) || null);
+  if (data && data.draft) draft = {hairStyle:0, skin:0, ...data.draft};
+  render();
+}
+window.claude?.hot?.snapshot?.(() => ({S, draft}));
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+})();
+</script>
