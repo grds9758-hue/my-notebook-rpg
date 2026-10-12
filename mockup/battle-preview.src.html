@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>전투 미리보기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f2f4f6;--surface:#fff;--surface-2:#f4f5f7;--ink:#191f28;--sub:#4e5968;--muted:#8b95a1;--line:#e5e8eb;--accent:#3182f6;--accent-soft:#e8f3ff;--red:#f04452;--gold:#e5a50a;--good:#20a464;--hp:#f04452;--mp:#3182f6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101318;--surface:#1b1f26;--surface-2:#242a33;--ink:#eef1f4;--sub:#b0b8c1;--muted:#7d8692;--line:#2c333d;--accent:#4d94ff;--accent-soft:#1d2a3d;color-scheme:dark}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:15px;line-height:1.5}
+.app{max-width:480px;margin:0 auto;padding:12px 16px 24px}
+.px{image-rendering:pixelated;image-rendering:crisp-edges}
+/* turn order */
+.turnbar{background:var(--surface);border-radius:18px;padding:12px 14px;margin-bottom:10px}
+.turnbar .hd{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--sub);margin-bottom:8px}
+.turnbar .hd b{color:var(--ink)}
+.press{display:flex;gap:4px;align-items:center}
+.press i{width:14px;height:14px;transform:rotate(45deg);border-radius:3px;background:var(--accent);display:inline-block}
+.press i.half{background:linear-gradient(135deg,var(--accent) 50%,var(--accent-soft) 50%);animation:blink 1s infinite}
+.press i.used{background:var(--line)}
+@keyframes blink{50%{opacity:.4}}
+.order{display:grid;grid-template-columns:1.25fr repeat(4,1fr);gap:6px;align-items:end}
+.tk{min-width:0;width:100%;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--muted)}
+.tk .face{width:40px;height:40px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;font-size:22px;overflow:hidden;border:2px solid transparent}
+.tk .face img{width:56px;height:56px;margin-top:14px}
+.tk.me .face{border-color:var(--accent);background:var(--accent-soft)}
+.tk.foe .face{border-color:#ffd6da}
+
+.tk.now .face{width:52px;height:52px;box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--accent)}
+.tk.now span{color:var(--accent);font-weight:700}
+.arrow{color:var(--line);font-size:14px;align-self:center;margin-bottom:14px}
+/* field */
+.field{position:relative;border-radius:20px;overflow:hidden;height:300px;background:linear-gradient(180deg,#bfe3c6 0%,#9fd3ab 55%,#6fae78 56%,#5c9a66 100%)}
+.field:before{content:"";position:absolute;left:0;right:0;top:0;height:150px;background:repeating-linear-gradient(90deg,transparent 0 34px,rgba(40,90,50,.18) 34px 62px)}
+.foes{position:absolute;top:24px;left:0;right:0;display:flex;justify-content:space-around;padding:0 6px}
+.foe{display:flex;flex-direction:column;align-items:center;gap:4px;width:30%;position:relative}
+.foe .spr{font-size:52px;line-height:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.15))}
+.foe .nm{font-size:12px;font-weight:700;color:#173b20;background:rgba(255,255,255,.75);padding:1px 8px;border-radius:99px;white-space:nowrap}
+.foe .hpb{width:80%;height:6px;border-radius:99px;background:rgba(0,0,0,.18);overflow:hidden}
+.foe .hpb i{display:block;height:100%;background:var(--hp)}
+.weak{display:flex;gap:3px}
+.weak span{font-size:10.5px;font-weight:700;padding:0 5px;border-radius:5px;background:rgba(255,255,255,.85);color:#5a6470}
+.weak span.w{background:#ffe1e4;color:var(--red)}
+.weak span.r{background:#e6eefc;color:#5871a8}
+.foe.target .spr{animation:bob .8s infinite}
+.foe.target:after{content:"▼";position:absolute;top:-18px;color:var(--red);font-size:14px}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.dmg{position:absolute;top:6px;right:4px;font-weight:900;font-size:20px;color:#fff;-webkit-text-stroke:1.5px var(--red);text-shadow:0 2px 0 var(--red)}
+.weakpop{position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(-6deg);background:var(--red);color:#fff;font-weight:900;font-size:12px;padding:1px 8px;border-radius:6px;white-space:nowrap}
+.me-on{position:absolute;left:18px;bottom:10px;width:120px;height:120px}
+.me-on img{position:absolute;inset:0;width:100%;height:100%}
+.log{position:absolute;right:12px;bottom:14px;left:150px;background:rgba(25,31,40,.82);color:#fff;font-size:12.5px;border-radius:12px;padding:8px 10px;line-height:1.45}
+.log b{color:#ffd76a}
+/* status + commands */
+.panel{background:var(--surface);border-radius:20px;padding:14px;margin-top:10px}
+.stat{display:flex;gap:12px;align-items:center}
+.stat .nm{font-weight:700;font-size:14px;min-width:70px}
+.stat .nm small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.bars{flex:1;display:grid;gap:5px}
+.bl{display:grid;grid-template-columns:22px 1fr 64px;gap:6px;align-items:center;font-size:11.5px;color:var(--sub)}
+.bl .b{height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bl .b i{display:block;height:100%}
+.bl span:last-child{text-align:right;font-weight:700;color:var(--ink)}
+.cmds{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cmd{border:0;border-radius:14px;background:var(--surface-2);padding:12px 4px;font:inherit;font-weight:700;font-size:14px;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:2px}
+.cmd small{font-weight:400;font-size:11px;color:var(--muted)}
+.cmd.on{background:var(--accent);color:#fff}
+.cmd.on small{color:#dbe9ff}
+.skills{display:grid;gap:6px;margin-top:10px}
+.sk{display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:12px;padding:9px 12px}
+.sk .el{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none}
+.sk .t{flex:1;font-weight:500;font-size:14px}
+.sk .t small{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
+.sk .mp{font-size:12px;font-weight:700;color:var(--mp)}
+.sk.best{outline:2px solid var(--red);background:#fff5f6}
+.sk.best .t small{color:var(--red)}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin:6px 0 2px}
+.title{font-weight:700;font-size:13px;color:var(--sub);margin:16px 2px 6px}
+</style>
+</head>
+<body><div class="app">
+
+<div class="title">① 내 차례 · 명령 고르기</div>
+<div class="turnbar">
+  <div class="hd"><span>턴 순서 · <b>3라운드</b></span><span class="press" aria-label="남은 행동 2.5"><span style="margin-right:4px">내 행동</span><i></i><i></i><i class="half"></i><i class="used"></i></span></div>
+  <div class="order">
+    <div class="tk me now"><div class="face"><img class="px" src="{{CHAR}}" alt=""></div><span>나</span></div>
+    <div class="tk foe"><div class="face">🐺</div><span>늑대 A</span></div>
+    <div class="tk foe"><div class="face">🌿</div><span>덩굴 정령</span></div>
+    <div class="tk me"><div class="face"><img class="px" src="{{CHAR}}" alt=""></div><span>나</span></div>
+    <div class="tk foe"><div class="face">🐺</div><span>늑대 B</span></div>
+  </div>
+</div>
+<div class="field">
+  <div class="foes">
+    <div class="foe target"><div class="weakpop">약점!</div><div class="spr">🐺</div><div class="dmg">38</div><div class="nm">회색 늑대 A</div><div class="hpb"><i style="width:35%"></i></div><div class="weak"><span class="w">타격</span><span>불</span></div></div>
+    <div class="foe"><div class="spr">🌿</div><div class="nm">덩굴 정령</div><div class="hpb"><i style="width:90%"></i></div><div class="weak"><span class="w">불</span><span class="r">타격</span></div></div>
+    <div class="foe"><div class="spr">🐺</div><div class="nm">회색 늑대 B</div><div class="hpb"><i style="width:100%"></i></div><div class="weak"><span>?</span><span>?</span></div></div>
+  </div>
+  <div class="me-on"><img class="px" src="{{BODY}}" alt=""><img class="px" src="{{HAIR}}" alt=""><img class="px" src="{{WPN}}" alt=""><img class="px" src="{{FIST}}" alt=""></div>
+  <div class="log">늑대 A의 <b>약점(타격)</b>을 찔렀다! 38 피해 · <b>행동 +½</b></div>
+</div>
+<div class="panel">
+  <div class="stat"><div class="nm">리안<small>노비스 Lv.12</small></div>
+    <div class="bars">
+      <div class="bl"><span>HP</span><span class="b"><i style="width:78%;background:var(--hp)"></i></span><span>164/210</span></div>
+      <div class="bl"><span>MP</span><span class="b"><i style="width:60%;background:var(--mp)"></i></span><span>45/75</span></div>
+    </div></div>
+  <div class="cmds">
+    <button class="cmd on">공격<small>타격</small></button><button class="cmd">스킬<small>MP 사용</small></button><button class="cmd">방어<small>피해 절반</small></button>
+    <button class="cmd">아이템<small>물약 3</small></button><button class="cmd">넘기기<small>행동 ½ 저장</small></button><button class="cmd">도망<small>성공률 60%</small></button>
+  </div>
+</div>
+
+<div class="title">② 스킬 고르기 · 약점이 보이면 빨갛게</div>
+<div class="panel">
+  <div class="cap">대상: 덩굴 정령 · 약점 불 / 타격 내성</div>
+  <div class="skills">
+    <div class="sk best"><span class="el" style="background:#ffe8dc">🔥</span><span class="t">횃불 휘두르기<small>불 · 약점! 행동 +½</small></span><span class="mp">MP 8</span></div>
+    <div class="sk"><span class="el" style="background:#eef1f4">🔨</span><span class="t">세게 내려치기<small>타격 · 내성 −50%</small></span><span class="mp">MP 5</span></div>
+    <div class="sk"><span class="el" style="background:#e8f3ff">🛡️</span><span class="t">버티기<small>1턴 방어력 2배</small></span><span class="mp">MP 4</span></div>
+    <div class="sk"><span class="el" style="background:#f0e9ff">👁️</span><span class="t">살펴보기<small>적의 약점 공개 · 행동 소모 없음 1회</small></span><span class="mp">MP 2</span></div>
+  </div>
+</div>
+
+<div class="title">③ 전투 결과</div>
+<div class="panel" style="text-align:center">
+  <div style="font-size:22px;font-weight:900;color:var(--accent)">승리!</div>
+  <div class="cap" style="margin-bottom:10px">3라운드 · 약점 공격 4회 · 받은 피해 46</div>
+  <div style="display:flex;justify-content:center;gap:18px;font-weight:700"><span style="color:var(--gold)">EXP +92</span><span>골드 +31</span><span>늑대 가죽 ×2</span></div>
+  <div class="cap" style="margin-top:8px">전리품 · <b style="color:#20a464">고급 가죽 장화</b></div>
+</div>
+</div></body></html>

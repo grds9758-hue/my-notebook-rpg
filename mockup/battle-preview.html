@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>전투 미리보기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f2f4f6;--surface:#fff;--surface-2:#f4f5f7;--ink:#191f28;--sub:#4e5968;--muted:#8b95a1;--line:#e5e8eb;--accent:#3182f6;--accent-soft:#e8f3ff;--red:#f04452;--gold:#e5a50a;--good:#20a464;--hp:#f04452;--mp:#3182f6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101318;--surface:#1b1f26;--surface-2:#242a33;--ink:#eef1f4;--sub:#b0b8c1;--muted:#7d8692;--line:#2c333d;--accent:#4d94ff;--accent-soft:#1d2a3d;color-scheme:dark}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:15px;line-height:1.5}
+.app{max-width:480px;margin:0 auto;padding:12px 16px 24px}
+.px{image-rendering:pixelated;image-rendering:crisp-edges}
+/* turn order */
+.turnbar{background:var(--surface);border-radius:18px;padding:12px 14px;margin-bottom:10px}
+.turnbar .hd{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--sub);margin-bottom:8px}
+.turnbar .hd b{color:var(--ink)}
+.press{display:flex;gap:4px;align-items:center}
+.press i{width:14px;height:14px;transform:rotate(45deg);border-radius:3px;background:var(--accent);display:inline-block}
+.press i.half{background:linear-gradient(135deg,var(--accent) 50%,var(--accent-soft) 50%);animation:blink 1s infinite}
+.press i.used{background:var(--line)}
+@keyframes blink{50%{opacity:.4}}
+.order{display:grid;grid-template-columns:1.25fr repeat(4,1fr);gap:6px;align-items:end}
+.tk{min-width:0;width:100%;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--muted)}
+.tk .face{width:40px;height:40px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;font-size:22px;overflow:hidden;border:2px solid transparent}
+.tk .face img{width:56px;height:56px;margin-top:14px}
+.tk.me .face{border-color:var(--accent);background:var(--accent-soft)}
+.tk.foe .face{border-color:#ffd6da}
+
+.tk.now .face{width:52px;height:52px;box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--accent)}
+.tk.now span{color:var(--accent);font-weight:700}
+.arrow{color:var(--line);font-size:14px;align-self:center;margin-bottom:14px}
+/* field */
+.field{position:relative;border-radius:20px;overflow:hidden;height:300px;background:linear-gradient(180deg,#bfe3c6 0%,#9fd3ab 55%,#6fae78 56%,#5c9a66 100%)}
+.field:before{content:"";position:absolute;left:0;right:0;top:0;height:150px;background:repeating-linear-gradient(90deg,transparent 0 34px,rgba(40,90,50,.18) 34px 62px)}
+.foes{position:absolute;top:24px;left:0;right:0;display:flex;justify-content:space-around;padding:0 6px}
+.foe{display:flex;flex-direction:column;align-items:center;gap:4px;width:30%;position:relative}
+.foe .spr{font-size:52px;line-height:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.15))}
+.foe .nm{font-size:12px;font-weight:700;color:#173b20;background:rgba(255,255,255,.75);padding:1px 8px;border-radius:99px;white-space:nowrap}
+.foe .hpb{width:80%;height:6px;border-radius:99px;background:rgba(0,0,0,.18);overflow:hidden}
+.foe .hpb i{display:block;height:100%;background:var(--hp)}
+.weak{display:flex;gap:3px}
+.weak span{font-size:10.5px;font-weight:700;padding:0 5px;border-radius:5px;background:rgba(255,255,255,.85);color:#5a6470}
+.weak span.w{background:#ffe1e4;color:var(--red)}
+.weak span.r{background:#e6eefc;color:#5871a8}
+.foe.target .spr{animation:bob .8s infinite}
+.foe.target:after{content:"▼";position:absolute;top:-18px;color:var(--red);font-size:14px}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.dmg{position:absolute;top:6px;right:4px;font-weight:900;font-size:20px;color:#fff;-webkit-text-stroke:1.5px var(--red);text-shadow:0 2px 0 var(--red)}
+.weakpop{position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(-6deg);background:var(--red);color:#fff;font-weight:900;font-size:12px;padding:1px 8px;border-radius:6px;white-space:nowrap}
+.me-on{position:absolute;left:18px;bottom:10px;width:120px;height:120px}
+.me-on img{position:absolute;inset:0;width:100%;height:100%}
+.log{position:absolute;right:12px;bottom:14px;left:150px;background:rgba(25,31,40,.82);color:#fff;font-size:12.5px;border-radius:12px;padding:8px 10px;line-height:1.45}
+.log b{color:#ffd76a}
+/* status + commands */
+.panel{background:var(--surface);border-radius:20px;padding:14px;margin-top:10px}
+.stat{display:flex;gap:12px;align-items:center}
+.stat .nm{font-weight:700;font-size:14px;min-width:70px}
+.stat .nm small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.bars{flex:1;display:grid;gap:5px}
+.bl{display:grid;grid-template-columns:22px 1fr 64px;gap:6px;align-items:center;font-size:11.5px;color:var(--sub)}
+.bl .b{height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bl .b i{display:block;height:100%}
+.bl span:last-child{text-align:right;font-weight:700;color:var(--ink)}
+.cmds{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cmd{border:0;border-radius:14px;background:var(--surface-2);padding:12px 4px;font:inherit;font-weight:700;font-size:14px;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:2px}
+.cmd small{font-weight:400;font-size:11px;color:var(--muted)}
+.cmd.on{background:var(--accent);color:#fff}
+.cmd.on small{color:#dbe9ff}
+.skills{display:grid;gap:6px;margin-top:10px}
+.sk{display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:12px;padding:9px 12px}
+.sk .el{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none}
+.sk .t{flex:1;font-weight:500;font-size:14px}
+.sk .t small{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
+.sk .mp{font-size:12px;font-weight:700;color:var(--mp)}
+.sk.best{outline:2px solid var(--red);background:#fff5f6}
+.sk.best .t small{color:var(--red)}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin:6px 0 2px}
+.title{font-weight:700;font-size:13px;color:var(--sub);margin:16px 2px 6px}
+</style>
+</head>
+<body><div class="app">
+
+<div class="title">① 내 차례 · 명령 고르기</div>
+<div class="turnbar">
+  <div class="hd"><span>턴 순서 · <b>3라운드</b></span><span class="press" aria-label="남은 행동 2.5"><span style="margin-right:4px">내 행동</span><i></i><i></i><i class="half"></i><i class="used"></i></span></div>
+  <div class="order">
+    <div class="tk me now"><div class="face"><img class="px" src="data:image/png;base64,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" alt=""></div><span>나</span></div>
+    <div class="tk foe"><div class="face">🐺</div><span>늑대 A</span></div>
+    <div class="tk foe"><div class="face">🌿</div><span>덩굴 정령</span></div>
+    <div class="tk me"><div class="face"><img class="px" src="data:image/png;base64,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" alt=""></div><span>나</span></div>
+    <div class="tk foe"><div class="face">🐺</div><span>늑대 B</span></div>
+  </div>
+</div>
+<div class="field">
+  <div class="foes">
+    <div class="foe target"><div class="weakpop">약점!</div><div class="spr">🐺</div><div class="dmg">38</div><div class="nm">회색 늑대 A</div><div class="hpb"><i style="width:35%"></i></div><div class="weak"><span class="w">타격</span><span>불</span></div></div>
+    <div class="foe"><div class="spr">🌿</div><div class="nm">덩굴 정령</div><div class="hpb"><i style="width:90%"></i></div><div class="weak"><span class="w">불</span><span class="r">타격</span></div></div>
+    <div class="foe"><div class="spr">🐺</div><div class="nm">회색 늑대 B</div><div class="hpb"><i style="width:100%"></i></div><div class="weak"><span>?</span><span>?</span></div></div>
+  </div>
+  <div class="me-on"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEXElEQVR42u1abWgURxh+9nIiFLExKF2CXc4GA0G9W2oC4hdo4h8LtiANlCKGIKURaSz4zy8MRSiUgiimpWlIkVAasbQhLaXRFjTxTxJZlXqw4bi4XK8XDu8u6xE12Ft/nLO3l9vN583cje7z525uZ3bveeaZmfedWcCFCxcuXmMIrB9YK8mG0zVVU4RXUgAr6cFTBwAA6+o2FNSTP77AXAiBBXlCmsCOfKmEEFiRn4+0kxC0RfCUK3kAUHrb55wzylaAYpBnJYKnnMmzEMFT7uRpi0BlCBSbPFdzAE/kiypArSQbSm871T9LYxh48JrDFcAVwBWgOBOgqikCSWJogUZu4CkG+cFTBxxXgXgwjHgwbJY/bD1ne58PDp+Zs11ZrwL7vuiH0tsOOwesq9uA2KNHJvGr3Wdt7/HLDx24PzRq1iPxhPWeZekAVVMEO/uT8lRkElt21uPa2EhBL8/G6e/6cW1sxNElXE2CZDi8uf4tAMDBrQ1YUVExZ5sVFRU4uLWh4PfrA3/yIYDVCfeHRotyz68+qqO6OUJlt6VWko0rbTuwZWf9su4TD4ZxSxlDx8C/1HaGqAwBVVOEQ53DpnVnz+bzkSagTR4AvDQnGP2xjngwbJshpr+5YX5f9WljQTYZD4apk6c2BMgwMJe4443wNWxeVMBDnER7FWB2LnC59V0AwPbGXY71bt+4haPdd5ieC3hZPETVFOFoN4xjLfsx7bCk6Y91JNYGmOcCTA5GAOBYy374AzK0hw+RSiXRVPkst86nVsIfkAEA9+4quNTzOzMXeGmTJwFR1+A4tu3bg20A+rp64GtYm6v48hoR4GVYbbAQwYsSoPlIC/q6eszyJyc+L1k67GXR+3ZxQPORlnlDaRYuoL4hMhWZxHg0gsrKNUsKhrhMhqy9n/wvjgcZcd4et+LXyHNq+T9zB0T15KJ6n8wHU5FJvtNhggcZEbub9i66HUmjuRPAav/l9CJpy93psBUjyl0AwMR4CLEJbcHt/AHZbMt9HEDG/8R4KO930SehHEBdgJ+//xbHO87nieDbWFPgiJvX/zK/p1JJ+F4VAZ79n8aXJz8zy519v9nW2920F23N75nltvf38C/ApatDeFuqyi2JsUQeSTtsqpWQ1NP4+qe/EajZyK8A1mhuzepVeZ9JPY3QRAL1fgmj9zTU+/Png2y9BL8OsG5jE9J2SOpp5wAqI+LiwB/oV2b42hNUNUU48SOMak8MNb4qJPW0owhz9fSud2bQr4DP9wRVTRGiGdHWAaTXoxkR/6gaSo2S7AdEYwkAIkLTIqo9MdshkRVuhl8BstaVjZo3NFSLVXnXQtNiztqSbBDiVrdk3SHy7QBVUwRIsoFYrpefPEUBsawjcp8FIlEEk03RK207zPKhzuECYgupw/UckHdG2Dm85Dpc7geUO1wBWD7M6YyfxQtWJRFgqa/PstgMpS7AbPILec3FWoeVCEyOx/ODo+K2ceHCxbLwAk2KDnzT+cvRAAAAAElFTkSuQmCC" alt=""><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC80lEQVR42u2ZPW/aUBSGX5vYKTFJLMhAkEAoKgzNwpA1ElOWLJ37A/sPunRCysrAlAGUygKFWIhYDmAQNnC79Lq2sdNI2MFqzrMA/rj2ec+nDUAQiVKvNFi90mBpvT/xPS5ylbeRVhEO3uMic8fGdTkHIFqEbr8j/LcC3E9zuFaB67Icul8fjdDdUwQISeY+AJREHQBQUvPIKrnI4+8G9l6iQEjK+Ku87UsB05q5QrxG25DdlOAiJimMkITXvcbvyngyhbYqJCZC4jXgxZoDAJz1GgBQPj/37V/8iQxvBNQOTZwqRwCAs5NjSJYJVBosCRFiF8Dr/RdrjlPlKDL3Hx77oSkhyX9vK6vkkFVy6A3sdKdAMO/Hk+mWt70FL0osABiaBkpqHnPHRsEjUBKFMrFBSFsVQrcvrBlqh+ab1/GmSBIpICTh/SDeFBg8PUHKZFxve+sE39Y2ZHdmWFgz9/yFNUPbkGMVQozD+KBHuUFeLy6sGZ5NA2cnx759Q9PwCTWeTN3ZgW/jUfDaHLHXFOgtVYwnU/c3r/hhE2GY8b2l6nrf3jhoabrw8Nh/l5F5ZwHeekN8wIlaI6vkcDew0dJ0AYD7GawFzWox1qfL2Irgz1+DfwpREnW0DRm9pYq2IaOl6QI3VB+NtsTURyOfeM+mAUX65Bu6UjMH3FyUGW9lUibja2uclqYLzSpYmId/9LQtAYOp5Nir0ONS0wZ7S3WrALp93fNQJItS5Bq3tSq7rVUZrwe8FrxY88jakopB6OaizOyNA1mUIGUyvrb2vXMvcONe8+DNRZkFU6lZLbLhpojaoQlnvY79uSC2OYB/rx48Q1sV3GFn15BtVosMAIabYiKdQIzL8JKoo9vvCNqqgJKo41Q5iiVfvbWi2+8I+3pz9GYx6pUG417z5vUua39rfEntS9XQaPCGbhwCJEmsXcBrdLDNfQjqlQb7evmZ4SOT9j9CCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIL4WPwGIMZtZ0jzHdIAAAAASUVORK5CYII=" alt=""><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABTElEQVR42u2XMU7DMBiFbSvq2AF1RBaqKk7QMeIgPSAHQR45AbIQshgrBsYuYbJqQiBNiCX77/eNVe32f3nv2VEKAAAAAAAAAAAAAL7T7mwndTY9dXjng5YkQDM2/OHhTr28fySf2k6SCOaSL93f3oiNt5m6YL9di+qEUQEen95+uECSCH8K0M96PwoSRBh1gPNBRxekIuy36+vpgL4IkqIwqQSH+qD2KFwswG99UHsUJjlAYhTMnEWSjsbJAkh7F5jlgDQKtbvAzF0oRQSz1Ea1Ho3/EmDolvj8+llVVyzyJ9OnbTcrFY6nakQwOTa1m1U1JbjoE2p3tkuHD8dT8S5Y1AHOBx3tH51QehkuHoG+CKWfCCbXxlGE0vsgWz6H+qDEk6HJtbHzQbfqbP342ux8WQ5ocv9AHDxekK6mA1Jqux0CAAAAAAAACOcLpTGIehQ+1T8AAAAASUVORK5CYII=" alt=""><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAdElEQVR42u3UsQmDABAF0NN93MCZHCYLuIa92UCIZUqLkFbLsxIygELU96qrPtw/uAgAAAAAAAAAAAAAuKRi78CmrnKbH8+huFWbTV1lvrqc+zbnvs3fMv5VuXfg8p0iIuIzvk9xtPKI0LMs7wcAAAAAt7QCNiQd+nuO82oAAAAASUVORK5CYII=" alt=""></div>
+  <div class="log">늑대 A의 <b>약점(타격)</b>을 찔렀다! 38 피해 · <b>행동 +½</b></div>
+</div>
+<div class="panel">
+  <div class="stat"><div class="nm">리안<small>노비스 Lv.12</small></div>
+    <div class="bars">
+      <div class="bl"><span>HP</span><span class="b"><i style="width:78%;background:var(--hp)"></i></span><span>164/210</span></div>
+      <div class="bl"><span>MP</span><span class="b"><i style="width:60%;background:var(--mp)"></i></span><span>45/75</span></div>
+    </div></div>
+  <div class="cmds">
+    <button class="cmd on">공격<small>타격</small></button><button class="cmd">스킬<small>MP 사용</small></button><button class="cmd">방어<small>피해 절반</small></button>
+    <button class="cmd">아이템<small>물약 3</small></button><button class="cmd">넘기기<small>행동 ½ 저장</small></button><button class="cmd">도망<small>성공률 60%</small></button>
+  </div>
+</div>
+
+<div class="title">② 스킬 고르기 · 약점이 보이면 빨갛게</div>
+<div class="panel">
+  <div class="cap">대상: 덩굴 정령 · 약점 불 / 타격 내성</div>
+  <div class="skills">
+    <div class="sk best"><span class="el" style="background:#ffe8dc">🔥</span><span class="t">횃불 휘두르기<small>불 · 약점! 행동 +½</small></span><span class="mp">MP 8</span></div>
+    <div class="sk"><span class="el" style="background:#eef1f4">🔨</span><span class="t">세게 내려치기<small>타격 · 내성 −50%</small></span><span class="mp">MP 5</span></div>
+    <div class="sk"><span class="el" style="background:#e8f3ff">🛡️</span><span class="t">버티기<small>1턴 방어력 2배</small></span><span class="mp">MP 4</span></div>
+    <div class="sk"><span class="el" style="background:#f0e9ff">👁️</span><span class="t">살펴보기<small>적의 약점 공개 · 행동 소모 없음 1회</small></span><span class="mp">MP 2</span></div>
+  </div>
+</div>
+
+<div class="title">③ 전투 결과</div>
+<div class="panel" style="text-align:center">
+  <div style="font-size:22px;font-weight:900;color:var(--accent)">승리!</div>
+  <div class="cap" style="margin-bottom:10px">3라운드 · 약점 공격 4회 · 받은 피해 46</div>
+  <div style="display:flex;justify-content:center;gap:18px;font-weight:700"><span style="color:var(--gold)">EXP +92</span><span>골드 +31</span><span>늑대 가죽 ×2</span></div>
+  <div class="cap" style="margin-top:8px">전리품 · <b style="color:#20a464">고급 가죽 장화</b></div>
+</div>
+</div></body></html>
