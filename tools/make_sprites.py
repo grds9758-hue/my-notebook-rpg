@@ -182,19 +182,53 @@ for k in range(4):
     sprites[f'bfist{k}'] = fist
 
 
-def held_back(w, ang=-45, ln=26, gfe=4, hx=42, hy=22):
-    w = w.crop(w.getbbox()); w = w.resize((w.width, ln), Image.NEAREST)
-    r = w.resize((w.width * 4, w.height * 4), Image.NEAREST).rotate(ang, Image.NEAREST, expand=True)
-    r = r.resize((r.width // 4, r.height // 4), Image.NEAREST)
-    pts = [(x, y) for y in range(r.height) for x in range(r.width) if r.getpixel((x, y))[3] > 128]
-    t = math.radians(ang); d = (math.sin(t), math.cos(t))
-    ex, ey = max(pts, key=lambda q: q[0] * d[0] + q[1] * d[1])
-    L = Image.new('RGBA', (64, 64)); L.paste(r, (round(hx - (ex - gfe * d[0])), round(hy - (ey - gfe * d[1]))), r)
-    return L
+# weapon resting across the shoulders, drawn as pixels along the angle (rotating the sprite smeared it)
+WOOD=[(184,131,94),(139,93,61),(116,74,57),(82,50,50)]
+OAK=[(150,98,62),(112,70,44),(90,56,36),(60,36,30)]
+STEEL=[(206,212,224),(156,164,180),(118,124,140),(58,60,74)]
+MITH=[(200,236,248),(132,194,228),(96,150,198),(46,66,108)]
+BONE=[(246,238,216),(216,202,172),(176,158,126),(96,62,60)]
+TIERS=[(WOOD,WOOD,None),(OAK,OAK,None),(WOOD,WOOD,'nails'),(WOOD,WOOD,'bands'),(STEEL,OAK,None),(MITH,OAK,None),(BONE,BONE,'red')]
+def draw_club(tier, grip=(42,21), head=(19,29), butt=3):
+    head_ramp, handle_ramp, deco = TIERS[tier]
+    gx,gy=grip; hx,hy=head
+    L=math.hypot(hx-gx,hy-gy); ux,uy=(hx-gx)/L,(hy-gy)/L
+    nx,ny=uy,-ux  # normal
+    if ny>0: nx,ny=-nx,-ny  # normal points up (towards light)
+    im=Image.new('RGBA',(64,64)); inside={}
+    for y in range(64):
+        for x in range(64):
+            px,py=x+.5-gx,y+.5-gy
+            t=px*ux+py*uy; d=px*nx+py*ny
+            if t<-butt or t>L: continue
+            f=min(1,max(0,(t/L-.3)/.3)); r=1.1+1.5*f*f*(3-2*f)
+            if t>L-1.2: r=min(r, 1.6)
+            if abs(d)<=r:
+                isHead = t/L>.45
+                ramp=head_ramp if isHead else handle_ramp
+                lv=0 if d>r-1.0 else (2 if d<-r+1.0 else 1)
+                if t<-butt+1.2: lv=2
+                inside[(x,y)]=(ramp[lv],isHead,t,d)
+    for (x,y),(c,isHead,t,d) in inside.items(): im.putpixel((x,y),c+(255,))
+    for y in range(64):
+        for x in range(64):
+            if (x,y) in inside: continue
+            if any((x+dx,y+dy) in inside for dx,dy in ((1,0),(-1,0),(0,1),(0,-1))): im.putpixel((x,y),OUTL)
+    if deco:
+        for (x,y),(c,isHead,t,d) in inside.items():
+            if not isHead: continue
+            if deco=='bands' and int(t)%7 in (0,1) and t/L>.55: im.putpixel((x,y),(150,156,172,255) if d>0 else (108,114,130,255))
+            if deco=='red' and int(t)%6==0 and abs(d)<.8: im.putpixel((x,y),(204,52,64,255))
+        if deco=='nails':
+            for k in range(4):
+                t=L*(.58+.12*k); s=1 if k%2 else -1; r=2.9
+                x=round(gx+ux*t+nx*s*r); y=round(gy+uy*t+ny*s*r)
+                im.putpixel((x,y),(196,202,214,255))
+    return im
 
 
-for i, w in enumerate(weapons):
-    sprites[f'bwpn{i}'] = held_back(w)
+for i in range(7):
+    sprites[f'bwpn{i}'] = draw_club(i)
 
 data = {}
 for k, im in sprites.items():
@@ -214,7 +248,7 @@ for i in range(4):
 row.resize((row.width * 3, 192), Image.NEAREST).save(A + 'preview_game_sprites.png')
 back = Image.new('RGBA', (68 * 7, 64), (244, 245, 246, 255))
 for i in range(7):
-    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bwpn{i}']); c.alpha_composite(sprites[f'bfist{i % 4}'])
+    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bwpn{i}']); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bfist{i % 4}'])
     back.alpha_composite(c, (i * 68, 0))
 back.resize((back.width * 3, 192), Image.NEAREST).save(A + 'preview_back_sprites.png')
 print(sum(len(v) for v in data.values()), 'bytes of data URIs')
