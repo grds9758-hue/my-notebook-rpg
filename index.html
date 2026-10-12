@@ -348,7 +348,7 @@ function bestGround(){
 }
 const mexp = m => Math.round(8 * Math.pow(1.09, m));
 const kills = lv => Math.round(4 + lv*1.15);
-const needExp = lv => isJob() ? Math.round((6 + lv*1.2) * mexp(48 + lv*.55)) : Math.round(kills(lv) * mexp(lv));
+const needExp = lv => isJob() ? Math.round((5 + lv*.6) * mexp(48 + lv*.55)) : Math.round(kills(lv) * mexp(lv));
 const maxLv = () => isJob() ? JOB_MAX : NOVICE_MAX;
 
 /* ---------- equipment ---------- */
@@ -553,7 +553,7 @@ const ICON = {
 const svg = (k, s=20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICON[k]}</svg>`;
 
 /* ---------- battle ---------- */
-const monStats = m => ({hp:Math.round(24 + m*10), atk:Math.round(6 + m*3), def:Math.round(3 + m*2), spd:10 + m*.6});
+const monStats = m => ({hp:Math.round(24 + m*10), atk:Math.round(6 + m*3 - Math.max(0, m-50)*.4), def:Math.round(3 + m*2), spd:10 + m*.6});
 function spawn(g, deep, elite){
   const G = GD[g], [lo,hi] = groundLv(g, deep);
   const n = elite ? 3 : (Math.random()<.25 ? 1 : Math.random()<.6 ? 2 : 3);
