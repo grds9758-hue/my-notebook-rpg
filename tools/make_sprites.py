@@ -123,8 +123,6 @@ B_LINE = {(43, 21, 31), (48, 26, 35)}
 B_SKIN = {(237, 194, 168), (215, 140, 131), (205, 128, 120), (235, 168, 160), (244, 187, 186), (187, 112, 104),
           (169, 99, 88), (158, 92, 80), (145, 85, 71), (138, 80, 66)}
 B_CLUB = {(182, 124, 74): 0, (125, 77, 45): 1, (113, 67, 50): 2, (95, 57, 38): 2, (78, 48, 31): 3, (72, 43, 28): 3, (68, 40, 25): 3}
-WOOD_RAMP = [(184, 131, 94), (139, 93, 61), (116, 74, 57), (82, 50, 50)]
-CLUB_RAMPS = [WOOD_RAMP, RAMPS['oak'], WOOD_RAMP, WOOD_RAMP, RAMPS['steel'], RAMPS['mithril'], RAMPS['bone']]
 bbase, bhair, bclub = Image.new('RGBA', (64, 64)), Image.new('RGBA', (64, 64)), Image.new('RGBA', (64, 64))
 for y in range(64):
     for x in range(64):
@@ -159,27 +157,44 @@ for i, c in enumerate(HAIR_COLS):
             if px[3] and px[:3] in B_HAIR:
                 im.putpixel((x, y), HAIR_PAL[c][B_HAIR[px[:3]]] + (255,))
     sprites[f'bhair{i}'] = im
-for i, ramp in enumerate(CLUB_RAMPS):
-    im = bclub.copy()
+# the generated club crossed the neck; drop it, patch the neck/shoulder, and hold each weapon
+# tier raised over the right shoulder instead (fist drawn on top of the grip)
+TOP = {22: 30, 23: 28, 24: 27, 25: 26}
+for k in range(4):
+    body_k = sprites[f'bbody{k}']; src = body_k.copy()
+    for x in range(22, 36):
+        for y in range(TOP.get(x, 25), 36):
+            if bclub.getpixel((x, y))[3] and not src.getpixel((x, y))[3]:
+                for yy in range(y + 1, 64):
+                    q = src.getpixel((x, yy))
+                    if q[3] and q != OUTL: body_k.putpixel((x, y), q); break
+    src = body_k.copy()
+    opk = lambda x, y: 0 <= x < 64 and 0 <= y < 64 and src.getpixel((x, y))[3] > 128
     for y in range(64):
         for x in range(64):
-            px = im.getpixel((x, y))
-            if px[3] and px[:3] in B_CLUB:
-                head = x < 32
-                r = ramp if (head or i in (1, 6)) else RAMPS['oak'] if i >= 4 else ramp
-                im.putpixel((x, y), r[B_CLUB[px[:3]]] + (255,))
-    if i == 2:  # nails on the club head
-        for x, y in ((16, 29), (19, 27), (22, 26), (25, 27), (18, 31)):
-            if im.getpixel((x, y))[3]: im.putpixel((x, y), (196, 202, 214, 255))
-    if i == 3:  # iron bands
-        for x in range(12, 32):
-            for y in range(24, 34):
-                if im.getpixel((x, y))[3] and x in (20, 21, 27, 28) and im.getpixel((x, y))[:3] != OUTL[:3]:
-                    im.putpixel((x, y), (150, 156, 172, 255) if x in (20, 27) else (108, 114, 130, 255))
-    if i == 6:
-        for x, y in ((18, 29), (19, 29), (24, 28)):
-            if im.getpixel((x, y))[3]: im.putpixel((x, y), (204, 52, 64, 255))
-    sprites[f'bwpn{i}'] = im
+            if opk(x, y) and any(not opk(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                body_k.putpixel((x, y), OUTL)
+    fist = Image.new('RGBA', (64, 64))
+    for y in range(18, 25):
+        for x in range(38, 45):
+            q = body_k.getpixel((x, y))
+            if q[3]: fist.putpixel((x, y), q)
+    sprites[f'bfist{k}'] = fist
+
+
+def held_back(w, ang=-45, ln=26, gfe=4, hx=42, hy=22):
+    w = w.crop(w.getbbox()); w = w.resize((w.width, ln), Image.NEAREST)
+    r = w.resize((w.width * 4, w.height * 4), Image.NEAREST).rotate(ang, Image.NEAREST, expand=True)
+    r = r.resize((r.width // 4, r.height // 4), Image.NEAREST)
+    pts = [(x, y) for y in range(r.height) for x in range(r.width) if r.getpixel((x, y))[3] > 128]
+    t = math.radians(ang); d = (math.sin(t), math.cos(t))
+    ex, ey = max(pts, key=lambda q: q[0] * d[0] + q[1] * d[1])
+    L = Image.new('RGBA', (64, 64)); L.paste(r, (round(hx - (ex - gfe * d[0])), round(hy - (ey - gfe * d[1]))), r)
+    return L
+
+
+for i, w in enumerate(weapons):
+    sprites[f'bwpn{i}'] = held_back(w)
 
 data = {}
 for k, im in sprites.items():
@@ -199,7 +214,7 @@ for i in range(4):
 row.resize((row.width * 3, 192), Image.NEAREST).save(A + 'preview_game_sprites.png')
 back = Image.new('RGBA', (68 * 7, 64), (244, 245, 246, 255))
 for i in range(7):
-    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bwpn{i}'])
+    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bwpn{i}']); c.alpha_composite(sprites[f'bfist{i % 4}'])
     back.alpha_composite(c, (i * 68, 0))
 back.resize((back.width * 3, 192), Image.NEAREST).save(A + 'preview_back_sprites.png')
 print(sum(len(v) for v in data.values()), 'bytes of data URIs')
