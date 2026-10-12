@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UI 미리보기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#f2f4f6; --surface:#ffffff; --surface-2:#f4f5f7; --ink:#191f28; --sub:#4e5968; --muted:#8b95a1; --line:#e5e8eb;
+  --accent:#3182f6; --accent-soft:#e8f3ff; --red:#f04452; --gold:#e5a50a; --hp:#f04452; --mp:#3182f6; --exp:#ffb400;
+  --r0:#8b95a1; --r1:#20a464; --r2:#3182f6; --r3:#8b5cf6; --r4:#e5a50a;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101318; --surface:#1b1f26; --surface-2:#242a33; --ink:#eef1f4; --sub:#b0b8c1; --muted:#7d8692; --line:#2c333d;
+  --accent:#4d94ff; --accent-soft:#1d2a3d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101318; --surface:#1b1f26; --surface-2:#242a33; --ink:#eef1f4; --sub:#b0b8c1; --muted:#7d8692; --line:#2c333d;
+  --accent:#4d94ff; --accent-soft:#1d2a3d; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;min-height:100vh;padding:0 16px 96px}
+.px{image-rendering:pixelated;image-rendering:crisp-edges}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 2px 12px}
+.top h1{font-size:20px;font-weight:700;margin:0}
+.top .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.top .right{display:flex;gap:10px;align-items:center}
+.gold{display:flex;align-items:center;gap:5px;font-weight:700;font-size:14px;background:var(--surface);padding:6px 10px;border-radius:999px}
+.coin{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe28a,#e5a50a);box-shadow:inset 0 0 0 1.5px #c58a00}
+.iconbtn{width:34px;height:34px;display:grid;place-items:center;color:var(--sub)}
+.card{background:var(--surface);border-radius:20px;padding:20px;margin-bottom:12px}
+.card h2{font-size:17px;font-weight:700;margin:0 0 14px}
+.row{display:flex;align-items:center;gap:14px}
+.avatar{width:76px;height:76px;border-radius:16px;background:var(--surface-2);display:grid;place-items:center;flex:none;overflow:hidden}
+.avatar img{width:64px;height:64px}
+.who{font-size:13px;color:var(--sub)}
+.big{font-size:22px;font-weight:700;margin:2px 0}
+.up{font-size:12.5px;color:var(--red);font-weight:500}
+.lv{display:inline-block;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px;margin-right:6px}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:99px}
+.barlabel{display:flex;justify-content:space-between;font-size:12.5px;color:var(--sub);margin:12px 0 5px}
+.barlabel b{color:var(--ink);font-weight:700}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+.stats3 .k{font-size:12.5px;color:var(--muted)} .stats3 .v{font-size:17px;font-weight:700}
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:14px;padding:12px 0}
+.ic{width:40px;height:40px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;flex:none;color:var(--sub)}
+.ic.blue{background:var(--accent-soft);color:var(--accent)}
+.item .t{font-weight:500;font-size:15px;display:flex;align-items:center;gap:5px}
+.item .d{font-size:13px;color:var(--muted)}
+.item .grow{flex:1;min-width:0}
+.chev{color:#b0b8c1}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block}
+.cta{display:block;width:100%;border:0;border-radius:16px;background:var(--accent);color:#fff;font:700 16px 'Noto Sans KR',sans-serif;padding:16px;margin:4px 0 12px}
+.cta.ghost{background:var(--accent-soft);color:var(--accent)}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 0 14px;z-index:5}
+.tabs .in{display:flex;width:100%;max-width:480px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:#b0b8c1;text-decoration:none}
+.tab.on{color:var(--ink);font-weight:700}
+.screen{display:none} .screen.on{display:block}
+.seg{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;margin-bottom:14px}
+.seg span{flex:1;text-align:center;padding:7px 0;font-size:13.5px;border-radius:9px;color:var(--muted)}
+.seg span.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--surface-2);color:var(--sub)}
+.chip.rec{background:var(--accent-soft);color:var(--accent)}
+.chip.lock{color:var(--muted)}
+.qbar{height:5px;margin-top:6px}
+/* character */
+.doll{display:flex;flex-direction:column;gap:12px}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{background:var(--surface-2);border-radius:14px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.slot .sq{width:44px;height:44px;border-radius:12px;background:var(--surface);display:grid;place-items:center;border:2px solid transparent;overflow:hidden}
+.slot .sq img{width:36px;height:36px}
+.slot .nm{font-size:12px;font-weight:500;line-height:1.3;word-break:keep-all}
+.slot .nm small{display:block;font-size:10.5px;color:var(--muted);font-weight:400}
+.slot.empty .sq{border:1.5px dashed var(--line);background:transparent}
+.slot.empty .nm{color:var(--muted)}
+.stage{background:linear-gradient(180deg,var(--accent-soft),var(--surface-2));border-radius:18px;height:200px;display:grid;place-items:center}
+.stage img{width:160px;height:160px}
+.rings{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.ring{aspect-ratio:1;border-radius:12px;border:1.5px dashed var(--line);display:grid;place-items:center;font-size:11px;color:var(--muted)}
+.ring.has{border:2px solid var(--r2);background:var(--surface-2);color:var(--ink);font-weight:700}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.st{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.st b{font-weight:700}
+.plus{width:24px;height:24px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;margin-left:8px}
+.set{border:1.5px dashed var(--line);border-radius:14px;padding:12px;font-size:13px;color:var(--muted)}
+/* bag */
+.inv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.cell{aspect-ratio:1;border-radius:12px;background:var(--surface-2);position:relative;display:grid;place-items:center;border:2px solid transparent}
+.cell img{width:36px;height:36px}
+.cell .n{position:absolute;right:5px;bottom:2px;font-size:11px;font-weight:700;color:var(--sub)}
+.cell.r1{border-color:var(--r1)} .cell.r2{border-color:var(--r2)} .cell.r3{border-color:var(--r3)}
+.cell.blank{background:transparent;border:1.5px dashed var(--line)}
+.potion{width:18px;height:22px;border-radius:5px 5px 9px 9px;position:relative}
+.potion:before{content:"";position:absolute;left:5px;top:-5px;width:8px;height:6px;background:#c9a37a;border-radius:2px}
+/* create */
+.preview{display:flex;flex-direction:column;align-items:center;padding:8px 0 4px}
+.preview .stage{width:100%;height:220px}
+.preview .stage .stack{position:relative;width:160px;height:160px}
+.preview .stage .stack img{position:absolute;inset:0;width:160px;height:160px}
+.label{font-size:13px;color:var(--sub);font-weight:500;margin:4px 0 8px}
+.colors{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:40px;height:40px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line)}
+.sw.on{box-shadow:0 0 0 2.5px var(--accent)}
+.field{background:var(--surface-2);border-radius:12px;padding:13px 14px;font-size:15px;display:flex;justify-content:space-between;margin-bottom:10px}
+.field span{color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.opt{background:var(--surface-2);border-radius:12px;padding:10px 4px;text-align:center;font-size:13px;color:var(--sub);border:2px solid transparent}
+.opt.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.opt.soon{opacity:.45}
+/* records */
+.badge{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:none}
+.rank{font-weight:700;width:22px;text-align:center;color:var(--muted)}
+.rank.g{color:var(--gold)}
+.mini{width:40px;height:40px;border-radius:12px;background:var(--surface-2);overflow:hidden;flex:none}
+.mini img{width:40px;height:40px}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:6px 0 16px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ===== 캐릭터 만들기 ===== -->
+<section class="screen" id="s-create">
+  <div class="top"><div><h1>새 모험가</h1><div class="sub">15살 견습생의 모습을 정해요</div></div></div>
+  <div class="card">
+    <div class="preview"><div class="stage"><div class="stack px">
+      <img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAErUlEQVR4nO2bf2gbZRjHv2kdggztyoZHmUdmWaDoksO1MNwP2Nr9M0GFsYKMYRlD7Bh2wv7zFxYRBBGGwyrWUhlF7JjMUmW4TsG1/tN23DZcICWkO2JMCUvSW6iuaG5/pO/lTXKXps09bxa9zz/Jm3vf957n+z7v3XvPewFcXFxc/sd4RJ/QJyuG3bGQpgq3R8gJeaevvP0iAGBL27aSesrRswDECkF+Ip+sGMxphpXzPCKFID0B7/xqTluhHD1LLkIDVcfVOg8A6khf2WuGE5AI4ITzDGoRHBfASecZlCI4KgCF8wwqEUimgNPOU+K4APXkPOCgAD5ZMdSRPqe6s4RiGpDdBusFV4BaG1BrXAGc6MQnK0ZIUz3sIYYKimeDqgVgix+7u0AiGEEiGDHLR46/b9nPy6++W7Yd8BDfBQ5+MAZ1pA9WEbClbRvid++ajl8Yes+yj0tf9+PW5IxZj60n+D4fyggIaarHKvxZeTG6gB172nFxdrpklIt558sxXJydto0SCsgugmw6PLH1SQDA4Z0d2NDYWLbNhsZGHN7ZUfL7xPhPzhu4gqMC8JFwa3LGkT4/fqUNAF1yhCTb4pMV43zvbuzY015VP4lgBNfUWfSP/0GWGSKZAiFN9RwbmDJDt/hqXg6+LrXzAPAIVccAoN/TkQhGLJ8QM59fNb9vfL3T/M7qJoIRcucBwqQof7++dLoT3o5nK277n8kKM3yyYnx2/DkAwPOde23r/Xb1Gk4OXRe6L0A6BRghTfWcHIJxqucQlmxuafo9HcnNARHmFCBkYwQATvUcgj+gQLtzB+l0Cl1N9806E+lH4Q8oAICbN1ScG/5RWBSQRgD/fDB4ZQ67Du7HLgCjg8PwdmzOV1w5BuQEWFlWGyJEEDIFiuk+0YPRwWGz/NqZN2thBgBCAfjRt1oHdJ/oKdteVBSQJ0QWowuYi0XR1LSp4jZrWThVC9nWGBv91J8J3M5Kq444z/fRfwDU8d4gT0xPrWn02fVgMbpAZVIB5ALczkrY13Vgze3YYzQ1JJujLPyrGUXWtu52h3mm1RsAgPm5MOLzWsXt/AHFbEsN+TqAzf/5uXDB75JXpj51RZAL8N1XX+B0/4cA8iJ4t7eWRMSvEz+b39PpFLzUhq1ALsD9fzP46K03zPLA6A+W9fZ1HUBv9wtmufel/dSmASAW4NyFSTwlN5vlWDxZ4KQVz/hkpPQMPvn2FwRat1OaB4BQAH41t+nxjQWfKT2D8HwS7X4ZMzc1tPsLrwe5ekkq0wogEYBPYzOnrUjpGdtjsayET8cvY0xdrq+cYEhTPWe+gdHSEEertxkpPWMrQrmR3vv0MsZU+rQYWVY4lpUAlEYAG/VYVsLvocrXBlTUJB8QiycBSAgvSWhpiJu/81MiJ9wyuS1kAuRCVzFaH9PQIjUXHAsvSfnQlhWDOc5HSy46JCrzTEgjIKSpHsiKgXh+lP/6Gyh2LBcR+U+gSCRChCRFz/fuNsvHBqZKHKukDhVCrgEFe4QDU+uuQ4H7jlCtDag1QgWw2+MX8YKVHaQCrPf1WRHJUAbpP0Z45yt5zYWvI0oEIdvjjNVubetp4+LiUhUPAE2KDnyJTIWsAAAAAElFTkSuQmCC" alt=""><img class="px" id="hairimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADxElEQVR4nO2ZP2gbVxzHPydF50onx0IKQT6QIkyloV00eAsGQ4uhGErXNpDRNEvwEijFlJIl7dLRhQ6FEojpUOjiJRna4lWDuniQcFAlIgtjH7L1D51sXwfnnSVZMm70JBv6Pot0707vfr/v+/1+73cnUCjGSiqedlLxtHPddgzDM4mbzIdtbqoItyZxk2bHZiEWBIaLkCtmtUnY0s9EBNiuBVkIwUJMH3i+srdHbhKGDGBsqouQNz0VAMxQGL8RHHr9Vsm+ligYyw1T8bQzH7bd42bHptqoA2dCXEbGOouSXDGrCRHHKYzUiYXB3c6Pyv5RjcJxZGwijL0GHDaaAHROTgCIzc72nG+9jQxBxtJJTlWZMQIA3Lk9ja9RhXjaGYcI0gXoXv3DRpMZIzA093feFAemhE8/N8tvBPEbQfIleVHVjTRF+/N+/6h2YbUFW2+dGSQWQLlqYYbCNDs2kS6BxlEox9YIFY4jA8dbjTrJqeqV5+lOkXGkgJQJ+1e/n+4UKO3u4vN63dWG8zohxjKW7vYMrUbd/X2rUSdj6VKFGDkCUvG007+iwiFBq1Gn1ahzULW4c3u651y5arnf/UaQ/aOa2zuIMREFl/UR74qUFMi3Q+wf1dxjUfH72a71OiCcz7dD7urbpx02nq2y86Y4cI4bVwOuapBocAbx/NF9/EaQrZLNxrNVAH75eqXnGhEFi4mo1KdLadvgy9cl7Yv0B5caZnoqZKwooEMbXq2dOalPB6jsbfLX918CMPv5VxrAcjLhRO/eJWPpzIdtDqoWhu89aJ+lnoxokLYLLM3FHJH7Pq/3Qh0AWH/8ANNTwfRUeLX2qTtu15qsP3kInDsPF1OpYx+zmS9ouWJWk5UKUrfBfDs00PFy1cL0VDCCBmYojO7xoU8HuLfyVLu38lQDEJ/LyYSznEw4cFYPRC04bDSH1pZRkFZQluZijn3aQff48Hm9wPm2tvbwEwCe/Pgbm/nC0HsuzcWcl69L2j8/feMA/L2T54df/6B8GiU5VaVzciL9uUBaHyC+J24dUDiOuM3OZQ5fhcVE1AEon0bdsRvTB3Q7bnoq5IpZrXAcwfRUmDECIzsP8Geh4s4hM/cFIwkgjMkVs1r3CgG8yG67hoqcflfMUJjnj+6PMsVQpD8L/L76EeuPH7ihK4MX2W2t1m7Jmq4HqQIsJqKOETSA3tCVwcff/nwtL03/E6l42vnsw/ed3Y3vbuQr8Ilw0/8IUSgUCoVCoVAoFAqFQqFQKBQKhUKhUCgUCoVCoVAoFP8v/gW9RoWROo4wLAAAAABJRU5ErkJggg==" alt="">
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="label">머리 색</div>
+    <div class="colors">
+      <div class="sw on" style="background:#5a302a"></div><div class="sw" style="background:#3a3646"></div>
+      <div class="sw" style="background:#deb460"></div><div class="sw" style="background:#be4634"></div>
+      <div class="sw" style="background:#c6c8d8"></div><div class="sw" style="background:#4c6ebe"></div>
+      <div class="sw" style="background:#dc7ca4"></div>
+    </div>
+    <div class="label" style="margin-top:16px">머리 모양</div>
+    <div class="opts"><div class="opt on">기본 머리</div><div class="opt soon">준비 중</div><div class="opt soon">준비 중</div></div>
+    <div class="label" style="margin-top:16px">피부 색</div>
+    <div class="colors">
+      <div class="sw on" style="background:#f6c39f"></div><div class="sw" style="background:#e7a77f"></div>
+      <div class="sw" style="background:#b8784f"></div><div class="sw" style="background:#7d4d33"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="field">이름 <span>리안 ›</span></div>
+    <div class="field" style="margin:0">출신 <span>중앙 왕도 ›</span></div>
+  </div>
+  <button class="cta">이 모습으로 시작하기</button>
+</section>
+
+<!-- ===== 홈 ===== -->
+<section class="screen" id="s-home">
+  <div class="top">
+    <div><h1>내 공책 그정도 아님</h1><div class="sub">견습생 리안의 3년째</div></div>
+    <div class="right"><div class="gold"><span class="coin"></span>1,240</div>
+      <div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1L11 21h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5A3.5 3.5 0 1 1 13 8.5a3.5 3.5 0 0 1 0 7z"/></svg></div></div>
+  </div>
+  <div class="card">
+    <div class="row">
+      <div class="avatar"><img class="px" src="data:image/png;base64,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" alt=""></div>
+      <div style="min-width:0">
+        <div class="who">리안 · 마을 자경단 · 17세</div>
+        <div class="big"><span class="lv">Lv.12</span>전투력 54</div>
+        <div class="up">지난해보다 +9</div>
+      </div>
+    </div>
+    <div class="barlabel"><span>경험치</span><span><b>63.4%</b> · 다음 레벨까지 412</span></div>
+    <div class="bar"><i style="width:63.4%;background:var(--exp)"></i></div>
+    <div class="barlabel"><span>HP</span><span><b>182</b> / 210</span></div>
+    <div class="bar"><i style="width:86%;background:var(--hp)"></i></div>
+    <div class="barlabel"><span>MP</span><span><b>40</b> / 75</span></div>
+    <div class="bar"><i style="width:53%;background:var(--mp)"></i></div>
+    <div class="stats3">
+      <div><div class="k">처치한 몬스터</div><div class="v">318</div></div>
+      <div><div class="k">완료 퀘스트</div><div class="v">14</div></div>
+      <div><div class="k">공적</div><div class="v">6</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>확인할 일</h2>
+    <div class="list">
+      <div class="item"><div class="ic blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div>
+        <div class="grow"><div class="t">레벨업 보상이 도착했어요 <span class="dot"></span></div><div class="d">Lv.12 달성 · 능력치 3포인트</div></div><span class="chev">›</span></div>
+      <div class="item"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h2v18H5zM8 4h11l-2 4 2 4H8z"/></svg></div>
+        <div class="grow"><div class="t">메인 퀘스트 · 늑대 숲의 소문 <span class="dot"></span></div><div class="d">회색 늑대 처치 7 / 10</div></div><span class="chev">›</span></div>
+      <div class="item"><div class="ic blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 18l6-6 4 4 6-8v10z"/></svg></div>
+        <div class="grow"><div class="t">일일 퀘스트 2개 남음</div><div class="d">수련 1회 · 슬라임 처치 20마리</div></div><span class="chev">›</span></div>
+      <div class="item"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h3v13H3V7zm2 0h8V5H8z"/></svg></div>
+        <div class="grow"><div class="t">새 장비를 얻었어요</div><div class="d">고급 · 가죽 조끼</div></div><span class="chev">›</span></div>
+    </div>
+  </div>
+  <button class="cta">모험 떠나기</button>
+</section>
+
+<!-- ===== 모험 ===== -->
+<section class="screen" id="s-adv">
+  <div class="top"><div><h1>모험</h1><div class="sub">17세 · 올해 남은 수련 2회</div></div><div class="gold"><span class="coin"></span>1,240</div></div>
+  <div class="seg"><span class="on">사냥터</span><span>퀘스트</span><span>수련</span></div>
+  <div class="card">
+    <h2>사냥터</h2>
+    <div class="list">
+      <div class="item"><div class="ic">🌱</div><div class="grow"><div class="t">초보자의 들판 <span class="chip">Lv.1–5</span></div><div class="d">슬라임, 들쥐 · 경험치 적음</div></div><span class="chev">›</span></div>
+      <div class="item"><div class="ic blue">🌲</div><div class="grow"><div class="t">늑대 숲 <span class="chip rec">추천 Lv.10–15</span></div><div class="d">회색 늑대, 덩굴 정령 · 가죽 장비 드롭</div></div><span class="chev">›</span></div>
+      <div class="item"><div class="ic">⛏️</div><div class="grow"><div class="t">버려진 광산 <span class="chip">Lv.15–20</span></div><div class="d">코볼트, 박쥐 떼 · 철 장비 드롭</div></div><span class="chev">›</span></div>
+      <div class="item" style="opacity:.5"><div class="ic">🏰</div><div class="grow"><div class="t">고블린 요새 <span class="chip lock">Lv.20–30 · 잠김</span></div><div class="d">Lv.20부터 입장</div></div><span class="chev">›</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>진행 중인 퀘스트</h2>
+    <div class="list">
+      <div class="item"><div class="grow"><div class="t"><span class="chip rec">메인</span> 늑대 숲의 소문</div><div class="d">회색 늑대 처치 7 / 10 · 보상 경험치 300, 가죽 투구</div><div class="bar qbar"><i style="width:70%;background:var(--accent)"></i></div></div></div>
+      <div class="item"><div class="grow"><div class="t"><span class="chip">서브</span> 대장장이의 부탁</div><div class="d">철광석 3 / 5 · 보상 골드 200</div><div class="bar qbar"><i style="width:60%;background:var(--r1)"></i></div></div></div>
+      <div class="item"><div class="grow"><div class="t"><span class="chip">일일</span> 슬라임 처치</div><div class="d">12 / 20 · 보상 경험치 80</div><div class="bar qbar"><i style="width:60%;background:var(--exp)"></i></div></div></div>
+    </div>
+  </div>
+  <button class="cta">늑대 숲으로 떠나기</button>
+</section>
+
+<!-- ===== 캐릭터 ===== -->
+<section class="screen" id="s-char">
+  <div class="top"><div><h1>캐릭터</h1><div class="sub">노비스 · Lv.12</div></div><div class="gold"><span class="coin"></span>1,240</div></div>
+  <div class="card">
+    <div class="doll">
+      <div class="stage"><img class="px" src="data:image/png;base64,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" alt=""></div>
+      <div class="slots">
+        <div class="slot"><div class="sq" style="border-color:var(--r2)"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVR4nGNkIBNEWpj9//nrD5y/7tw5RnLMYaLE8rRAHQZLbW4GBgYGhiAjo/90cwDMchiAOYJuDmBnYyHbQqo4ADnuB8QBAx4C1ARD0wGjaYCaYGg6YMDTADUBRYnw8q37A+MAGNBVUxxYB1ADjDpgwB1Adpk6a/0VFD65xTNZIbD8xClGBgYGBmG+3wxKEuwoYnRxADXBqANGHTDqAIoad28/sTK8/fST/g6ItDD7b6QKKYB01RSh7QKj/+T0kMkqvRgYMHvD5HbPAXMfOK4G1LZVAAAAAElFTkSuQmCC" alt=""></div><div class="nm">나무 방망이<small>무기 · 희귀</small></div></div>
+        <div class="slot"><div class="sq" style="border-color:var(--r0)"><svg width="22" height="22" viewBox="0 0 24 24" fill="#8b95a1"><path d="M4 14a8 8 0 0 1 16 0v2H4z"/></svg></div><div class="nm">천 두건<small>투구 · 일반</small></div></div>
+        <div class="slot"><div class="sq" style="border-color:var(--r1)"><svg width="22" height="22" viewBox="0 0 24 24" fill="#20a464"><path d="M7 3l5 2 5-2 4 4-3 3v11H6V10L3 7z"/></svg></div><div class="nm">가죽 조끼<small>상의 · 고급</small></div></div>
+        <div class="slot"><div class="sq" style="border-color:var(--r0)"><svg width="22" height="22" viewBox="0 0 24 24" fill="#8b95a1"><path d="M6 3h12l1 18h-5l-2-10-2 10H5z"/></svg></div><div class="nm">반바지<small>하의 · 일반</small></div></div>
+        <div class="slot empty"><div class="sq"></div><div class="nm">한벌옷<small>상·하의 대신</small></div></div>
+        <div class="slot empty"><div class="sq"></div><div class="nm">신발<small>비어 있음</small></div></div>
+        <div class="slot empty"><div class="sq"></div><div class="nm">망토<small>비어 있음</small></div></div>
+        <div class="slot empty"><div class="sq"></div><div class="nm">귀걸이<small>비어 있음</small></div></div>
+      </div>
+    </div>
+    <div class="label" style="margin-top:14px">반지 (5칸)</div>
+    <div class="rings"><div class="ring has">힘+2</div><div class="ring">비어<br>있음</div><div class="ring">비어<br>있음</div><div class="ring">비어<br>있음</div><div class="ring">비어<br>있음</div></div>
+  </div>
+  <div class="card">
+    <h2 style="display:flex;justify-content:space-between">능력치 <span style="font-size:13px;color:var(--accent)">남은 포인트 3</span></h2>
+    <div class="statgrid">
+      <div class="st">힘<span style="display:flex;align-items:center"><b>48</b><span class="plus">+</span></span></div>
+      <div class="st">민첩<span style="display:flex;align-items:center"><b>41</b><span class="plus">+</span></span></div>
+      <div class="st">지능<span style="display:flex;align-items:center"><b>35</b><span class="plus">+</span></span></div>
+      <div class="st">체력<span style="display:flex;align-items:center"><b>52</b><span class="plus">+</span></span></div>
+      <div class="st">정신<span style="display:flex;align-items:center"><b>30</b><span class="plus">+</span></span></div>
+      <div class="st">행운<span style="display:flex;align-items:center"><b>34</b><span class="plus">+</span></span></div>
+    </div>
+    <div class="stats3">
+      <div><div class="k">공격력</div><div class="v">62</div></div>
+      <div><div class="k">방어력</div><div class="v">38</div></div>
+      <div><div class="k">치명타</div><div class="v">6%</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>세트 효과</h2>
+    <div class="set">가죽 사냥꾼 세트 (2/4) · 2세트: 민첩 +3 · 4세트: 치명타 +5%<br><span style="font-size:11.5px">※ 세트 효과는 나중에 추가 예정</span></div>
+  </div>
+</section>
+
+<!-- ===== 가방 ===== -->
+<section class="screen" id="s-bag">
+  <div class="top"><div><h1>가방</h1><div class="sub">23 / 40칸</div></div><div class="gold"><span class="coin"></span>1,240</div></div>
+  <div class="seg"><span class="on">장비</span><span>소모품</span><span>재료</span></div>
+  <div class="card">
+    <div class="inv">
+      <div class="cell r2"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVR4nGNkIBNEWpj9//nrD5y/7tw5RnLMYaLE8rRAHQZLbW4GBgYGhiAjo/90cwDMchiAOYJuDmBnYyHbQqo4ADnuB8QBAx4C1ARD0wGjaYCaYGg6YMDTADUBRYnw8q37A+MAGNBVUxxYB1ADjDpgwB1Adpk6a/0VFD65xTNZIbD8xClGBgYGBmG+3wxKEuwoYnRxADXBqANGHTDqAIoad28/sTK8/fST/g6ItDD7b6QKKYB01RSh7QKj/+T0kMkqvRgYMHvD5HbPAXMfOK4G1LZVAAAAAElFTkSuQmCC" alt=""></div>
+      <div class="cell r1"><svg width="26" height="26" viewBox="0 0 24 24" fill="#20a464"><path d="M7 3l5 2 5-2 4 4-3 3v11H6V10L3 7z"/></svg></div>
+      <div class="cell"><svg width="26" height="26" viewBox="0 0 24 24" fill="#8b95a1"><path d="M4 14a8 8 0 0 1 16 0v2H4z"/></svg></div>
+      <div class="cell r1"><svg width="26" height="26" viewBox="0 0 24 24" fill="#20a464"><path d="M5 12h6l1-6h5v8l3 2v3H4z"/></svg></div>
+      <div class="cell r3"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="3"><circle cx="12" cy="14" r="6"/><path d="M10 5l2-3 2 3"/></svg></div>
+      <div class="cell"><div class="potion" style="background:#f04452"></div><span class="n">12</span></div>
+      <div class="cell"><div class="potion" style="background:#3182f6"></div><span class="n">5</span></div>
+      <div class="cell"><svg width="26" height="26" viewBox="0 0 24 24" fill="#8a6a4a"><path d="M4 16l5-9 4 3 3-5 4 11z"/></svg><span class="n">3</span></div>
+      <div class="cell"><svg width="26" height="26" viewBox="0 0 24 24" fill="#b08968"><path d="M5 5h14l-3 14H8z"/></svg><span class="n">8</span></div>
+      <div class="cell blank"></div><div class="cell blank"></div><div class="cell blank"></div><div class="cell blank"></div><div class="cell blank"></div><div class="cell blank"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="row">
+      <div class="avatar" style="width:56px;height:56px;border:2px solid var(--r2)"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVR4nGNkIBNEWpj9//nrD5y/7tw5RnLMYaLE8rRAHQZLbW4GBgYGhiAjo/90cwDMchiAOYJuDmBnYyHbQqo4ADnuB8QBAx4C1ARD0wGjaYCaYGg6YMDTADUBRYnw8q37A+MAGNBVUxxYB1ADjDpgwB1Adpk6a/0VFD65xTNZIbD8xClGBgYGBmG+3wxKEuwoYnRxADXBqANGHTDqAIoad28/sTK8/fST/g6ItDD7b6QKKYB01RSh7QKj/+T0kMkqvRgYMHvD5HbPAXMfOK4G1LZVAAAAAElFTkSuQmCC" alt="" style="width:40px;height:40px"></div>
+      <div class="grow" style="flex:1"><div class="who">무기 · <b style="color:var(--r2)">희귀</b> · Lv.10 이상</div><div class="big" style="font-size:18px">단단한 나무 방망이</div><div class="d" style="font-size:13px;color:var(--muted)">공격력 +14 · 힘 +2</div></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px"><button class="cta ghost" style="margin:0">팔기 · 120골드</button><button class="cta" style="margin:0">장착하기</button></div>
+  </div>
+</section>
+
+<!-- ===== 기록 ===== -->
+<section class="screen" id="s-rec">
+  <div class="top"><div><h1>기록</h1><div class="sub">업적 6 / 40 · 칭호 2개</div></div></div>
+  <div class="seg"><span class="on">업적·칭호</span><span>명예의 전당</span></div>
+  <div class="card">
+    <h2>칭호</h2>
+    <div class="list">
+      <div class="item"><div class="badge" style="background:#fff4d6">🗡️</div><div class="grow"><div class="t">늑대 사냥꾼 <span class="chip rec">장착 중</span></div><div class="d">회색 늑대 100마리 처치 · 공격력 +2</div></div></div>
+      <div class="item"><div class="badge" style="background:var(--accent-soft)">🌱</div><div class="grow"><div class="t">첫걸음</div><div class="d">첫 퀘스트 완료</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>업적</h2>
+    <div class="list">
+      <div class="item"><div class="grow"><div class="t">레벨 30 달성</div><div class="d">Lv.12 / 30</div><div class="bar qbar"><i style="width:40%;background:var(--exp)"></i></div></div></div>
+      <div class="item"><div class="grow"><div class="t">장비 칸 모두 채우기</div><div class="d">5 / 12칸</div><div class="bar qbar"><i style="width:42%;background:var(--accent)"></i></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>명예의 전당</h2>
+    <div class="list">
+      <div class="item"><span class="rank g">1</span><div class="mini"><img class="px" src="data:image/png;base64,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" alt=""></div><div class="grow"><div class="t">에단 ★ 영웅의 별</div><div class="d">최고 전투력 91 · 전설의 원정대</div></div></div>
+      <div class="item"><span class="rank">2</span><div class="mini"><img class="px" src="data:image/png;base64,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" alt=""></div><div class="grow"><div class="t">세린</div><div class="d">최고 전투력 84 · 왕실 근위대</div></div></div>
+    </div>
+  </div>
+</section>
+
+<nav class="tabs"><div class="in">
+  <a class="tab" href="#home" data-s="home"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>홈</a>
+  <a class="tab" href="#adv" data-s="adv"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm3.5 6.5l-2 5-5 2 2-5z"/></svg>모험</a>
+  <a class="tab" href="#char" data-s="char"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.5"/><path d="M3 21a9 9 0 0 1 18 0z"/></svg>캐릭터</a>
+  <a class="tab" href="#bag" data-s="bag"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6V5a4 4 0 0 1 8 0v1h3l1 15H4L5 6zm2 0h4V5a2 2 0 0 0-4 0z"/></svg>가방</a>
+  <a class="tab" href="#rec" data-s="rec"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h4v3a5 5 0 0 1-5 5 5 5 0 0 1-3 2v3h3v3H8v-3h3v-3a5 5 0 0 1-3-2 5 5 0 0 1-5-5V5h4zm0 4H5v1a3 3 0 0 0 2 2.8zm10 0v3.8A3 3 0 0 0 19 8V7z"/></svg>기록</a>
+</div></nav>
+</div>
+<script>
+function show(){
+  const s=(location.hash||'#home').slice(1);
+  document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id==='s-'+s));
+  document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.dataset.s===s));
+  document.querySelector('.tabs').style.display = s==='create'?'none':'';
+}
+addEventListener('hashchange',show); show();
+const HAIR=["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADxElEQVR4nO2ZP2gbVxzHPydF50onx0IKQT6QIkyloV00eAsGQ4uhGErXNpDRNEvwEijFlJIl7dLRhQ6FEojpUOjiJRna4lWDuniQcFAlIgtjH7L1D51sXwfnnSVZMm70JBv6Pot0707vfr/v+/1+73cnUCjGSiqedlLxtHPddgzDM4mbzIdtbqoItyZxk2bHZiEWBIaLkCtmtUnY0s9EBNiuBVkIwUJMH3i+srdHbhKGDGBsqouQNz0VAMxQGL8RHHr9Vsm+ligYyw1T8bQzH7bd42bHptqoA2dCXEbGOouSXDGrCRHHKYzUiYXB3c6Pyv5RjcJxZGwijL0GHDaaAHROTgCIzc72nG+9jQxBxtJJTlWZMQIA3Lk9ja9RhXjaGYcI0gXoXv3DRpMZIzA093feFAemhE8/N8tvBPEbQfIleVHVjTRF+/N+/6h2YbUFW2+dGSQWQLlqYYbCNDs2kS6BxlEox9YIFY4jA8dbjTrJqeqV5+lOkXGkgJQJ+1e/n+4UKO3u4vN63dWG8zohxjKW7vYMrUbd/X2rUSdj6VKFGDkCUvG007+iwiFBq1Gn1ahzULW4c3u651y5arnf/UaQ/aOa2zuIMREFl/UR74qUFMi3Q+wf1dxjUfH72a71OiCcz7dD7urbpx02nq2y86Y4cI4bVwOuapBocAbx/NF9/EaQrZLNxrNVAH75eqXnGhEFi4mo1KdLadvgy9cl7Yv0B5caZnoqZKwooEMbXq2dOalPB6jsbfLX918CMPv5VxrAcjLhRO/eJWPpzIdtDqoWhu89aJ+lnoxokLYLLM3FHJH7Pq/3Qh0AWH/8ANNTwfRUeLX2qTtu15qsP3kInDsPF1OpYx+zmS9ouWJWk5UKUrfBfDs00PFy1cL0VDCCBmYojO7xoU8HuLfyVLu38lQDEJ/LyYSznEw4cFYPRC04bDSH1pZRkFZQluZijn3aQff48Hm9wPm2tvbwEwCe/Pgbm/nC0HsuzcWcl69L2j8/feMA/L2T54df/6B8GiU5VaVzciL9uUBaHyC+J24dUDiOuM3OZQ5fhcVE1AEon0bdsRvTB3Q7bnoq5IpZrXAcwfRUmDECIzsP8Geh4s4hM/cFIwkgjMkVs1r3CgG8yG67hoqcflfMUJjnj+6PMsVQpD8L/L76EeuPH7ihK4MX2W2t1m7Jmq4HqQIsJqKOETSA3tCVwcff/nwtL03/E6l42vnsw/ed3Y3vbuQr8Ilw0/8IUSgUCoVCoVAoFAqFQqFQKBQKhUKhUCgUCoVCoVAoFP8v/gW9RoWROo4wLAAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADW0lEQVR4nO2Zz0vbYBjHv2mHaBtvMXSXWkXKKC705CEepx6HR+cfIHgQZKcNZAwPsv0LQ3bxMNhpuJvDwxA68LKudFW6X66XlZibLzEbmOwQ35i0qXT2TRX2fC4hgb7v83zf5/u8b1KAIGIlny26+WzRve44OpHoxyRKRsVNFeFWvya6MzkJAB1FqDfKUr9iCdIXAcymAUVRuQhtHB1970cYkcQmAC95J+kAAEzTEyGKXG4cNrPc66iCWCbMZ4uukgknaxw3AQDqSObS35pNA4BnCS5inMIIHZgH3Jp8LzDGYDMrNhFi7wGMsdB9LjceujdNI3zfNDAopyDLMgD413y2GItFhAsQXH3GGGRZ7uj92kEl0hI8aQBQFBWKouKwWhUdKgCBFmj1PWOsbbU5PJkosQCvX3BhguIdVqvCrRDbQchmVuRz0/RKvFuCFonDAkIEiOr6SkaFaRptHuc9oXX1Q0GdJfzSD6JPzQk/VvcsQD5bdFtXtDUhLoRpGiF/AxfbI+CVO2PMPzvwZ1zETr2kF4RUgM2stqSj4Hs8hydvM8sXxjpl2NtYRO2gEjnGjesB3QbUmnyQreVpv9PvbSwCAHYfz4d/f14FE2OaUBsI2wYrtZKkT81dGpiTdHwhbGZhd20eADAwnMLR1ke8f74AALj94JEEAFpBd3O5ce9d4rynpIZk2MwSdi4QtgtoBd0N2iDKEtsrs3CSDpykg3dr9/3nf04svF2dAXCRfBSMMVRqJaneKEuirCB0G+zUC4zjJpykg7SchjqSQWpIxsBwCqNL69Lo0roEAPyqFXRXK+gu4PUD3gu66TFXQVhD0Qq6a50ypIYuujxvbJsLdwEAC5sfUKmVOs6pFXS3UitJP188cQHg07cvePj6MxJnCf/sIPq9QMhAwaY0KKdgM8sP+LKEu2FiTHMB72zAESlATxYIJu4kHdQbZclmFpykA1mWe04eAL7+qPhjiPQ+pycBeDD1RlkKrhAAlPZ3/EC5p6+KOpLB1vJ0L0N0RPi7wJvVe9hemfVLVwSl/R3p5PepqOFCCBVgYkxz03IaQLh0RTDz9OW1fDT9J/LZoqtPzbm/Xj27kZ/A+8JN/yOEIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIIj/i7/ypnXXx89HGwAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADQUlEQVR4nO2ZP2gTURzHvyelQ9M6dCi1QwpynB06HNKhYGkKyhFiEAoddMtUagwlQwcHEemiQoYSSpAOUnBw6dDhkHBCodJBwSFih2ifgYrGcIOgBUURnsPxrnfXS6zNuzbo7wNHXi6P997v+35/3l0AgogULa5zLa7zk15HM04dxyTlko5OFaHruCaqWDPQDTQV4e37inJca/ES+aRi5yvWTNM+W+YzGAvWvyWAMDyfcpwsmR7FoKo27a8bayfiBZFMqMV1Xi7pvntlcxuAI0QrktkKACckhIhRCiN1YLHgoPHtwKp15Ip2ZCJEXgVYte67BlXVdwVJZitg1br7XR0ZwvL8QGRVRHoV8O4+q9ahjgw1jf3VpfXQkFBHhty2K1RxTfZSAUgMgWDcs2odE+nJ0L664RgTJhbg5AshjFe8KBJlZCGQK9qh9xuMYXl+4NDjNBhz21HkASkChGb9ko4GYz4DALjxHdx9L0tPfoXmiJqZkX6sblsALa7z4I4GDRJCNBjzxTewXx4Bx91Zte6eHcQ9IWKrc8RRkeIBuaJ9wOgwRI0XCONzRdsVhrHPmE7MYHVpPXSMjssBh11Q0Hgvj65fwKCqQjfWMJ1wjsyXz6d8fYQXlObGpIaBtDJoLFhKzcy0XFg+1eURwsbTW1cAAN19PdgyN7B5/yoA4My1mwoAWAWDT6QnkcxW3Jyiqv0AbGhxncvwBmkCWAWDe0uZty2Y0hIANgH4d/jn3jecOz0OYN/4MFi1Lv2hSWoZbJYLyuY28qkuxHpjSKZHoar96O7rwfDsojI8u6gAgPi0Cga3CgYHnHwgcsFhcsxRkOIBjisa3Ju9vTg7D7z5+hzGrNhBy/1dGP/64waMBUvZXbnNd1fG+at3O/jwZcc3lizXF0gZyJuUlucHkCva7mGnXZctzY1xwDkbCE7q5ckBhOFaXOdioaL9p4T4N8jO/JEQJoZAxPRRqZkZ/uLujUgEkP4ssJ6/iCktgaAI7XA2vars/fguazgfUgUozY3xWG8MAJB98FJqnF6687Az4r4VWlznNTPDPz2+19nxGiWd/kcIQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRD/F78BiTZkMRc8GSYAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADVUlEQVR4nO2ZP2gTURzHv5FwlCSFEkJRKNcbyhEyhSObg6ASDhzawUUH6VBKbJcUpDiI2C7+mTKF4OCi4ODQOhkiRC0uogRdylG1nEEQyhEKDbGGwHO4vniXXmJt3jUBf58ld8fl3e/3fb/v771LAILwFVVOMlVOskHH0Y1TJ/GQQjyIYRUheFIPKqbHoZe6i7BV/Rg4qVic+P5QPvPF9HjXe4qV71iobA5EAN8qgCc+M1IHAJjVIBQ56nmvrk1AtSQ2iCrw5YGqnGSFuFvborkLANCVsZ7fzRgtALYluIh+CiN0YB5wZ/L9YFgN5CzJNxF8b4KG1XCd69qE69ys1lznGaOFbKyJeCwEAIjHQsiigRySvlhEuADO2TesBuKxUFfvFza2PS3BkwcARY5CkaPIlXZEhwpAoAU6fW9YjUOzzdEPkvESC7D7BRfGKZ5e2hFuBd82QjlL8rxuVmvIxppHHsdpET8sIEQAr65fiAdhVmuHPM57QufsO1nfj7RL30k5nRK+re5bAFVOss4Z7UyIC2FWay5/A3+WR8Aud8NqtPcO/BoXsVsv6QchFZCzpENJe8HXeA5PPmdJbWHMehNLK3MobGx7jjF0PeCoAXUm7+Tx9bNQ5Cj00g6WVuYAAIs3rrru4VWwrE4JtYGwZXChshkop1M9A5sZqSNjRABIgNXCy1t2ktJoCGvPXuHN/WsAgDNXbgYAIK8lmK5NIGO02j1FiUjAvm09EdUgTIC8lmDOpcx5zJnNTAOF5wDcM9zca+BS5jKAP8l7YVgN4S9NQpfBbr2gaO5iZqSOcCQMXRmDEpEgjYYwOb8amJxfDQAA/8xrCZbXEgyw+wHvBUfpMcdBmJp5LcHMetMu0QN4BZzWzwEAXj950XMG81qCLVQ2A98e3mYA8OnrZ7xde4/1/Uh77yD6vUDIQM6mlI01kbOkdsD9luyyOsUAe2/AGdSPJ4fgiatykvFA+fHfGuK/ILrz+4KXGBzu6eNSTqfYu7uLvggg/F1gPXsBs5lpdIrQD+dLHwJ7v36KGs6FUAGW1SkWjoQBAA+2vgj16cU7j4bD971Q5SQrp1Psx9N7w+1XPxn2P0IIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgvi/+A2F/GFn8RzZGAAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADNklEQVR4nO2ZP2gTURzHvxGtpWmhq0XTcoSj3TJkkIgHVoWQwTHUDuUWA9rFMZQjSAkx7qFDBzlqwZLJKUSEihGOKB10C0dzpA7RuQVFHZ7D9Z1310uszbs26O8DR14uj/fe7/t+f95dAIIIFTmWYHIswc56Hb04dxqT6NUtDKsI509rosZOA0pS6SmC+elD5LTW4ib0SfnON3YaPfvU6wbUpfS/JQA3PKvmAACZzDwkaapnfyWpnIkXhDKhHEswvbrluVerbQOwheiHml0AYIcEFzFMYYQOzBfsN34QTLODkpYPTYTQq4BpdjyXJE15Lj9qdgGm2XG+y/IMVorl0KqI8Crg3n3T7ECWZ3rGfqWyGRgSsjzjtLlQJU30Sm2EuZU/7k2zg3Q6FdhXSSoAgsUC7HzBhXGLF0aiDC0ESlo+8L5ldbFSLB97HMvqOu0w8oAQAYKyvl7dgmV1PQYAcOLbv/tuqvp6YI4wmi3hx+qBBZBjCebfUb9BXAjL6nriG/hdHgHb3U2z45wd+D0uYr9zxEkR4gElLX/E6CB4jedw40ta3hFmd9fC8tw+KpXNwDGGLgccd0F+4908u38NkjQFJalgeW4fAHDv8hdPH+4FWmFNaBgIK4PqUjpiNFt9F5ZVcx4hXml3AAAjE1dQrxt488T+7dLdfAQA9NEUS6dTULMLTk6JxyUAduiJ8AZhAugbdeYuZe42Z3GyDRzGt3uHfxx8xQ0YwIUxx/ggTLMj/KFJaBnslQtqtW1k1Ryi41FkMvOIxyWMTIxhOrcamc6tRgCAf+obdaZv1Blg5wOeC46TY06CEA84dEXmzt5uFifbAIDXo7ehXp09soPc+Jc/E1CX0pG99QLbWy+wj+23eH/xuqevKNfnCBnInZRWimWUtLxz2BnUZbXCGgPsswHnrF6eHIEbLscSjC+Ut/+UEP8G0Zk/FILE4PCYPilGs8XePV4ORQDhzwIvHt7E4mQbfhEGIXV1NnLw/Zuo4TwIFUArrLHoeBQAUFx9IDRObz16Ohxx3w85lmBGs8U+Py8Pd7yGybD/EUIQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQxP/FLyWPZrV+3LUDAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADXElEQVR4nO2ZP0gbURzHv1dCh8Q6SJBK07MEOYJTCCLBbjaIhBBSCLRuToFaDCU4ZJLi0hSKg4NDhi4VipDhkKAiGiiFYkWCXcqRpoEehUIJGSpYWgqvw/XFy5+TYN6ZQH+f5XKXd+/e+/7e9/d+lwAEYSuK7GeK7Ge9HocV167iIUpsFf0qguOqHjSb3gIyUUsRSvqJdFVjMWP7Q3nkZ9Nblm2O9vI4VBd6IoBtFuDed3hCcHhCqGhly7aTM5GeWcQW1RXZz5TYasO1yvE2AMA7Eb7w3pKaMo76icRFsdMeQjvmA26efDdUdQ21YtY2EWxPglVdazifnIk0nDdbo6SmMBRIwC37AODfMQEFWWaHCMIFMEe/qmtwyz54fWNt2+5vrLW1BJ88AHh9Y/D6xrBbzIoeKgCBFmj2fVXXWqLN2c1EjXvaiAUY+YILYxZvNxMVbgXbdoGaRcQqWhlDgUTH/ZgtYocFhAjQLusrsVVUtHKLx3lOaI6+mT9f9+tL30wkWRBeVnctgCL7WXNEmyfEhaho5QZ/A+fbI2As96quweEJNVzjIlrlkm4QsgJqxWzLpNvB93gOn3ytmK0L8+N7BQeLbuxvrLXvo99yQKcDap68mVeP7hqZPhPFwaIbALAz72xow1fB+NSSUBsIS4Kd1PIOTwglNWUUNmoKO/NO7Mw7Id+5jaO9PN48fwgAGJlLS6OJFeloLw/gXLyKVsbgsBcAhJXOwuqAYGydmbcy82dOLs4Qzxn+Nkf49+kZNsNnAJwYmUtbClnVNeEvTUK3QatcUDnehsMTgmvABe9EGIPDXly/4cRoYkUaTaxIAMCPwdg6C8bWGWDkA54LOskxl0HICijpJ1IwAGbO3mZycWO1Pti+iUN1WgKAEfX8ez75+5uDOFQXpC/ZZYbwMvvw+RPSb2819KXIfqElsZCOzH4cCiRQK2brxU63S3Z8aokBRm3A6dWPJy3U3/5kP+MD5Z8jyYKwTC0689tCOzE43NOXJZIssPfPHtsigPB3AfXJPeTiDM0idEN+bVo6/fVTVHcNCBVgfGqJuQZcAICP714I9Wno6cv+8P1FKLKfRZIF9u11pr/9aif9/kcIQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRD/F38BflVdOdvrQ0EAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADSklEQVR4nO2ZPUgbYRjH/5Hi4AeuNkgUOW4QoTc4pQ7BZspw3FJIqzhJpDRDhyN0CBKk0FZuLCJSithAM14zuDQUCxKQOkQIGdKrRJHUXejX8na4vsldvmrNexra57fkLrm89z7/53n+73sJQBCeIgcUJgcUdt3zaEffVdxkZ1FHr4pw46puVFh7ASURbytC+aTgu6q5OPH8pjzzhbUXba/JmTmomdS/JQAPPDY5AwDQZkPwT0+0vV5JxK+lCjy5oRxQ2M6i7nrP3NsFYAvRici2AcBuCS6il8IIHZhPuDH4bihZFvS86ZkInptgybJc52Et7DqvFiuu88i2ASOoYUqSAABTkgQDGnSAeSGCcAGc2S9ZFqYkqW3vr29stWwJHjwA+Kcn7O/nTbET/Y0wRRv7vmRZTdnmKIk4gNZiAbZfcGGc4nlhlJ5thPQ2GasWKzCC2oXHcbaIFy0gRIBWrr+zqKNarDT1OPeExuw72Tw6qJe+AyuZFr6t7loAOaCwxow2BsSFqBYrrv4G6ssjYJd7ybJqewf+Hhex0z7isgipAD1vNgXdCr7Gc3jwet6sCVM+O8X8soT1ja2WY/ScB1x0Qo3BO3n94Db80xNQEnHML9tC3L3vd13Dq8AILQltA2HLoJpJ+axkuuPEYpMzdSHywLukCgDoHx5Azszhw/MoAODmvcc+AMhG+1hYCyOybdQ8RR4dA44OIAcUIfsCYQJkoynmXMqcx5yIOgJk7f52Zvjn+VfcmrOPefCtKFmW8IcmoctgOy8w93YRm5zB4NAgtNkQ5NEx9A8PYDy26huPrfoAgL9moymWjabsZ4Cz05oXXMRjLoOQCiifFHwIaszp3k4i6ggA4PB9H9TMgp3BTP1zHvzHt9+hZlK+480Vdjy3wg4/f0J5f9A1lqjS5wgZyGlKRlCDnjdrm51uS9YILTHA3htwruvHkyZ44HJAYXyi/PhPhvg3iHZ+T2glBof39GWxkmm2//ShJwIIfxYwH91BRB1BowjdID1Z8J3/+CZqOBdCBTBCS2xwyDYtffel0D4Np171Rt93Qg4ozEqm2Zc3z3q7X72k1/8IIQiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAji/+IXjSReZb7YhIoAAAAASUVORK5CYII="];
+document.querySelectorAll('.colors')[0].querySelectorAll('.sw').forEach((el,i)=>el.addEventListener('click',()=>{
+  document.querySelectorAll('.colors')[0].querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  document.getElementById('hairimg').src=HAIR[i];
+}));
+</script>
+</body>
+</html>
