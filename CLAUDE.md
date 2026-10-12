@@ -18,7 +18,11 @@
 - 레벨 1~30: 수련(EXP 15)·사냥·원정·의뢰로 경험치. 레벨 업마다 능력치 1포인트(잠재력의 벽은 그대로 적용). 행동력은 없다.
 - 해마다 수련 3회 + 사냥 3회(사냥터 7곳, Lv 구간별 개방) → 원정. 의뢰 3개/년, 메인 퀘스트는 레벨 달성형.
 - 장비 칸: 무기·투구·상의·하의·한벌옷(상하의 대신)·신발·망토·귀걸이·반지 5칸. 등급대 7개(Lv1·5·10·…·30) × 희귀도 5. 세트 이름만 있고 세트 효과는 나중에.
-- PixelLab 남은 무료 생성: 14회(2026-10-12 기준). 큰 캔버스(128px+)는 REST가 502로 끊기지만 결과는 갤러리에 저장된다. tools/mcp_pixflux.py(MCP 비동기)로 생성하고, 갤러리 복구는 pixelart_workbench inspect + tools/unpreview.py. 128px는 2회 차감된 적 있음.
+- PixelLab 남은 무료 생성: 11회(2026-10-12 기준). 큰 캔버스(128px+)는 REST가 502로 끊기지만 결과는 갤러리에 저장된다. tools/mcp_pixflux.py(MCP 비동기)로 생성하고, 갤러리 복구는 pixelart_workbench inspect + tools/unpreview.py. 128px는 2회 차감된 적 있음.
+
+## 몬스터
+- 일반 사냥터 10곳(노비스 Lv1~50) × 2종 = 20종: `design/monsters.json`, 그림은 `assets/raw/monsters/m0..m19.png`(64px, 2x2 시트에서 잘라냄 `tools/monster_gallery.py`).
+- 보스는 나중에 레이드·던전으로: `design/bosses_later.json`. 아직 그리지 않는다.
 
 ## 게임 규칙 요약(바꾸지 말 것)
 - 시작: 15세, 전투력 45, 능력치 합 240, 비밀 잠재력·기질.

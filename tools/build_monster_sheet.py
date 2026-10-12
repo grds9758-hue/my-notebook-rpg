@@ -10,7 +10,7 @@ def card(m, boss=False):
 <div class="row"><span class="k">약점</span>{tags(m["weak"],"w")}</div>
 <div class="row"><span class="k">내성</span>{tags(m["resist"],"r")}</div>
 <p class="act">{E(m["act"])}</p><p class="drop">드롭 · {E(m["drop"])}</p></div>'''
-body = ''.join(f'''<section><h2>{E(g["ground"])} <small>Lv.{E(g["lv"])}</small></h2><div class="grid">{''.join(card(m) for m in g["mons"])}{card(g["boss"], True)}</div></section>''' for g in D)
+body = ''.join(f'''<section><h2>{E(g["ground"])} <small>Lv.{E(g["lv"])}</small></h2><div class="grid">{''.join(card(m) for m in g["mons"])}</div></section>''' for g in D)
 page = f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>몬스터 도감</title>
 <style>
 :root{{--bg:#f2f4f6;--s:#fff;--s2:#f4f5f7;--ink:#191f28;--sub:#4e5968;--mu:#8b95a1;--red:#f04452;--blue:#3182f6;--gold:#e5a50a}}
