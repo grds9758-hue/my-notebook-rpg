@@ -106,7 +106,6 @@ for i, w in enumerate(weapons):
     sprites[f'wico{i}'] = w
 
 # back view (Pokemon-style battle): mirror the front sprite and cover the face with hair
-from PIL import ImageOps
 HAIR_LV = {(99, 59, 54): 0, (90, 48, 42): 1, (80, 43, 36): 1, (75, 37, 32): 2, (70, 34, 29): 2, (64, 32, 24): 3}
 HAIR_COLS = ['brown', 'black', 'blonde', 'red', 'silver', 'blue', 'pink']
 HAIR_PAL = {'brown': [(99, 59, 54), (90, 48, 42), (75, 37, 32), (64, 32, 24)],
@@ -117,30 +116,70 @@ HAIR_PAL = {'brown': [(99, 59, 54), (90, 48, 42), (75, 37, 32), (64, 32, 24)],
             'blue': [(110, 150, 226), (76, 110, 190), (56, 80, 150), (42, 58, 116)],
             'pink': [(246, 168, 196), (220, 124, 164), (178, 88, 128), (140, 64, 100)]}
 OUTL = (38, 30, 48, 255)
-fb = ImageOps.mirror(sprites['body0'])
+# back pose (PixelLab, 3/4 from behind, club on the shoulder) cut into body / hair / club layers
+bp = Image.open(A + 'raw/back_pose1.png').convert('RGBA')
+B_HAIR = {(94, 72, 81): 0, (66, 45, 55): 1, (55, 33, 43): 2}
+B_LINE = {(43, 21, 31), (48, 26, 35)}
+B_SKIN = {(237, 194, 168), (215, 140, 131), (205, 128, 120), (235, 168, 160), (244, 187, 186), (187, 112, 104),
+          (169, 99, 88), (158, 92, 80), (145, 85, 71), (138, 80, 66)}
+B_CLUB = {(182, 124, 74): 0, (125, 77, 45): 1, (113, 67, 50): 2, (95, 57, 38): 2, (78, 48, 31): 3, (72, 43, 28): 3, (68, 40, 25): 3}
+WOOD_RAMP = [(184, 131, 94), (139, 93, 61), (116, 74, 57), (82, 50, 50)]
+CLUB_RAMPS = [WOOD_RAMP, RAMPS['oak'], WOOD_RAMP, WOOD_RAMP, RAMPS['steel'], RAMPS['mithril'], RAMPS['bone']]
+bbase, bhair, bclub = Image.new('RGBA', (64, 64)), Image.new('RGBA', (64, 64)), Image.new('RGBA', (64, 64))
+for y in range(64):
+    for x in range(64):
+        p = bp.getpixel((x, y))
+        if p[3] <= 128: continue
+        c = p[:3]
+        if c in B_HAIR or (c in B_LINE and y <= 18): bhair.putpixel((x, y), p)
+        elif c in B_CLUB and y <= 35: bclub.putpixel((x, y), p)
+        else: bbase.putpixel((x, y), p)
+op = lambda x, y: 0 <= x < 64 and 0 <= y < 64 and bp.getpixel((x, y))[3] > 128
+def outline(layer):
+    for y in range(64):
+        for x in range(64):
+            px = layer.getpixel((x, y))
+            if px[3] and (px[:3] in B_LINE or any(not op(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))):
+                layer.putpixel((x, y), OUTL)
+for L in (bbase, bhair, bclub): outline(L)
+for k, s in enumerate(SKINS):
+    kk = [t / b for t, b in zip(s, SKIN_BASE)]
+    im = bbase.copy()
+    for y in range(64):
+        for x in range(64):
+            px = im.getpixel((x, y))
+            if px[3] and px[:3] in B_SKIN:
+                im.putpixel((x, y), tuple(min(255, round(c * f)) for c, f in zip(px[:3], kk)) + (255,))
+    sprites[f'bbody{k}'] = im
 for i, c in enumerate(HAIR_COLS):
-    h = ImageOps.mirror(sprites[f'hair{i}']).copy()
-    pal = HAIR_PAL[c]
-    comp = fb.copy(); comp.alpha_composite(h)
-    op = lambda x, y: 0 <= x < 64 and 0 <= y < 64 and comp.getpixel((x, y))[3] > 128
-    for y in range(13, 29):
-        for x in range(22, 44):
-            if not op(x, y) or h.getpixel((x, y))[3] > 128:
-                continue
-            edge = any(not op(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
-            if edge:
-                h.putpixel((x, y), OUTL); continue
-            lv = 1
-            if (x + (y // 3)) % 4 == 0: lv = 2
-            if y >= 25: lv = 2 if (x % 3) else 3
-            if y <= 15 and x % 3 == 1: lv = 0
-            h.putpixel((x, y), pal[lv] + (255,))
-    sprites[f'bhair{i}'] = h
-for k in range(4):
-    sprites[f'bbody{k}'] = ImageOps.mirror(sprites[f'body{k}'])
-    sprites[f'bfist{k}'] = ImageOps.mirror(sprites[f'fist{k}'])
-for i in range(7):
-    sprites[f'bwpn{i}'] = ImageOps.mirror(sprites[f'wpn{i}'])
+    im = bhair.copy()
+    for y in range(64):
+        for x in range(64):
+            px = im.getpixel((x, y))
+            if px[3] and px[:3] in B_HAIR:
+                im.putpixel((x, y), HAIR_PAL[c][B_HAIR[px[:3]]] + (255,))
+    sprites[f'bhair{i}'] = im
+for i, ramp in enumerate(CLUB_RAMPS):
+    im = bclub.copy()
+    for y in range(64):
+        for x in range(64):
+            px = im.getpixel((x, y))
+            if px[3] and px[:3] in B_CLUB:
+                head = x < 32
+                r = ramp if (head or i in (1, 6)) else RAMPS['oak'] if i >= 4 else ramp
+                im.putpixel((x, y), r[B_CLUB[px[:3]]] + (255,))
+    if i == 2:  # nails on the club head
+        for x, y in ((16, 29), (19, 27), (22, 26), (25, 27), (18, 31)):
+            if im.getpixel((x, y))[3]: im.putpixel((x, y), (196, 202, 214, 255))
+    if i == 3:  # iron bands
+        for x in range(12, 32):
+            for y in range(24, 34):
+                if im.getpixel((x, y))[3] and x in (20, 21, 27, 28) and im.getpixel((x, y))[:3] != OUTL[:3]:
+                    im.putpixel((x, y), (150, 156, 172, 255) if x in (20, 27) else (108, 114, 130, 255))
+    if i == 6:
+        for x, y in ((18, 29), (19, 29), (24, 28)):
+            if im.getpixel((x, y))[3]: im.putpixel((x, y), (204, 52, 64, 255))
+    sprites[f'bwpn{i}'] = im
 
 data = {}
 for k, im in sprites.items():
@@ -160,7 +199,7 @@ for i in range(4):
 row.resize((row.width * 3, 192), Image.NEAREST).save(A + 'preview_game_sprites.png')
 back = Image.new('RGBA', (68 * 7, 64), (244, 245, 246, 255))
 for i in range(7):
-    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bwpn{i}']); c.alpha_composite(sprites[f'bfist{i % 4}'])
+    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bwpn{i}'])
     back.alpha_composite(c, (i * 68, 0))
 back.resize((back.width * 3, 192), Image.NEAREST).save(A + 'preview_back_sprites.png')
 print(sum(len(v) for v in data.values()), 'bytes of data URIs')
