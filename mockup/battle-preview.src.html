@@ -49,9 +49,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,
 @keyframes bob{50%{transform:translateY(-4px)}}
 .dmg{position:absolute;top:6px;right:4px;font-weight:900;font-size:20px;color:#fff;-webkit-text-stroke:1.5px var(--red);text-shadow:0 2px 0 var(--red)}
 .weakpop{position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(-6deg);background:var(--red);color:#fff;font-weight:900;font-size:12px;padding:1px 8px;border-radius:6px;white-space:nowrap}
-.me-on{position:absolute;left:18px;bottom:10px;width:120px;height:120px}
+.me-on{position:absolute;left:-6px;bottom:-34px;width:190px;height:190px}
+.plat{position:absolute;border-radius:50%;background:rgba(40,90,50,.28)}
+.plat.me{left:4px;bottom:-26px;width:170px;height:46px}
+.plat.foe{top:84px;height:22px;width:26%}
 .me-on img{position:absolute;inset:0;width:100%;height:100%}
-.log{position:absolute;right:12px;bottom:14px;left:150px;background:rgba(25,31,40,.82);color:#fff;font-size:12.5px;border-radius:12px;padding:8px 10px;line-height:1.45}
+.log{position:absolute;right:12px;bottom:14px;left:168px;background:rgba(25,31,40,.82);color:#fff;font-size:12.5px;border-radius:12px;padding:8px 10px;line-height:1.45}
 .log b{color:#ffd76a}
 /* status + commands */
 .panel{background:var(--surface);border-radius:20px;padding:14px;margin-top:10px}
@@ -94,12 +97,13 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,
   </div>
 </div>
 <div class="field">
+  <div class="plat foe" style="left:5%"></div><div class="plat foe" style="left:37%"></div><div class="plat foe" style="left:69%"></div>
   <div class="foes">
     <div class="foe target"><div class="weakpop">약점!</div><div class="spr">🐺</div><div class="dmg">38</div><div class="nm">회색 늑대 A</div><div class="hpb"><i style="width:35%"></i></div><div class="weak"><span class="w">타격</span><span>불</span></div></div>
     <div class="foe"><div class="spr">🌿</div><div class="nm">덩굴 정령</div><div class="hpb"><i style="width:90%"></i></div><div class="weak"><span class="w">불</span><span class="r">타격</span></div></div>
     <div class="foe"><div class="spr">🐺</div><div class="nm">회색 늑대 B</div><div class="hpb"><i style="width:100%"></i></div><div class="weak"><span>?</span><span>?</span></div></div>
   </div>
-  <div class="me-on"><img class="px" src="{{BODY}}" alt=""><img class="px" src="{{HAIR}}" alt=""><img class="px" src="{{WPN}}" alt=""><img class="px" src="{{FIST}}" alt=""></div>
+  <div class="plat me"></div><div class="me-on"><img class="px" src="{{BODY}}" alt=""><img class="px" src="{{HAIR}}" alt=""><img class="px" src="{{WPN}}" alt=""><img class="px" src="{{FIST}}" alt=""></div>
   <div class="log">늑대 A의 <b>약점(타격)</b>을 찔렀다! 38 피해 · <b>행동 +½</b></div>
 </div>
 <div class="panel">

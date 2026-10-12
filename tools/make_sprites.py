@@ -105,6 +105,43 @@ for i, w in enumerate(weapons):
     sprites[f'wpn{i}'] = hold(w)
     sprites[f'wico{i}'] = w
 
+# back view (Pokemon-style battle): mirror the front sprite and cover the face with hair
+from PIL import ImageOps
+HAIR_LV = {(99, 59, 54): 0, (90, 48, 42): 1, (80, 43, 36): 1, (75, 37, 32): 2, (70, 34, 29): 2, (64, 32, 24): 3}
+HAIR_COLS = ['brown', 'black', 'blonde', 'red', 'silver', 'blue', 'pink']
+HAIR_PAL = {'brown': [(99, 59, 54), (90, 48, 42), (75, 37, 32), (64, 32, 24)],
+            'black': [(78, 74, 92), (58, 54, 70), (46, 42, 58), (36, 33, 46)],
+            'blonde': [(246, 216, 132), (222, 180, 96), (186, 140, 70), (150, 104, 52)],
+            'red': [(222, 100, 70), (190, 70, 52), (150, 50, 42), (118, 38, 36)],
+            'silver': [(232, 234, 242), (198, 200, 216), (160, 162, 184), (124, 126, 150)],
+            'blue': [(110, 150, 226), (76, 110, 190), (56, 80, 150), (42, 58, 116)],
+            'pink': [(246, 168, 196), (220, 124, 164), (178, 88, 128), (140, 64, 100)]}
+OUTL = (38, 30, 48, 255)
+fb = ImageOps.mirror(sprites['body0'])
+for i, c in enumerate(HAIR_COLS):
+    h = ImageOps.mirror(sprites[f'hair{i}']).copy()
+    pal = HAIR_PAL[c]
+    comp = fb.copy(); comp.alpha_composite(h)
+    op = lambda x, y: 0 <= x < 64 and 0 <= y < 64 and comp.getpixel((x, y))[3] > 128
+    for y in range(13, 29):
+        for x in range(22, 44):
+            if not op(x, y) or h.getpixel((x, y))[3] > 128:
+                continue
+            edge = any(not op(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+            if edge:
+                h.putpixel((x, y), OUTL); continue
+            lv = 1
+            if (x + (y // 3)) % 4 == 0: lv = 2
+            if y >= 25: lv = 2 if (x % 3) else 3
+            if y <= 15 and x % 3 == 1: lv = 0
+            h.putpixel((x, y), pal[lv] + (255,))
+    sprites[f'bhair{i}'] = h
+for k in range(4):
+    sprites[f'bbody{k}'] = ImageOps.mirror(sprites[f'body{k}'])
+    sprites[f'bfist{k}'] = ImageOps.mirror(sprites[f'fist{k}'])
+for i in range(7):
+    sprites[f'bwpn{i}'] = ImageOps.mirror(sprites[f'wpn{i}'])
+
 data = {}
 for k, im in sprites.items():
     im.save(OUT + k + '.png')
@@ -121,4 +158,9 @@ for i in range(4):
     c = sprites[f'body{i}'].copy(); c.alpha_composite(sprites[f'hair{i}']); c.alpha_composite(sprites['wpn0']); c.alpha_composite(sprites[f'fist{i}'])
     row.alpha_composite(c, ((7 + i) * 68, 0))
 row.resize((row.width * 3, 192), Image.NEAREST).save(A + 'preview_game_sprites.png')
+back = Image.new('RGBA', (68 * 7, 64), (244, 245, 246, 255))
+for i in range(7):
+    c = sprites[f'bbody{i % 4}'].copy(); c.alpha_composite(sprites[f'bhair{i}']); c.alpha_composite(sprites[f'bwpn{i}']); c.alpha_composite(sprites[f'bfist{i % 4}'])
+    back.alpha_composite(c, (i * 68, 0))
+back.resize((back.width * 3, 192), Image.NEAREST).save(A + 'preview_back_sprites.png')
 print(sum(len(v) for v in data.values()), 'bytes of data URIs')
