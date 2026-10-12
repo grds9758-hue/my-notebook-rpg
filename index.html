@@ -1,159 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>내 공책 그정도 아님</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&family=Silkscreen&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
-/* Layout: one game column — hero panel with the pixel character and gear on top, this year's season card, then bag, career log, hall of fame */
+/* Layout: one phone-width column of white cards on grey, with a fixed bottom tab bar (홈 · 모험 · 캐릭터 · 가방 · 기록) */
 :root{
-  --bg:#eceff4; --surface:#ffffff; --surface-2:#f4f6f9; --ink:#17202c; --muted:#677284; --line:#dce2ea;
-  --accent:#2c66d8; --accent-ink:#ffffff; --gold:#c4860f; --red:#cf4545; --good:#22915a;
-  --r0:#86909f; --r1:#22915a; --r2:#2c66d8; --r3:#8a4cd4; --r4:#cc8c0c;
-  --display:'Do Hyeon','Noto Sans KR',sans-serif;
-  --body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
-  --pixel:'Silkscreen',ui-monospace,monospace;
+  --bg:#f2f4f6; --surface:#ffffff; --surface-2:#f4f5f7; --ink:#191f28; --sub:#4e5968; --muted:#8b95a1; --line:#e5e8eb;
+  --accent:#3182f6; --accent-soft:#e8f3ff; --accent-ink:#ffffff; --red:#f04452; --good:#20a464; --gold:#e5a50a;
+  --hp:#f04452; --mp:#3182f6; --exp:#ffb400; --tabicon:#b0b8c1;
+  --r0:#8b95a1; --r1:#20a464; --r2:#3182f6; --r3:#8b5cf6; --r4:#e5a50a;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0e131a; --surface:#161d27; --surface-2:#1d2632; --ink:#e6ecf3; --muted:#8e9aab; --line:#283444;
-  --accent:#6d9bff; --accent-ink:#0e131a; --gold:#f0bd48; --red:#f07575; --good:#5fd394;
-  --r0:#9aa4b3; --r1:#5fd394; --r2:#6d9bff; --r3:#b98cff; --r4:#f0bd48; color-scheme:dark}}
+  --bg:#101318; --surface:#1b1f26; --surface-2:#242a33; --ink:#eef1f4; --sub:#b0b8c1; --muted:#7d8692; --line:#2c333d;
+  --accent:#4d94ff; --accent-soft:#1d2a3d; --accent-ink:#ffffff; --tabicon:#5d6672; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0e131a; --surface:#161d27; --surface-2:#1d2632; --ink:#e6ecf3; --muted:#8e9aab; --line:#283444;
-  --accent:#6d9bff; --accent-ink:#0e131a; --gold:#f0bd48; --red:#f07575; --good:#5fd394;
-  --r0:#9aa4b3; --r1:#5fd394; --r2:#6d9bff; --r3:#b98cff; --r4:#f0bd48; color-scheme:dark}
+  --bg:#101318; --surface:#1b1f26; --surface-2:#242a33; --ink:#eef1f4; --sub:#b0b8c1; --muted:#7d8692; --line:#2c333d;
+  --accent:#4d94ff; --accent-soft:#1d2a3d; --accent-ink:#ffffff; --tabicon:#5d6672; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.6}
-.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;display:grid;gap:14px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
-h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.15;text-wrap:balance}
-h1{font-size:30px} h2{font-size:22px} h3{font-size:18px}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;min-height:100vh;padding:0 16px 104px}
+.app.notabs{padding-bottom:32px}
 p{margin:0}
-.muted{color:var(--muted)} .small{font-size:12.5px}
-.px{font-family:var(--pixel);font-variant-numeric:tabular-nums;letter-spacing:0}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.between{justify-content:space-between}
-.stack{display:grid;gap:12px}
-.label{font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
-button{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;line-height:1.3}
-button:hover{border-color:var(--muted)}
+h1,h2,h3{margin:0;font-weight:700;line-height:1.3}
+button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
-button.primary:hover{filter:brightness(1.05)}
-button.sm{padding:4px 10px;font-size:12.5px;border-radius:8px}
-button.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:12.5px}
-input,select{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%}
-textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px}
-.topbar{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-inline:2px}
-.topbar .brand{font-family:var(--display);font-size:20px}
-/* hero */
-.hero{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:18px;align-items:start}
-.stage{border-radius:12px;overflow:hidden;line-height:0;background:#151823;border:1px solid var(--line)}
-.scene{width:100%;height:auto;aspect-ratio:40/28;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
-.who{display:grid;gap:6px;min-width:0}
-.who .name{font-family:var(--display);font-size:28px;line-height:1.1;overflow-wrap:anywhere}
-.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 9px;font-size:12px;border:1px solid var(--line);background:var(--surface-2)}
-.chip.r2{color:var(--accent);border-color:currentColor}
-.chip.r0{color:var(--muted)}
-.cpbox{display:flex;align-items:flex-end;gap:10px;margin-top:2px}
-.cpbox .num{font-family:var(--pixel);font-size:38px;line-height:1}
-.cpbox .meta{font-size:12px;color:var(--muted);line-height:1.4}
-.meter{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);position:relative;overflow:hidden}
-.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:99px}
-.meter b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink)}
-.slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.slot{display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px;min-width:0}
-.ico{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;background:#23283a;border:2px solid #23283a;line-height:0}
-.ico canvas{max-width:40px;max-height:40px;image-rendering:pixelated;image-rendering:crisp-edges}
-.ico.empty{background:transparent;border:2px dashed var(--line)}
-.rb0{border-color:var(--r0)} .rb1{border-color:var(--r1)} .rb2{border-color:var(--r2)} .rb3{border-color:var(--r3)} .rb4{border-color:var(--r4)}
-.slot .nm{font-weight:700;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
-.slot .bn{font-size:11.5px;color:var(--good)}
+.muted{color:var(--muted)} .sub{color:var(--sub)} .small{font-size:13px} .xs{font-size:12px}
+.num{font-variant-numeric:tabular-nums}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 2px 12px}
+.top h1{font-size:20px}
+.top .s{font-size:12.5px;color:var(--muted);margin-top:2px}
+.top .right{display:flex;gap:6px;align-items:center;flex:none}
+.gold{display:flex;align-items:center;gap:5px;font-weight:700;font-size:14px;background:var(--surface);padding:6px 11px;border-radius:999px}
+.coin{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe28a,#e5a50a);box-shadow:inset 0 0 0 1.5px #c58a00;flex:none}
+.iconbtn{width:36px;height:36px;display:grid;place-items:center;color:var(--sub);background:none;border:0;border-radius:10px}
+.card{background:var(--surface);border-radius:20px;padding:20px;margin-bottom:12px;min-width:0}
+.card h2{font-size:17px;margin:0 0 12px}
+.card h2.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card h2 .aside{font-size:13px;font-weight:500;color:var(--muted)}
+.row{display:flex;align-items:center;gap:14px}
+.wrap{flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+/* pixel doll: layered 64x64 sprites */
+.doll{position:relative;width:64px;height:64px;flex:none}
+.doll img{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.avatar{width:76px;height:76px;border-radius:16px;background:var(--surface-2);display:grid;place-items:center;flex:none;overflow:hidden}
+.who{font-size:13px;color:var(--sub)}
+.big{font-size:21px;font-weight:700;margin:2px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lv{display:inline-block;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px}
+.delta{font-size:12.5px;font-weight:500}
+.up{color:var(--red)} .down{color:var(--accent)}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:99px;transition:width .4s}
+.bar.thin{height:5px;margin-top:6px}
+.barlabel{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--sub);margin:12px 0 5px}
+.barlabel b{color:var(--ink)}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+.stats3 .k{font-size:12px;color:var(--muted)} .stats3 .v{font-size:17px;font-weight:700}
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:14px;padding:11px 0;width:100%;background:none;border:0;text-align:left}
+.item+.item{border-top:1px solid var(--line)}
+.ic{width:40px;height:40px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;flex:none;color:var(--sub);font-size:18px}
+.ic.blue{background:var(--accent-soft);color:var(--accent)}
+.item .t{font-weight:500;font-size:15px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.item .d{font-size:13px;color:var(--muted)}
+.chev{color:var(--tabicon);font-size:18px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:12px;background:var(--surface-2);color:var(--ink);font-weight:500;font-size:14px;padding:10px 14px;line-height:1.3}
+.btn.pri{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.btn.soft{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.link{background:none;padding:0;color:var(--muted);text-decoration:underline;font-size:12.5px}
+.cta{display:block;width:100%;border:0;border-radius:16px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;padding:16px;margin:4px 0 12px}
+.cta.soft{background:var(--accent-soft);color:var(--accent)}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btns>*{flex:1}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:5}
+.tabs .in{display:flex;width:100%;max-width:480px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--tabicon);background:none;border:0;padding:2px 0;position:relative}
+.tab.on{color:var(--ink);font-weight:700}
+.tab .dot{position:absolute;top:2px;left:calc(50% + 10px)}
+.seg{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:12px}
+.seg button{flex:1;border:0;background:none;padding:8px 0;font-size:13.5px;border-radius:9px;color:var(--muted)}
+.seg button.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--surface-2);color:var(--sub)}
+.chip.blue{background:var(--accent-soft);color:var(--accent)}
+.chip.red{color:var(--red)}
+.chip.gold{color:var(--gold)}
 .rar0{color:var(--r0)} .rar1{color:var(--r1)} .rar2{color:var(--r2)} .rar3{color:var(--r3)} .rar4{color:var(--r4)}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 14px}
-.stat{display:flex;align-items:baseline;gap:6px;font-size:13.5px}
-.stat .k{min-width:30px;color:var(--muted)}
-.stat.key .k{color:var(--ink);font-weight:700}
-.stat .v{font-family:var(--pixel);font-size:14px}
-.stat .b{font-size:11.5px;color:var(--good)}
-.tally{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;border-top:1px solid var(--line);padding-top:12px}
-.tally div{display:grid;justify-items:center;gap:0}
-.tally .px{font-size:18px}
-.tally .star{color:var(--gold)}
-.secret{font-family:var(--pixel);color:var(--muted)}
-/* season */
-.steps{display:flex;gap:4px}
+.rb0{border-color:var(--r0)!important} .rb1{border-color:var(--r1)!important} .rb2{border-color:var(--r2)!important} .rb3{border-color:var(--r3)!important} .rb4{border-color:var(--r4)!important}
+.label{font-size:13px;color:var(--sub);font-weight:500;margin:4px 0 8px}
+/* season flow */
+.steps{display:flex;gap:4px;flex-wrap:wrap}
 .steps span{font-size:12px;padding:3px 9px;border-radius:99px;color:var(--muted);background:var(--surface-2)}
-.steps span.on{background:var(--accent);color:var(--accent-ink)}
+.steps span.on{background:var(--accent);color:var(--accent-ink);font-weight:700}
 .steps span.done{color:var(--ink)}
-.block{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
-.die{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);font-family:var(--pixel);font-size:12px;margin-right:3px;vertical-align:-4px}
-.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
-.opt{display:grid;gap:2px;text-align:left;padding:10px 12px}
+.block{display:grid;gap:8px;padding-top:14px;margin-top:14px;border-top:1px solid var(--line)}
+.block h3{font-size:16px}
+.die{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--surface-2);font-weight:700;font-size:12px;margin-right:3px;vertical-align:-4px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.opt{display:grid;gap:2px;text-align:left;padding:11px 12px;background:var(--surface-2);border:2px solid transparent;border-radius:12px}
 .opt b{font-size:14.5px}
 .opt small{color:var(--muted);font-size:12px}
-.opt[aria-pressed="true"]{border:2px solid var(--accent);padding:9px 11px;background:var(--surface)}
-.trainbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.trainbtns button{display:grid;justify-items:center;gap:0;padding:8px 4px}
-.trainbtns button.key{border-color:var(--accent)}
-.trainbtns small{font-family:var(--pixel);font-size:11px;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.trainbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.trainbtns button{display:grid;justify-items:center;gap:0;padding:9px 4px;background:var(--surface-2);border:2px solid transparent;border-radius:12px}
+.trainbtns button.key{border-color:var(--accent-soft)}
+.trainbtns small{font-size:11.5px;color:var(--muted)}
 .logline{font-size:13.5px}
-.battle{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.battle{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
 .battle:last-child{border-bottom:0}
 .battle .m{font-size:12px;color:var(--muted)}
-.battle .q{font-weight:500;min-width:0}
-.battle .sub{grid-column:2/4;font-size:12px;color:var(--muted)}
+.battle .q{font-weight:500;min-width:0;font-size:14px}
+.battle .s2{grid-column:2/4;font-size:12px;color:var(--muted)}
 .badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--surface-2);white-space:nowrap}
 .badge.g1{color:var(--good)} .badge.g2{color:var(--accent)} .badge.g3{color:var(--gold)} .badge.bad{color:var(--red)}
-.loot{font-size:12.5px;font-weight:700}
-.reslist{display:grid;gap:6px}
-.res{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;font-size:13.5px}
+.res{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;font-size:13.5px;padding:3px 0}
 .res .k{color:var(--muted);font-size:12.5px}
+.stamp{display:inline-block;color:var(--gold);font-weight:700;border:2px solid var(--gold);border-radius:8px;padding:0 8px}
 .fade{animation:fade .35s ease-out both}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.fade{animation:none}}
-.stampwin{display:inline-block;color:var(--gold);font-family:var(--display);font-size:20px;border:2px solid var(--gold);border-radius:8px;padding:0 10px}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.bar>i{transition:none}}
+/* character */
+.stage{background:linear-gradient(180deg,var(--accent-soft),var(--surface-2));border-radius:18px;height:200px;display:grid;place-items:center;margin-bottom:12px}
+.stage .doll{width:160px;height:160px}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{background:var(--surface-2);border:0;border-radius:14px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.sq{width:44px;height:44px;border-radius:12px;background:var(--surface);display:grid;place-items:center;border:2px solid transparent;overflow:hidden;flex:none}
+.sq img{width:34px;height:34px;image-rendering:pixelated;image-rendering:crisp-edges}
+.sq svg{width:24px;height:24px}
+.slot .nm{font-size:12px;font-weight:500;line-height:1.3;word-break:keep-all;overflow-wrap:anywhere}
+.slot .nm small{display:block;font-size:10.5px;color:var(--muted);font-weight:400}
+.slot.empty .sq{border:1.5px dashed var(--line);background:transparent}
+.slot.empty .nm{color:var(--muted)}
+.rings{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.rings .slot{padding:8px 2px 6px}
+.rings .sq{width:36px;height:36px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.st{display:flex;justify-content:space-between;align-items:center;font-size:14px;gap:6px}
+.st .k{color:var(--sub)} .st.key .k{color:var(--ink);font-weight:700}
+.st b{font-weight:700}
+.st .b{font-size:11.5px;color:var(--good);font-weight:500}
+.plus{width:26px;height:26px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;border:0;padding:0}
+.setbox{border:1.5px dashed var(--line);border-radius:14px;padding:12px;font-size:13px;color:var(--sub)}
 /* bag */
-.bag{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
-.item{display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;min-width:0}
-.item .body{display:grid;gap:4px;min-width:0}
-.item .nm{font-weight:700;font-size:13.5px;overflow-wrap:anywhere}
-.item .new{font-family:var(--pixel);font-size:10px;color:var(--red);margin-left:4px}
-.diff.up{color:var(--good)} .diff.down{color:var(--red)}
+.inv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.cell{aspect-ratio:1;border-radius:12px;background:var(--surface-2);position:relative;display:grid;place-items:center;border:2px solid transparent;padding:0}
+.cell img{width:34px;height:34px;image-rendering:pixelated;image-rendering:crisp-edges}
+.cell svg{width:26px;height:26px}
+.cell .n{position:absolute;right:5px;bottom:2px;font-size:11px;font-weight:700;color:var(--sub)}
+.cell .new{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+.cell.sel{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.cell.blank{background:transparent;border:1.5px dashed var(--line)}
+.eff{font-size:13px;color:var(--sub);line-height:1.6}
+.eff b{color:var(--ink)}
+.cmp.up{color:var(--good)} .cmp.down{color:var(--red)}
+/* create */
+.cstage{height:220px}
+.cstage .doll{width:160px;height:160px}
+.colors{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:40px;height:40px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2.5px var(--accent)}
+.field{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface-2);border-radius:12px;padding:6px 6px 6px 14px;margin-bottom:10px}
+.field input,.field select{font:inherit;color:var(--ink);background:none;border:0;text-align:right;padding:7px 8px;min-width:0;flex:1}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(--ink);background:var(--surface-2);border:0;border-radius:12px;padding:10px}
 .tablewrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
 th,td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap}
 th{font-weight:500;color:var(--muted);font-size:12px}
-details summary{cursor:pointer;color:var(--muted);font-size:13.5px}
-.swatches{display:flex;gap:8px}
-.sw{width:30px;height:30px;border-radius:8px;padding:0;border:2px solid var(--line)}
-.sw[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--surface) inset}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:640px){
-  .hero{grid-template-columns:1fr;gap:12px}
-  .slots{grid-template-columns:1fr 1fr}
-  .slot{grid-template-columns:40px minmax(0,1fr);gap:8px;padding:6px}
-  .slot .ico{width:40px;height:40px}
-  .slot .ico canvas{max-width:34px;max-height:34px}
-  .who .name{font-size:24px}
-  .cpbox .num{font-size:32px}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .tally .px{font-size:16px}
-  .grid2{grid-template-columns:1fr}
-}
+.rank{font-weight:700;width:22px;text-align:center;color:var(--muted);flex:none}
+.rank.g{color:var(--gold)}
+.badge2{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:none;background:var(--surface-2)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:12px;font-size:13.5px;z-index:9;max-width:calc(100% - 32px);text-align:center;animation:fade .25s ease-out both}
 </style>
-
-<main class="wrap" id="app"></main>
+</head>
+<body>
+<main class="app" id="app"></main>
 
 <script>
 (() => {
-const SAVE_KEY = 'hero-notebook-save-v2', HALL_KEY = 'hero-notebook-hall-v1';
+const SAVE_KEY = 'hero-notebook-save-v2', HALL_KEY = 'hero-notebook-hall-v1', VER = 3;
 const STATS = [['str','힘'],['agi','민첩'],['int','지능'],['vit','체력'],['spi','정신'],['luk','행운']];
 const SN = Object.fromEntries(STATS);
-const CLASSES = {
-  warrior:{name:'전사',key:['str','vit','agi'],desc:'맨 앞에서 버티고 베어낸다',styles:['균형형','강타형','철벽형'],titles:['불굴의 방패','붉은 도끼','전장의 사자']},
-  archer:{name:'궁수',key:['agi','luk','str'],desc:'멀리서 급소를 꿰뚫는다',styles:['균형형','속사형','저격형'],titles:['매의 눈','바람 사수','백발백중']},
-  mage:{name:'마법사',key:['int','spi','luk'],desc:'주문 하나로 판을 뒤집는다',styles:['균형형','파괴형','현자형'],titles:['폭풍의 현자','별을 읽는 자','화염 군주']},
-  cleric:{name:'성직자',key:['spi','vit','int'],desc:'동료를 살리고 어둠을 정화한다',styles:['균형형','신성형','수호형'],titles:['새벽의 손','정화의 등불','은빛 기도']},
+/* 노전직 견습생. 옛 저장의 직업은 핵심 능력·칭호를 그대로 쓰도록 남겨 둔다. */
+const NOVICE = {name:'노비스',key:['str','vit','agi'],styles:['균형형','강타형','철벽형'],titles:['들판의 몽둥이','불굴의 견습생','떠오르는 별']};
+const LEGACY = {
+  warrior:{name:'전사',key:['str','vit','agi'],titles:['불굴의 방패','붉은 도끼','전장의 사자']},
+  archer:{name:'궁수',key:['agi','luk','str'],titles:['매의 눈','바람 사수','백발백중']},
+  mage:{name:'마법사',key:['int','spi','luk'],titles:['폭풍의 현자','별을 읽는 자','화염 군주']},
+  cleric:{name:'성직자',key:['spi','vit','int'],titles:['새벽의 손','정화의 등불','은빛 기도']},
 };
+const clsOf = c => LEGACY[c] || NOVICE;
 const ORIGINS = ['북부 설원','동부 항구','남부 사막','서부 숲','중앙 왕도'];
 const FACTIONS = [
   {name:'마을 자경단',lv:50,bonus:0},{name:'왕립 수련원',lv:52,bonus:0},{name:'변방 용병단',lv:58,bonus:0},
@@ -181,36 +225,86 @@ const TRAITS = {
 };
 const TRAIT_KEYS = ['early','late','iron','glass','bold','genius'];
 const NAMES = ['아린','도윤','세라','카일','하람','리오','유나','테오'];
-const HAIRS = [['#2b2420','흑발'],['#7a4a24','갈색'],['#e0b95a','금발'],['#c94a3a','적발'],['#e6e6ee','은발']];
+const HAIRS = [['#5a302a','갈색'],['#3a3646','흑발'],['#deb460','금발'],['#be4634','적발'],['#c6c8d8','은발'],['#4c6ebe','청발'],['#dc7ca4','분홍']];
+const SKINS = [['#f6c39f','밝은 피부'],['#e7a77f','살구빛'],['#be7e58','구릿빛'],['#805238','어두운 피부']];
+const HAIR_STYLES = ['기본 머리'];
+
+/* ---------- level ---------- */
+const MAX_LV = 30;
+const growth = lv => 30 * Math.pow(12, (Math.min(lv, MAX_LV) - 1) / 29);
+const needExp = lv => Math.round(70 + 3.5 * growth(lv));
 
 /* ---------- equipment ---------- */
-const SLOTS = [['weapon','무기'],['helm','머리'],['armor','갑옷'],['shield','방패']];
-const SLOTN = Object.fromEntries(SLOTS);
+const SLOT_ORDER = ['weapon','helm','top','bottom','suit','shoes','cape','earring'];
+const RING_SLOTS = ['ring0','ring1','ring2','ring3','ring4'];
+const SLOTN = {weapon:'무기',helm:'투구',top:'상의',bottom:'하의',suit:'한벌옷',shoes:'신발',cape:'망토',earring:'귀걸이',ring:'반지'};
 const RARITY = ['일반','고급','희귀','영웅','전설'];
-const SLOT_KEY = {weapon:0, armor:1, helm:2, shield:2};
-const SLOT_VAL = {weapon:[2,4,7,10,14], armor:[2,4,7,10,14], helm:[1,3,5,7,10], shield:[1,2,3,5,7]};
+const BANDS = [1,5,10,15,20,25,30];
+const SET_NAMES = ['견습생','사냥꾼','용병','철기사','강철','미스릴','용비늘'];
 const ITEM_NAMES = {
-  weapon:{warrior:['나무 검','청동 검','철검','미스릴 검','황금 성검'],archer:['나무 활','철궁','흑철 장궁','미스릴 활','황금 활'],
-          mage:['나무 지팡이','비틀린 지팡이','장식 지팡이','은 지팡이','별빛 지팡이'],cleric:['나무 곤봉','철 메이스','강철 모닝스타','미스릴 메이스','황금 메이스']},
-  armor:{warrior:['천 옷','가죽 갑옷','강철 테 갑옷','은빛 판금','황금 판금'],archer:['숲빛 옷','가죽 띠 조끼','사냥꾼 가죽 갑옷','숲빛 경갑','황금 경갑'],
-         mage:['수수한 로브','보랏빛 로브','허리띠 로브','청록 로브','마력 갑주'],cleric:['수련복','흰 조끼','은빛 사슬옷','은빛 판금','황금 판금']},
-  helm:{warrior:['머리띠','천 모자','깃털 철투구','청록 깃 투구','황금 뿔투구'],archer:['머리띠','숲빛 모자','숲빛 두건','은빛 두건','황금 깃 투구'],
-        mage:['머리띠','풀빛 고깔모자','주황 고깔모자','청록 고깔모자','대마법사 모자'],cleric:['머리띠','순례자 모자','깃털 철투구','보랏빛 깃 투구','황금 투구']},
-  shield:{warrior:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패'],archer:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패'],
-          mage:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패'],cleric:['나무 버클러','나무 방패','철 방패','미스릴 방패','황금 방패']},
+  weapon:['나무 방망이','단단한 방망이','못 박힌 방망이','쇠테 방망이','강철 몽둥이','미스릴 몽둥이','용뼈 몽둥이'],
+  helm:['천 두건','가죽 모자','징 박힌 가죽 투구','철 투구','강철 투구','미스릴 투구','용비늘 투구'],
+  top:['낡은 셔츠','가죽 조끼','누빈 갑옷','사슬 셔츠','강철 흉갑','미스릴 흉갑','용비늘 흉갑'],
+  bottom:['천 바지','가죽 바지','누빈 바지','사슬 각반','강철 각반','미스릴 각반','용비늘 각반'],
+  suit:['수련생 도복','사냥꾼 가죽옷','용병 전투복','견습 기사 갑주','강철 판금 갑옷','미스릴 판금 갑옷','용기사 갑주'],
+  shoes:['짚신','가죽 신발','징 박힌 장화','철 장화','강철 장화','미스릴 장화','용비늘 장화'],
+  cape:['해진 망토','여행자 망토','늑대 가죽 망토','용병 망토','기사단 망토','별빛 망토','용날개 망토'],
+  earring:['구리 귀걸이','은 귀걸이','월장석 귀걸이','루비 귀걸이','사파이어 귀걸이','미스릴 귀걸이','용의 눈 귀걸이'],
+  ring:['구리','은','금','백금','미스릴','오리하르콘','용의'],
 };
+const ATK = [6,12,20,30,42,56,72], DEF = [3,6,10,15,21,28,36];
+/* 칸별 방어 비중과 능력치 보너스 [능력치, 비중] */
+const SLOT_SPEC = {
+  weapon:{def:0, bon:[['str',1]]},
+  helm:{def:.6, bon:[['vit',.5]]},
+  top:{def:1, bon:[['vit',.8]]},
+  bottom:{def:.8, bon:[['agi',.6]]},
+  suit:{def:1.8, bon:[['vit',.8],['agi',.6]]},
+  shoes:{def:.5, bon:[['agi',.5]]},
+  cape:{def:.4, bon:[['luk',.4],['spi',.3]]},
+  earring:{def:0, bon:[['int',.4],['spi',.4]]},
+  ring:{def:0, bon:[]},
+};
+const ARMOR_SET_SLOTS = ['helm','top','bottom','suit','shoes','cape'];
+const LOOT_SLOTS = ['weapon','helm','top','bottom','suit','shoes','cape','earring','ring','ring'];
+const BAG_MAX = 40;
+
+/* ---------- hunting ---------- */
+const GROUNDS = [
+  {name:'초보자의 들판',min:1,max:5,mons:['슬라임','들쥐'],pow:85,exp:30,gold:[6,14],mat:'끈적한 젤리',ico:'🌱'},
+  {name:'늑대 숲',min:5,max:10,mons:['회색 늑대','덩굴 정령'],pow:125,exp:46,gold:[12,24],mat:'늑대 가죽',ico:'🌲'},
+  {name:'버려진 광산',min:10,max:15,mons:['코볼트','박쥐 떼'],pow:165,exp:70,gold:[20,38],mat:'철광석',ico:'⛏️'},
+  {name:'고블린 요새',min:15,max:20,mons:['고블린 전사','고블린 주술사'],pow:215,exp:106,gold:[32,56],mat:'고블린 부적',ico:'🏰'},
+  {name:'트롤 늪지',min:20,max:25,mons:['늪 트롤','독두꺼비'],pow:265,exp:160,gold:[48,80],mat:'트롤의 피',ico:'🪵'},
+  {name:'와이번 협곡',min:25,max:30,mons:['와이번','바위 거인'],pow:325,exp:240,gold:[70,110],mat:'와이번 비늘',ico:'🏔️'},
+  {name:'고룡의 둥지',min:30,max:30,mons:['고룡의 새끼','용인 수호자'],pow:385,exp:360,gold:[100,150],mat:'용의 비늘',ico:'🐉'},
+];
+const MAIN_QUESTS = [
+  {lv:3,t:'들판의 첫 사냥꾼',d:'Lv.3 달성',rar:1},
+  {lv:5,t:'늑대 숲의 소문',d:'Lv.5 달성 · 늑대 숲 개방',rar:1},
+  {lv:10,t:'광산에 울리는 소리',d:'Lv.10 달성 · 버려진 광산 개방',rar:2},
+  {lv:15,t:'고블린 요새 정찰',d:'Lv.15 달성 · 고블린 요새 개방',rar:2},
+  {lv:20,t:'늪지의 거인',d:'Lv.20 달성 · 트롤 늪지 개방',rar:3},
+  {lv:25,t:'협곡의 날개',d:'Lv.25 달성 · 와이번 협곡 개방',rar:3},
+  {lv:30,t:'고룡의 둥지로',d:'Lv.30 달성 · 고룡의 둥지 개방',rar:4},
+];
+const POTIONS = {hp:{name:'체력 물약',price:30,color:'#f04452',desc:'HP 60% 회복'},mp:{name:'마나 물약',price:30,color:'#3182f6',desc:'MP 60% 회복'}};
 
 const d6 = () => 1 + Math.floor(Math.random()*6);
 const roll2 = () => { const a=d6(), b=d6(); return {a,b,t:a+b}; };
 const pick = a => a[Math.floor(Math.random()*a.length)];
+const rnd = (lo,hi) => lo + Math.floor(Math.random()*(hi-lo+1));
 const clamp = (v,lo,hi) => Math.max(lo, Math.min(hi, v));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const die = (...xs) => xs.map(x => `<span class="die">${x}</span>`).join('');
 const sgn = n => n>0 ? `+${n}` : n<0 ? `−${-n}` : '±0';
+const fmt = n => Number(n).toLocaleString('ko-KR');
 const uid = () => Math.random().toString(36).slice(2,9);
 
 let S = null;
-let draft = {name:pick(NAMES), origin:ORIGINS[4], cls:'warrior', cand:0, hair:1, hairStyle:0, skin:0};
+const newDraft = () => ({name:pick(NAMES), origin:ORIGINS[4], cand:0, hair:0, hairStyle:0, skin:0});
+let draft = newDraft();
+const UI = {tab:'home', adv:'year', bag:'equip', rec:'ach', sel:null, ringPick:false};
 const app = document.getElementById('app');
 
 const store = {
@@ -220,24 +314,60 @@ const store = {
 };
 const save = () => { if (S) store.set(SAVE_KEY, S); };
 const hall = () => store.get(HALL_KEY) || [];
+let toastTimer = null;
+function toast(msg){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role','status'); t.textContent = msg;
+  document.body.appendChild(t); clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.remove(), 2200);
+}
+
+/* ---------- items ---------- */
+const bandFor = lv => clamp(Math.floor(lv/5), 0, 6);
+function makeItem(slot, band, rar){
+  const it = {id:uid(), slot, band:clamp(band,0,6), rar:clamp(rar,0,4), isNew:true};
+  if (slot==='ring') it.st = pick(STATS)[0];
+  return it;
+}
+const randomSlot = () => pick(LOOT_SLOTS);
+function itemInfo(it){
+  const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = 1 + .15*r;
+  const v = w => Math.max(1, Math.round((b+1)*w + r*.6));
+  const bon = {};
+  if (it.slot==='ring') bon[it.st] = v(.5);
+  else sp.bon.forEach(([k,w]) => bon[k] = v(w));
+  return {
+    name: it.slot==='ring' ? `${ITEM_NAMES.ring[b]} ${SN[it.st]}의 반지` : ITEM_NAMES[it.slot][b],
+    reqLv: BANDS[b], atk: it.slot==='weapon' ? Math.round(ATK[b]*mult) : 0,
+    def: sp.def ? Math.round(DEF[b]*sp.def*mult) : 0, bon,
+    set: ARMOR_SET_SLOTS.includes(it.slot) ? b : null,
+    price: (b+1)*(r+1)*15,
+  };
+}
+function effText(info){
+  const p = [];
+  if (info.atk) p.push(`공격력 <b>+${info.atk}</b>`);
+  if (info.def) p.push(`방어력 <b>+${info.def}</b>`);
+  for (const k in info.bon) p.push(`${SN[k]} <b>+${info.bon[k]}</b>`);
+  return p.join(' · ');
+}
+const equipped = () => [...SLOT_ORDER, ...RING_SLOTS].map(s=>S.equip[s]).filter(Boolean);
 
 /* ---------- core ---------- */
-const cls = () => CLASSES[S.cls];
-const itemName = (it, c) => ITEM_NAMES[it.slot][c][it.tier];
-const itemStat = (it, c) => CLASSES[c].key[SLOT_KEY[it.slot]];
-const itemVal = it => SLOT_VAL[it.slot][it.tier];
-const makeItem = (slot, tier) => ({id:uid(), slot, tier, isNew:true});
-function bonus(stat){
-  let b = 0;
-  for (const [s] of SLOTS){ const it = S.equip[s]; if (it && itemStat(it, S.cls)===stat) b += itemVal(it); }
-  return b;
-}
+const cls = () => clsOf(S.cls);
+function bonus(stat){ let b = 0; for (const it of equipped()) b += itemInfo(it).bon[stat] || 0; return b; }
 const eff = k => S.stats[k] + bonus(k);
 const cp = () => Math.round(cls().key.reduce((s,k)=>s+eff(k),0)/3);
 const baseCP = () => Math.round(cls().key.reduce((s,k)=>s+S.stats[k],0)/3);
+const gearAtk = () => equipped().reduce((s,it)=>s+itemInfo(it).atk,0);
+const gearDef = () => equipped().reduce((s,it)=>s+itemInfo(it).def,0);
+const atk = () => 5 + eff('str') + gearAtk() + S.lv*2;
+const def = () => Math.round(eff('vit')/2) + gearDef() + S.lv;
+const crit = () => 3 + Math.floor(eff('luk')/6);
+const hpMax = () => 80 + S.lv*12 + eff('vit')*2;
+const mpMax = () => 30 + S.lv*4 + eff('int') + eff('spi');
 const roleFor = () => { const lv = FACTIONS[S.fac].lv, c = cp(); return c>=lv ? 2 : c>=lv-4 ? 1 : 0; };
-function candidates(c){
-  const C = CLASSES[c], others = STATS.map(s=>s[0]).filter(k=>!C.key.includes(k));
+function candidates(){
+  const C = NOVICE, others = STATS.map(s=>s[0]).filter(k=>!C.key.includes(k));
   const keyVals = [[45,45,45],[52,45,38],[38,45,52]], otherVals = [[40,35,30],[35,40,30],[30,40,35]];
   return keyVals.map((kv,i) => { const st = {}; C.key.forEach((k,j)=>st[k]=kv[j]); others.forEach((k,j)=>st[k]=otherVals[i][j]); return {style:C.styles[i], stats:st}; });
 }
@@ -254,6 +384,17 @@ function addStat(k, amt){
 }
 const decStat = (k,amt) => { S.stats[k] = Math.max(1, S.stats[k]-amt); };
 const lowestKey = () => cls().key.slice().sort((a,b)=>S.stats[a]-S.stats[b])[0];
+function clampVitals(){ S.hp = clamp(S.hp ?? hpMax(), 0, hpMax()); S.mp = clamp(S.mp ?? mpMax(), 0, mpMax()); }
+function gainExp(n){
+  n = Math.max(0, Math.round(n));
+  if (S.lv >= MAX_LV){ S.exp = 0; return 0; }
+  S.exp += n; let ups = 0;
+  while (S.lv < MAX_LV && S.exp >= needExp(S.lv)){ S.exp -= needExp(S.lv); S.lv++; S.points++; ups++; }
+  if (S.lv >= MAX_LV) S.exp = 0;
+  if (ups){ S.hp = hpMax(); S.mp = mpMax(); if (S.y) S.y.lvUps = (S.y.lvUps||0) + ups; }
+  return ups;
+}
+const expTag = (n, ups) => ` · <b style="color:var(--gold)">EXP +${n}</b>${ups?` · <b style="color:var(--accent)">레벨 업! Lv.${S.lv}</b>`:''}`;
 function trainGain(d){
   const a = S.age; let g = a<=21 ? d : a<=27 ? Math.ceil(d/2) : a<=30 ? (d>=4?1:0) : 0;
   if (a<=30){
@@ -282,28 +423,66 @@ function lootTier(boost){
   return clamp(t, 0, cap);
 }
 function gainItem(it){
-  if (S.bag.length >= 16) return false;
-  S.bag.push(it); return true;
+  if (S.bag.length >= BAG_MAX) return false;
+  S.bag.push(it); S.tot.items = (S.tot.items||0) + 1;
+  if (it.rar===4) S.tot.legend = (S.tot.legend||0) + 1;
+  return true;
 }
-function itemLabel(it){ return `<span class="rar${it.tier}">${RARITY[it.tier]} ${itemName(it,S.cls)}</span>`; }
+const itemLabel = it => `<span class="rar${it.rar}">${RARITY[it.rar]} ${itemInfo(it).name}</span>`;
+
+/* ---------- quests ---------- */
+function genQuests(){
+  const gi = bestGround(), G = GROUNDS[gi], rew = () => ({exp:Math.round(needExp(S.lv)*.25), gold:20+S.lv*5});
+  const third = S.y.role>=1 ? {type:'battle',n:1,t:'원정에서 「활약」 이상 1회'} : {type:'great',n:1,t:'사냥에서 「대성공」 이상 1회'};
+  return [
+    {type:'kill',g:gi,n:10+gi*2,t:`${G.name}에서 몬스터 처치`,p:0,...rew()},
+    {type:'train',n:3,t:'수련 3회 마치기',p:0,...rew()},
+    {...third,p:0,...rew()},
+  ];
+}
+function questProgress(type, amount, g){
+  if (!S.y || !S.y.quests) return;
+  for (const q of S.y.quests) if (!q.done && q.type===type && (q.g==null || q.g===g)){ q.p = Math.min(q.n, q.p + amount); }
+}
+const questReady = q => !q.claimed && q.p >= q.n;
+function claimQuest(i){
+  const q = S.y.quests[i]; if (!q || !questReady(q)) return;
+  q.claimed = true; S.gold += q.gold; const ups = gainExp(q.exp); S.tot.quests = (S.tot.quests||0)+1;
+  toast(`의뢰 완료 · EXP +${q.exp}, 골드 +${q.gold}${ups?` · Lv.${S.lv}!`:''}`); save(); render();
+}
+const mainReady = () => S.mainDone < MAIN_QUESTS.length && S.lv >= MAIN_QUESTS[S.mainDone].lv;
+function claimMain(){
+  if (!mainReady()) return;
+  const M = MAIN_QUESTS[S.mainDone], it = makeItem(randomSlot(), bandFor(M.lv), M.rar);
+  const ok = gainItem(it); S.gold += 50*M.lv; S.mainDone++; S.tot.quests = (S.tot.quests||0)+1;
+  toast(`메인 퀘스트 완료 · 골드 +${50*M.lv}${ok?` · ${RARITY[it.rar]} ${itemInfo(it).name}`:' · 가방이 가득 차 장비를 놓쳤다'}`); save(); render();
+}
 
 /* ---------- year flow ---------- */
 function newGame(){
-  const c = candidates(draft.cls)[draft.cand];
+  const c = candidates()[draft.cand];
   const p = roll2(), t = d6(), trait = TRAIT_KEYS[t-1];
   S = {
-    name: draft.name.trim() || '이름 없는 견습생', origin: draft.origin, cls: draft.cls, style: c.style, hair: draft.hair, hairStyle: draft.hairStyle||0, skin: draft.skin||0,
+    ver:VER, name: draft.name.trim() || '이름 없는 견습생', origin: draft.origin, cls:'novice', style: c.style,
+    hair: draft.hair, hairStyle: draft.hairStyle||0, skin: draft.skin||0,
     stats: {...c.stats}, pot: Math.min(99, POT[p.t] + (trait==='genius'?5:0)), trait, traitShown:false,
     age:15, fac:0, peak:45, benchStreak:0, nextTrain:0,
-    equip:{weapon:{id:uid(),slot:'weapon',tier:0}, helm:null, armor:{id:uid(),slot:'armor',tier:0}, shield:null}, bag:[],
-    tot:{stars:0,titles:0,merit:0,wins:0,caps:0,missions:0,tourWins:0}, hist:[], awards:[], retired:false,
+    lv:1, exp:0, points:0, hp:null, mp:null, gold:50, inv:{hp:2, mp:1}, mats:{}, mainDone:0,
+    equip:{weapon:makeItem('weapon',0,0), top:makeItem('top',0,0), bottom:makeItem('bottom',0,0)}, bag:[],
+    tot:{stars:0,titles:0,merit:0,wins:0,caps:0,missions:0,tourWins:0,kills:0,quests:0,items:0,legend:0}, hist:[], awards:[], retired:false,
   };
+  Object.values(S.equip).forEach(it=>it.isNew=false);
   S.peak = cp();
   startYear(true);
 }
 function startYear(first){
-  if (!first) S.age++;
   const notes = [];
+  if (!first){
+    S.age++;
+    const left = (S.y && S.y.quests || []).filter(questReady);
+    left.forEach(q => { q.claimed = true; S.gold += q.gold; gainExp(q.exp); });
+    if (left.length) notes.push(`지난해 끝낸 의뢰 ${left.length}개의 보상을 받았다.`);
+  }
   const ageStart = S.trait==='early' ? 29 : 30;
   if (S.age >= ageStart){
     const k = cls().key, rel = S.age - (ageStart - 30);
@@ -312,8 +491,10 @@ function startYear(first){
     else { decStat('agi',3); decStat('vit',2); STATS.forEach(([x])=>decStat(x,2)); notes.push('노장의 해. 모든 능력이 깎여 나간다.'); }
   }
   if (S.age >= 21 && revealTrait()) notes.push(`스물한 살, 자신의 기질을 깨달았다: <b>${TRAITS[S.trait].name}</b>.`);
-  S.y = { age:S.age, fac:S.fac, role:roleFor(), cpStart:cp(), notes, mod:0, firstBonus:0, missed:0,
-    trainLeft:3 + Math.min(1,S.nextTrain), train:[], ones:0, event:roll2(), eventDone:null, battles:null, review:null, offerDecided:false };
+  S.y = { age:S.age, fac:S.fac, role:roleFor(), cpStart:cp(), lvStart:S.lv, notes, mod:0, firstBonus:0, missed:0,
+    trainLeft:3 + Math.min(1,S.nextTrain), train:[], ones:0, huntLeft:3, hunts:[], event:roll2(), eventDone:null, battles:null, review:null, offerDecided:false };
+  S.y.quests = genQuests();
+  S.hp = hpMax(); S.mp = mpMax();
   S.nextTrain = 0;
   S.phase = 'event';
   save();
@@ -326,17 +507,17 @@ function eventFor(t){
         const r=d6(), y=S.y;
         if (r<=3){ y.role=Math.max(0,y.role-1); return `${die(r)} 새 단장은 너를 눈여겨보지 않는다. 올해는 <b>${ROLES[y.role]}</b>.`; }
         y.role=Math.min(2,y.role+1); return `${die(r)} 새 단장이 너를 콕 집었다. 올해는 <b>${ROLES[y.role]}</b>.`; }}]},
-    4:{t:'슬럼프',x:'검이 무겁고 주문이 꼬인다. 이유 없이 손이 떨린다.',c:[
+    4:{t:'슬럼프',x:'몽둥이가 무겁고 발이 꼬인다. 이유 없이 손이 떨린다.',c:[
         {l:'그냥 버틴다',d:'올해 원정 판정 −1',f:()=>{S.y.mod-=1;return '버티기로 했다. 원정 판정 −1.';}},
         {l:'수련 하나를 내려놓는다',d:'훈련 1회 포기, 슬럼프 해소',f:()=>{S.y.trainLeft-=1;return '한 번 쉬어 가며 마음을 다잡았다. 훈련 1회 감소.';}}]},
-    5:{t:'라이벌 등장',x:`같은 ${cls().name} 자리를 노리는 실력자가 들어왔다.`,c:[
+    5:{t:'라이벌 등장',x:'같은 자리를 노리는 실력자가 들어왔다.',c:[
         {l:'정면으로 경쟁한다',d:'원정 판정 −1, 훈련마다 +1',f:()=>{S.y.mod-=1;S.y.rivalA=true;return '서로를 갈아 넣는 한 해가 시작됐다.';}},
         {l:'다른 곳을 알아본다',d:'연말 영입 제안 판정 +2',f:()=>{S.y.rivalB=true;return '조용히 다른 단체에 이름을 흘려 두었다.';}}]},
     6:{t:'음유시인의 노래',x:'주점의 음유시인이 너에 대해 묻는다.',c:[
         {l:'겸손하게 답한다',d:'변화 없음',f:()=>'"아직 배우는 중입니다." 노래는 무난하게 퍼졌다.'},
         {l:'큰소리를 친다',d:'원정 판정 ±1 도박',f:()=>{const r=d6(); if(r<=3){S.y.mod-=1;return `${die(r)} 허세가 조롱거리가 됐다. 원정 판정 −1.`;} S.y.mod+=1; return `${die(r)} 노래가 전설처럼 퍼졌다. 원정 판정 +1.`;}}]},
     7:{t:'떠돌이 상인',x:'짐수레를 끄는 상인이 낡은 장비 하나를 싸게 넘기겠다고 한다.',c:[
-        {l:'산다',d:'장비 1개 획득',f:()=>{const it=makeItem(pick(SLOTS)[0], lootTier()); return gainItem(it) ? `${itemLabel(it)}을(를) 손에 넣었다.` : '가방이 가득 차 있어 포기했다.';}},
+        {l:'산다',d:'장비 1개 획득',f:()=>{const it=makeItem(randomSlot(), bandFor(S.lv), lootTier()); return gainItem(it) ? `${itemLabel(it)}을(를) 손에 넣었다.` : '가방이 가득 차 있어 포기했다.';}},
         {l:'수련에 집중한다',d:'훈련 1회 추가',f:()=>{S.y.trainLeft+=1;return '훈련 1회 추가.';}}]},
     8:{t:'노기사의 가르침',x:'은퇴한 노기사가 한 가지를 가르쳐 주겠다고 한다.',c:STATS.map(([s,n])=>({l:n,d:k.includes(s)?'핵심 능력':'',f:()=>{const g=addStat(s,2);return `${n} +${g}.`;}}))},
     9:{t:'마을의 환호',x:'고향 사람들이 첫 원정 길에 꽃을 던져 준다.',c:[{l:'손을 흔든다',f:()=>{S.y.firstBonus=2;return '첫 원정 판정 +2.';}}]},
@@ -349,7 +530,7 @@ function eventFor(t){
   return E[t];
 }
 function doTrain(stat){
-  const y = S.y; if (y.trainLeft<=0) return;
+  const y = S.y; if (S.phase!=='train' || y.trainLeft<=0) return;
   const d = d6(), g0 = trainGain(d), g = addStat(stat, g0);
   y.trainLeft--;
   let note = '';
@@ -360,7 +541,40 @@ function doTrain(stat){
     const hit = (S.trait==='glass' || y.risky) ? true : y.ones>=2;
     if (hit && !y.trainHurt){ y.trainHurt = true; note += ' · ' + injure(); }
   }
-  y.train.push({stat, d, g, note});
+  const ups = gainExp(15);
+  y.train.push({stat, d, g, note, exp:15, ups});
+  questProgress('train', 1);
+  save(); render();
+}
+const groundOpen = gi => S.lv >= GROUNDS[gi].min;
+function bestGround(){ let b = 0; GROUNDS.forEach((g,i)=>{ if (groundOpen(i)) b = i; }); return b; }
+function doHunt(gi, burst){
+  const y = S.y, G = GROUNDS[gi];
+  if (S.phase!=='train' || y.huntLeft<=0 || !groundOpen(gi)) return;
+  if (burst && S.mp < 15) return;
+  if (burst) S.mp -= 15;
+  const r = roll2(), power = atk() + def();
+  const mod = clamp(Math.round((power - G.pow)/12), -4, 4) + (burst?2:0);
+  const tot = r.t + mod;
+  const R = tot<=4 ? ['고전','bad',.5,.38,[1,2],0] : tot<=7 ? ['성공','',1,.22,[3,5],.25] : tot<=10 ? ['대성공','g2',1.3,.12,[5,8],.45] : ['완벽','g3',1.6,.06,[8,12],1];
+  const over = S.lv > G.max + 2;
+  let exp = G.exp * R[2] * (over ? .5 : 1);
+  const kills = rnd(...R[4]);
+  let dmg = Math.round(hpMax() * R[3] * (1 + Math.max(0, G.pow - power)/150));
+  const h = {g:gi, a:r.a, b:r.b, mod, tot, label:R[0], cls:R[1], kills, burst};
+  if (S.hp - dmg <= 0){
+    S.hp = 1; exp *= .5; h.faint = true; h.injury = injure();
+  } else S.hp -= dmg;
+  h.dmg = dmg;
+  h.gold = rnd(...G.gold) * (R[0]==='고전'?0:1) + (R[0]==='완벽'?G.gold[1]:0);
+  S.gold += h.gold;
+  const m = R[0]==='고전' ? 0 : rnd(1,3); if (m){ S.mats[G.mat] = (S.mats[G.mat]||0) + m; h.mat = m; }
+  if (Math.random() < R[5]){ const it = makeItem(randomSlot(), gi, lootTier(R[0]==='완벽'?1:0)); h.loot = gainItem(it) ? it : 'full'; }
+  h.exp = Math.round(exp); h.ups = gainExp(h.exp);
+  S.tot.kills = (S.tot.kills||0) + kills;
+  questProgress('kill', kills, gi);
+  if (R[0]==='대성공' || R[0]==='완벽') questProgress('great', 1);
+  y.huntLeft--; y.hunts.push(h);
   save(); render();
 }
 function doBattles(){
@@ -381,10 +595,13 @@ function doBattles(){
     if (R[0]==='전설적') S.nextTrain = 1;
     const chance = [0,.3,.5,1][R[2]];
     if (R[2]>0 && Math.random() < chance){
-      const it = makeItem(pick(SLOTS)[0], lootTier(R[2]===3 ? 1 : 0));
+      const it = makeItem(randomSlot(), bandFor(S.lv), lootTier(R[2]===3 ? 1 : 0));
       b.loot = gainItem(it) ? it : 'full';
     }
     if (r.t===2 || (S.trait==='glass' && r.t===3)) b.injury = injure();
+    b.exp = Math.round((20 + S.fac*12) * R[1] / 6.5); b.ups = gainExp(b.exp);
+    b.gold = 10 + S.fac*8; S.gold += b.gold;
+    if (R[2]>=1) questProgress('battle', 1);
     list.push(b);
   }
   const played = list.filter(b=>!b.skip);
@@ -408,7 +625,7 @@ function doReview(){
   const res = ft>=11 ? '대업 달성' : ft>=8 ? '상위권' : ft>=5 ? '중위권' : '부진';
   R.win = res==='대업 달성';
   let winLoot = '';
-  if (R.win){ const it = makeItem(pick(SLOTS)[0], Math.min(3, lootTier()+1)); winLoot = gainItem(it) ? ` · 보상 ${itemLabel(it)}` : ' · 가방이 가득 차 보상을 놓쳤다'; }
+  if (R.win){ const it = makeItem(randomSlot(), bandFor(S.lv), Math.min(3, lootTier()+1)); winLoot = gainItem(it) ? ` · 보상 ${itemLabel(it)}` : ' · 가방이 가득 차 보상을 놓쳤다'; }
   R.lines.push([`소속 성적`, `${die(fr.a,fr.b)} ${sgn(fmod)} → <b>${res}</b>${winLoot}`]);
   if (effRole===2 && avg>=8){
     const tr = roll2();
@@ -426,8 +643,8 @@ function doReview(){
     const sr = roll2(), sm = (R.win?2:0)+(R.title?1:0)+(R.tour?1:0)+(avg>=9?1:0)+(S.fac===6?1:0)+bold;
     R.star = sr.t + sm >= 11;
     let starLoot = '';
-    if (R.star){ const it = makeItem(pick(SLOTS)[0], 4); starLoot = gainItem(it) ? `<br>부상으로 ${itemLabel(it)}` : ''; }
-    R.lines.push(['영웅의 별', `${die(sr.a,sr.b)} ${sgn(sm)} → ${R.star ? '<span class="stampwin">수상</span>' : '아쉽게 놓쳤다'}${starLoot}`]);
+    if (R.star){ const it = makeItem(randomSlot(), bandFor(S.lv), 4); starLoot = gainItem(it) ? `<br>부상으로 ${itemLabel(it)}` : ''; }
+    R.lines.push(['영웅의 별', `${die(sr.a,sr.b)} ${sgn(sm)} → ${R.star ? '<span class="stamp">수상</span>' : '아쉽게 놓쳤다'}${starLoot}`]);
   } else if (cp()>=80) R.lines.push(['영웅의 별', '후보 조건 미달 (전투력 85 · 선봉 · 평점 8.0)']);
   const T = S.tot;
   T.merit += B.merit; T.missions += B.missions;
@@ -454,9 +671,9 @@ function doReview(){
   if (S.age>=33){
     const rr = roll2();
     R.retire = rr.t <= S.age-30;
-    R.lines.push(['은퇴 판정', `${die(rr.a,rr.b)} (${S.age-30} 이하면 은퇴) → ${R.retire ? '<b style="color:var(--red)">검을 내려놓을 때가 왔다</b>' : '한 해 더 싸운다'}`]);
+    R.lines.push(['은퇴 판정', `${die(rr.a,rr.b)} (${S.age-30} 이하면 은퇴) → ${R.retire ? '<b style="color:var(--red)">무기를 내려놓을 때가 왔다</b>' : '한 해 더 싸운다'}`]);
   }
-  S.hist.push({age:S.age, fac:y.fac, role:effRole, cpS:y.cpStart, cpE:cp(), avg:B.avg, merit:B.merit, res,
+  S.hist.push({age:S.age, fac:y.fac, role:effRole, cpS:y.cpStart, cpE:cp(), lvS:y.lvStart, lvE:S.lv, avg:B.avg, merit:B.merit, res,
     award:[R.star?'영웅의 별':'', R.title?`「${R.title}」`:'', R.tour?'대전 우승':''].filter(Boolean).join(' · ')});
   y.review = R; y.offerDecided = !R.offer;
   S.phase = 'review'; save(); render();
@@ -472,251 +689,217 @@ function retire(){
   const T = S.tot;
   S.grade = T.stars>=3 ? '전설' : T.stars>=1 ? '영웅의 별' : S.peak>=85 ? '대륙급 영웅' : T.caps>0 ? '왕국 수호자' : S.hist.some(h=>h.role===2 && h.fac>=3) ? '정예 모험가' : '떠돌이 용병';
   const h = hall();
-  h.push({name:S.name, cls:S.cls, stars:T.stars, peak:S.peak, titles:T.titles, merit:T.merit, age:S.age, grade:S.grade});
+  h.push({name:S.name, cls:S.cls, stars:T.stars, peak:S.peak, titles:T.titles, merit:T.merit, age:S.age, grade:S.grade, lv:S.lv, look:look()});
   h.sort((a,b)=>b.stars-a.stars || b.peak-a.peak || b.titles-a.titles || b.merit-a.merit);
   store.set(HALL_KEY, h.slice(0,30));
   save(); render();
 }
-function equipItem(id){
+
+/* ---------- gear actions ---------- */
+function equipItem(id, ringSlot){
   const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
-  const it = S.bag[i], old = S.equip[it.slot];
-  it.isNew = false;
-  S.equip[it.slot] = it; S.bag.splice(i,1);
-  if (old) S.bag.push(old);
-  S.peak = Math.max(S.peak, cp());
-  save(); render();
+  const it = S.bag[i], info = itemInfo(it);
+  if (S.lv < info.reqLv){ toast(`Lv.${info.reqLv}부터 장착할 수 있다.`); return; }
+  let target = it.slot;
+  if (it.slot==='ring'){
+    target = ringSlot || RING_SLOTS.find(s=>!S.equip[s]);
+    if (!target){ UI.ringPick = true; render(); return; }
+  }
+  const off = [S.equip[target]];
+  if (it.slot==='suit') off.push(S.equip.top, S.equip.bottom);
+  if (it.slot==='top' || it.slot==='bottom') off.push(S.equip.suit);
+  const back = off.filter(Boolean);
+  if (S.bag.length - 1 + back.length > BAG_MAX){ toast('가방이 가득 찼다.'); return; }
+  S.bag.splice(i,1); it.isNew = false;
+  if (it.slot==='suit'){ S.equip.top = null; S.equip.bottom = null; }
+  if (it.slot==='top' || it.slot==='bottom') S.equip.suit = null;
+  S.equip[target] = it;
+  back.forEach(x=>S.bag.push(x));
+  UI.sel = null; UI.ringPick = false;
+  S.peak = Math.max(S.peak, cp()); clampVitals();
+  toast(`${info.name} 장착`); save(); render();
 }
 function unequip(slot){
-  const it = S.equip[slot]; if (!it || S.bag.length>=16) return;
-  S.equip[slot] = null; S.bag.push(it); save(); render();
+  const it = S.equip[slot]; if (!it) return;
+  if (S.bag.length >= BAG_MAX){ toast('가방이 가득 찼다.'); return; }
+  S.equip[slot] = null; S.bag.push(it); clampVitals(); save(); render();
 }
-function dropItem(id){ S.bag = S.bag.filter(x=>x.id!==id); save(); render(); }
+function sellItem(id){
+  const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
+  const p = itemInfo(S.bag[i]).price; S.gold += p; S.bag.splice(i,1); UI.sel = null;
+  toast(`골드 +${p}`); save(); render();
+}
+function buyPotion(k){ const P = POTIONS[k]; if (S.gold < P.price){ toast('골드가 모자라다.'); return; } S.gold -= P.price; S.inv[k]++; save(); render(); }
+function usePotion(k){
+  if (!S.inv[k]) return;
+  if (k==='hp'){ if (S.hp>=hpMax()){ toast('HP가 이미 가득하다.'); return; } S.hp = Math.min(hpMax(), S.hp + Math.round(hpMax()*.6)); }
+  else { if (S.mp>=mpMax()){ toast('MP가 이미 가득하다.'); return; } S.mp = Math.min(mpMax(), S.mp + Math.round(mpMax()*.6)); }
+  S.inv[k]--; save(); render();
+}
+function sellMats(){
+  let g = 0;
+  for (const [n,c] of Object.entries(S.mats)){ const gi = GROUNDS.findIndex(x=>x.mat===n); g += c * 5 * (Math.max(0,gi)+1); }
+  if (!g) return; S.mats = {}; S.gold += g; toast(`골드 +${g}`); save(); render();
+}
+function spendPoint(k){
+  if (!S.points) return;
+  if (addStat(k,1)){ S.points--; clampVitals(); save(); render(); }
+  else toast(S.stats[k]>=99 ? '이미 최대치다.' : '잠재력의 벽에 막혔다. 다른 능력에 써 보자.');
+}
 
-/* ---------- paper doll (Kenney Roguelike Characters, CC0) ---------- */
-const SHEET_SRC = 'data:image/png;base64,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';
-const sheet = new Image();
-let sheetReady = false;
-const KT = {
-  weapon:{warrior:[[6,42],[6,43],[6,44],[6,46],[6,45]], archer:[[0,52],[1,52],[3,52],[4,52],[2,52]],
-          mage:[[0,42],[1,43],[2,44],[1,45],[4,42]], cleric:[[0,43],[0,47],[0,48],[8,47],[6,47]]},
-  armor:{warrior:[[5,10],[4,6],[4,11],[4,12],[9,12]], archer:[[5,6],[6,7],[9,7],[9,6],[9,10]],
-         mage:[[7,10],[2,14],[2,15],[2,10],[4,14]], cleric:[[5,12],[6,12],[3,13],[4,10],[9,10]]},
-  helm:{warrior:[[2,29],[2,31],[0,28],[1,28],[6,29]], archer:[[5,28],[5,31],[7,31],[7,29],[1,30]],
-        mage:[[4,28],[8,31],[8,28],[8,29],[8,30]], cleric:[[2,28],[4,30],[0,29],[1,29],[0,31]]},
-  shield:{warrior:[[0,33],[0,34],[0,38],[6,39],[5,34]], archer:[[0,33],[0,34],[0,38],[6,39],[5,34]],
-          mage:[[0,33],[0,34],[0,38],[6,39],[5,34]], cleric:[[0,33],[0,34],[0,38],[6,39],[5,34]]},
+/* ---------- sprites ---------- */
+const SPR = {"body0":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEXElEQVR42u1abWgURxh+9nIiFLExKF2CXc4GA0G9W2oC4hdo4h8LtiANlCKGIKURaSz4zy8MRSiUgiimpWlIkVAasbQhLaXRFjTxTxJZlXqw4bi4XK8XDu8u6xE12Ft/nLO3l9vN583cje7z525uZ3bveeaZmfedWcCFCxcuXmMIrB9YK8mG0zVVU4RXUgAr6cFTBwAA6+o2FNSTP77AXAiBBXlCmsCOfKmEEFiRn4+0kxC0RfCUK3kAUHrb55wzylaAYpBnJYKnnMmzEMFT7uRpi0BlCBSbPFdzAE/kiypArSQbSm871T9LYxh48JrDFcAVwBWgOBOgqikCSWJogUZu4CkG+cFTBxxXgXgwjHgwbJY/bD1ne58PDp+Zs11ZrwL7vuiH0tsOOwesq9uA2KNHJvGr3Wdt7/HLDx24PzRq1iPxhPWeZekAVVMEO/uT8lRkElt21uPa2EhBL8/G6e/6cW1sxNElXE2CZDi8uf4tAMDBrQ1YUVExZ5sVFRU4uLWh4PfrA3/yIYDVCfeHRotyz68+qqO6OUJlt6VWko0rbTuwZWf9su4TD4ZxSxlDx8C/1HaGqAwBVVOEQ53DpnVnz+bzkSagTR4AvDQnGP2xjngwbJshpr+5YX5f9WljQTYZD4apk6c2BMgwMJe4443wNWxeVMBDnER7FWB2LnC59V0AwPbGXY71bt+4haPdd5ieC3hZPETVFOFoN4xjLfsx7bCk6Y91JNYGmOcCTA5GAOBYy374AzK0hw+RSiXRVPkst86nVsIfkAEA9+4quNTzOzMXeGmTJwFR1+A4tu3bg20A+rp64GtYm6v48hoR4GVYbbAQwYsSoPlIC/q6eszyJyc+L1k67GXR+3ZxQPORlnlDaRYuoL4hMhWZxHg0gsrKNUsKhrhMhqy9n/wvjgcZcd4et+LXyHNq+T9zB0T15KJ6n8wHU5FJvtNhggcZEbub9i66HUmjuRPAav/l9CJpy93psBUjyl0AwMR4CLEJbcHt/AHZbMt9HEDG/8R4KO930SehHEBdgJ+//xbHO87nieDbWFPgiJvX/zK/p1JJ+F4VAZ79n8aXJz8zy519v9nW2920F23N75nltvf38C/ApatDeFuqyi2JsUQeSTtsqpWQ1NP4+qe/EajZyK8A1mhuzepVeZ9JPY3QRAL1fgmj9zTU+/Png2y9BL8OsG5jE9J2SOpp5wAqI+LiwB/oV2b42hNUNUU48SOMak8MNb4qJPW0owhz9fSud2bQr4DP9wRVTRGiGdHWAaTXoxkR/6gaSo2S7AdEYwkAIkLTIqo9MdshkRVuhl8BstaVjZo3NFSLVXnXQtNiztqSbBDiVrdk3SHy7QBVUwRIsoFYrpefPEUBsawjcp8FIlEEk03RK207zPKhzuECYgupw/UckHdG2Dm85Dpc7geUO1wBWD7M6YyfxQtWJRFgqa/PstgMpS7AbPILec3FWoeVCEyOx/ODo+K2ceHCxbLwAk2KDnzT+cvRAAAAAElFTkSuQmCC","fist0":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAdElEQVR42u3UsQmDABAF0NN93MCZHCYLuIa92UCIZUqLkFbLsxIygELU96qrPtw/uAgAAAAAAAAAAAAAuKRi78CmrnKbH8+huFWbTV1lvrqc+zbnvs3fMv5VuXfg8p0iIuIzvk9xtPKI0LMs7wcAAAAAt7QCNiQd+nuO82oAAAAASUVORK5CYII=","body1":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEXklEQVR42u1aQWjbVhj+ZDuXMYpTWqYaKsJMfMgyRyPN1h6asdLB6AoZFHIaaxglEChjhZQeCisrbGDWYyF0ZFvCbh4pXdlgjLIu26Fds2xKYQ7IqKQ6CLUztnGdtEvbaAfnyZItJU3i96JH9V0sWe/J/r73vaf//5+AECFChHiOIbD+wZQkW37XVF1h/n9irElPDfcBAHYlE03t3jwDi7UQAgvyhDSBF3m3EN8zc4TAivx6pP2EoC1CJKjkAWA6M7DmmhFYAVpBnpUIkSCTZyFCJOjkaYtAZQq0mjxXawBP5FsqQEqSrenMANU/S2MaRPCcIxQgFCAUoDULoKorAkliaIFGbhBpBfmp4T7fp0BBM1DQDPv8xCeTnvc5fvbrNfsF+ilw7MsZTGcG4OWAXckE7pfLNvHx88c97zH52YfIzebsdiSecN4zkA5QdUXwsj85r5hFdPV2YWp2pmmUG5G5fBNTszO+LuFqESTTYYe4s+aS3j60RaNr9mmLRnGst6/p+1+v3+RDAKcTcrO5ltzz03deolocoVJtSUmyNTbYia7eri3dp6AZuDE/jwu/V6lVhqhMAVVXhJFs3rZu42q+HmkC2uQBylXhB4uLKGiGZ4YY/UGzj58eTTZlkwXNoE6e2hQg04Acf/t+N6RXkxsKeIiTaD8FmNTfU5JsffGeBAB4/cBrvu1u3fgbp6/oTPcFmGyMqLoinL4C6+TQESz5PNIeLC7iUbIfgM40F4ixGH0AODl0BOkeGXq8HeVyCW88qRP9IyYh3SOj1g64OAGLlQtitMmTgOi7+cfY//Zb2A8gOz4BaU9bXYDVawBwe05ZDavZiBDDNmDwxBCy4xP2+fDo0LalwzEWo197tu9uEmG9UJqFC6gXRCpmEXfu30M83r6pYIjLZMg5+uV/S7gb7153xJ24vrybWv7P3AFmtbKh0R8ePWU7h+t0mOBuvBv9hw9tuB9Jo7kTwGn/rYwi6cvd7rATf82rAICFvAZz4dkjvHSPbPflPg4g838hr7m+FzskBAHUBbj81SV8fP5zlwgdnckmR/x27Rf7uFwuNUQNHAvw39MqMmc/ss/Hsj96tus/fAgjg+/a5x/09/AvwDfXctgr1Vdzwyy6SHrhlZSEUqWKSz/PoVuS+BXAGc2173jR9VmqVKEtFLEvLeHP2zr2pd1Ea+2K/DrAWcYmpL1QqlR9rxkrIiZvzeGqssxXTVDVFeHcT7KViJhIduxEqVL1FWGtkT748jKuKuDzPUFVVwRjRfR0ABl1Y0XEPyrb6k9g6gGGWQQgQlsSkYiYnlOiJtwyvwLUrCtbyRd0JBriem1JrFtbki1C3OmWmjtEvh2g6ooASbZg1kf54SM0ETNW437DkTu4ROJ9CowePWgfj2TzLmJEpLHBTt823Avg2iPM5jfdhst6QNARCsDyx/z2+Fm8YLUtAmz29VkWxVDqAjSSf5bXXJxtWInAZHvcHRy1tk+IECG2hP8BklILeS437uwAAAAASUVORK5CYII=","fist1":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAcklEQVR42u3UvQ1AUBQG0EeMYgNDKS2hUFjAAMaxAa1KodRRiA2exM851cstvuS7yX0hAAAAAAAAAAAAAMAnJbEDyyLfr3c3jMnTF5DFLt/UVdjW5Ry0/f70JaSxA6/yyzS/4gTSO0LfUt4fAAAAAPzSAeZXGryVnctrAAAAAElFTkSuQmCC","body2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEVklEQVR42u1aX2gTSRz+No0+nJ6klfPWQJeS0FioNgu2WD0sd1J98F5EQTjwIaCIosgdKgj3IPhwVMQ3xQoKfRCEHt6DcAqi93Bw9iAnrn/K2ZWUuJU1iN0sbdpq0e49xNnsNrutbTOTzLnfSzLZmdl833y/2ZnfLBAgQIAAnzEE1jdMSLLld03VFOb/J8yadM+ONQCASLShrN6hPlishRBYkCekCbzIu4V4xswRAivy85H2E4K2CKFaJQ8AvamWOeeMmhWgEuRZiRCqZfIsRAjVOnnaIlAJgUqT52oO4Il8RQVISLLVm2qh+mdphEEInzkCAQIBAgEqMwGqmiKQTQwt0NgbhCpBvmfHGt+ngKkbMHXDLp+//rdnPz3X/pqzXU0/BU7deY3eVAu8HBCJNmB0fMImfvyHTu8+9n2DzNCIXY+sJ5x91qQDVE0RvOxPygVjHPF1jbjxIF02yrPxa1rDjQdpX5dwNQmScFjZ8CUAYM/GDiyrq5uzzbK6OuzZ2FH2e/rhEB8COJ2QGRqpSJ/7kwLV5AiVbEtCkq2Tm1cgvq5xSf2YuoFH2Ze4ri6nlhmiEgKqpgjnBiZs686ezecjTUCbPEA5Kzw59Q6mbnjuENdnSrd+Gn9ftps0dYM6eWohQMKAfD/dFcHamLigBQ9xEu2nAJP8e0KSrSMdywEAG1pjvvWeDA7jYnqa6bkAk4MRVVOEi5Cto6mdSD+87Rsuq7fsAtK3mO4FwixGHwCOpnaiLSlDi9TDNPNYPXzfrjMa24JNSRnFesCFPlisXBCmTZ4siJ4C6Nz+HToB9F/pc80Jox+vAcDjR8rHZTUbEcKoAvYeSKH/Sql88ECqatvhMIvRN3UDiMbKRJhvKc3CBdQTIgVjHCN5E5FI/aIWQ1xuhpyjP25OQGjtnnfEnXgZbae2/2fugDdTkwsa/YMnfrKdw/V22F5ptXajq3vbgtuRbTR3Ajjtv5RRJG25Ox124t8XOgAg+zyDXFb75HZtSdluy/06gMR/9nnG9bvYJKEWQF2A365exo9nfnGJ0NQcL3PEn3f/KD0Gzfz/R4B3Hwo4+/Mxu3yp/3fPel3d23B47/d2+dvmtfwLcG/wDRqlUjJEzxkukl5oTUjIjxVw+8krNH/9Fb8COFdz9atWuj7zYwVksgba2yT881hDe5t7PijWM/h1gDONTUh7IT9W8L2mz4i4/9rETWWar5ygqinCVchWNJRDvKkB+bGCrwhzjfTW2DRuKuDzPUFVUwR9RvR0ABl1fUbEoKqh2qhKPkDPGQBEZCZFREM5z5AoCjfNrwBF68pW/AsNUdGdFs9MiiVrS7JFiDvdUnSHyLcDVE0RIMkWcqVRnnqLMmJFR5Q+y0TiPQR2J+P293MDEy5iRKSTm1f41uFeANcZ4cCzRdfhMh9Q6wgEYHkzvzN+Fi9YVUWAxb4+yyIZSl2A2eQ/5TUXZx1WIjA5HncvjirbJkCAAEvCf0DcAGHXZrLuAAAAAElFTkSuQmCC","fist2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAdElEQVR42u3UsQmEQBAF0FWuCSuwGkMruAZsS6zCMmxAMxExMVoDsYMV9O69aJngwx+YDQEAAAAAAAAAAAAAflKWOrAui3i9u2HKnr6AT+ryzbcK+7aeg7aPT19CnjrwKr+M8ytOIL8j9C3l/QEAAADAXzoA4eMa2oObg24AAAAASUVORK5CYII=","body3":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAENUlEQVR42u1aT2jTUBj/pas656br8E90LgyrvYhdwA6HOMGp4B9QRFDYaQcRlCEK3rx5ELyLIijsooeBiqKe1IOIIFOIipdqoUTbdTibqmmb1bl4CC9L1qRzW99ro/ldkrd97zW/3/vey/d9L4APHz58/MfgWP9gRBB1t//FZYn58wRZkz4cngQALAs1l9ndhmHHUgiOBXlCmsCJvE2I1xozj+BYkZ+NtJsQtEUI1Ct5AOiPNVbcM+pWgGqQZyVCoJ7JsxAhUO/kaYtAZQlUm7yn9gAvka+qABFB1PtjjVQflsYyCOA/hy+AL4AvQHU2wLgscSSJoQUauUGgGuQPhydd3wJ5RUVeUc32yPuM4zgvpVTFfnX9FrifCKI/1ggnD1gWaoaqlUzi3Vt4xzG2i+0YG82adiSesI5Zlx4QlyXOyf1JW1M1rFnbhjtvRspmeSYSY0XceTPi6iWe2gTJcmhsNq5Ht3ZjUUNDxT6LGhpwdGt3uTDJUW8IYPWEsdFsVcbctlKhWhyhUm2JCKK+u72ANWvbFjROXlGRHM/i7ffV1CpDVJZAXJa4p6km03Vn7uazkSagTR6gXBXWfv1CXlEdM8TTSzea91eLn8qyybyiUidPbQmQZUDu9wsTCK1eMaeAh3gS7bcAk/p7RBD1HfxPAICwfpWrnfzlK15kWpieCzA5GDEIifrgwAGMPLzlulx6jwzgxdBjprlAkMXsA8DgwAFEu0S0toaQyylIPLtn2oT7jiDaJcKwA64MQWflBUHa5K35Qc/eXegBMHxjqGxP6Nm7CwDw7q1khNUQmYgQRA1w7MQAhme0a4Ugi9nPKyraHESYLZRm4QXUCyKaquFbvojW1tC8giFPJkPW2S8WJiDuOz4nN+/oPUQt/2fuAT9LpTnN/snz50zP8XQ6TCDuO46de/rm3I+k0Z4TwOr+C5lF0tdzp8NWpMaNXD75MYFMUv7rftEu0ezr+TiArP/kx4Tt73yngHoAdQHu3ryOsxcv2UTo3BQu84jnT56Z97mc8u8IMPFbxeULZ8z2teFHjnY79/Th1LGDZntl0xLvCzCWm0KHMB0DpjNZG0knbI4IUH6oSCSz4Feo1B+T2sjWaC60vNl2JQRjUQGv38mIRe37gWGX9a4HWMvYhLQTlB/uIW96iofeshgPpBLVAknVX4NxWeJejYfwOTuBDqGlIslK4vRuKFEnTy0OiMsSl57iHUkSQdJTPD7EZdQaNakHpDNZADwSBR7rAhnHJWEIV/KuAKQOGG6SsY63VwMSBX7atQVRJ8St3mJ4B+9tD4jLEgdB1JGZnuWihjJihkdMX8tE8voS6AwtN++fpppsxIhIu9sLrjaeF8B2RpjS5m3jyXpAvcMXgOWPuZ3xs/jAqiYCzPfzWRbFUOoCzCT/N5+5WG1YicDkeNweHFW3jw8fPhaEP0fAAtk3jMsEAAAAAElFTkSuQmCC","fist3":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAbElEQVR42u3UPQ5AQBgE0CUOoHUMpVLv3q7gBkoKQqKg4QYr8fNe9VWTzCS7IQAAAAAAAAAAAADAJyWxA6si36+77cfk6QNkscs3dRm2dTkX6Panj5DGDrzKz8P0iieQ3hH6lvL+AAAAAOCXDt4KGuuAzAj7AAAAAElFTkSuQmCC","hair0":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC80lEQVR42u2ZPW/aUBSGX5vYKTFJLMhAkEAoKgzNwpA1ElOWLJ37A/sPunRCysrAlAGUygKFWIhYDmAQNnC79Lq2sdNI2MFqzrMA/rj2ec+nDUAQiVKvNFi90mBpvT/xPS5ylbeRVhEO3uMic8fGdTkHIFqEbr8j/LcC3E9zuFaB67Icul8fjdDdUwQISeY+AJREHQBQUvPIKrnI4+8G9l6iQEjK+Ku87UsB05q5QrxG25DdlOAiJimMkITXvcbvyngyhbYqJCZC4jXgxZoDAJz1GgBQPj/37V/8iQxvBNQOTZwqRwCAs5NjSJYJVBosCRFiF8Dr/RdrjlPlKDL3Hx77oSkhyX9vK6vkkFVy6A3sdKdAMO/Hk+mWt70FL0osABiaBkpqHnPHRsEjUBKFMrFBSFsVQrcvrBlqh+ab1/GmSBIpICTh/SDeFBg8PUHKZFxve+sE39Y2ZHdmWFgz9/yFNUPbkGMVQozD+KBHuUFeLy6sGZ5NA2cnx759Q9PwCTWeTN3ZgW/jUfDaHLHXFOgtVYwnU/c3r/hhE2GY8b2l6nrf3jhoabrw8Nh/l5F5ZwHeekN8wIlaI6vkcDew0dJ0AYD7GawFzWox1qfL2Irgz1+DfwpREnW0DRm9pYq2IaOl6QI3VB+NtsTURyOfeM+mAUX65Bu6UjMH3FyUGW9lUibja2uclqYLzSpYmId/9LQtAYOp5Nir0ONS0wZ7S3WrALp93fNQJItS5Bq3tSq7rVUZrwe8FrxY88jakopB6OaizOyNA1mUIGUyvrb2vXMvcONe8+DNRZkFU6lZLbLhpojaoQlnvY79uSC2OYB/rx48Q1sV3GFn15BtVosMAIabYiKdQIzL8JKoo9vvCNqqgJKo41Q5iiVfvbWi2+8I+3pz9GYx6pUG417z5vUua39rfEntS9XQaPCGbhwCJEmsXcBrdLDNfQjqlQb7evmZ4SOT9j9CCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIL4WPwGIMZtZ0jzHdIAAAAASUVORK5CYII=","hair1":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACiElEQVR42u2ZsW7iQBCGf5srcmhLH6JC4YTQCUUWVQoeIA99D5DiKmQhiBAKiAo5LkfGDfYVaKzFNol17IIvma8xAsve+Wf+2bEBBMEqw944G/bGWVPX517jJl63g6aK8O1aN/r18AAAZ0VYbqfOpxUg2oXwvA6LUGKzef18FcAln7bSowjRUYQq7u9/IqE4u0UVOLaC97qnwYZvOwBA50f3w2phS7CINoVxbGS9GPwlEBESiq2JYL0HEFGp3E8yHoWlCrhTbSilACA/DntjKxYxLoCefSKCUuqs9+eLoNISHDQAeF4HntfBy2zWbAsUfU9EpWwzHEyVWNwvWBhdvJfZzLgVrA1CCcXVTS46lnjtLVSziA0LuDayz9mNorDkce4JxeyfLOrg5qWvM3l8Mj5WuyaCL2a0GBALEUXhib/17ZHLnYjy2YG/YxHP9ZKbV0BCcSno9/b4YvAJxbkw8Z6wWgfOfBFcZWS+WIC6CyoGX7wGd/rVOnAA5MdiLxj0faM2MNYEg/nzh0KkrRTRLkRCMaJdiNU6cDjQzea1JCY/I7B4URSi/V2dDF2NmQP80STTtzL9M7NaB86g72dVGa4jIBHVOu9mg9C5rS982wEt5M8C7/ULfzTJWJB4T5gvArhwa/WYmw5C/miSxXvKS1Sf6J7//Hb4nPcyWPX7oO9n7sHNZwfTzwVGLqT78U61kVCcL/jSkmXLuAfXyk7gmgo8baVYbqdOQjHSVgqllBG/6r1iuZ06t3pzVFuMYW+ccdaKvv5XJo9PjX2pWlkNeumaEMAmRh+G9KCL29yXYNgbZ/9FudoWocl/hAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiC8LX4C8jeWs9JxZswAAAAAElFTkSuQmCC","hair2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACg0lEQVR42u2YsWrjQBCGRyZPcIUxLlQci3BxxRYpQ0phgst7gJRBCJMij5HCCGNc+gFcpBDBqDQuXbhIIY4lxRXCqLgnCOgKs8tqo9X58K6lJPOBsGzMSvPPzD8rASCIVTyXFp5Li7beX+ccF1nNKLRVhItzXWiX/ATqg1aEX793ThMCOOdoAS6Ajk28Bv8h+VwC8MDvbw5FNhz9gB4h2v9Tf9lIFTi2gl/NaNkH4hchRB3DYCdagotoUxjHRtbV4E+BpRmEUW5NBOtTgKVZ6egRUjqqKoClmfhOBn2YjrvWpojxKSBnn6UZkEFf2/uLyVNlS5BBX5wLoaJlu1tA7XuWZnA1utYank4s7hdcGFk8G0ZprQXCKK/8fc8YTMfdo9fZM2Z1r9CxkX2e3T1jpQB4pquyLzN5fqv0iNf41vi2umMieDWjakBciD1jpf6WxyMvd5ZmYu/Af+Mi1u0jGq2AMMrfBV0349XgwygXwjD2B4L51llMns6yZT5ZgGNvSA1eXaNHCFB/CcF86wCA+FS9YHZ3abQNjI1B/yFxXuPb2hu7v7mQhChvbjbx+p2Ym3gNV6NrGAY74SmEfAOAHDyXFiaqwZgAyaNfyKNMPucE860zu7ssqjJ8zMMQSzPjD01Gx6DOC1bxS+mh6JBFvZDJo19wP+BecIzHNFYBh1L0C9m91czz4L6PFk5d8HKG5YqRp45JIzSykGxK03EXwigXm51TS5YLMHl+a/zliTZwz6UFv1F+/i9D/F8R2vxeUSuGXNqnrG1STOsCqKVrQgCbGJ0CctDqmPsSeC4tPkS52hah9YaFIAiCIAiCIAiCIAiCIAiCIAiCIAiCIAiCIMiX4S9hPFVgmX2tpgAAAABJRU5ErkJggg==","hair3":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAClElEQVR42u2YP4viQBjGnxEJi1gsEq46QoolBCuR/QRXiOV+DLnKaj+EVSrxY2wpFltsfchWRwiyhGAlg2whYREhV+xNGCeJCM6od/v+GiXoJM/z/lWAIIziOZ3MczrZtT5f7Rw3mfh1XKsJ9XPdaNr7hv6s2oQoeWWXMICdowSEAZXmzJf4Of/N/qsMEMIfbjYAgDipw3VapZ/td7/D41Z2iSxgpsRP/H1vp/H7p1j39uB3B+EuLwlhokljmImoq+JPIeQpAm4ZM8F4Ewx5Wkh3mThZFzJgaG/h2w0AgG83MESKAB0jJaLdADn6IU/h243K2p+8vJWWhBAPAK7Tguu0EMxW110Cat2HPC1EO8+Cv2LKzBL9Qhgjm9efrbSXgrFFKOBW6fU4WWNob48+Ry4REyVQMxF9Ed04WRdqXPQENfoyTx/NPPVlnnv32tfqmg7xakRVQcKIOFnv1bc8HkW6hzzNdwdxTZhY1UsungEBtwqiD814VXzArdyYeLPFKFqwycvbWVbmkw049oFU8eoZrtNCf7bCKFowAPmr2gsevTutZaCtCR6zyz/cbDAIdwi4hUG4wyhaMCF0Ol8WzJzOl3vmxckabtPaW7quZg8Yd9uZPMrk94JRtGCP3l1WFuFjDAx5qv1Hk9YxWNULpvF73tj67m0exSojx912JvqB6AXH9JiLZUCUvDLY7exTZFGciPa4285+zH6xQ+LlCMsZI08dnY1Qy0FyPQ7tLQJu5cvOqSkrDHj6aF78z5NK4Z7TycSDivfPvXttnVp35z+bGXJqn3K2TjONG6Cmrg4DTKJ1Csii1TH3JfCcTvZPpKtpE66+YREEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAE8WX4Az9zUFhiJWNaAAAAAElFTkSuQmCC","hair4":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACiklEQVR42u2YsWrjQBCGZ02ewoUxIogrXbg4XKi4SuQBRCqjyoWfwBiRwgjhBzApUomQIvgBjKoUKUSKK1KGJQiRwq+ha250q7VW58O7li6ZD4SFMCvNPzP/rARAEEaxB6PCHoyKrj5f7xw3ibeP0FURLs51o+efz+CMHaUI/OOVtSEAO0cLoAAqkiQFf+p+LgEwcM+fAQDA1dUPsKy+8v/O2GmlCpip4OPtY+XabvdUCtGE712XLYEimhSGmci6HPwpcJ5DFCyMiWB8CnCeVw7L6leOugrgPP8jqj2EZbg2NkW0TwEx+5znYNtDZe9vNg+1LWHbw/IchYqCjreA3Pec5+C6E6XhqcRCv0BhRPFMGKWxFoiCRe31LNvDMlwfvU6W7Y3uFXomso/ZzbJ9JQDMdF32RbbxXa1HpC9v2rfVPR3ByxmVA0Ihsmxf6W9xPGK5c56Xewe8hiI27SNarYAoWBwE3TTj5eCjYFEK8/6eQbias83m4Sxb5pMFOPaB5ODlNSyrD87YgXA1ZwBQ/speENzcam0DbWPQn7osfXlrfDDPn1WEEMVLkvRAzCRJwXUn4HvXpadcXlpl6+moBm1TIL5PCrEN6loiXM2Z58/A82cHwR7zMsR5Dv7UZfzjlelqBa1jUOUFu91T5aUIs6gSMr5PCvQD9IJjPKa1FvidjUJ0bznzGNzk+zfWFLxYCeFqzoKb20KeOjqNUMtCoiktwzVEwaLc7Jz6no8CbOO71j+eKAO3B6MCHxTP/2aI/ypCl78rKsUQS/uUtXWKaVwAuXR1CGASrVNADFreyHwJ7MGo+C/K1bQInTcsgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiC+DL8AwhZcT36sjp8AAAAASUVORK5CYII=","hair5":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACo0lEQVR42u2YMWsiQRiG3xHrKyRcJVssIksqkXBIykOOI4j4KyxSpJAU9xMsJIVFiq3zA5ZDgoiklCBBrGRYZIsl1bFYXB3YK+5mmR1dEZxRc/meZmXRdb/3+953ZhcgCKOUrUpctirxqd5f7iAitO5wqiLkD/VH33/8BLrNTBH8cM6OIQA7hAUSATKYjgZ49q7Zf2UB4f18sY58sY6ALzO/++Vb42gWYcaKb92lzgUvjwAA++Jq6299r5NYQohi0h7MxLirxe9DFHKsZq4xEYyHYBTytXFPTYZiDd/roFBt48xyAODfsY0y3NiECNoFkLsfhRxnlgPbKW387vihv9ESongAsJ0SbKeE4cw9bQuovo9CvtZtwbDbzBRL5IUQRhZv2G1qt4KxVWCV0bGAL1Gotne+jmwRExbImei+6G7Al2seF5mgdl/m7XWcjL5M4+ZJ+7Y6p6N4taNqQUKIgC9T/paXRzHuUciRL9ZT54SIWVly9AlYzdy1oret8Wrxq5mbCPP7V4DFpMfGD/2DbJn3FmDXG1KLV69hOyUMu00sJj0GIDmqWXB+eavVBtpCcJe9fL5Yh+91/m5svA4Wkx4ThU5HgzUxp6NBSryAL/Hps53adJ2MALXWfSzbYJMlFpMeE88GarG7CBiFHM/eNfPDOdNlBa3LYFYWBC+PSbDZF1dJF7OErLXuY5EHIgt2yZij7QT9cM5qVcRyequdF8UN+l/ZtuLlSVhMeuz88jZWVx2dQajlQrIfC9U2VjM32ezs+5wvBHh7HR/95Un2059VicWNis+NmydtSa07+Q8mhjza+1xbp5jGBVBHV4cA7+aVmFy0upH5EJStSvwuxtW0CCcfWARBEARBEARBEARBEARBEARBEARBEARBEARBfBj+AGafUFX9QMPNAAAAAElFTkSuQmCC","hair6":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACmklEQVR42u2YsWvbQBTGvwv9I4opxhjhwXjQ4Ml08JApQ9CYoWQKnjwenjJ46FQ0lhCChxAyZDwyZNKgIWjK4MFoMEcwppj+F+oQTj2dImPwne0277fIEvZJ73vvffdkgCCc0qr7WavuZ4f6fEe7uMnTOcehivBpVzea/vgJfzSsFGG+nLJ9CMB20QJKgCoiEeH0Yfx/CaACHzS7AIDgax+1TqPy+/5ouJcqYK6CfzrnhWviOc6FWMfJXZi3hBLRpTDMRdbN4LchlRI8Ec5EcG6CqZSF8+PguHC+mi1KFRD2ArQ9DwDQ9jyECMCBzIUI1gXQs59KibbnVfb+1fXtuy2hggeAWqfx9vtEHHYLmH2fSlnKtm54VWIpv1DC6OK5MEpngxCvyNhqtkDYCzZeR28RFy1w5CL7Krur2aLU48oTzOzr3Ly+/C19DXl5b32sPrIRvJlRMyAlxGq2KPS3vj2qck+lzGcHdU2JuG6O2GsF8ESUgl63x5vB80Tkwsx//wKPJ+zq+nYnI/PWAmz6QGbw5hq1TgP+aAgeTxiA/Gh6Qdi/sNoG1kxwk1l+0Ozi5C4ET8TbMZ4wFWgkopKYkYgK4q1mC7Q+fykMXQcjwOPZONPb4L2W4PGEDZpdDJrdUrCbCJhKidOHMZsvp8xWK1jdBqu8QDzHhZcilcUqIR/PxpnyA+UFm3jM3ibB+XLK0Asy3b3NzKvgvO/f2Lrg9Urg8YSF/YvM3HVsGqGVhfR+DHsBeCLyYWfb93wlwM3ry97/PKkMvFX3M/Wg6rO8vLfm1Ladf2di6KW9zdo2xXQugFm6NgRwidVdQA/aHGQ+BK26n/0T5epahIM3LIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgCIIgPgx/AFg+UGHaU8ZAAAAAAElFTkSuQmCC","wpn0":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABpElEQVR42u2ZMUvDQBiGvxwxgbbYwSWrHUQoLhlK+xvcumXyV/hn3KRDtzj5CxwMHW5RQRzq2sWhUguphTidXLXEJl4g9/V9tiTcJffme9/LR4gAAAAAAAAAAAAAAAAAbDIMw4zr2pyii4+ldDgJ4OZdjPq97OL8lB5eXrWzYcZJBJF3MV2tiYjo7OSYrb1F0QGDbpNVJuQK4HsuXd8+/6oCTiLkCjBOJo6ywTYrcBDhTwvEUjqqCnQRBt3m/mTAOJlsiMDJCjuHYLpa09XNIzsr7CxALKXjey47KxTaBjlaQZQZtM0KtopQWIBxMmHVC5SqAH1rtL0KRNmBeh7YLIIwNZEugu+5FPV7Vojwbz+rlvlnQNrSMht5yKjfy1TP0Al8ms5Sa0QwZgH1kTRfLqgT+NaEoNE3NAzD7Ojwk4iI2o0WTWdp7atAmJwsltJ5ez/4Pu4Efu13BGF6QiXCfLmwolkSVU2sRKh7HlTmT5UH7UaLiKi2O0OlD6OXvmqbL0d3tRLArfoGauH3Tx/7lQH6t4FaPLe/SgAAAAAAAAAAgKV8ATOhmGtQ6xo1AAAAAElFTkSuQmCC","wico0":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAv0lEQVR42mNkIBNEWpj9//nrD5y/7tw5RnLMYaLE8rRAHQZLbW4GBgYGhiAjo/90cwDMchiAOYJuDmBnY2GgFiA7BAbUAQMeAtQEQ9MBo2lgNA0MeBoY8BCAJcLLt+4PbAjoqimO5oJRB1AMyC5TZ62/QpXimawQWH7iFCMDAwODMN9vBiUJdhSx0TQw6oBRB4ycgoiBgYHh7SdWhrefftLfAZEWZv+NVNnhVTKkXWD0n5weMiO5LkfvDZPbPQcAcx84rnb28MsAAAAASUVORK5CYII=","wpn1":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABTElEQVR42u2XMU7DMBiFbSvq2AF1RBaqKk7QMeIgPSAHQR45AbIQshgrBsYuYbJqQiBNiCX77/eNVe32f3nv2VEKAAAAAAAAAAAAAL7T7mwndTY9dXjng5YkQDM2/OHhTr28fySf2k6SCOaSL93f3oiNt5m6YL9di+qEUQEen95+uECSCH8K0M96PwoSRBh1gPNBRxekIuy36+vpgL4IkqIwqQSH+qD2KFwswG99UHsUJjlAYhTMnEWSjsbJAkh7F5jlgDQKtbvAzF0oRQSz1Ea1Ho3/EmDolvj8+llVVyzyJ9OnbTcrFY6nakQwOTa1m1U1JbjoE2p3tkuHD8dT8S5Y1AHOBx3tH51QehkuHoG+CKWfCCbXxlGE0vsgWz6H+qDEk6HJtbHzQbfqbP342ux8WQ5ocv9AHDxekK6mA1Jqux0CAAAAAAAACOcLpTGIehQ+1T8AAAAASUVORK5CYII=","wico1":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAlklEQVR42mNkIBPYqMj9R+YfufOIkRxzmCixPMpOgcFEiQ+rg2jqAJjlMABzBF0dQC0w6oBRB4w6YNQBow6gyAG3nrwbWAeoyQiNpoFRB1AMWMjVuOzQg4ELAVgDVE6EjUFOhI3+jdLRRDjqgFEHDIqCiIGBgeHRm18D4wAbFbn/sP6gmowQtF0g95+cwoiRXJdTq3sOACVxI37a9fM6AAAAAElFTkSuQmCC","wpn2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACLklEQVR42u2ZsUsbURzHv++45sBKHVzcig4iig43BAsOnesgZIpyoGOhwUHw33AQLcWppVK7NNJBZ8FA5IYb1ARxsHRzcbAY4WLgdZCX3jVNNGkC957fz5a8u8t7X36/7+97BCCEEEIIIYQQQgghhBASJ+O60tSziXYPnw8CYZIAdqvF+em0XJwdw8n5j8i3rjRJBKvVYlitAQAmR4cb1gp+WRpfAf/i1cRzAK6cSY8L4yvASdn4tHcGALh6ORcTwRRjbCpA1svJd+sf623w2jluaIWM68qCX5ZZL6etGI8qY2WGCmWKxVIFKx+2oXM7WI+5aOfIF6oVDsKpWCusvfXM9YCo44fVGrZ2T5u2gmobIwWYSY+LfBAIJ/VnaCgR7qfCvUhftzeEkR7QzA+iAalYqmiZEq12LlbhZ2v3tCEg6Toa2xJgY/09do588ZBIOqXEjkv2oVZQhph0X+h4cwW/LDeXl7A4O4aDcAqDP7/HRNAlH1id3JT1crF3gb9Ho5Oysbm8ZHYLNEuJyiB1mQhd2eT8dFqG1RpG3yygFnzDxWWojQjW/9yc9XJ1x3dSNs73v+D69gYjQ465QagVGdeVgy/uAAADff24uAwTXwVWNx+WDwJx9etZ/fPIkJP4cGR1+4FKhOvbm4aXpSchgEKJkHQ/6Fl/Kj8Y6OsHgMROhp5uJlr66rV59fNhogSwe/0D6uDFUuVpeYDKBtHDm/avEiGEEEIIIYQQoim/AQB04v8rFX2BAAAAAElFTkSuQmCC","wico2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR42mNkIBNEWpj9//nrD5y/7tw5RnLMYaLE8rRAHQZLbW4GBgYGhiAjo/90cwDMchiAOYLmDoiIyfl/5NS1/+xsLAzUAiQ5YMWSKYw2ZlqMsLg/8FOPvg6AAVgIOLBfQhE/cura/4iYHJLSAvXCkoGBwcZMi5EuaYCajh5NA6NpYGimARgYsDQAS4SXb90f2DSgq6Y4MGkAxh+5aWDQlgPkhABZ7ThYk0zNK4rh1rZl8Jyx/MQpks1jJDe4g4yM/gvz/Wbg5+JhuPfiJ30bpQNWFI86YNQBw9IBFBXFbz+xMrz99JP+Doi0MPtvpMoOr5Ih7QKj/+QURhSVhMh8cktCAN4ZkjPxvIosAAAAAElFTkSuQmCC","wpn3":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACBUlEQVR42u2YPWvbQBzGHx1OBJaJMW1BnYw9lEDIokEoxuCx4IZCs3nqR/DUtR+km8mQzZmSpWONbTxoaWNCCe5qaDukTQxODdehnCrbiV+wDdLl+W06nU53j/6vAgghhBBCCCGEEEIIIYSMc+Q4UtezGcsevu77hk4CJGbdrHiufPtqF5+/fguNOlInEcSsm8O7EQBg/0UuGOsnbTwaC5jEKlXhPOsCgGw2zg3tLcDcTqB2done89ewSlV0u10AwJvcb20C49yvWCiWpeN6AIDDzFUQD1oXt1oERTFvQrNxbvidNg4zV2Px4GDP0j8IhkWonV1OjR/sWbF3BbHoxOHdCB9Ov0xlhbgXSgsLUPd9w9z+nzR0cQWxzOSTdudBVygUy1J7ARSTrmCVqnBcL5YiLC3ASbsTpL3J+sAe9PWrAxapD7LfPwbjrYvbWNUGK220UCzL9y+fAsBYwxQnEcQqD2dHP6aygiqhK54rtbeAcMs8GSDjYgFr2WTFc6VqnfO2iV5/GBsRxLoWUkXS9eAGedvUPwvcx5HjyCc7fwAA6WQKvf4w8lYg1rlY3feNn7+2guu8bUa+TxDrXlCJcD24iUWzJDa1sBIh6vFgY/6p4kE6mfpXNkc0M2x0M2HTV23zu+NPkRIgsekXqIOrf4iPJgaEawNdfqASQgghhBBCCCGa8Bdiy7ToOqWNJAAAAABJRU5ErkJggg==","wico3":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA9UlEQVR42mNkIBNEWpj9//nrD5y/7tw5RnLMYaLE8rRAHQZLbW4GBgYGhiAjo/90cwDMchiAOYJuDmBnY2GgFiDLpIcsIgz3JP0YGBgYGLglIWIv7s+jnwMYGBgYrl27NnAhIP/nDYOP4B0GBgYGhsu37jMwMDAwPPv2lX5pgJqA7FwwoA6gZi4YmlEwmgaoCchKTS+4JEZLwhFeEg4rB5CdCGetv0KV4pmsEFh+4hQjAwMDgzDfbwYlCXYUsdE0MOqAUQeMnIKIgYGB4e0nVoa3n37S3wGRFmb/jVQhBZCumiK0RjT6T04PmZFcl6P3hsntngMA0YNShjnRF+MAAAAASUVORK5CYII=","wpn4":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABZ0lEQVR42u2YsWrDMBRFn4Tp2KmzCSVjh1I6BX1BPiNTCP2cUvol+QKRqYQOmYopRVOHTBlDQRlSJarr1paxwXq6BwxGWDbvcu+TLCIAAAAAAAAAAAAAAAAAP5moqeVamwgtfqWXgpMAWV3xj89PtH7d+MOWkwiyyUN3tzds4y1DJ8zmC1Y9oVaAh/nilws4ifCvAOWsl6PAQYRaB6z0UjgX+CLMvDH2PaAsAqcoBDXBqn4QexQaC/BXP4g9CkEO4BgF2WYSp6UxWABu/wKtHOBHIXYXyLYTuYggu3oRx11i48OS9ebjdE3U1MZUvOhKBHc/+nojs90TEZEujEgmAkRE8vN4cJJfXVBSDnCocW794s12P3gXdOoAXRjh7O+coMa5TUaAKhGcM5IRwLd/DP2gt3xW9YMhrgxZXy/WhRGKzta/v778Hh+WA7K+P+AKf3nfpdUDfFzxMWyMAAAAAAAAAACABDgAIIyUdKtq20AAAAAASUVORK5CYII=","wico4":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAp0lEQVR42mNkIBNY2Xj9R+YfO7KNkRxzmCixfMqMaQxJGVlYHURTB8AshwGYI+jqAGqBUQeMOmDUAaMOGHUARQ44d+HKwDrAyEBnNA2MOoBiwEKuxhwKWkHIgJFcjTYqcv/lRNgYGBgYGB69+cVw5M4jxtE0MOqAUQeMrIIIlv8HxAE2KnL/TZT4GBgYGBjUZIQYbj15x8DAIPefnMKIopIQmU9uSQgA7D8oNVTLwRYAAAAASUVORK5CYII=","wpn5":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABbUlEQVR42u2YL0/DQBjGn2sa5NR0xTJFyBSyauEz9CNMTSIm9wGQU3wEJApBpiomUBOoBnG6CkHITDEcHKXQP2mT3nvPL2nSXHrXvE+e571rAUIIIYQQQgghhBBCCCE/WSzXhdTaVNvij/udkiRAWFf87d0NHp9ze7iQJELQ5KGr86nYeAdtJyTbjaieUCvAKrn+5QJJIvwrQDnr5ShIEKHWAcf9ThkX2CIk240/PaAsgqQotGqCVf3A9Sg0FuCvfuB6FFo5QGIUgi6TJG2NrQWQ9i3QyQF2FFx3QdB1ohQRgr4WknhKbPyz5JC/f12L5bpwqXjVlwjm/uLtATo/AQDSTCtvIgAAE30PAIimZ/DKAYZ4HhV28To/jd4FvTogzbQy9jdOiOdR4Y0AVSIYZ3gjgG1/F/rBYPms6gdj3BnCoRZOM61ifFv/cjb5HB+XA8KhX2AKf3p59asH2JjiXTgYEUIIIYQQQgghHvABpluVmtoYNdcAAAAASUVORK5CYII=","wico5":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAp0lEQVR42mNkIBPoOeX8R+Zf2jeFkRxzmCixfNaqHoawhgqsDqKpA2CWwwDMEXR1ALXAqANGHTDqgFEHjDqAIgfsufZmYB3goiUymgZGHUAxYCFXY1pYCVUcwEiuRhsVuf9yImwMDAwMDI/e/GI4cucR42gaGHXAqANGVkEEy/8D4gAbFbn/Jkp8DAwMDAxqMkIMt568Y2BgkPtPTmFEUUmIzCe3JAQAuHcor5GOCuMAAAAASUVORK5CYII=","wpn6":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABdUlEQVR42u2ZMU7DMBSGbasjZ2BiQIixYqqqKifIwAE8MEUMDB04AgMDQ1UxdPABGDozMESZUEeGDEwcIFOV1UyGYChpqljKe/4/KVIUNa7en//9L26FAAAAAAAAAAAAAAAAAPATPZ1YrrXJrsWbvJCcBBi1Fb9cr8TH+9v3xbmwnERQ+3zo+OScbXurrjfc3t+wyoRWAbL06pcLOInwrwB+r2+zhdhmC1bTodUBJi+kc4HfCtG9C9RVaeuqtOXr09dB3QWdQvCvPKDeCnsL4OeBEyHqVtiMZ3YznpFuBXXITbtCkaIInQVotsLZ86M4Wl7Hu0PkOBWiE0H1tRCn0XiwC+qqtHo6IeUA2ZcI7jzViVibFzI/nqgQi6Y6EVFlgMkL6T/tVCckcqBXB5i8kM7+VETovQV8EYY+EVSohZ0IQ8+DIALsyoMhOiHomGoW7LbNpxeXgxqNo9Bf4Aq/mz/ElQFNXPHc/lUCAAAAAAAAAACI8gk0FstjsfL1aQAAAABJRU5ErkJggg==","wico6":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAtElEQVR42mNkIBMk2Nn8R+YvOHSEkRxzmCixfNqGOQwVPQVYHURTB8AshwGYI+jqAGqBUQdQ5IBrbhkMX7KmDGwI8EzLGTgHaO2aMZoIRx0wsLngmlsGxSHAMpBZkOIQkFPRGU2Eow4YuFyQFZAycCEAa4AGJDgxBCQ40b9ROpoIRx0w6oBBURAxMDAwbFiwb2BcnWBn8//GqTX/b5xa8//buxv/b5xa85/czikjJY6gRvccAJY/OEUe8OilAAAAAElFTkSuQmCC"}; /*SPR*/
+const look = () => ({skin:S.skin||0, hair:S.hair||0, weapon:S.equip.weapon ? S.equip.weapon.band : null});
+function dollHTML(L, cls, size){
+  const w = L.weapon!=null ? `<img src="${SPR['wpn'+L.weapon]}" alt="">` : '';
+  return `<span class="doll ${cls||''}" aria-hidden="true"${size?` style="width:${size}px;height:${size}px"`:''}><img src="${SPR['body'+L.skin]}" alt=""><img src="${SPR['hair'+L.hair]}" alt="">${w}${w?`<img src="${SPR['fist'+L.skin]}" alt="">`:''}</span>`;
+}
+const SLOT_ICONS = {
+  helm:'<path d="M4 15a8 8 0 0 1 16 0v2H4z"/><path d="M11 5h2v4h-2z"/>',
+  top:'<path d="M7 3l5 2 5-2 4 4-3 3v11H6V10L3 7z"/>',
+  bottom:'<path d="M6 3h12l1 18h-5l-2-10-2 10H5z"/>',
+  suit:'<path d="M8 2l4 2 4-2 4 4-2 3v13h-4l-2-6-2 6H6V9L4 6z"/>',
+  shoes:'<path d="M5 11h6l1-6h5v8l3 2v4H4z"/>',
+  cape:'<path d="M8 3h8l4 18H4zM10 3l2 4 2-4"/>',
+  earring:'<path d="M12 2a2 2 0 0 1 2 2v3h-4V4a2 2 0 0 1 2-2z"/><circle cx="12" cy="14" r="5" fill="none" stroke="currentColor" stroke-width="2.5"/>',
+  ring:'<circle cx="12" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M9 6l3-4 3 4z"/>',
 };
-const LEGS_T = [[1,3],[1,3],[0,3],[2,3],[3,3]];
-const SKINS = [['#e5c49d','밝은 피부',[0,0]],['#c8a480','구릿빛',[1,0]],['#9f7c4d','어두운 피부',[2,0]],['#409c62','초록 피부',[3,0]]];
-const HAIR_BLOCK = [[4,23],[0,19],[4,19],[0,23],[8,19]];
-const HAIR_STYLES = [['짧은 머리',[0,0]],['땋은 머리',[1,3]],['묶은 머리',[2,1]],['수염',[0,3]]];
+function itemIcon(it){
+  if (it.slot==='weapon') return `<img src="${SPR['wico'+it.band]}" alt="">`;
+  return `<svg viewBox="0 0 24 24" fill="currentColor" class="rar${it.rar}">${SLOT_ICONS[it.slot]}</svg>`;
+}
+const ICON = {
+  home:'<path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/>',
+  adv:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm3.5 6.5l-2 5-5 2 2-5z"/>',
+  char:'<circle cx="12" cy="8" r="4.5"/><path d="M3 21a9 9 0 0 1 18 0z"/>',
+  bag:'<path d="M8 6V5a4 4 0 0 1 8 0v1h3l1 15H4L5 6zm2 0h4V5a2 2 0 0 0-4 0z"/>',
+  rec:'<path d="M7 3h10v2h4v3a5 5 0 0 1-5 5 5 5 0 0 1-3 2v3h3v3H8v-3h3v-3a5 5 0 0 1-3-2 5 5 0 0 1-5-5V5h4zm0 4H5v1a3 3 0 0 0 2 2.8zm10 0v3.8A3 3 0 0 0 19 8V7z"/>',
+  gear:'<path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1L11 21h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5A3.5 3.5 0 1 1 13 8.5a3.5 3.5 0 0 1 0 7z"/>',
+  star:'<path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/>',
+  flag:'<path d="M5 3h2v18H5zM8 4h11l-2 4 2 4H8z"/>',
+  trend:'<path d="M4 18l6-6 4 4 6-8v10z"/>',
+  box:'<path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h3v13H3V7zm2 0h8V5H8z"/>',
+  sword:'<path d="M14 3h7v7l-9 9-2-2-3 3-2-2 3-3-2-2z"/>',
+};
+const svg = (k, s=20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICON[k]}</svg>`;
 
-function dollLayers(look){
-  const eq = look.equip || {}, c = look.cls, L = [];
-  L.push(SKINS[look.skin||0][2]);
-  L.push(LEGS_T[eq.armor ? eq.armor.tier : 0]);
-  if (eq.armor) L.push(KT.armor[c][eq.armor.tier]);
-  const hb = HAIR_BLOCK[look.hair||0], hs = HAIR_STYLES[look.hairStyle||0][1];
-  L.push([hb[0]+hs[0], hb[1]+hs[1]]);
-  if (eq.helm) L.push(KT.helm[c][eq.helm.tier]);
-  if (eq.shield) L.push(KT.shield[c][eq.shield.tier]);
-  if (eq.weapon) L.push(KT.weapon[c][eq.weapon.tier]);
-  return L;
+/* ---------- render: shared ---------- */
+const gold = () => `<div class="gold"><span class="coin"></span><span class="num">${fmt(S.gold)}</span></div>`;
+function top(title, sub, extra){
+  return `<div class="top"><div class="grow"><h1>${title}</h1>${sub?`<div class="s">${sub}</div>`:''}</div><div class="right">${extra||''}${gold()}</div></div>`;
 }
-const dollCache = new Map(), iconCache = new Map();
-function dollCanvas(look){
-  const L = dollLayers(look), k = L.map(t=>t.join(',')).join('|');
-  let cv = dollCache.get(k);
-  if (cv) return cv;
-  cv = document.createElement('canvas'); cv.width = 16; cv.height = 16;
-  const ctx = cv.getContext('2d');
-  for (const [r,c] of L) ctx.drawImage(sheet, c*17, r*17, 16, 16, 0, 0, 16, 16);
-  dollCache.set(k, cv); return cv;
+function bars(){
+  const pct = S.lv>=MAX_LV ? 100 : S.exp/needExp(S.lv)*100;
+  return `<div class="barlabel"><span>경험치</span><span>${S.lv>=MAX_LV ? '<b>최고 레벨</b>' : `<b>${pct.toFixed(1)}%</b> · 다음 레벨까지 ${fmt(needExp(S.lv)-S.exp)}`}</span></div>
+    <div class="bar" role="progressbar" aria-label="경험치" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%;background:var(--exp)"></i></div>
+    <div class="barlabel"><span>HP</span><span><b class="num">${S.hp}</b> / ${hpMax()}</span></div>
+    <div class="bar"><i style="width:${S.hp/hpMax()*100}%;background:var(--hp)"></i></div>
+    <div class="barlabel"><span>MP</span><span><b class="num">${S.mp}</b> / ${mpMax()}</span></div>
+    <div class="bar"><i style="width:${S.mp/mpMax()*100}%;background:var(--mp)"></i></div>`;
 }
-function tileIcon(r, c){
-  const k = r+','+c; let v = iconCache.get(k);
-  if (v) return v;
-  const t = document.createElement('canvas'); t.width = 16; t.height = 16;
-  const tc = t.getContext('2d'); tc.drawImage(sheet, c*17, r*17, 16, 16, 0, 0, 16, 16);
-  const d = tc.getImageData(0,0,16,16).data;
-  let x0=16,y0=16,x1=-1,y1=-1;
-  for (let y=0;y<16;y++) for (let x=0;x<16;x++) if (d[(y*16+x)*4+3]){ if(x<x0)x0=x; if(y<y0)y0=y; if(x>x1)x1=x; if(y>y1)y1=y; }
-  if (x1<0){ x0=0; y0=0; x1=15; y1=15; }
-  v = document.createElement('canvas'); v.width = x1-x0+1; v.height = y1-y0+1;
-  v.getContext('2d').drawImage(t, x0, y0, v.width, v.height, 0, 0, v.width, v.height);
-  iconCache.set(k, v); return v;
+function todos(){
+  const T = [];
+  if (S.retired) return T;
+  const y = S.y;
+  const ph = {event:['올해의 사건이 기다려요','사건 확인하기'], train:[`수련 ${y.trainLeft}회 · 사냥 ${y.huntLeft}회 남았어요`,'수련하고 사냥한 뒤 원정을 떠나요'], battle:['원정이 끝났어요','한 해 결산하기'], review:[y.offerDecided?'한 해가 끝났어요':'제안이 도착했어요', y.offerDecided?`${S.age+1}세로 넘어가기`:'제안에 답하기']}[S.phase];
+  if (ph) T.push({ic:'flag', blue:true, t:ph[0], d:ph[1], go:'adv:year', dot:true});
+  if (S.points) T.push({ic:'star', blue:true, t:'능력치 포인트가 남았어요', d:`${S.points}포인트 · 캐릭터에서 분배`, go:'char', dot:true});
+  if (mainReady()) T.push({ic:'flag', t:`메인 퀘스트 · ${MAIN_QUESTS[S.mainDone].t}`, d:'보상을 받을 수 있어요', go:'adv:quest', dot:true});
+  const rq = y.quests.filter(questReady).length, lq = y.quests.filter(q=>!q.claimed && !questReady(q)).length;
+  if (rq) T.push({ic:'trend', blue:true, t:`완료한 의뢰 ${rq}개`, d:'보상 받기', go:'adv:quest', dot:true});
+  else if (lq) T.push({ic:'trend', t:`올해 의뢰 ${lq}개 진행 중`, d:y.quests.filter(q=>!q.claimed).map(q=>`${q.t} ${q.p}/${q.n}`).join(' · '), go:'adv:quest'});
+  const nw = S.bag.filter(x=>x.isNew);
+  if (nw.length) T.push({ic:'box', t:'새 장비를 얻었어요', d:nw.slice(0,2).map(x=>`${RARITY[x.rar]} · ${itemInfo(x).name}`).join(', ')+(nw.length>2?` 외 ${nw.length-2}개`:''), go:'bag', dot:true});
+  if (S.hp < hpMax()*.4 && S.inv.hp) T.push({ic:'box', t:'HP가 낮아요', d:`체력 물약 ${S.inv.hp}개 보유`, go:'bag:use'});
+  return T;
 }
-
-/* ---------- scenes (40x28, same pixel density as the doll) ---------- */
-const SW = 40, SH = 28, GROUND = 24;
-function hex(c){ return [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)]; }
-function sceneData(fac, f){
-  const d = new Uint8ClampedArray(SW*SH*4);
-  const set = (x,y,c) => { x|=0; y|=0; if (x<0||y<0||x>=SW||y>=SH) return; const [r,g,b] = hex(c), i = (y*SW+x)*4; d[i]=r; d[i+1]=g; d[i+2]=b; d[i+3]=255; };
-  const rect = (x0,y0,x1,y1,c) => { for (let y=y0;y<=y1;y++) for (let x=x0;x<=x1;x++) set(x,y,c); };
-  const disc = (cx,cy,rad,c) => { for (let y=cy-rad;y<=cy+rad;y++) for (let x=cx-rad;x<=cx+rad;x++) if ((x-cx)**2+(y-cy)**2 <= rad*rad+rad*0.6) set(x,y,c); };
-  const tri = (x0,x1,apx,apy,base,c) => { for (let y=apy;y<=base;y++){ const t=(y-apy)/Math.max(1,base-apy), l=Math.round(apx-(apx-x0)*t), r=Math.round(apx+(x1-apx)*t); rect(l,y,r,y,c); } };
-  const cloud = (x,y) => { rect(x,y,x+6,y+1,'#ffffff'); rect(x+1,y-1,x+3,y-1,'#ffffff'); rect(x,y+1,x+6,y+1,'#dff1fd'); };
-  const twinkle = (pts) => pts.forEach(([x,y],i) => set(x,y, ((i+f)%3===0) ? '#ffffff' : '#9d93cf'));
-  const shadow = (c) => rect(15,GROUND,24,GROUND,c);
-  const flame = (x,y) => { set(x,y,(f&1)?'#ffe08a':'#ffb347'); set(x,y-1,(f&1)?'#ff7a3a':'#ffe08a'); if (f&1) set(x+1,y-1,'#ff7a3a'); else set(x-1,y-1,'#ff7a3a'); };
-  if (fac===0){
-    rect(0,0,SW-1,15,'#8ed1fb'); rect(0,16,SW-1,GROUND-1,'#b4e2fc');
-    cloud((3+Math.floor(f/2))%46-6,4); cloud((26+Math.floor(f/3))%46-6,8);
-    for (let x=0;x<SW;x++){ const h = 19 + Math.round(Math.sin(x/4)*1.2); rect(x,h,x,GROUND-1,'#8ad277'); }
-    rect(2,18,8,23,'#efdcb6'); rect(8,18,8,23,'#d4be95'); tri(1,9,5,14,17,'#d0574e'); rect(5,21,5,23,'#7a4b2a'); set(3,19,'#ffe39a');
-    rect(34,20,34,23,'#7a4b2a'); rect(32,15,36,19,'#4f9f3e'); rect(33,14,35,14,'#4f9f3e'); set(33,16,'#6bbd55'); set(34,15,'#6bbd55');
-    rect(0,GROUND,SW-1,SH-1,'#5fae4b'); rect(0,GROUND,SW-1,GROUND,'#77c35c');
-    rect(13,GROUND+1,26,SH-1,'#c9a46a'); rect(14,GROUND,25,GROUND,'#d6b37a'); shadow('#b18c56');
-    [3,9,30,37].forEach(x=>set(x,GROUND+2,'#4d9a3c'));
-  } else if (fac===1){
-    rect(0,0,SW-1,13,'#b4b3ea'); rect(0,14,SW-1,GROUND-1,'#d4d3f5');
-    for (let i=0;i<5;i++) set(4+i*8,2+(i*3)%7,'#ffffff');
-    rect(0,17,SW-1,GROUND-1,'#a3a6be'); for (let x=0;x<SW;x+=3) set(x,16,'#a3a6be');
-    for (let y=19;y<GROUND;y+=2) for (let x=(y&2)?0:2;x<SW;x+=4) set(x,y,'#9195ae');
-    rect(30,6,36,GROUND-1,'#8f93ad'); rect(36,6,36,GROUND-1,'#7a7e98'); tri(29,37,33,2,5,'#4f5aa0'); rect(33,10,33,12,'#ffd27a'); rect(33,16,33,18,'#ffd27a');
-    rect(0,GROUND,SW-1,SH-1,'#8a8ea6'); rect(0,GROUND,SW-1,GROUND,'#a2a6bd'); for (let x=0;x<SW;x+=5) rect(x,GROUND+1,x,SH-1,'#7a7e96'); shadow('#74788f');
-  } else if (fac===2){
-    rect(0,0,SW-1,8,'#e9875f'); rect(0,9,SW-1,15,'#f2a970'); rect(0,16,SW-1,GROUND-1,'#f7cf94');
-    disc(31,17,3,'#fff0c0');
-    for (let x=0;x<SW;x++){ const h = 20 + Math.round(Math.sin(x/3+1)); rect(x,h,x,GROUND-1,'#8f5f48'); }
-    tri(1,11,6,13,GROUND-1,'#8a5a3a'); tri(6,11,6,13,GROUND-1,'#6b4329'); rect(5,20,7,GROUND-1,'#3a2418');
-    tri(28,38,33,14,GROUND-1,'#8a5a3a'); tri(33,38,33,14,GROUND-1,'#6b4329'); rect(32,20,34,GROUND-1,'#3a2418');
-    rect(0,GROUND,SW-1,SH-1,'#a5845a'); rect(0,GROUND,SW-1,GROUND,'#bb9a6a'); shadow('#8c6d47');
-    rect(26,GROUND-1,28,GROUND-1,'#5a3a22'); flame(27,GROUND-2);
-  } else if (fac===3){
-    rect(0,0,SW-1,GROUND-1,'#2e3242');
-    for (let y=0;y<GROUND;y+=4){ rect(0,y,SW-1,y,'#252836'); for (let x=(y/4)%2?3:0;x<SW;x+=6) rect(x,y,x,y+3,'#252836'); }
-    rect(14,9,25,GROUND-1,'#1a1d27'); rect(15,8,24,8,'#1a1d27');
-    rect(4,13,4,15,'#5a3a22'); flame(4,12); rect(35,13,35,15,'#5a3a22'); flame(35,12);
-    rect(0,GROUND,SW-1,SH-1,'#4a4f63'); rect(0,GROUND,SW-1,GROUND,'#5f6580'); for (let x=2;x<SW;x+=6) rect(x,GROUND+1,x,SH-1,'#3d4154'); shadow('#3a3e50');
-  } else if (fac===4){
-    rect(0,0,SW-1,9,'#7fbef0'); rect(0,10,SW-1,GROUND-1,'#a9d4f6');
-    cloud((30+Math.floor(f/2))%46-6,4);
-    rect(0,13,SW-1,GROUND-1,'#a8aebb'); for (let x=0;x<SW;x+=4) rect(x,11,x+1,12,'#a8aebb');
-    for (let y=15;y<GROUND;y+=3) for (let x=(y%2)?0:2;x<SW;x+=5) set(x,y,'#959ba9');
-    rect(15,15,24,GROUND-1,'#3a3f4c'); rect(16,14,23,14,'#3a3f4c');
-    rect(5,14,8,19,'#c13b3d'); rect(5,20,5,20,'#c13b3d'); rect(8,20,8,20,'#c13b3d'); set(6,16,'#e8bd4a'); set(7,16,'#e8bd4a');
-    rect(31,14,34,19,'#c13b3d'); rect(31,20,31,20,'#c13b3d'); rect(34,20,34,20,'#c13b3d'); set(32,16,'#e8bd4a'); set(33,16,'#e8bd4a');
-    rect(0,GROUND,SW-1,SH-1,'#5f9e52'); rect(0,GROUND,SW-1,GROUND,'#79b968'); rect(14,GROUND,25,SH-1,'#b7ae9c'); shadow('#968d7c');
-  } else if (fac===5){
-    rect(0,0,SW-1,GROUND-1,'#2f3566');
-    rect(8,4,11,14,'#a9bcf5'); rect(9,3,10,3,'#a9bcf5'); rect(9,4,9,14,'#8aa0e6'); rect(28,4,31,14,'#a9bcf5'); rect(29,3,30,3,'#a9bcf5'); rect(29,4,29,14,'#8aa0e6');
-    rect(1,2,4,GROUND-1,'#e2deef'); rect(4,2,4,GROUND-1,'#b6b0cc'); rect(0,2,5,2,'#f2f0f8'); rect(35,2,38,GROUND-1,'#e2deef'); rect(38,2,38,GROUND-1,'#b6b0cc'); rect(34,2,39,2,'#f2f0f8');
-    rect(0,0,SW-1,1,'#9b2c3e'); for (let x=0;x<SW;x+=4) set(x,2,'#9b2c3e');
-    rect(0,GROUND,SW-1,SH-1,'#4e4462'); for (let y=GROUND;y<SH;y+=2) for (let x=(y%4)?0:2;x<SW;x+=4) rect(x,y,x+1,y,'#5c5172');
-    rect(13,GROUND,26,SH-1,'#b03447'); rect(13,GROUND,13,SH-1,'#e8bd4a'); rect(26,GROUND,26,SH-1,'#e8bd4a'); shadow('#8a2737');
-  } else {
-    rect(0,0,SW-1,11,'#130e2a'); rect(0,12,SW-1,19,'#1f1640'); rect(0,20,SW-1,GROUND-1,'#2c1e4e');
-    twinkle([[3,3],[9,7],[15,2],[22,5],[26,10],[37,13],[5,12],[18,9]]);
-    disc(32,6,3,'#f5ecd0'); set(31,5,'#e2d6b2'); set(33,8,'#e2d6b2');
-    for (let x=0;x<SW;x++){ const h = 17 + Math.round(Math.sin(x/5)*2 + Math.sin(x/2)); rect(x,h,x,GROUND-1,'#211838'); }
-    rect(2,15,4,GROUND-1,'#3a2f5e'); rect(2,14,2,14,'#3a2f5e'); rect(35,13,37,GROUND-1,'#3a2f5e'); rect(37,12,37,12,'#3a2f5e');
-    rect(0,GROUND,SW-1,SH-1,'#33284a'); rect(0,GROUND,SW-1,GROUND,'#4a3c66'); shadow('#241c36');
-    set(8+(f%3), 20-(f%4), '#ff9a4a'); set(30-(f%3), 18-(f%4), '#ff9a4a');
-  }
-  return new ImageData(d, SW, SH);
+const todoDot = () => todos().some(t=>t.dot);
+function todoList(T){
+  return `<div class="list">${T.map(t=>`<button class="item" data-go="${t.go}"><span class="ic ${t.blue?'blue':''}">${svg(t.ic)}</span>
+    <span class="grow"><span class="t">${t.t}${t.dot?' <span class="dot"></span>':''}</span><span class="d" style="display:block">${t.d}</span></span><span class="chev">›</span></button>`).join('')}</div>`;
 }
 
-/* ---------- stage painting ---------- */
-let frame = 0;
-const off = document.createElement('canvas'); off.width = SW; off.height = SH;
-const octx = off.getContext('2d');
-function paintStage(cv, look, fac){
-  octx.putImageData(sceneData(fac, frame), 0, 0);
-  if (sheetReady) octx.drawImage(dollCanvas(look), 12, 8);
-  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth || 320, s = Math.max(1, Math.round(w*dpr/SW));
-  if (cv.width !== SW*s){ cv.width = SW*s; cv.height = SH*s; }
-  const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(off, 0, 0, SW*s, SH*s);
-}
-function draftLook(){ return {cls:draft.cls, hair:draft.hair, hairStyle:draft.hairStyle, skin:draft.skin, equip:{weapon:{tier:0}, armor:{tier:0}}}; }
-function myLook(){ return {cls:S.cls, hair:S.hair, hairStyle:S.hairStyle, skin:S.skin, equip:S.equip}; }
-function paintStages(){
-  document.querySelectorAll('canvas[data-hero]').forEach(cv => {
-    if (cv.dataset.hero==='draft') paintStage(cv, draftLook(), 0);
-    else if (S) paintStage(cv, myLook(), S.fac);
-  });
-}
-function paintIcons(){
-  if (!sheetReady) return;
-  const dpr = window.devicePixelRatio || 1;
-  document.querySelectorAll('.ico[data-icon]').forEach(el => {
-    const [slot, tier] = el.dataset.icon.split(':');
-    const cl = S ? S.cls : draft.cls;
-    const [r,c] = KT[slot][cl][+tier];
-    const src = tileIcon(r, c), cv = el.querySelector('canvas'); if (!cv) return;
-    const box = el.clientWidth ? el.clientWidth - 8 : 40;
-    const k = Math.max(1, Math.floor(box*dpr / Math.max(src.width, src.height)));
-    cv.width = src.width*k; cv.height = src.height*k;
-    const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(src, 0, 0, cv.width, cv.height);
-  });
-}
-function paintAll(){ paintStages(); paintIcons(); }
-sheet.onload = () => { sheetReady = true; dollCache.clear(); iconCache.clear(); paintAll(); };
-sheet.src = SHEET_SRC;
-const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduceMotion) setInterval(() => { frame++; paintStages(); }, 600);
-window.addEventListener('resize', () => paintAll());
-const ico = (slot, tier) => `<span class="ico rb${tier}" data-icon="${slot}:${tier}"><canvas></canvas></span>`;
-
-/* ---------- render ---------- */
-function heroPanel(){
-  const C = cls(), k = C.key, c = cp(), F = FACTIONS[S.fac];
-  const pct = clamp(c,0,99), req = F.lv;
-  const T = S.tot;
-  const role = S.phase!=='retired' && S.y ? S.y.role : null;
-  return `<section class="card stack" aria-label="내 캐릭터">
-    <div class="hero">
-      <div class="stage"><canvas class="scene" width="40" height="28" data-hero="me" role="img" aria-label="${esc(S.name)}의 도트 캐릭터"></canvas></div>
-      <div class="who">
-        <span class="label">${esc(S.origin)} · ${C.name} · ${esc(S.style)}</span>
-        <span class="name">${esc(S.name)}</span>
-        <div class="row small"><span>${S.age}세</span><span>${F.name}</span>${role!==null?`<span class="chip r${role}">${ROLES[role]}</span>`:''}</div>
-        <div class="cpbox"><span class="num">${c}</span><span class="meta">전투력<br>최고 <span class="px">${S.peak}</span></span></div>
-        <div class="meter" title="요구 전투력 ${req}"><i style="width:${pct}%"></i><b style="left:${req}%"></b></div>
-        <span class="small muted">선봉 기준 ${req} · 잠재력 ${S.retired ? `<span class="px">${S.pot}</span>` : '<span class="secret">??</span>'} · 기질 ${S.traitShown||S.retired ? `<b title="${TRAITS[S.trait].desc}">${TRAITS[S.trait].name}</b>` : '<span class="secret">???</span>'}</span>
-      </div>
-    </div>
-    <div class="slots">${SLOTS.map(([s,n])=>{
-      const it = S.equip[s];
-      return `<div class="slot">${it ? ico(s,it.tier) : '<span class="ico empty"></span>'}<div style="min-width:0"><div class="label">${n}</div>${it
-        ? `<div class="nm rar${it.tier}">${itemName(it,S.cls)}</div><div class="bn">${SN[itemStat(it,S.cls)]} +${itemVal(it)}</div>`
-        : `<div class="nm muted" style="font-weight:400">비어 있음</div>`}</div></div>`;}).join('')}</div>
-    <div class="stats">${STATS.map(([s,n])=>{ const b = bonus(s);
-      return `<div class="stat ${k.includes(s)?'key':''}"><span class="k">${n}</span><span class="v">${eff(s)}</span>${b?`<span class="b">+${b}</span>`:''}</div>`; }).join('')}</div>
-    <div class="tally">
-      <div><span class="px star">${T.stars}</span><span class="label">영웅의 별</span></div>
-      <div><span class="px">${T.titles}</span><span class="label">칭호</span></div>
-      <div><span class="px">${T.merit}</span><span class="label">공적</span></div>
-      <div><span class="px">${T.wins}</span><span class="label">대업</span></div>
-      <div><span class="px">${T.caps}</span><span class="label">수호단</span></div>
-    </div>
+/* ---------- home ---------- */
+function homeView(){
+  const F = FACTIONS[S.fac], last = S.hist[S.hist.length-1], dc = S.y && !S.retired ? cp() - S.y.cpStart : last ? last.cpE - last.cpS : 0;
+  const T = todos();
+  let h = top('내 공책 그정도 아님', `${esc(S.name)}의 ${S.hist.length + (S.retired?0:1)}년째`, `<button class="iconbtn" data-go="rec:save" aria-label="저장 설정">${svg('gear',22)}</button>`);
+  h += `<section class="card">
+    <div class="row"><span class="avatar">${dollHTML(look())}</span>
+      <div class="grow"><div class="who">${esc(S.name)} · ${F.name} · ${S.age}세</div>
+        <div class="big"><span class="lv">Lv.${S.lv}</span>전투력 ${cp()}</div>
+        <div class="delta ${S.retired?'muted':dc>0?'up':dc<0?'down':'muted'}">${S.retired?`은퇴 · ${S.grade}`:`올해 ${dc>0?`+${dc}`:dc<0?dc:'변동 없음'}`}</div></div></div>
+    ${bars()}
+    <div class="stats3"><div><div class="k">처치한 몬스터</div><div class="v num">${fmt(S.tot.kills||0)}</div></div>
+      <div><div class="k">완료 퀘스트</div><div class="v num">${S.tot.quests||0}</div></div>
+      <div><div class="k">공적</div><div class="v num">${S.tot.merit}</div></div></div>
   </section>`;
+  if (S.retired) h += retiredCard();
+  if (T.length) h += `<section class="card"><h2>확인할 일</h2>${todoList(T)}</section>`;
+  if (!S.retired) h += `<button class="cta" data-go="adv:year">${S.phase==='train' ? '모험 떠나기' : '올해 이어가기'}</button>`;
+  return h;
+}
+function retiredCard(){
+  const T = S.tot;
+  return `<section class="card"><h2 class="row">은퇴식 · ${S.age}세 <span class="stamp">${S.grade}</span></h2>
+    <p>${esc(S.name)}은(는) ${S.hist.length}년의 모험을 마치고 무기를 내려놓았다. 최고 전투력 <b>${S.peak}</b>, 잠재력은 <b>${S.pot}</b>였다.</p>
+    <p class="small muted" style="margin-top:6px">Lv.${S.lv} · 대륙 대전 우승 ${T.tourWins}회 · 임무 ${T.missions}회</p>
+    ${S.awards.length ? `<p class="small" style="margin-top:6px">${S.awards.join(' · ')}</p>` : ''}
+    <div class="btns"><button class="btn pri" data-act="new">새 견습생 받기</button></div></section>`;
+}
+
+/* ---------- adventure ---------- */
+function seg(key, opts){
+  return `<div class="seg" role="tablist">${opts.map(([v,n])=>`<button role="tab" aria-selected="${UI[key]===v}" class="${UI[key]===v?'on':''}" data-seg="${key}:${v}">${n}</button>`).join('')}</div>`;
+}
+function advView(){
+  const y = S.y;
+  let h = top('모험', S.retired ? '은퇴한 모험가' : `${S.age}세 · ${FACTIONS[S.fac].name} · ${ROLES[y.role]}`);
+  if (S.retired){ return h + `<section class="card"><p class="muted">은퇴한 모험가는 더 이상 모험을 떠나지 않는다. 홈에서 새 견습생을 받을 수 있다.</p></section>`; }
+  h += seg('adv', [['year','올해'],['hunt','사냥터'],['quest','퀘스트']]);
+  if (UI.adv==='hunt') h += huntView();
+  else if (UI.adv==='quest') h += questView();
+  else h += seasonCard();
+  return h;
 }
 function steps(){
-  const st = [['event','사건'],['train','수련'],['battle','원정'],['review','결산']];
+  const st = [['event','사건'],['train','수련·사냥'],['battle','원정'],['review','결산']];
   const idx = st.findIndex(s=>s[0]===S.phase);
   return `<div class="steps">${st.map((s,i)=>`<span class="${i===idx?'on':i<idx?'done':''}">${s[1]}</span>`).join('')}</div>`;
 }
 function eventBlock(){
   const y = S.y, E = eventFor(y.event.t);
-  if (y.eventDone) return `<div class="block"><div class="row"><h3>${E.t}</h3></div><p class="muted small">${E.x}</p><p class="logline fade">${y.eventDone}</p></div>`;
+  if (y.eventDone) return `<div class="block"><h3>${E.t}</h3><p class="muted small">${E.x}</p><p class="logline fade">${y.eventDone}</p></div>`;
   return `<div class="block"><div class="row"><h3>${E.t}</h3><span>${die(y.event.a,y.event.b)}</span></div><p>${E.x}</p>
     <div class="choices">${E.c.map((c,i)=>`<button class="opt" data-act="event" data-i="${i}"><b>${c.l}</b>${c.d?`<small>${c.d}</small>`:''}</button>`).join('')}</div></div>`;
 }
 function trainBlock(){
   const y = S.y, k = cls().key;
   if (S.phase==='event') return '';
-  const done = y.train.map((t,i)=>`<p class="logline fade">수련 ${i+1} · ${SN[t.stat]} ${die(t.d)} → <b>+${t.g}</b>${t.note}</p>`).join('');
+  const done = y.train.map((t,i)=>`<p class="logline fade">수련 ${i+1} · ${SN[t.stat]} ${die(t.d)} → <b>+${t.g}</b>${t.note}${t.exp?expTag(t.exp,t.ups):''}</p>`).join('');
   if (S.phase!=='train') return y.train.length ? `<div class="block"><h3>수련</h3>${done}</div>` : '';
   const hint = S.age<=21 ? '주사위 눈만큼' : S.age<=27 ? '주사위 눈의 절반(올림)만큼' : S.age<=30 ? '4 이상이면 1' : '더 이상';
-  return `<div class="block"><div class="row between"><h3>수련</h3><span class="small muted">남은 횟수 <b class="px">${y.trainLeft}</b></span></div>
-    <p class="small muted">${S.age}세는 ${hint} 오른다. 파란 테두리가 ${cls().name}의 핵심 능력이다.</p>
+  return `<div class="block"><div class="row" style="justify-content:space-between"><h3>수련</h3><span class="small muted">남은 횟수 <b>${y.trainLeft}</b></span></div>
+    <p class="small muted">${S.age}세는 ${hint} 오른다. 수련마다 EXP +15. 테두리가 있는 칸이 핵심 능력이다.</p>
     ${done}
-    ${y.trainLeft>0 ? `<div class="trainbtns">${STATS.map(([s,n])=>`<button class="${k.includes(s)?'key':''}" data-act="train" data-s="${s}">${n}<small>${S.stats[s]}</small></button>`).join('')}</div>`
-      : `<div class="row"><button class="primary" data-act="battle">원정 떠나기</button></div>`}</div>`;
+    ${y.trainLeft>0 ? `<div class="trainbtns">${STATS.map(([s,n])=>`<button class="${k.includes(s)?'key':''}" data-act="train" data-s="${s}">${n}<small>${S.stats[s]}</small></button>`).join('')}</div>` : ''}</div>`;
+}
+function huntLog(){
+  const y = S.y; if (!y.hunts.length) return '';
+  return y.hunts.map(hh=>{ const G = GROUNDS[hh.g];
+    return `<div class="battle fade"><span class="m">${G.ico}</span><span class="q">${G.name}${hh.burst?' · 전력':''}</span><span class="badge ${hh.cls}">${hh.label}</span>
+      <span class="s2">${die(hh.a,hh.b)} ${sgn(hh.mod)} = ${hh.tot} · ${pick(G.mons)} 등 ${hh.kills}마리 · HP −${hh.dmg}${hh.faint?' · <b style="color:var(--red)">기절</b> '+hh.injury:''}${expTag(hh.exp,hh.ups)}${hh.gold?` · 골드 +${hh.gold}`:''}${hh.mat?` · ${G.mat} ${hh.mat}`:''}
+      ${hh.loot ? `<br><b>${hh.loot==='full' ? '전리품이 있었지만 가방이 가득 찼다' : `전리품 · ${itemLabel(hh.loot)}`}</b>` : ''}</span></div>`; }).join('');
+}
+function huntBlock(){
+  const y = S.y; if (S.phase==='event') return '';
+  if (S.phase!=='train') return y.hunts.length ? `<div class="block"><h3>사냥</h3>${huntLog()}</div>` : '';
+  const gi = bestGround(), G = GROUNDS[gi];
+  return `<div class="block"><div class="row" style="justify-content:space-between"><h3>사냥</h3><span class="small muted">남은 횟수 <b>${y.huntLeft}</b></span></div>
+    ${huntLog()}
+    ${y.huntLeft>0 ? `<p class="small muted">추천 사냥터 <b style="color:var(--ink)">${G.name}</b> · 다른 곳은 사냥터 탭에서 고른다.</p>
+      <div class="btns" style="margin-top:0"><button class="btn soft" data-act="hunt" data-g="${gi}">${G.ico} ${G.name}</button><button class="btn" data-act="hunt" data-g="${gi}" data-burst="1" ${S.mp<15?'disabled':''}>전력 사냥 · MP 15</button></div>` : ''}
+    </div>`;
 }
 function battleBlock(){
   const B = S.y.battles; if (!B) return '';
@@ -724,150 +907,283 @@ function battleBlock(){
   if (B.benchRoll!==null) h += `<p class="logline">예비대 출전 기회 ${die(B.benchRoll)} ${B.benchRoll>=4 ? '→ 부름을 받았다' : '→ 올해는 부름이 없었다'}</p>`;
   h += `<div>${B.list.map((b,i)=> b.skip
     ? `<div class="battle fade" style="animation-delay:${i*.1}s"><span class="m">${b.m}</span><span class="q">${b.q}</span><span class="badge bad">결장</span></div>`
-    : `<div class="battle fade" style="animation-delay:${i*.1}s"><span class="m">${b.m}</span><span class="q">${b.q}</span><span class="badge ${b.cls}">${b.label} <span class="px">${b.rating.toFixed(1)}</span></span>
-        <span class="sub">${die(b.a,b.bb)} ${sgn(b.mod)} = ${b.tot} · ${b.flavor}${b.merit?` · 공적 ${b.merit}`:''}${b.injury?` · ${b.injury}`:''}
-        ${b.loot ? `<br><span class="loot">${b.loot==='full' ? '전리품이 있었지만 가방이 가득 찼다' : `전리품 · ${itemLabel(b.loot)}`}</span>` : ''}</span></div>`).join('')}</div>`;
-  if (B.played) h += `<p class="logline">평균 평점 <b class="px">${B.avg.toFixed(2)}</b> · 공적 <b class="px">${B.merit}</b> · 임무 <b class="px">${B.missions}</b>회</p>`;
+    : `<div class="battle fade" style="animation-delay:${i*.1}s"><span class="m">${b.m}</span><span class="q">${b.q}</span><span class="badge ${b.cls}">${b.label} ${b.rating.toFixed(1)}</span>
+        <span class="s2">${die(b.a,b.bb)} ${sgn(b.mod)} = ${b.tot} · ${b.flavor}${b.merit?` · 공적 ${b.merit}`:''}${b.injury?` · ${b.injury}`:''}${b.exp!=null?expTag(b.exp,b.ups):''}
+        ${b.loot ? `<br><b>${b.loot==='full' ? '전리품이 있었지만 가방이 가득 찼다' : `전리품 · ${itemLabel(b.loot)}`}</b>` : ''}</span></div>`).join('')}</div>`;
+  if (B.played) h += `<p class="logline">평균 평점 <b>${B.avg.toFixed(2)}</b> · 공적 <b>${B.merit}</b> · 임무 <b>${B.missions}</b>회</p>`;
   h += `</div>`;
-  if (S.phase==='battle') h += `<div class="row"><button class="primary" data-act="review">한 해 결산</button></div>`;
+  if (S.phase==='battle') h += `<button class="cta" style="margin-top:14px" data-act="review">한 해 결산</button>`;
   return h;
 }
 function reviewBlock(){
   const R = S.y.review; if (!R) return '';
-  let h = `<div class="block"><h3>결산</h3><div class="reslist">${R.lines.map(([a,b])=>`<div class="res fade"><span class="k">${a}</span><span>${b}</span></div>`).join('')}</div>`;
+  let h = `<div class="block"><h3>결산</h3><div>${R.lines.map(([a,b])=>`<div class="res fade"><span class="k">${a}</span><span>${b}</span></div>`).join('')}</div>`;
   if (R.offer && !S.y.offerDecided){
     h += `<p><b>${FACTIONS[R.offer.to].name}</b>(선봉 기준 ${FACTIONS[R.offer.to].lv})로 ${R.offer.kind==='파견'?'파견 갈까?':'옮길까?'} 지금 전투력 ${cp()}.</p>
-      <div class="row"><button class="primary" data-act="offer" data-v="1">${R.offer.kind==='파견'?'파견 간다':'옮긴다'}</button><button data-act="offer" data-v="0">남는다</button></div>`;
+      <div class="btns"><button class="btn pri" data-act="offer" data-v="1">${R.offer.kind==='파견'?'파견 간다':'옮긴다'}</button><button class="btn" data-act="offer" data-v="0">남는다</button></div>`;
   } else if (R.offerResult) h += `<p class="logline">→ ${R.offerResult}</p>`;
   h += `</div>`;
   if (S.y.offerDecided){
-    h += R.retire ? `<div class="row"><button class="primary" data-act="retire">은퇴식 열기</button></div>`
-      : `<div class="row"><button class="primary" data-act="next">${S.age+1}세로 넘어가기</button>${S.age>=30?'<button data-act="retire">스스로 은퇴한다</button>':''}</div>`;
+    h += R.retire ? `<button class="cta" style="margin-top:14px" data-act="retire">은퇴식 열기</button>`
+      : `<button class="cta" style="margin-top:14px" data-act="next">${S.age+1}세로 넘어가기</button>${S.age>=30?'<button class="cta soft" data-act="retire">스스로 은퇴한다</button>':''}`;
   }
   return h;
 }
 function seasonCard(){
-  const y = S.y, F = FACTIONS[S.fac];
-  return `<section class="card stack">
-    <div class="row between"><h2>${S.age}세 시즌</h2>${steps()}</div>
-    <p class="small muted">${F.name} · 올해 <b style="color:var(--ink)">${ROLES[y.role]}</b>${y.role===2?' · 원정 5회':y.role===1?' · 원정 3회':' · 기회가 오면 원정 1회'}</p>
-    ${y.notes.map(n=>`<p class="logline">${n}</p>`).join('')}
-    ${eventBlock()}${trainBlock()}${battleBlock()}${reviewBlock()}
+  const y = S.y;
+  const left = S.phase==='train' && y.trainLeft===0 && y.huntLeft===0;
+  return `<section class="card">
+    <h2 class="row">${S.age}세 시즌 ${steps()}</h2>
+    <p class="small muted">${FACTIONS[S.fac].name} · 올해 <b style="color:var(--ink)">${ROLES[y.role]}</b>${y.role===2?' · 원정 5회':y.role===1?' · 원정 3회':' · 기회가 오면 원정 1회'}</p>
+    ${y.notes.map(n=>`<p class="logline" style="margin-top:6px">${n}</p>`).join('')}
+    ${eventBlock()}${trainBlock()}${huntBlock()}
+    ${S.phase==='train' ? `<button class="cta ${left?'':'soft'}" style="margin-top:14px" data-act="battle">원정 떠나기${left?'':` · 남은 수련 ${y.trainLeft} · 사냥 ${y.huntLeft}은 사라짐`}</button>` : ''}
+    ${battleBlock()}${reviewBlock()}
   </section>`;
 }
-function bagCard(){
-  const items = S.bag.slice().sort((a,b)=>b.tier-a.tier);
-  const body = items.length ? `<div class="bag">${items.map(it=>{
-      const cur = S.equip[it.slot], d = itemVal(it) - (cur ? (itemStat(cur,S.cls)===itemStat(it,S.cls) ? itemVal(cur) : 0) : 0);
-      return `<div class="item">${ico(it.slot,it.tier)}<div class="body"><div class="label">${SLOTN[it.slot]} · ${RARITY[it.tier]}${it.isNew?'<span class="new">NEW</span>':''}</div>
-        <div class="nm rar${it.tier}">${itemName(it,S.cls)}</div>
-        <div class="small">${SN[itemStat(it,S.cls)]} +${itemVal(it)} <span class="diff ${d>0?'up':d<0?'down':''}">(${d>0?'▲'+d:d<0?'▼'+(-d):'같음'})</span></div>
-        <div class="row"><button class="sm primary" data-act="equip" data-id="${it.id}">장착</button><button class="sm" data-act="drop" data-id="${it.id}">버리기</button></div></div></div>`; }).join('')}</div>`
-    : `<p class="small muted">원정에서 활약하면 전리품이 떨어진다. 장착한 장비는 캐릭터 모습과 능력치에 바로 반영된다.</p>`;
-  const eqd = SLOTS.filter(([s])=>S.equip[s]).map(([s,n])=>`<button class="sm" data-act="unequip" data-s="${s}">${n} 벗기</button>`).join('');
-  return `<section class="card stack"><div class="row between"><h2>가방</h2><span class="small muted"><span class="px">${S.bag.length}</span>/16</span></div>${body}
-    ${!S.retired && eqd ? `<div class="row">${eqd}</div>` : ''}</section>`;
+function huntView(){
+  const y = S.y, can = S.phase==='train' && y.huntLeft>0, best = bestGround();
+  let h = `<section class="card"><h2 class="row">사냥터 <span class="aside">${can ? `올해 남은 사냥 ${y.huntLeft}회` : S.phase==='event' ? '사건을 먼저 확인해요' : '올해 사냥 시기가 지났어요'}</span></h2>
+    <p class="small muted" style="margin-bottom:6px">공격력 ${atk()} + 방어력 ${def()} = 사냥 힘 <b style="color:var(--ink)">${atk()+def()}</b> · HP ${S.hp}/${hpMax()}</p><div class="list">`;
+  GROUNDS.forEach((G,i)=>{
+    const open = groundOpen(i), over = S.lv > G.max + 2;
+    h += `<div class="item" style="${open?'':'opacity:.5'}"><span class="ic ${i===best?'blue':''}">${G.ico}</span>
+      <span class="grow"><span class="t">${G.name} <span class="chip ${i===best?'blue':''}">${open ? (i===best?'추천 ':'') : '잠김 · '}Lv.${G.min}${G.max>G.min?`–${G.max}`:''}</span></span>
+      <span class="d" style="display:block">${G.mons.join(', ')} · 힘 ${G.pow} · EXP ${G.exp}${over?' (레벨이 높아 절반)':''} · ${G.mat}</span></span>
+      ${open && can ? `<button class="btn sm soft" data-act="hunt" data-g="${i}">사냥</button>` : ''}</div>`;
+  });
+  h += `</div></section>`;
+  if (can) h += `<section class="card"><h2>물약</h2><div class="btns" style="margin-top:0">
+    <button class="btn" data-act="potion" data-k="hp" ${S.inv.hp?'':'disabled'}>체력 물약 ${S.inv.hp}개 사용</button>
+    <button class="btn" data-act="potion" data-k="mp" ${S.inv.mp?'':'disabled'}>마나 물약 ${S.inv.mp}개 사용</button></div></section>`;
+  if (y.hunts.length) h += `<section class="card"><h2>올해 사냥 기록</h2>${huntLog()}</section>`;
+  return h;
 }
-function historyCard(){
-  if (!S.hist.length) return '';
-  const rows = S.hist.slice().reverse().map(h=>`<tr><td>${h.age}</td><td>${FACTIONS[h.fac].name}</td><td>${ROLES[h.role]}</td><td>${h.cpS}→${h.cpE}</td><td>${h.avg==null?'—':h.avg.toFixed(2)}</td><td>${h.merit}</td><td>${h.res}</td><td>${h.award||''}</td></tr>`).join('');
-  return `<section class="card stack"><h2>커리어 기록</h2><div class="tablewrap"><table><thead><tr><th>나이</th><th>소속</th><th>역할</th><th>전투력</th><th>평점</th><th>공적</th><th>소속 성적</th><th>수상</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+function questView(){
+  const y = S.y;
+  let h = `<section class="card"><h2>메인 퀘스트</h2><div class="list">`;
+  MAIN_QUESTS.forEach((M,i)=>{
+    const done = i < S.mainDone, ready = i===S.mainDone && S.lv>=M.lv, cur = i===S.mainDone;
+    if (!done && !cur) return;
+    h += `<div class="item"><span class="grow"><span class="t"><span class="chip blue">메인</span> ${M.t}${done?' <span class="chip">완료</span>':''}</span>
+      <span class="d" style="display:block">${M.d} · 보상 골드 ${50*M.lv}, ${RARITY[M.rar]} 장비</span>
+      ${cur?`<span class="bar thin" style="display:block"><i style="width:${Math.min(100,S.lv/M.lv*100)}%;background:var(--accent)"></i></span>`:''}</span>
+      ${ready?'<button class="btn sm pri" data-act="claimmain">받기</button>':''}</div>`;
+  });
+  if (S.mainDone>=MAIN_QUESTS.length) h += `<p class="small muted">모든 메인 퀘스트를 마쳤다.</p>`;
+  h += `</div></section><section class="card"><h2 class="row">올해 의뢰 <span class="aside">해가 바뀌면 새로 받아요</span></h2><div class="list">`;
+  y.quests.forEach((q,i)=>{
+    const tag = {kill:'사냥',train:'수련',battle:'원정',great:'사냥'}[q.type];
+    h += `<div class="item"><span class="grow"><span class="t"><span class="chip">${tag}</span> ${q.t}${q.claimed?' <span class="chip">완료</span>':''}</span>
+      <span class="d" style="display:block">${q.p} / ${q.n} · 보상 EXP ${q.exp}, 골드 ${q.gold}</span>
+      <span class="bar thin" style="display:block"><i style="width:${q.p/q.n*100}%;background:var(--exp)"></i></span></span>
+      ${questReady(q)?`<button class="btn sm pri" data-act="claim" data-i="${i}">받기</button>`:''}</div>`;
+  });
+  return h + `</div></section>`;
+}
+
+/* ---------- character ---------- */
+function slotCell(slotKey, it, label){
+  if (!it) return `<div class="slot empty"><span class="sq"></span><span class="nm">${label}<small>비어 있음</small></span></div>`;
+  const info = itemInfo(it);
+  return `<button class="slot" data-act="slot" data-s="${slotKey}" aria-label="${info.name} 정보"><span class="sq rb${it.rar}">${itemIcon(it)}</span><span class="nm">${info.name}<small>${label} · <span class="rar${it.rar}">${RARITY[it.rar]}</span></small></span></button>`;
+}
+function setSummary(){
+  const cnt = {};
+  ARMOR_SET_SLOTS.forEach(s=>{ const it = S.equip[s]; if (it) cnt[it.band] = (cnt[it.band]||0) + (s==='suit'?2:1); });
+  const rows = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([b,c])=>`<b style="color:var(--ink)">${SET_NAMES[b]} 세트</b> ${c}/5`);
+  return rows.length ? rows.join(' · ') : '세트 장비를 입지 않았다';
+}
+function charView(){
+  const k = cls().key, sel = UI.slotSel ? S.equip[UI.slotSel] : null;
+  let h = top('캐릭터', `${cls().name} · Lv.${S.lv} · ${esc(S.style)}`);
+  h += `<section class="card"><div class="stage">${dollHTML(look())}</div>
+    <div class="slots">${SLOT_ORDER.map(s=>slotCell(s, S.equip[s], SLOTN[s])).join('')}</div>
+    <div class="label" style="margin-top:14px">반지 · 5칸</div>
+    <div class="slots rings">${RING_SLOTS.map((s,i)=>slotCell(s, S.equip[s], `반지 ${i+1}`)).join('')}</div>`;
+  if (sel){
+    const info = itemInfo(sel);
+    h += `<div class="block"><div class="row"><span class="sq rb${sel.rar}">${itemIcon(sel)}</span><span class="grow"><b>${info.name}</b>
+      <span class="xs muted" style="display:block">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · Lv.${info.reqLv} 이상${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span></span></div>
+      <p class="eff">${effText(info)}</p>
+      ${S.retired?'':`<div class="btns" style="margin-top:0"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn" data-act="slot" data-s="">닫기</button></div>`}</div>`;
+  }
+  h += `</section>`;
+  h += `<section class="card"><h2 class="row">능력치 ${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:'<span class="aside">레벨 업마다 1포인트</span>'}</h2>
+    <div class="statgrid">${STATS.map(([s,n])=>{ const b = bonus(s);
+      return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n}</span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points&&!S.retired?`<button class="plus" data-act="point" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
+    <div class="stats3"><div><div class="k">공격력</div><div class="v num">${atk()}</div></div><div><div class="k">방어력</div><div class="v num">${def()}</div></div><div><div class="k">치명타</div><div class="v num">${crit()}%</div></div></div>
+    <p class="xs muted" style="margin-top:12px">굵은 글씨가 핵심 능력(전투력 계산) · 잠재력 ${S.retired ? `<b>${S.pot}</b>` : '??'} · 기질 ${S.traitShown||S.retired ? `<b title="${TRAITS[S.trait].desc}">${TRAITS[S.trait].name}</b>` : '???'} · 최고 전투력 ${S.peak}</p>
+  </section>`;
+  h += `<section class="card"><h2>세트 효과</h2><div class="setbox">${setSummary()}<br><span class="xs muted">투구·상의·하의·신발·망토(한벌옷은 2칸)를 같은 등급대로 맞추면 세트가 된다. 세트 효과는 다음 업데이트에서 붙는다.</span></div></section>`;
+  return h;
+}
+
+/* ---------- bag ---------- */
+function bagView(){
+  let h = top('가방', `${S.bag.length} / ${BAG_MAX}칸`);
+  h += seg('bag', [['equip','장비'],['use','소모품'],['mat','재료']]);
+  if (UI.bag==='use'){
+    h += `<section class="card"><h2>소모품</h2><div class="list">${Object.entries(POTIONS).map(([k,P])=>`<div class="item"><span class="ic"><span style="width:16px;height:20px;border-radius:4px 4px 8px 8px;background:${P.color};display:block"></span></span>
+      <span class="grow"><span class="t">${P.name} <span class="chip">${S.inv[k]}개</span></span><span class="d" style="display:block">${P.desc} · ${P.price}골드</span></span>
+      <span class="row" style="gap:6px"><button class="btn sm" data-act="potion" data-k="${k}" ${S.inv[k]&&!S.retired?'':'disabled'}>사용</button><button class="btn sm soft" data-act="buy" data-k="${k}" ${S.retired?'disabled':''}>구매</button></span></div>`).join('')}</div>
+      <p class="xs muted" style="margin-top:8px">HP와 MP는 해가 바뀌면 모두 회복된다.</p></section>`;
+    return h;
+  }
+  if (UI.bag==='mat'){
+    const M = Object.entries(S.mats);
+    h += `<section class="card"><h2>재료</h2>${M.length ? `<div class="list">${M.map(([n,c])=>`<div class="item"><span class="grow"><span class="t">${n}</span><span class="d" style="display:block">사냥에서 얻은 재료 · 제작은 다음 업데이트</span></span><b>${c}개</b></div>`).join('')}</div>
+      <div class="btns"><button class="btn soft" data-act="sellmats">모두 팔기</button></div>` : '<p class="small muted">사냥을 하면 재료가 쌓인다.</p>'}</section>`;
+    return h;
+  }
+  const items = S.bag.slice().sort((a,b)=>b.rar-a.rar || b.band-a.band);
+  const cells = items.map(it=>`<button class="cell rb${it.rar} ${UI.sel===it.id?'sel':''}" data-act="sel" data-id="${it.id}" aria-label="${RARITY[it.rar]} ${itemInfo(it).name}">${itemIcon(it)}${it.isNew?'<span class="new"></span>':''}</button>`);
+  const blanks = Math.max(0, Math.ceil((items.length+1)/5)*5 - items.length);
+  h += `<section class="card">${items.length ? `<div class="inv">${cells.join('')}${'<span class="cell blank"></span>'.repeat(blanks)}</div>` : '<p class="small muted">사냥과 원정에서 전리품을 얻으면 여기에 쌓인다.</p>'}</section>`;
+  const it = S.bag.find(x=>x.id===UI.sel);
+  if (it){
+    const info = itemInfo(it), slots = it.slot==='ring' ? RING_SLOTS : it.slot==='suit' ? ['suit','top','bottom'] : (it.slot==='top'||it.slot==='bottom') ? [it.slot,'suit'] : [it.slot];
+    const cur = slots.map(s=>S.equip[s]).filter(Boolean);
+    const curInfo = it.slot==='ring' ? null : cur.map(itemInfo);
+    const cmp = (k, v) => { if (!curInfo) return ''; const old = curInfo.reduce((s,c)=>s+(k==='atk'?c.atk:k==='def'?c.def:(c.bon[k]||0)),0), d = v - old; return d ? ` <span class="cmp ${d>0?'up':'down'}">${d>0?'▲'+d:'▼'+(-d)}</span>` : ''; };
+    const parts = [];
+    if (info.atk) parts.push(`공격력 <b>+${info.atk}</b>${cmp('atk',info.atk)}`);
+    if (info.def) parts.push(`방어력 <b>+${info.def}</b>${cmp('def',info.def)}`);
+    for (const k in info.bon) parts.push(`${SN[k]} <b>+${info.bon[k]}</b>${cmp(k,info.bon[k])}`);
+    const low = S.lv < info.reqLv;
+    h += `<section class="card"><div class="row"><span class="sq rb${it.rar}" style="width:56px;height:56px">${itemIcon(it)}</span>
+      <span class="grow"><span class="who" style="display:block">${SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${low?'color:var(--red)':''}">Lv.${info.reqLv} 이상</span>${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
+      <b style="font-size:18px">${info.name}</b></span></div>
+      <p class="eff" style="margin-top:10px">${parts.join(' · ')}</p>
+      ${cur.length && it.slot!=='ring' ? `<p class="xs muted">지금 착용: ${cur.map(c=>itemInfo(c).name).join(', ')}${it.slot==='suit'?' (한벌옷을 입으면 상의·하의를 벗는다)':''}</p>` : ''}
+      ${UI.ringPick && it.slot==='ring' ? `<p class="small" style="margin-top:8px">반지 칸이 가득 찼다. 바꿀 칸을 고른다.</p><div class="btns">${RING_SLOTS.map((s,i)=>`<button class="btn sm" data-act="equip" data-id="${it.id}" data-ring="${s}">${i+1}번<br><span class="xs muted">${itemInfo(S.equip[s]).name.replace(' 반지','')}</span></button>`).join('')}</div>` : ''}
+      ${S.retired ? '' : `<div class="btns"><button class="btn soft" data-act="sell" data-id="${it.id}">팔기 · ${info.price}골드</button><button class="btn pri" data-act="equip" data-id="${it.id}" ${low?'disabled':''}>${low?`Lv.${info.reqLv} 필요`:'장착하기'}</button></div>`}
+    </section>`;
+  }
+  return h;
+}
+
+/* ---------- records ---------- */
+function achievements(){
+  const T = S.tot, filled = [...SLOT_ORDER,...RING_SLOTS].filter(s=>S.equip[s] || ((s==='top'||s==='bottom') && S.equip.suit) || (s==='suit' && S.equip.top && S.equip.bottom)).length;
+  return [
+    ['레벨 10 달성', S.lv, 10], ['레벨 20 달성', S.lv, 20], ['레벨 30 달성', S.lv, 30],
+    ['몬스터 100마리 처치', T.kills||0, 100], ['몬스터 1,000마리 처치', T.kills||0, 1000],
+    ['퀘스트 20개 완료', T.quests||0, 20], ['장비 칸 모두 채우기', filled, 13], ['전설 장비 손에 넣기', T.legend||0, 1],
+    ['영웅의 별', T.stars, 1],
+  ];
+}
+function recView(){
+  let h = top('기록', `업적 ${achievements().filter(a=>a[1]>=a[2]).length} / ${achievements().length} · 칭호 ${S.awards.length}개`);
+  h += seg('rec', [['ach','업적·칭호'],['hall','명예의 전당'],['save','저장']]);
+  if (UI.rec==='hall') return h + hallCard();
+  if (UI.rec==='save') return h + saveCard();
+  h += `<section class="card"><h2>칭호·수상</h2>${S.awards.length ? `<div class="list">${S.awards.slice().reverse().map(a=>`<div class="item"><span class="badge2">🏅</span><span class="grow"><span class="t">${a}</span></span></div>`).join('')}</div>` : '<p class="small muted">선봉으로 평점 8.0 이상을 내면 칭호 후보에 오른다.</p>'}</section>`;
+  h += `<section class="card"><h2>업적</h2><div class="list">${achievements().map(([t,v,n])=>`<div class="item"><span class="grow"><span class="t">${t}${v>=n?' <span class="chip blue">달성</span>':''}</span>
+    <span class="d" style="display:block">${fmt(Math.min(v,n))} / ${fmt(n)}</span><span class="bar thin" style="display:block"><i style="width:${Math.min(100,v/n*100)}%;background:${v>=n?'var(--accent)':'var(--exp)'}"></i></span></span></div>`).join('')}</div></section>`;
+  if (S.hist.length){
+    const rows = S.hist.slice().reverse().map(x=>`<tr><td>${x.age}</td><td>${x.lvE?`${x.lvS}→${x.lvE}`:'—'}</td><td>${FACTIONS[x.fac].name}</td><td>${ROLES[x.role]}</td><td>${x.cpS}→${x.cpE}</td><td>${x.avg==null?'—':x.avg.toFixed(2)}</td><td>${x.merit}</td><td>${x.res}</td><td>${x.award||''}</td></tr>`).join('');
+    h += `<section class="card"><h2>커리어 기록</h2><div class="tablewrap"><table><thead><tr><th>나이</th><th>레벨</th><th>소속</th><th>역할</th><th>전투력</th><th>평점</th><th>공적</th><th>소속 성적</th><th>수상</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+  }
+  return h;
 }
 function hallCard(){
-  const h = hall();
-  const body = h.length
-    ? `<div class="tablewrap"><table><thead><tr><th>#</th><th>이름</th><th>직업</th><th>영웅의 별</th><th>최고 전투력</th><th>칭호</th><th>공적</th><th>등급</th></tr></thead><tbody>
-      ${h.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${CLASSES[x.cls].name}</td><td>${x.stars}</td><td>${x.peak}</td><td>${x.titles}</td><td>${x.merit}</td><td>${x.grade}</td></tr>`).join('')}</tbody></table></div>`
-    : `<p class="small muted">아직 은퇴한 모험가가 없다. 커리어를 끝까지 마치면 여기에 이름이 남는다. 순위는 영웅의 별 → 최고 전투력 → 칭호 → 공적 순.</p>`;
-  return `<section class="card stack"><h2>명예의 전당</h2>${body}</section>`;
+  const H = hall();
+  if (!H.length) return `<section class="card"><h2>명예의 전당</h2><p class="small muted">아직 은퇴한 모험가가 없다. 커리어를 끝까지 마치면 여기에 이름이 남는다. 순위는 영웅의 별 → 최고 전투력 → 칭호 → 공적 순.</p></section>`;
+  return `<section class="card"><h2>명예의 전당</h2><div class="list">${H.map((x,i)=>`<div class="item"><span class="rank ${i===0?'g':''}">${i+1}</span>
+    <span class="avatar" style="width:44px;height:44px;border-radius:12px">${x.look ? dollHTML(x.look,'',40) : ''}</span>
+    <span class="grow"><span class="t">${esc(x.name)}${x.stars?` <span class="chip gold">★ 영웅의 별 ${x.stars}</span>`:''}</span>
+    <span class="d" style="display:block">${x.grade} · 최고 전투력 ${x.peak}${x.lv?` · Lv.${x.lv}`:''} · 칭호 ${x.titles} · 공적 ${x.merit} · ${clsOf(x.cls).name}</span></span></div>`).join('')}</div></section>`;
 }
 function saveCard(){
-  return `<section class="card"><details><summary>저장 파일 내보내기 · 가져오기</summary>
-    <div class="stack" style="margin-top:10px">
-      <p class="small muted">진행은 이 브라우저에 자동 저장된다. 다른 기기로 옮기려면 아래 내용을 복사해 두었다가 붙여 넣는다.</p>
+  return `<section class="card"><h2>저장 파일 내보내기 · 가져오기</h2>
+      <p class="small muted" style="margin-bottom:10px">진행은 이 브라우저에 자동 저장된다. 다른 기기로 옮기려면 아래 내용을 복사해 두었다가 붙여 넣는다.</p>
       <textarea id="savebox" rows="4" aria-label="저장 데이터">${S ? esc(JSON.stringify(S)) : ''}</textarea>
-      <div class="row"><button class="sm" data-act="copy">복사</button><button class="sm" data-act="import">붙여 넣은 내용 불러오기</button>
-      ${S && !S.retired ? '<button class="link" data-act="abandon">이 커리어 버리기</button>' : ''}</div>
-      <p class="small muted" id="savemsg" role="status"></p>
-    </div></details></section>`;
+      <div class="btns"><button class="btn" data-act="copy">복사</button><button class="btn" data-act="import">붙여 넣은 내용 불러오기</button></div>
+      ${S && !S.retired ? '<div style="margin-top:12px"><button class="btn link" data-act="abandon">이 커리어 버리기</button></div>' : ''}
+      <p class="small muted" id="savemsg" role="status" style="margin-top:8px"></p></section>`;
 }
-function createCard(){
-  const cands = candidates(draft.cls), C = CLASSES[draft.cls];
-  return `<section class="card stack">
-    <div class="hero">
-      <div class="stage"><canvas class="scene" width="40" height="28" data-hero="draft" role="img" aria-label="견습생 미리보기"></canvas></div>
-      <div class="who"><span class="label">마을 자경단 · 견습생 등록</span><span class="name">새 견습생</span>
-        <p class="small muted">열다섯 살 예비대에서 시작해 영웅의 별까지. 해마다 수련하고, 원정을 떠나고, 전리품으로 몸을 꾸민다.</p></div>
-    </div>
-    <div class="grid2">
-      <label class="stack" style="gap:4px"><span class="label">이름</span><input id="f-name" maxlength="12" value="${esc(draft.name)}"></label>
-      <label class="stack" style="gap:4px"><span class="label">출신</span><select id="f-origin">${ORIGINS.map(o=>`<option ${o===draft.origin?'selected':''}>${o}</option>`).join('')}</select></label>
-    </div>
-    <div class="grid2">
-      <div class="stack" style="gap:6px"><span class="label">피부</span>
-        <div class="swatches">${SKINS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="skin" data-v="${i}" aria-pressed="${i===draft.skin}" aria-label="${n}" title="${n}"></button>`).join('')}</div></div>
-      <div class="stack" style="gap:6px"><span class="label">머리색</span>
-        <div class="swatches">${HAIRS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="hair" data-v="${i}" aria-pressed="${i===draft.hair}" aria-label="${n}" title="${n}"></button>`).join('')}</div></div>
-    </div>
-    <div class="stack" style="gap:6px"><span class="label">머리 모양</span>
-      <div class="row">${HAIR_STYLES.map(([n],i)=>`<button class="opt" style="padding:6px 12px" data-act="hstyle" data-v="${i}" aria-pressed="${i===draft.hairStyle}">${n}</button>`).join('')}</div></div>
-    <div class="stack" style="gap:6px"><span class="label">직업</span>
-      <div class="choices">${Object.entries(CLASSES).map(([id,c])=>`<button class="opt" data-act="cls" data-v="${id}" aria-pressed="${id===draft.cls}"><b>${c.name}</b><small>${c.desc}</small><small>핵심 ${c.key.map(x=>SN[x]).join(' · ')}</small></button>`).join('')}</div></div>
-    <div class="stack" style="gap:6px"><span class="label">후보 · 셋 다 전투력 45, 능력치 합 240</span>
-      <div class="choices">${cands.map((cd,i)=>`<button class="opt" data-act="cand" data-v="${i}" aria-pressed="${i===draft.cand}"><b>${cd.style}</b>
-        <small>${STATS.map(([s,n])=>C.key.includes(s)?`<b style="color:var(--ink)">${n} ${cd.stats[s]}</b>`:`${n} ${cd.stats[s]}`).join(' · ')}</small></button>`).join('')}</div></div>
-    <p class="small muted">잠재력과 기질은 비밀이다. 기질은 스물한 살에, 잠재력은 은퇴할 때 드러난다.</p>
-    <div class="row"><button class="primary" data-act="start">견습생으로 등록</button></div>
-  </section>`;
+
+/* ---------- create ---------- */
+function createView(){
+  const cands = candidates(), L = {skin:draft.skin, hair:draft.hair, weapon:0};
+  return `<div class="top"><div><h1>새 모험가</h1><div class="s">15살 견습생의 모습을 정해요</div></div></div>
+  <section class="card"><div class="stage cstage">${dollHTML(L)}</div></section>
+  <section class="card">
+    <div class="label">머리 색</div>
+    <div class="colors">${HAIRS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="hair" data-v="${i}" aria-pressed="${i===draft.hair}" aria-label="${n}" title="${n}"></button>`).join('')}</div>
+    <div class="label" style="margin-top:16px">머리 모양</div>
+    <div class="opts">${HAIR_STYLES.map((n,i)=>`<button class="opt" style="text-align:center" aria-pressed="${i===draft.hairStyle}">${n}</button>`).join('')}<button class="opt" style="text-align:center;opacity:.45" disabled>준비 중</button><button class="opt" style="text-align:center;opacity:.45" disabled>준비 중</button></div>
+    <div class="label" style="margin-top:16px">피부 색</div>
+    <div class="colors">${SKINS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="skin" data-v="${i}" aria-pressed="${i===draft.skin}" aria-label="${n}" title="${n}"></button>`).join('')}</div>
+  </section>
+  <section class="card">
+    <label class="field">이름 <input id="f-name" maxlength="12" value="${esc(draft.name)}"></label>
+    <label class="field" style="margin:0">출신 <select id="f-origin">${ORIGINS.map(o=>`<option ${o===draft.origin?'selected':''}>${o}</option>`).join('')}</select></label>
+  </section>
+  <section class="card"><h2 class="row">성장 방향 <span class="aside">셋 다 전투력 45 · 능력치 합 240</span></h2>
+    <div class="choices">${cands.map((cd,i)=>`<button class="opt" data-act="cand" data-v="${i}" aria-pressed="${i===draft.cand}"><b>${cd.style}</b>
+      <small>${STATS.map(([s,n])=>NOVICE.key.includes(s)?`<b style="color:var(--ink)">${n} ${cd.stats[s]}</b>`:`${n} ${cd.stats[s]}`).join(' · ')}</small></button>`).join('')}</div>
+    <p class="xs muted" style="margin-top:10px">노비스로 시작해 Lv.30까지 자란다. 잠재력과 기질은 비밀이다. 기질은 스물한 살에, 잠재력은 은퇴할 때 드러난다.</p>
+  </section>
+  <button class="cta" data-act="start">이 모습으로 시작하기</button>
+  ${hall().length ? hallCard() : ''}
+  ${saveCard()}`;
 }
-function retiredCard(){
-  const T = S.tot;
-  return `<section class="card stack">
-    <div class="row between"><h2>은퇴식 · ${S.age}세</h2><span class="stampwin">${S.grade}</span></div>
-    <p>${esc(S.name)}은(는) ${S.hist.length}년의 모험을 마치고 무기를 내려놓았다. 최고 전투력 <b class="px">${S.peak}</b>, 잠재력은 <b class="px">${S.pot}</b>였다.</p>
-    <p class="small muted">대륙 대전 우승 ${T.tourWins}회 · 임무 ${T.missions}회</p>
-    ${S.awards.length ? `<p class="small">${S.awards.join(' · ')}</p>` : ''}
-    <div class="row"><button class="primary" data-act="new">새 견습생 받기</button></div>
-  </section>`;
-}
+
+/* ---------- render ---------- */
+const TABS = [['home','홈'],['adv','모험'],['char','캐릭터'],['bag','가방'],['rec','기록']];
 function render(){
-  let h = `<div class="topbar"><span class="brand">내 공책 그정도 아님</span>${S && !S.retired ? `<span class="small muted">${S.hist.length+1}년차</span>` : ''}</div>`;
-  if (!S) h += createCard();
-  else if (S.phase==='retired') h += heroPanel() + retiredCard() + bagCard() + historyCard();
-  else h += heroPanel() + seasonCard() + bagCard() + historyCard();
-  h += hallCard() + saveCard();
-  app.innerHTML = h;
-  paintAll();
+  if (!S){ app.className = 'app notabs'; app.innerHTML = createView(); return; }
+  const V = {home:homeView, adv:advView, char:charView, bag:bagView, rec:recView}[UI.tab] || homeView;
+  const dots = {home:false, adv:!S.retired && ['event','battle','review'].includes(S.phase), char:!!S.points && !S.retired, bag:S.bag.some(x=>x.isNew), rec:false};
+  app.className = 'app';
+  app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
+}
+function go(dest){
+  const [tab, sub] = dest.split(':');
+  UI.tab = tab; UI.ringPick = false;
+  if (sub){ if (tab==='adv') UI.adv = sub; if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; }
+  render(); window.scrollTo({top:0});
 }
 
 /* ---------- events ---------- */
 app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.target.value; });
 app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value; });
 app.addEventListener('click', async e => {
+  const g = e.target.closest('[data-go]'); if (g){ go(g.dataset.go); return; }
+  const sg = e.target.closest('[data-seg]'); if (sg){ const [k,v] = sg.dataset.seg.split(':'); UI[k] = v; UI.ringPick = false; render(); return; }
   const b = e.target.closest('button[data-act]'); if (!b) return;
   const a = b.dataset.act;
-  if (a==='cls'){ draft.cls = b.dataset.v; draft.cand = 0; render(); return; }
   if (a==='cand'){ draft.cand = +b.dataset.v; render(); return; }
   if (a==='hair'){ draft.hair = +b.dataset.v; render(); return; }
   if (a==='skin'){ draft.skin = +b.dataset.v; render(); return; }
-  if (a==='hstyle'){ draft.hairStyle = +b.dataset.v; render(); return; }
-  if (a==='start'){ newGame(); render(); window.scrollTo({top:0}); return; }
+  if (a==='start'){ newGame(); UI.tab = 'home'; render(); window.scrollTo({top:0}); return; }
   if (a==='event'){ const E = eventFor(S.y.event.t); S.y.eventDone = E.c[+b.dataset.i].f(); S.phase = 'train'; save(); render(); return; }
   if (a==='train'){ doTrain(b.dataset.s); return; }
+  if (a==='hunt'){ doHunt(+b.dataset.g, !!b.dataset.burst); return; }
   if (a==='battle'){ doBattles(); return; }
   if (a==='review'){ doReview(); return; }
   if (a==='offer'){ decideOffer(b.dataset.v==='1'); return; }
   if (a==='next'){ S.bag.forEach(x=>x.isNew=false); startYear(false); render(); window.scrollTo({top:0}); return; }
-  if (a==='retire'){ retire(); window.scrollTo({top:0}); return; }
-  if (a==='equip'){ equipItem(b.dataset.id); return; }
-  if (a==='unequip'){ unequip(b.dataset.s); return; }
-  if (a==='drop'){
-    if (b.dataset.confirm){ dropItem(b.dataset.id); return; }
-    b.dataset.confirm = '1'; b.textContent = '정말 버린다'; return;
+  if (a==='retire'){ retire(); UI.tab = 'home'; render(); window.scrollTo({top:0}); return; }
+  if (a==='claim'){ claimQuest(+b.dataset.i); return; }
+  if (a==='claimmain'){ claimMain(); return; }
+  if (a==='point'){ spendPoint(b.dataset.s); return; }
+  if (a==='slot'){ UI.slotSel = b.dataset.s || null; render(); return; }
+  if (a==='unequip'){ unequip(b.dataset.s); UI.slotSel = null; render(); return; }
+  if (a==='sel'){ UI.sel = UI.sel===b.dataset.id ? null : b.dataset.id; UI.ringPick = false; const it = S.bag.find(x=>x.id===b.dataset.id); if (it && it.isNew){ it.isNew = false; save(); } render(); return; }
+  if (a==='equip'){ equipItem(b.dataset.id, b.dataset.ring); return; }
+  if (a==='sell'){
+    if (b.dataset.confirm){ sellItem(b.dataset.id); return; }
+    b.dataset.confirm = '1'; b.textContent = '정말 판다'; return;
   }
-  if (a==='new'){ S = null; store.del(SAVE_KEY); draft = {name:pick(NAMES), origin:ORIGINS[4], cls:'warrior', cand:0, hair:1, hairStyle:0, skin:0}; render(); window.scrollTo({top:0}); return; }
+  if (a==='buy'){ buyPotion(b.dataset.k); return; }
+  if (a==='potion'){ usePotion(b.dataset.k); return; }
+  if (a==='sellmats'){ sellMats(); return; }
+  if (a==='new'){ S = null; store.del(SAVE_KEY); draft = newDraft(); UI.tab = 'home'; render(); window.scrollTo({top:0}); return; }
   if (a==='abandon'){
-    if (b.dataset.confirm){ S = null; store.del(SAVE_KEY); render(); return; }
+    if (b.dataset.confirm){ S = null; store.del(SAVE_KEY); draft = newDraft(); render(); return; }
     b.dataset.confirm = '1'; b.textContent = '정말 버린다 (되돌릴 수 없음)'; return;
   }
   const msg = document.getElementById('savemsg'), box = document.getElementById('savebox');
@@ -879,28 +1195,58 @@ app.addEventListener('click', async e => {
   if (a==='import'){
     try {
       const d = JSON.parse(box.value);
-      if (!d || !d.stats || !d.cls || !CLASSES[d.cls]) throw new Error();
-      S = migrate(d); save(); render(); window.scrollTo({top:0});
+      if (!d || !d.stats || !d.cls) throw new Error();
+      S = migrate(d); save(); UI.tab = 'home'; render(); window.scrollTo({top:0});
     } catch(err){ msg.textContent = '불러오지 못했다. 저장 내용 전체를 그대로 붙여 넣었는지 확인한다.'; }
   }
 });
+
+/* ---------- save migration ---------- */
 function migrate(d){
   if (!d) return d;
-  if (!d.equip) d.equip = {weapon:{id:uid(),slot:'weapon',tier:0}, helm:null, armor:{id:uid(),slot:'armor',tier:0}, shield:null};
-  if ('cape' in d.equip){ d.equip.shield = d.equip.cape ? {...d.equip.cape, slot:'shield'} : null; delete d.equip.cape; }
-  if (!d.bag) d.bag = [];
-  d.bag.forEach(it => { if (it.slot==='cape') it.slot = 'shield'; });
-  if (d.hair==null) d.hair = 1;
-  if (d.hairStyle==null) d.hairStyle = 0;
-  if (d.skin==null) d.skin = 0;
-  return d;
+  if (!d.ver || d.ver < 3){
+    // v2: 직업 4개 · 장비 4칸(무기·머리·갑옷·방패, tier 0~4) · 레벨 없음
+    const years = (d.hist||[]).length;
+    d.lv = clamp(1 + Math.round(years*1.6), 1, MAX_LV); d.exp = 0; d.points = 0;
+    d.gold = d.gold || 0; d.inv = d.inv || {hp:2, mp:1}; d.mats = d.mats || {};
+    d.mainDone = MAIN_QUESTS.filter(m=>m.lv < d.lv).length;
+    const band = bandFor(d.lv), conv = old => {
+      if (!old) return null;
+      const slot = {weapon:'weapon', helm:'helm', armor:'top', cape:'shield'}[old.slot] || old.slot;
+      if (slot==='shield'){ d.gold += (band+1)*((old.tier||0)+1)*15; return null; }
+      return {id:old.id||uid(), slot, band, rar:clamp(old.tier||0,0,4), isNew:!!old.isNew};
+    };
+    const oe = d.equip || {};
+    d.equip = {weapon:conv(oe.weapon && {...oe.weapon, slot:'weapon'}), helm:conv(oe.helm && {...oe.helm, slot:'helm'}), top:conv(oe.armor && {...oe.armor, slot:'armor'})};
+    if (oe.shield) conv({...oe.shield, slot:'shield'});
+    if (oe.cape) conv({...oe.cape, slot:'shield'});
+    d.bag = (d.bag||[]).map(conv).filter(Boolean);
+    d.hair = [1,0,2,3,4][d.hair ?? 1] ?? 0; d.hairStyle = 0; d.skin = clamp(d.skin ?? 0, 0, 3);
+    d.tot = {kills:0, quests:0, items:0, legend:0, ...(d.tot||{})};
+    d.hp = null; d.mp = null;
+    if (d.y){
+      d.y.huntLeft = d.phase==='event' || d.phase==='train' ? 3 : 0; d.y.hunts = []; d.y.lvStart = d.lv;
+      d.y.quests = []; d.y.train = (d.y.train||[]);
+    }
+    d.ver = 3;
+  }
+  for (const s of [...SLOT_ORDER, ...RING_SLOTS]) if (!(s in d.equip)) d.equip[s] = null;
+  if (!d.inv) d.inv = {hp:0, mp:0};
+  if (!d.mats) d.mats = {};
+  S = d;
+  if (S.y && (!S.y.quests || !S.y.quests.length) && !S.retired) S.y.quests = genQuests();
+  clampVitals();
+  return S;
 }
 function boot(data){
   S = migrate((data && data.S) || store.get(SAVE_KEY) || null);
-  if (data && data.draft) draft = {hairStyle:0, skin:0, ...data.draft};
+  if (data && data.draft) draft = {...newDraft(), ...data.draft};
+  if (data && data.UI) Object.assign(UI, data.UI);
   render();
 }
-window.claude?.hot?.snapshot?.(() => ({S, draft}));
+window.claude?.hot?.snapshot?.(() => ({S, draft, UI}));
 window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
 })();
 </script>
+</body>
+</html>
