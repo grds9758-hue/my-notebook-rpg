@@ -175,8 +175,8 @@ for k in range(4):
             if opk(x, y) and any(not opk(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
                 body_k.putpixel((x, y), OUTL)
     fist = Image.new('RGBA', (64, 64))
-    for y in range(18, 25):
-        for x in range(38, 45):
+    for y in range(17, 28):  # raised forearm + fist, drawn over the club so the hand grips it
+        for x in range(38, 46):
             q = body_k.getpixel((x, y))
             if q[3]: fist.putpixel((x, y), q)
     sprites[f'bfist{k}'] = fist
@@ -189,7 +189,7 @@ STEEL=[(206,212,224),(156,164,180),(118,124,140),(58,60,74)]
 MITH=[(200,236,248),(132,194,228),(96,150,198),(46,66,108)]
 BONE=[(246,238,216),(216,202,172),(176,158,126),(96,62,60)]
 TIERS=[(WOOD,WOOD,None),(OAK,OAK,None),(WOOD,WOOD,'nails'),(WOOD,WOOD,'bands'),(STEEL,OAK,None),(MITH,OAK,None),(BONE,BONE,'red')]
-def draw_club(tier, grip=(42,21), head=(19,29), butt=3):
+def draw_club(tier, grip=(41,23), head=(18,34), butt=3):
     head_ramp, handle_ramp, deco = TIERS[tier]
     gx,gy=grip; hx,hy=head
     L=math.hypot(hx-gx,hy-gy); ux,uy=(hx-gx)/L,(hy-gy)/L
