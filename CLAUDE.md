@@ -18,7 +18,7 @@
 - 레벨 1~30: 수련(EXP 15)·사냥·원정·의뢰로 경험치. 레벨 업마다 능력치 1포인트(잠재력의 벽은 그대로 적용). 행동력은 없다.
 - 해마다 수련 3회 + 사냥 3회(사냥터 7곳, Lv 구간별 개방) → 원정. 의뢰 3개/년, 메인 퀘스트는 레벨 달성형.
 - 장비 칸: 무기·투구·상의·하의·한벌옷(상하의 대신)·신발·망토·귀걸이·반지 5칸. 등급대 7개(Lv1·5·10·…·30) × 희귀도 5. 세트 이름만 있고 세트 효과는 나중에.
-- PixelLab 남은 무료 생성: 1회(2026-10-12 기준). 큰 캔버스(128px+)는 REST가 502로 끊기지만 결과는 갤러리에 저장된다. tools/mcp_pixflux.py(MCP 비동기)로 생성하고, 갤러리 복구는 pixelart_workbench inspect + tools/unpreview.py. 128px는 2회 차감된 적 있음.
+- PixelLab 남은 무료 생성: 0회(2026-10-12 기준). 큰 캔버스(128px+)는 REST가 502로 끊기지만 결과는 갤러리에 저장된다. tools/mcp_pixflux.py(MCP 비동기)로 생성하고, 갤러리 복구는 pixelart_workbench inspect + tools/unpreview.py. 128px는 2회 차감된 적 있음.
 
 ## 몬스터
 - 일반 사냥터 10곳(노비스 Lv1~50) × 2종 = 20종: `design/monsters.json`, 그림은 `assets/raw/monsters/m0..m19.png`(64px, 2x2 시트에서 잘라냄 `tools/monster_gallery.py`).
@@ -27,7 +27,8 @@
 ## 직업 (사용자와 합의, B안)
 - 노비스 Lv.50 → 1차 직업 5개(전사·궁수·도적·힐러·마법사) Lv.1~99 → 직업 레벨 중간(예: 30)에 루트 선택.
 - 루트: 전사(양손검 기사·방패 한손검 기사·라이딩 기사), 궁수(트랩·활), 도적(단검[이도류]·표창·무희[여캐 전용]), 힐러(사제·몽크), 마법사(위자드·정령사).
-- 여캐 지원 필요(무희). 직업 그림: `assets/raw/jobs/{front,back}N.png` → `tools/job_gallery.py`로 잘라 `assets/raw/jobs/cut/`.
+- 여캐: 노비스 → 도적(→ 무희)만. 여캐 사제·궁수는 쓰지 않는다. 여캐 그림(`assets/raw/jobs/female.png`)은 화풍이 단순하게 나와 다시 그릴 후보.
+- 앞모습 무기 수정: `tools/weapon_paint.py`(크레딧 없이 픽셀로 다시 그림) → `assets/jobs/front*.png`. 직업 그림: `assets/raw/jobs/{front,back}N.png` → `tools/job_gallery.py`로 잘라 `assets/raw/jobs/cut/`.
 - 레벨업은 메이플 느낌이되 너무 힘들지 않게.
 
 ## 게임 규칙 요약(바꾸지 말 것)
