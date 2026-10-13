@@ -308,6 +308,7 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .chip.red{background:var(--red-soft);color:var(--red)}
 .chip.gold{color:var(--gold)}
 .rar0{color:var(--r0)} .rar1{color:var(--r1)} .rar2{color:var(--r2)} .rar3{color:var(--r3)} .rar4{color:var(--r4)}
+.townhero .talk .nm .aff{color:#e0567f;font-size:11px;font-weight:700;margin-left:6px}
 .setit{box-shadow:0 0 0 2px #2fb47c,0 0 10px rgba(47,180,124,.45)!important}
 .setnm{color:#1f9a68} .setrow{display:block;margin-bottom:8px} .setrow .on{color:#1f9a68;font-weight:700} .setrow .off{color:var(--sub)}
 .rb0{border-color:var(--r0)!important} .rb1{border-color:var(--r1)!important} .rb2{border-color:var(--r2)!important} .rb3{border-color:var(--r3)!important} .rb4{border-color:var(--r4)!important}
@@ -1098,7 +1099,7 @@ const LOOT_SLOTS = ['weapon','sub','helm','top','bottom','suit','shoes','cape','
 const BAG_MAX = 40;
 const POT = .25;  // a potion heals 25% (was 50% for 25G — far too strong early)
 const POTIONS = {hp:{name:'체력 물약',color:'#f04452',desc:'HP 25% 회복'},mp:{name:'마나 물약',color:'#3182f6',desc:'MP 25% 회복'}};
-const potionPrice = () => 30 + effLv()*2;  // Lv1 32G · Lv50 130G
+const potionPrice = () => Math.round((30 + effLv()*2) * (1 - affDisc()));  // Lv1 32G · Lv50 130G
 
 /* ---------- helpers ---------- */
 const pick = a => a[Math.floor(Math.random()*a.length)];
@@ -1140,7 +1141,8 @@ function makeItem(slot, band, rar, deep){
 const randomSlot = () => pick(LOOT_SLOTS);
 function itemInfo(it){
   const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = (1 + .15*r) * (it.deep ? 1.7 : 1) * (it.t3 ? 1.5 : 1) * (it.sb ? 1.05 : 1);
-  const v = w => Math.max(1, Math.round(((b+1)*w + r*.6) * (it.deep ? 1.6 : 1) * (it.t3 ? 1.4 : 1)));
+  const upm = 1 + .06*(it.up||0);
+  const v = w => Math.max(1, Math.round(((b+1)*w + r*.6) * (it.deep ? 1.6 : 1) * (it.t3 ? 1.4 : 1) * upm));
   const bon = {};
   const K = it.slot==='sub' ? SUB_KINDS[it.kind||'shield'] : null;
   if (it.slot==='ring') bon[it.st] = v(.5);
@@ -1149,10 +1151,10 @@ function itemInfo(it){
   const SB = it.sb && setDef(it.sb);
   const base = SB ? `${it.t3?'초월 ':''}${SB.name} ${SET_PIECE[it.slot]}` : it.t3 ? '초월 ' + jobGearName(it) : it.deep ? jobGearName(it) : it.slot==='ring' ? `${ITEM_NAMES.ring[b]} 링(${SN[it.st]})` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
   return {
-    name: base, reqLv: it.deep ? JOB_TIERS[b] : BANDS[b], reqJob: !!it.deep, t3: !!it.t3,
+    name: (it.up ? `+${it.up} ` : '') + base, reqLv: it.deep ? JOB_TIERS[b] : BANDS[b], reqJob: !!it.deep, t3: !!it.t3,
     setName: SB ? SB.name : null,
-    atk: it.slot==='weapon' ? Math.round(ATK[b]*mult) : K && K.atk ? Math.round(ATK[b]*K.atk*mult) : 0,
-    def: (K ? K.def : sp.def) ? Math.round(DEF[b]*(K ? K.def : sp.def)*mult) : 0, bon, kind: K ? K.n : null,
+    atk: it.slot==='weapon' ? Math.round(ATK[b]*mult*(1 + .08*(it.up||0))) : K && K.atk ? Math.round(ATK[b]*K.atk*mult) : 0,
+    def: (K ? K.def : sp.def) ? Math.round(DEF[b]*(K ? K.def : sp.def)*mult*upm) : 0, bon, kind: K ? K.n : null,
     set: SB ? it.sb : null,
     price: Math.round((b+1)*(r+1)*12*(it.deep?2:1)*(it.t3?2:1)),
   };
@@ -1481,7 +1483,7 @@ function playerAction(kind, arg){
     S.inv[k]--; useIcon('normal'); fxArgs = ['skill', {kind:'potion', id:'potion', mp:k==='mp'}, []];
   } else if (kind==='run'){
     const ok = B.mode!=='promo' && Math.random() < clamp(.45 + (spd() - Math.max(...alive.map(i=>B.foes[i].spd)))/60, .2, .9);
-    if (ok){ B.over = 'run'; B.log = '무사히 도망쳤다.'; save(); render(); return; }
+    if (ok){ B.over = 'run'; B.log = '무사히 도망쳤다.'; streakBreak('도망'); save(); render(); return; }
     B.log = B.mode==='promo' ? '승급 시험에서는 도망칠 수 없다.' : '도망치지 못했다!'; B.icons = [];
   }
   B.sub = null;
@@ -1697,7 +1699,9 @@ function win(){
     if (Math.random() < .5) mats[f.drop] = (mats[f.drop]||0) + 1;
   }
   const am = B.mode==='auto' ? AUTO_REWARD : 1;  // auto hunt pays less than fighting yourself
-  exp = Math.round(exp * (1 + facBonus()) * am); gold = Math.round(gold * (1 + facBonus()) * am);
+  if (B.mode!=='auto'){ S.streak = Math.min(STREAK_MAX, (S.streak||0) + 1); }
+  const sb = B.mode==='auto' ? 0 : streakBonus();
+  exp = Math.round(exp * (1 + facBonus() + sb) * am); gold = Math.round(gold * (1 + facBonus()) * am);
   const ups = gainExp(exp);
   S.gold += gold; for (const k in mats) S.mats[k] = (S.mats[k]||0) + mats[k];
   S.tot.kills += n; S.tot.wins++; jqKill(B.g, B.deep, n);
@@ -1711,9 +1715,13 @@ function win(){
   if (B.mode==='promo'){ S.fac++; promo = FACTIONS[S.fac].name; S.titles.push(promo + ' 입단'); }
   B.over = {win:true, exp, gold, mats, loot, ups, promo, n};
 }
+/* 연속 사냥: 직접 이길 때마다 1중첩(최대 20), 중첩당 경험치 +1%. 지거나 도망치거나 여관에서 쉬거나 자동 사냥을 맡기면 0 */
+const STREAK_MAX = 20;
+const streakBonus = () => Math.min(STREAK_MAX, S.streak||0) * .01;
+function streakBreak(why){ if (S.streak){ S.streakLost = {n:S.streak, why}; } S.streak = 0; }
 function lose(){
   const lostGold = Math.round(S.gold*.1), lostExp = Math.round(S.exp*.1);
-  S.gold -= lostGold; S.exp -= lostExp; S.hp = Math.round(hpMax()*.5); S.tot.losses++;
+  S.gold -= lostGold; S.exp -= lostExp; S.hp = Math.round(hpMax()*.5); S.tot.losses++; streakBreak('쓰러짐');
   B.over = {win:false, lostGold, lostExp};
 }
 function endBattle(again){
@@ -1749,6 +1757,7 @@ function autoHunt(g, deep){
   if (autoLeft()){ toast(`자동 사냥은 ${Math.ceil(autoLeft()/1000)}초 뒤에 다시 할 수 있다.`); return; }
   if (!groundOpen(g, deep)) return;
   if (S.hp < hpMax()*.35){ toast('HP가 너무 낮다. 쉬고 가자.'); return; }
+  streakBreak('자동 사냥');
   const R = {g, deep, n:0, wins:0, exp:0, gold:0, kills:0, ups:0, items:[], mats:{}, lost:null, stop:null, hp0:S.inv.hp};
   const lv0 = S.lv;
   for (let i=0; i<AUTO_N; i++){
@@ -1785,7 +1794,7 @@ setInterval(() => {
 }, 1000);
 
 /* ---------- town actions ---------- */
-const innCost = () => 30 + effLv()*8;  // Lv1 38G · Lv50 430G
+const innCost = () => Math.round((30 + effLv()*8) * (1 - affDisc()));  // Lv1 38G · Lv50 430G
 function statSheet(){
   const pc = v => (Math.round(v*1000)/10) + '%';
   const rows = (title, list) => `<div class="sdgroup"><h3>${title}</h3>${list.map(([k,v,d])=>`<div class="sdrow"><span>${k}${d?`<small>${d}</small>`:''}</span><b class="num">${v}</b></div>`).join('')}</div>`;
@@ -1835,7 +1844,7 @@ function innSheet(){
 function rest(){
   if (S.hp>=hpMax() && S.mp>=mpMax()){ toast('이미 기운이 넘친다.'); return; }
   if (S.gold < innCost()){ toast('골드가 모자라다.'); say('shy', '저… 숙박비가 조금 모자라신 것 같아요.'); render(); return; }
-  S.gold -= innCost(); S.hp = hpMax(); S.mp = mpMax(); toast('여관에서 푹 쉬었다. HP·MP 회복'); say('happy', '푹 쉬셨나요? 얼굴이 한결 좋아 보여요!'); save(); render();
+  S.gold -= innCost(); S.hp = hpMax(); S.mp = mpMax(); streakBreak('여관'); toast('여관에서 푹 쉬었다. HP·MP 회복'); say('happy', '푹 쉬셨나요? 얼굴이 한결 좋아 보여요!'); save(); render();
 }
 const trainCost = () => Math.round(60 * Math.pow(1.12, S.train));
 function doTrain(k){
@@ -1940,7 +1949,7 @@ const jqDone = () => !!(S.jq && S.jq.st===jqStage() && S.jq.k >= S.jq.kill && jq
 const jqGround = () => `${S.jq.deep?'심층 ':''}${GD[S.jq.g].ground}`;
 const jqText = () => `${jqGround()} 몬스터 ${Math.min(S.jq.k,S.jq.kill)}/${S.jq.kill} · ${S.jq.drops.join('·')} ${Math.min(jqMats(),S.jq.mat)}/${S.jq.mat}`;
 function jqKill(g, deep, n){ if (S.jq && S.jq.st===jqStage() && S.jq.g===g && !!S.jq.deep===!!deep) S.jq.k += n; }
-function jqPay(){ let left = S.jq.mat; for (const d of S.jq.drops){ const u = Math.min(left, S.mats[d]||0); if (u){ S.mats[d] -= u; if (!S.mats[d]) delete S.mats[d]; left -= u; } } S.jq = null; }
+function jqPay(){ affGain(10); let left = S.jq.mat; for (const d of S.jq.drops){ const u = Math.min(left, S.mats[d]||0); if (u){ S.mats[d] -= u; if (!S.mats[d]) delete S.mats[d]; left -= u; } } S.jq = null; }
 const canJobChange = () => S.job==='novice' && S.lv >= NOVICE_MAX && jqDone();
 function jobChange(j){
   if (!canJobChange() || !JOBS[j] || j==='novice') return;
@@ -1988,6 +1997,34 @@ function unequip(slot){
   const it = S.equip[slot]; if (!it) return;
   if (S.bag.length >= BAG_MAX){ toast('가방이 가득 찼다.'); return; }
   S.equip[slot] = null; S.bag.push(it); clampVitals(); save(); render();
+}
+/* 장비 강화 (+1~+10, 라그나로크식 재련): +4까지는 안전, 그 뒤로는 실패하면 한 단계 내려간다(깨지지는 않음).
+   단계마다 공격·방어·능력치 +6%(무기 공격력 +8%). 골드 + 아무 몬스터 재료(전직 의뢰 재료는 안 씀) */
+const UP_MAX = 10, UP_RATE = [1,1,1,1,.8,.65,.5,.4,.3,.2];
+const upCost = it => ({gold: Math.round((it.band+1) * ((it.up||0)+1) * 25 * (it.deep?2:1) * (it.t3?2:1)), mats: (it.up||0) + 1});
+const upMats = () => Object.entries(S.mats).filter(([n])=>!matKeep(n)).reduce((a,[,c])=>a+c, 0);
+function findItem(id){ return S.bag.find(x=>x.id===id) || Object.values(S.equip).find(x=>x && x.id===id); }
+function upItem(id){
+  const it = findItem(id); if (!it) return; const lv = it.up||0; if (lv >= UP_MAX){ toast('이미 최고 강화다.'); return; }
+  const c = upCost(it); if (S.gold < c.gold){ toast('골드가 모자라다.'); return; } if (upMats() < c.mats){ toast('재료가 모자라다.'); return; }
+  S.gold -= c.gold; let left = c.mats;
+  for (const [n,k] of Object.entries(S.mats).sort((a,b)=>matPrice(a[0])-matPrice(b[0]))){ if (matKeep(n) || !left) continue; const u = Math.min(left, k); S.mats[n] -= u; left -= u; if (!S.mats[n]) delete S.mats[n]; }
+  const ok = Math.random() < UP_RATE[lv];
+  if (ok){ it.up = lv + 1; UI.upRes = {ok:true, lv:it.up}; S.tot.up = (S.tot.up||0) + 1; }
+  else { it.up = Math.max(0, lv - 1); UI.upRes = {ok:false, lv:it.up}; }
+  clampVitals(); save(); render();
+}
+function upSheet(){
+  const it = findItem(UI.upId); if (!it) return '';
+  const info = itemInfo(it), lv = it.up||0, c = upCost(it), max = lv >= UP_MAX, R = UI.upRes;
+  const can = !max && S.gold >= c.gold && upMats() >= c.mats;
+  return `<div class="sheetwrap"><button class="sheetbg" data-act="upclose" aria-label="닫기"></button>
+    <div class="sheet fade" role="dialog" aria-label="장비 강화"><div class="sbody"><h2>장비 강화</h2>
+      <div class="row" style="gap:12px;margin:8px 0"><span class="sq rb${it.rar} ${it.sb?'setit':''}" style="width:56px;height:56px">${itemIcon(it)}</span><span class="grow"><b class="${it.sb?'setnm':''}" style="font-size:17px">${info.name}</b><span class="xs muted" style="display:block">단계마다 공격·방어·능력치 +6% (무기 공격력 +8%)</span></span></div>
+      ${R ? `<p class="q" style="color:${R.ok?'var(--accent)':'var(--red)'}">${R.ok ? `강화 성공! +${R.lv}` : `강화 실패… +${R.lv}(으)로 내려갔다`}</p>` : ''}
+      ${max ? '<p class="q">최고 강화(+10)에 도달했어요!</p>' : `<p class="small">+${lv} → <b>+${lv+1}</b> · 성공 확률 <b>${Math.round(UP_RATE[lv]*100)}%</b>${UP_RATE[lv]<1?' · 실패하면 한 단계 내려감':' · 실패 없음'}</p>
+      <p class="small muted">골드 ${fmt(c.gold)} (가진 골드 ${fmt(S.gold)}) · 몬스터 재료 ${c.mats}개 (가진 재료 ${upMats()}개, 싼 재료부터 씀)</p>`}
+      <div class="btns"><button class="btn" data-act="upclose">닫기</button>${max?'':`<button class="btn pri" data-act="upgo" ${can?'':'disabled'}>강화하기</button>`}</div></div></div></div>`;
 }
 function sellItem(id){
   const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
@@ -2082,6 +2119,9 @@ function talkTopics(){
     [L('teary','어제는 사냥 나간 분이 엉엉 울면서 돌아왔어요…'), L('panic','물약도 없이 들어갔다지 뭐예요!'), L('tip','모험가님은 꼭 물약 챙기세요. 약속!')],
   ];
   const m = G.mons;
+  if (affLv() >= 2) chat.push([L('blush','모험가님이랑 이야기하는 시간이 하루 중 제일 좋아요.'), L('shy','…방금 건 못 들은 걸로 해 주세요!')]);
+  if (affLv() >= 3) chat.push([L('think','사실 저도 어릴 땐 모험가가 되고 싶었어요.'), L('smile','지금은… 모험가님을 응원하는 게 제 모험이에요.')]);
+  if (affLv() >= 4) chat.push([L('teary','다치지 말고 꼭 돌아와 주세요. 약속이에요.'), L('joy','저는 언제나 여기서 기다릴게요!')]);
   return {
     chat: pick(chat),
     tip: [L('tip', `${G.ground}의 ${m[0].name}은(는) ${m[0].weak.join('·') || '특별한 약점이 없'}에 약하대요.`),
@@ -2090,10 +2130,33 @@ function talkTopics(){
     todo: (() => { const T = todos().slice(0,3); return T.length ? [L('note','잠깐만요, 수첩 좀 볼게요…'), ...T.map((x,i)=>L(i? 'smile':'tip', `${x.t}. ${x.d}`))] : [L('note','음… 지금은 급한 일이 없네요.'), L('wave','마음 편히 사냥 다녀오세요!')]; })(),
   };
 }
+/* 리나 호감도: 잡담(하루 3번까지 +1), 재료 선물(하루 5번, 사냥터가 깊을수록 +2~+6), 전직 의뢰 완료 +10.
+   단계가 오르면 물약·여관 할인과 새 대사, 단계 선물 */
+const AFF = [{n:'처음 본 사이', at:0}, {n:'아는 사이', at:20}, {n:'친구', at:60}, {n:'단짝', at:150}, {n:'소중한 사람', at:300}];
+const affLv = () => { let l = 0; AFF.forEach((a,i)=>{ if ((S.aff||0) >= a.at) l = i; }); return l; };
+const affDisc = () => affLv() * .05;  // 물약·여관 단계당 5% 할인
+function affDay(){ const d = new Date().toDateString(); if (!S.affDay || S.affDay.d !== d) S.affDay = {d, talk:0, gift:0}; return S.affDay; }
+function affGain(n){
+  const before = affLv(); S.aff = (S.aff||0) + n; const after = affLv();
+  if (after > before){ S.inv.hp += 2 + after; S.inv.mp += 1 + after; toast(`리나와 ${AFF[after].n}(이)가 되었다! 선물: 물약 ${3 + after*2}개 · 할인 ${after*5}%`); return true; }
+  return false;
+}
+const affHearts = () => '♥'.repeat(affLv()) + '♡'.repeat(AFF.length - 1 - affLv());
+function giftTalk(){
+  const D = affDay(), M = Object.entries(S.mats).filter(([n])=>!matKeep(n)).sort((a,b)=>b[1]-a[1]);  // 가장 많이 가진 재료를 선물
+  if (D.gift >= 5) return {lines:[L('blush','오늘은 벌써 선물을 많이 받았어요. 내일 또 주세요, 헤헤.')], i:0};
+  if (!M.length) return {lines:[L('think','선물이요? 사냥하다 주운 재료라도 저는 좋아요!')], i:0};
+  const [n] = M[0], gi = Math.max(0, GD.findIndex(G=>G.mons.some(m=>m.drop===n))), pts = 2 + Math.floor(gi/2);
+  S.mats[n]--; if (!S.mats[n]) delete S.mats[n]; D.gift++;
+  const up = affGain(pts); save();
+  return {lines:[L('surprised', `어머, ${n}! 저 주시는 거예요?`), L(up ? 'joy' : 'blush', up ? `정말 고마워요… 이제 우리 ${AFF[affLv()].n}예요!` : `고마워요! 소중히 간직할게요. (호감도 +${pts})`)], i:0};
+}
 function talkOpen(){ UI.talk = {menu:true}; }
 function talkTopic(k){
   if (k==='bye'){ UI.talk = null; UI.homeLine = L('wave', pick(['언제든 불러 주세요!', '조심히 다녀오세요!', '또 이야기해요!'])); return; }
   if (k==='job'){ UI.talk = jqTalk(); return; }
+  if (k==='gift'){ UI.talk = giftTalk(); return; }
+  if (k==='chat'){ const D = affDay(); if (D.talk < 3){ D.talk++; affGain(1); } }
   if (k==='shop'){ UI.talk = null; UI.shop = true; UI.homeLine = L('welcome', '어서 오세요! 물약이랑 재료 거래는 저한테 맡겨 주세요.'); return; }
   UI.talk = {lines: talkTopics()[k], i:0};
 }
@@ -2136,8 +2199,8 @@ function homeView(){
     ${top('공책 마을', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `<button class="btn ghost" style="padding:7px" data-go="rec:save" aria-label="저장 설정">${svg('gear',20)}</button>`)}
     <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[tl.f] ?? 2]}" alt="안내원 리나"></button>
     ${UI.talk ? '' : '<span class="tapme" aria-hidden="true">터치해서 대화</span>'}
-    <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나</div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
-      ${UI.talk && UI.talk.menu ? `<div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">⭐ ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="shop">🛒 상점</button><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
+    <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나 <span class="aff" title="호감도">${affHearts()} ${AFF[affLv()].n}</span></div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
+      ${UI.talk && UI.talk.menu ? `<div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">⭐ ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="shop">🛒 상점</button><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="gift">🎁 선물</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
   h += autoCard();
   h += `<section class="card tiles">
       ${tile(`data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}" aria-label="사냥터로 보내 주세요 · ${G.ground}"`, '⚔️', '사냥터로<br>보내 주세요', 't-red')}
@@ -2185,6 +2248,7 @@ function huntView(){
   let h = `<section class="pbanner">${sceneSVG(b.g)}${top('사냥', `${lvTag()} · HP ${fmt(S.hp)}/${fmt(hpMax())} · MP ${fmt(S.mp)}/${fmt(mpMax())}`)}
     <div class="feat"><span class="fl">추천 사냥터</span>${groundRow(b.g, b.deep, true)}</div></section>`;
   h += autoCard();
+  h += `<section class="card streak"><b>🔥 연속 사냥 ${S.streak||0}연승</b> <span class="small muted">· 경험치 +${Math.round(streakBonus()*100)}% (최대 +${STREAK_MAX}%) · 직접 이길 때만 쌓이고, 지거나 도망·여관·자동 사냥을 하면 0</span>${S.streakLost ? `<span class="xs" style="display:block;color:var(--red);margin-top:4px">지난번 ${S.streakLost.n}연승이 ${S.streakLost.why}(으)로 끊겼다</span>` : ''}</section>`;
   h += `<section class="card"><div class="btns" style="margin-top:0"><button class="btn" data-act="potion" data-k="hp" ${S.inv.hp?'':'disabled'}>체력 물약 ${S.inv.hp}</button><button class="btn" data-act="potion" data-k="mp" ${S.inv.mp?'':'disabled'}>마나 물약 ${S.inv.mp}</button><button class="btn soft" data-act="rest">여관 ${innCost()}G</button></div></section>`;
   if (isJob()) h += `<section class="card"><h2 class="row">${S.third?'초월':'심층'} 사냥터 <span class="aside">${S.third?'3차':'전직'} 후 10레벨마다 개방</span></h2>${GD.map((G,g)=>groundRow(g,true,b.deep&&g===b.g)).join('')}</section>`;
   h += `<section class="card"><h2 class="row">사냥터 <span class="aside">${isJob()?'모두 개방':'노비스 Lv.1~50'}</span></h2>${GD.map((G,g)=>groundRow(g,false,!b.deep&&g===b.g)).join('')}
@@ -2249,6 +2313,7 @@ function overHTML(O){
   const petals = Array.from({length:10},(_,i)=>`<i class="petal" style="left:${5+i*9.5}%;animation-delay:${(i*0.23)%2}s;background:${['#ffb3cf','#ffd6e6','#b9f0c3','#ffe28a'][i%4]}"></i>`).join('');
   return `<div class="victory fade">${petals}<div class="big2">${O.promo ? '승급 시험 통과!' : '승리!'}</div>
     <div class="xs muted">${B.round}라운드 · 받은 피해 ${fmt(B.took)}</div>
+    ${B.mode!=='auto' && S.streak ? `<div class="xs" style="color:var(--accent);font-weight:700">🔥 연속 사냥 ${S.streak}연승 · 경험치 +${Math.round(streakBonus()*100)}%</div>` : ''}
     <div class="rewards"><span style="color:var(--gold)">EXP +${fmt(O.exp)}</span><span>골드 +${fmt(O.gold)}</span>${Object.entries(O.mats).map(([k,v])=>`<span>${esc(k)} ×${v}</span>`).join('')}</div>
     ${O.ups?`<div class="lvup">레벨 업! ${lvTag()} · 능력치 포인트 +${O.ups*2}</div>`:''}
     ${O.promo?`<div style="margin-top:4px;font-weight:700">소속: ${O.promo} · EXP·골드 +${Math.round(facBonus()*100)}%</div>`:''}
@@ -2365,7 +2430,7 @@ function slotDetail(){
   if (info.atk) p.push(`공격력 <b>+${info.atk}</b>`); if (info.def) p.push(`방어력 <b>+${info.def}</b>`);
   for (const x in info.bon) p.push(`${SN[x]} <b>+${info.bon[x]}</b>`);
   return `<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px"><b>${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${info.setName} 세트`:''}</span>
-    <p class="eff">${p.join(' · ')}</p><div class="btns"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn" data-act="slot" data-s="">닫기</button></div></div>`;
+    <p class="eff">${p.join(' · ')}</p><div class="btns"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn soft" data-act="up" data-id="${sel.id}">⚒️ 강화</button><button class="btn" data-act="slot" data-s="">닫기</button></div></div>`;
 }
 function slotCell(slotKey, it, label){
   if (!it) return `<div class="slot empty"><span class="sq"></span><span class="nm">${label}<small>비어 있음</small></span></div>`;
@@ -2436,7 +2501,7 @@ function bagView(){
       <p class="eff" style="margin-top:10px">${parts.join(' · ')}</p>
       ${cur.length && it.slot!=='ring' ? `<p class="xs muted">지금 착용: ${cur.map(c=>itemInfo(c).name).join(', ')}${it.slot==='suit'?' (한벌옷을 입으면 상의·하의를 벗는다)':''}</p>` : ''}
       ${UI.ringPick && it.slot==='ring' ? `<p class="small" style="margin-top:8px">반지 칸이 가득 찼다. 바꿀 칸을 고른다.</p><div class="btns">${RING_SLOTS.map((s,i)=>`<button class="btn sm" data-act="equip" data-id="${it.id}" data-ring="${s}">${i+1}번</button>`).join('')}</div>` : ''}
-      <div class="btns"><button class="btn soft" data-act="sell" data-id="${it.id}">팔기 · ${info.price}골드</button><button class="btn pri" data-act="equip" data-id="${it.id}" ${ok?'':'disabled'}>${ok?'장착하기':wearWhy(info, it)}</button></div></section>`;
+      <div class="btns"><button class="btn soft" data-act="sell" data-id="${it.id}">팔기 · ${info.price}골드</button><button class="btn soft" data-act="up" data-id="${it.id}">⚒️ 강화</button><button class="btn pri" data-act="equip" data-id="${it.id}" ${ok?'':'disabled'}>${ok?'장착하기':wearWhy(info, it)}</button></div></section>`;
   }
   return h;
 }
@@ -2524,12 +2589,13 @@ function renderView(){
   setTimeout(runTyper, 0);
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
   if (UI.innAsk) app.insertAdjacentHTML('beforeend', innSheet());
+  if (UI.upId) app.insertAdjacentHTML('beforeend', upSheet());
   if (UI.shop && UI.tab==='home') app.insertAdjacentHTML('beforeend', shopSheet());
   if (UI.jobSheet && UI.tab==='home') app.insertAdjacentHTML('beforeend', jobSheet());
   if (UI.statInfo) app.insertAdjacentHTML('beforeend', statSheet());
 }
 function go(dest){
-  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false; UI.innAsk = false; UI.statInfo = false; UI.shop = false;
+  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false; UI.innAsk = false; UI.statInfo = false; UI.shop = false; UI.upId = null;
   if (sub){ if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; }
   render(); window.scrollTo({top:0});
 }
@@ -2584,6 +2650,9 @@ app.addEventListener('click', async e => {
   if (a==='sel'){ UI.sel = UI.sel===b.dataset.id ? null : b.dataset.id; UI.ringPick = false; const it = S.bag.find(x=>x.id===b.dataset.id); if (it && it.isNew){ it.isNew = false; save(); } render(); return; }
   if (a==='equip'){ equipItem(b.dataset.id, b.dataset.ring); return; }
   if (a==='sell'){ if (b.dataset.confirm){ sellItem(b.dataset.id); return; } b.dataset.confirm = '1'; b.textContent = '정말 판다'; return; }
+  if (a==='up'){ UI.upId = b.dataset.id; UI.upRes = null; render(); return; }
+  if (a==='upgo'){ upItem(UI.upId); return; }
+  if (a==='upclose'){ UI.upId = null; UI.upRes = null; render(); return; }
   if (a==='buy'){ buyPotion(b.dataset.k, +b.dataset.n || 1); return; }
   if (a==='shopclose'){ UI.shop = false; say('wave', '또 들러 주세요!'); render(); return; }
   if (a==='potion'){ usePotion(b.dataset.k); return; }
