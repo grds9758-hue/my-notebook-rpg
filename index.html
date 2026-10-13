@@ -382,16 +382,26 @@ const ITEM_NAMES = {
   suit:['수련생 도복','사냥꾼 가죽옷','용병 전투복','견습 기사 갑주','늪지기 갑옷','망령 갑옷','협곡 갑옷','설원 갑옷','사막 갑옷','용기사 갑주'],
   shoes:['짚신','가죽 신발','징 박힌 장화','철 장화','늪지기 장화','망령 장화','협곡 장화','설원 장화','사막 장화','용비늘 장화'],
   cape:['해진 망토','여행자 망토','늑대 가죽 망토','용병 망토','늪지기 망토','망령 망토','협곡 망토','설원 망토','사막 망토','용날개 망토'],
-  sub:['냄비 뚜껑','나무 방패','가죽 방패','징 박힌 방패','철 방패','늪지기 방패','망령 방패','협곡 방패','설원 방패','용비늘 방패'],
   necklace:['조개 목걸이','은 목걸이','월장석 목걸이','루비 목걸이','사파이어 목걸이','에메랄드 목걸이','미스릴 목걸이','빙정 목걸이','태양석 목걸이','용의 심장 목걸이'],
   earring:['구리 귀걸이','은 귀걸이','월장석 귀걸이','루비 귀걸이','사파이어 귀걸이','에메랄드 귀걸이','미스릴 귀걸이','빙정 귀걸이','태양석 귀걸이','용의 눈 귀걸이'],
   ring:['구리','은','금','백금','에메랄드','흑요석','미스릴','빙정','태양석','용의'],
 };
+/* 보조무기: 종류마다 쓸 수 있는 직업·루트가 다르다. null이면 그 칸은 ✕ */
+const SUB_KINDS = {
+  shield:{n:'방패', names:['냄비 뚜껑','나무 방패','가죽 방패','징 박힌 방패','철 방패','늪지기 방패','망령 방패','협곡 방패','설원 방패','용비늘 방패'], def:.6, atk:0, bon:[['vit',.4]]},
+  dagger:{n:'보조 단검', names:['녹슨 단도','사냥칼','쿠크리','강철 단도','독사 단도','망령 단도','협곡 단도','빙결 단도','사막 단도','용아 단도'], def:0, atk:.4, bon:[['agi',.4]]},
+  quiver:{n:'화살통', names:['가죽 화살통','사냥꾼 화살통','깃털 화살통','철 화살통','늪지기 화살통','망령 화살통','바람 화살통','서리 화살통','태양 화살통','용비늘 화살통'], def:0, atk:.25, bon:[['luk',.4]]},
+  tome:{n:'마도서', names:['낡은 주문서','견습 마도서','수정 마도서','원소 마도서','늪의 비서','망령의 서','바람의 서','서리의 서','태양의 서','용언의 서'], def:0, atk:.2, bon:[['int',.4],['spi',.3]]},
+};
+const SUB_RULE = {novice:'shield', warrior:'shield', greatsword:[null,'양손검 사용 중'], shield:'shield', rider:'shield',
+  archer:'quiver', thief:[null,'단검 도적부터'], dagger:'dagger', shuriken:[null,'표창 사용 중'], dancer:[null,'춤 사용 중'],
+  healer:'tome', priest:'tome', monk:[null,'맨손 격투'], mage:'tome'};
+function subRule(){ const r = (S.route && SUB_RULE[S.route]!==undefined) ? SUB_RULE[S.route] : (SUB_RULE[S.job] ?? 'tome'); return Array.isArray(r) ? {kind:null, why:r[1]} : {kind:r}; }
 const ATK = [6,12,20,30,42,56,72,90,110,132], DEF = [3,6,10,15,21,28,36,45,55,66];
 const SLOT_SPEC = {
   weapon:{def:0, bon:[['main',1]]}, helm:{def:.6, bon:[['vit',.5]]}, top:{def:1, bon:[['vit',.8]]},
   bottom:{def:.8, bon:[['agi',.6]]}, suit:{def:1.8, bon:[['vit',.8],['agi',.6]]}, shoes:{def:.5, bon:[['agi',.5]]},
-  cape:{def:.4, bon:[['luk',.4],['spi',.3]]}, sub:{def:.6, bon:[['vit',.4]]}, necklace:{def:0, bon:[['vit',.3],['luk',.3]]}, earring:{def:0, bon:[['int',.4],['spi',.4]]}, ring:{def:0, bon:[]},
+  cape:{def:.4, bon:[['luk',.4],['spi',.3]]}, sub:{def:0, bon:[]}, necklace:{def:0, bon:[['vit',.3],['luk',.3]]}, earring:{def:0, bon:[['int',.4],['spi',.4]]}, ring:{def:0, bon:[]},
 };
 const ARMOR_SET_SLOTS = ['helm','top','bottom','suit','shoes','cape'];
 const LOOT_SLOTS = ['weapon','sub','helm','top','bottom','suit','shoes','cape','necklace','earring','ring','ring'];
@@ -431,6 +441,7 @@ function makeItem(slot, band, rar, deep){
   const it = {id:uid(), slot, band:clamp(band,0,9), rar:clamp(rar,0,4), isNew:true};
   if (deep) it.deep = true;
   if (slot==='ring') it.st = pick(STATS)[0];
+  if (slot==='sub') it.kind = subRule().kind || pick(Object.keys(SUB_KINDS));
   return it;
 }
 const randomSlot = () => pick(LOOT_SLOTS);
@@ -438,18 +449,23 @@ function itemInfo(it){
   const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = (1 + .15*r) * (it.deep ? 1.7 : 1);
   const v = w => Math.max(1, Math.round(((b+1)*w + r*.6) * (it.deep ? 1.6 : 1)));
   const bon = {};
+  const K = it.slot==='sub' ? SUB_KINDS[it.kind||'shield'] : null;
   if (it.slot==='ring') bon[it.st] = v(.5);
-  else sp.bon.forEach(([k,w]) => { const kk = k==='main' ? JOBS[S.job].main : k; bon[kk] = (bon[kk]||0) + v(w); });
-  const base = it.slot==='ring' ? `${ITEM_NAMES.ring[b]} ${SN[it.st]}의 반지` : ITEM_NAMES[it.slot][b];
+  else (K ? K.bon : sp.bon).forEach(([k,w]) => { const kk = k==='main' ? JOBS[S.job].main : k; bon[kk] = (bon[kk]||0) + v(w); });
+  const base = it.slot==='ring' ? `${ITEM_NAMES.ring[b]} ${SN[it.st]}의 반지` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
   return {
     name: (it.deep ? '심연의 ' : '') + base, reqLv: BANDS[b], reqJob: !!it.deep,
-    atk: it.slot==='weapon' ? Math.round(ATK[b]*mult) : 0,
-    def: sp.def ? Math.round(DEF[b]*sp.def*mult) : 0, bon,
+    atk: it.slot==='weapon' ? Math.round(ATK[b]*mult) : K && K.atk ? Math.round(ATK[b]*K.atk*mult) : 0,
+    def: (K ? K.def : sp.def) ? Math.round(DEF[b]*(K ? K.def : sp.def)*mult) : 0, bon, kind: K ? K.n : null,
     set: ARMOR_SET_SLOTS.includes(it.slot) ? b : null,
     price: Math.round((b+1)*(r+1)*12*(it.deep?2:1)),
   };
 }
-const canWear = info => info.reqJob ? isJob() && S.lv >= info.reqLv : (isJob() || S.lv >= info.reqLv);
+const lvOk = info => info.reqJob ? isJob() && S.lv >= info.reqLv : (isJob() || S.lv >= info.reqLv);
+const subOk = it => it.slot!=='sub' || subRule().kind === (it.kind||'shield');
+const canWear = (info, it) => lvOk(info) && (!it || subOk(it));
+const wearWhy = (info, it) => !lvOk(info) ? `${reqText(info)} 필요` : `지금 직업은 ${info.kind} 장착 불가`;
+function dropBadSub(){ const it = S.equip.sub; if (it && !subOk(it)){ S.equip.sub = null; if (S.bag.length < BAG_MAX) S.bag.push(it); } }
 const reqText = info => info.reqJob ? `전직 후 Lv.${info.reqLv}` : `Lv.${info.reqLv}`;
 const equipped = () => [...SLOT_ORDER, ...RING_SLOTS].map(s=>S.equip[s]).filter(Boolean);
 const itemLabel = it => `<span class="rar${it.rar}">${RARITY[it.rar]} ${itemInfo(it).name}</span>`;
@@ -558,7 +574,13 @@ const SLOT_ICONS = {
   earring:'<path d="M12 2a2 2 0 0 1 2 2v3h-4V4a2 2 0 0 1 2-2z"/><circle cx="12" cy="14" r="5" fill="none" stroke="currentColor" stroke-width="2.5"/>',
   ring:'<circle cx="12" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M9 6l3-4 3 4z"/>',
 };
+const SUB_ICONS = {
+  dagger:'<path d="M14 2l2 2-7 9-2-2zM6 12l2 2-1 1 2 2-2 2-2-2-1 1-2-2 1-1-2-2 2-2 2 2z"/>',
+  quiver:'<path d="M8 6h8l-1 16H9z"/><path d="M9 2l1 4M12 1v5M15 2l-1 4" stroke="currentColor" stroke-width="1.5"/>',
+  tome:'<path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M8 18h11" stroke="#fff" stroke-width="1.2"/>',
+};
 function itemIcon(it){
+  if (it.slot==='sub' && SUB_ICONS[it.kind]) return `<svg viewBox="0 0 24 24" fill="currentColor" class="rar${it.rar}">${SUB_ICONS[it.kind]}</svg>`;
   if (it.slot==='weapon') return `<img src="${SPR['wico'+Math.min(6,it.band)]}" alt="">`;
   return `<svg viewBox="0 0 24 24" fill="currentColor" class="rar${it.rar}">${SLOT_ICONS[it.slot]}</svg>`;
 }
@@ -784,19 +806,19 @@ function jobChange(j){
   if (!canJobChange() || !JOBS[j] || j==='novice') return;
   if (S.gender==='f' && j!=='thief'){ toast('여캐는 도적으로만 전직할 수 있다.'); return; }
   S.job = j; S.route = null; S.lv = 1; S.exp = 0; S.points += 5;
-  S.hp = hpMax(); S.mp = mpMax(); S.titles.push(`${job().name} 전직`);
+  dropBadSub(); S.hp = hpMax(); S.mp = mpMax(); S.titles.push(`${job().name} 전직`);
   UI.jobPick = null; toast(`${job().name}(으)로 전직했다! Lv.1부터 다시 시작`); save(); render(); window.scrollTo({top:0});
 }
 const canRoute = () => isJob() && !S.route && S.lv >= ROUTE_LV;
 function chooseRoute(r){
   if (!canRoute() || !ROUTE[r] || ROUTE[r].job!==S.job) return;
   if (r==='dancer' && S.gender!=='f'){ toast('무희는 여캐 전용이다.'); return; }
-  S.route = r; S.titles.push(ROUTE[r].name); UI.routePick = null; toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
+  S.route = r; dropBadSub(); S.titles.push(ROUTE[r].name); UI.routePick = null; toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
 }
 function equipItem(id, ringSlot){
   const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
   const it = S.bag[i], info = itemInfo(it);
-  if (!canWear(info)){ toast(`${reqText(info)}부터 장착할 수 있다.`); return; }
+  if (!canWear(info, it)){ toast(wearWhy(info, it)); return; }
   let target = it.slot;
   if (it.slot==='ring'){ target = ringSlot || RING_SLOTS.find(s=>!S.equip[s]); if (!target){ UI.ringPick = true; render(); return; } }
   const off = [S.equip[target]];
@@ -981,16 +1003,19 @@ function slotFits(slot, it){
   if (!it) return false;
   if (it.slot==='ring') return slot.startsWith('ring');
   if (it.slot==='suit') return slot==='top' || slot==='bottom';
+  if (it.slot==='sub') return slot==='sub' && subOk(it);
   return it.slot===slot;
 }
 function pdSlot(slot, label, style, fitItem){
+  if (slot==='sub' && !subRule().kind && !S.equip.sub)  // two-handed or bare-handed jobs have no off-hand
+    return `<button class="ps blocked" style="${style||''}" disabled aria-label="보조무기: ${subRule().why}"><span class="sq">✕</span><small>${subRule().why}</small></button>`;
   if (slot==='bottom' && S.equip.suit)  // a suit covers the legs: the bottom slot is blocked
     return `<button class="ps blocked ${slotFits(slot, fitItem)?'fit':''}" style="${style||''}" disabled aria-label="하의: 한벌옷을 입어 착용 불가"><span class="sq">✕</span><small>한벌옷 착용 중</small></button>`;
   let it = S.equip[slot], key = slot;
   if (!it && slot==='top' && S.equip.suit){ it = S.equip.suit; key = 'suit'; }
   const cls = [it?'':'empty', UI.slotSel===key?'on':'', slotFits(slot, fitItem)?'fit':''].join(' ');
   const act = it ? `data-act="slot" data-s="${key}"` : 'disabled';
-  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(itemInfo(it).name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${key==='suit'?'한벌옷':label}</small></button>`;
+  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(itemInfo(it).name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${key==='suit'?'한벌옷':slot==='sub'&&subRule().kind?SUB_KINDS[subRule().kind].n:label}</small></button>`;
 }
 function equipDoll(fitItem){
   const pos = Object.entries(PD_POS).map(([s,[x,y]])=>pdSlot(s, SLOTN[s], `left:${x}px;top:${y}px`, fitItem)).join('');
@@ -1079,14 +1104,14 @@ function bagView(){
     if (info.atk) parts.push(`공격력 <b>+${info.atk}</b>${cmp('atk',info.atk)}`);
     if (info.def) parts.push(`방어력 <b>+${info.def}</b>${cmp('def',info.def)}`);
     for (const x in info.bon) parts.push(`${SN[x]} <b>+${info.bon[x]}</b>${cmp(x,info.bon[x])}`);
-    const ok = canWear(info);
+    const ok = canWear(info, it);
     h += `<section class="card"><div class="row"><span class="sq rb${it.rar}" style="width:56px;height:56px">${itemIcon(it)}</span>
-      <span class="grow"><span class="who" style="display:block">${SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${ok?'':'color:var(--red)'}">${reqText(info)} 이상</span>${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
+      <span class="grow"><span class="who" style="display:block">${info.kind||SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${ok?'':'color:var(--red)'}">${reqText(info)} 이상</span>${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
       <b style="font-size:18px">${info.name}</b></span></div>
       <p class="eff" style="margin-top:10px">${parts.join(' · ')}</p>
       ${cur.length && it.slot!=='ring' ? `<p class="xs muted">지금 착용: ${cur.map(c=>itemInfo(c).name).join(', ')}${it.slot==='suit'?' (한벌옷을 입으면 상의·하의를 벗는다)':''}</p>` : ''}
       ${UI.ringPick && it.slot==='ring' ? `<p class="small" style="margin-top:8px">반지 칸이 가득 찼다. 바꿀 칸을 고른다.</p><div class="btns">${RING_SLOTS.map((s,i)=>`<button class="btn sm" data-act="equip" data-id="${it.id}" data-ring="${s}">${i+1}번</button>`).join('')}</div>` : ''}
-      <div class="btns"><button class="btn soft" data-act="sell" data-id="${it.id}">팔기 · ${info.price}골드</button><button class="btn pri" data-act="equip" data-id="${it.id}" ${ok?'':'disabled'}>${ok?'장착하기':`${reqText(info)} 필요`}</button></div></section>`;
+      <div class="btns"><button class="btn soft" data-act="sell" data-id="${it.id}">팔기 · ${info.price}골드</button><button class="btn pri" data-act="equip" data-id="${it.id}" ${ok?'':'disabled'}>${ok?'장착하기':wearWhy(info, it)}</button></div></section>`;
   }
   return h;
 }
