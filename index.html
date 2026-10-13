@@ -318,6 +318,12 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .cardmini{width:52px;height:64px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;background:linear-gradient(180deg,#f6f2ff,#ece6fb);flex:none}
 .cardmini.got{border-color:#c9a23a;background:linear-gradient(180deg,#fff8e0,#f6e7b6)}
 .cardmini img{width:44px;height:44px}
+.authwrap{min-height:100vh;display:flex;flex-direction:column}
+.authhero{height:300px;background-size:cover;background-position:center 35%;position:relative;margin:-16px -16px 0;border-radius:0 0 26px 26px}
+.authlogo{position:absolute;left:18px;right:18px;bottom:46px;color:#fff;text-shadow:0 2px 8px rgba(20,30,70,.6)}
+.authlogo b{display:block;font-size:26px;font-weight:900}.authlogo small{font-size:13px}
+.authcard{margin-top:-30px;position:relative}
+.authcard .field{margin-top:12px}
 .setit{box-shadow:0 0 0 2px #2fb47c,0 0 10px rgba(47,180,124,.45)!important}
 .setnm{color:#1f9a68} .setrow{display:block;margin-bottom:8px} .setrow .on{color:#1f9a68;font-weight:700} .setrow .off{color:var(--sub)}
 .rb0{border-color:var(--r0)!important} .rb1{border-color:var(--r1)!important} .rb2{border-color:var(--r2)!important} .rb3{border-color:var(--r3)!important} .rb4{border-color:var(--r4)!important}
@@ -1129,7 +1135,66 @@ const store = {
   set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
   del(k){ try { localStorage.removeItem(k); } catch(e){} },
 };
-const save = () => { if (S) store.set(SAVE_KEY, S); };
+/* ---------- 계정: 우리 사이트 자체 회원가입·로그인 + 클라우드 저장
+   서버는 같은 사이트의 /api (Cloudflare Pages Functions + D1 DB, functions/api/[[path]].js). 비밀번호는 서버에서 해시로만 보관.
+   /api가 없으면(파일로 열거나 Claude 미리보기) 예전처럼 이 기기에만 저장 */
+const AUTH_KEY = 'mnbrpg-auth';
+const ACC = {on: false, u: null, cloudAt: 0, busy: false, err: ''};
+const accOn = () => ACC.on;
+const saveKey = () => ACC.u ? `${SAVE_KEY}:${ACC.u.id}` : SAVE_KEY;
+async function api(path, opt={}){
+  const r = await fetch('/api/' + path, {method: opt.method || 'GET', headers: {'Content-Type':'application/json', ...(ACC.u ? {Authorization:'Bearer ' + ACC.u.token} : {})}, body: opt.body ? JSON.stringify(opt.body) : undefined});
+  const j = await r.json().catch(()=>({}));
+  if (r.status===401 && ACC.u && path!=='login'){ ACC.u = null; store.del(AUTH_KEY); }
+  if (!r.ok) throw new Error(j.error || `서버 오류 (${r.status})`);
+  return j;
+}
+async function accProbe(){  // is there an account server on this site?
+  if (!/^https?:$/.test(location.protocol)) return false;
+  try { const c = new AbortController(); setTimeout(()=>c.abort(), 2500); const r = await fetch('/api/ping', {signal:c.signal}); const j = await r.json(); return !!(j && j.ok); } catch(e){ return false; }
+}
+async function cloudLoad(){ const j = await api('save'); return j.data ? {S: JSON.parse(j.data), at: +j.at || 0} : null; }
+let cloudTimer = null;
+async function cloudSave(){
+  if (!accOn() || !ACC.u || !S) return; clearTimeout(cloudTimer); cloudTimer = null;
+  try { const at = S.savedAt || Date.now(); await api('save', {method:'PUT', body:{data:JSON.stringify(S), at, name:S.name||'', lv:S.lv||1}}); ACC.cloudAt = at; ACC.err = ''; }
+  catch(e){ ACC.err = '클라우드 저장 실패 · 나중에 다시 시도'; }
+}
+const save = () => { if (!S) return; S.savedAt = Date.now(); store.set(saveKey(), S); if (accOn() && ACC.u && !cloudTimer) cloudTimer = setTimeout(cloudSave, 4000); };
+addEventListener('pagehide', () => { if (cloudTimer) cloudSave(); });
+async function accSubmit(mode){
+  const F = UI.authF || {}, id = (F.id||'').trim(), pw = F.pw||'';
+  if (!/^[A-Za-z0-9]{4,16}$/.test(id)){ ACC.err = '아이디는 영문·숫자 4~16자예요.'; render(); return; }
+  if (pw.length < 6){ ACC.err = '비밀번호는 6자 이상이어야 해요.'; render(); return; }
+  if (mode==='signup' && pw !== F.pw2){ ACC.err = '비밀번호 확인이 달라요.'; render(); return; }
+  ACC.busy = true; ACC.err = ''; render();
+  try {
+    const j = await api(mode==='signup' ? 'signup' : 'login', {method:'POST', body:{id, pw}});
+    ACC.u = {id:j.id, token:j.token}; store.set(AUTH_KEY, ACC.u); UI.authF = {};
+    await accEnter(mode==='signup');
+  } catch(e){ ACC.err = e.message; }
+  ACC.busy = false; render();
+}
+async function accEnter(fresh){  // pick the newest of this device's copy and the cloud copy
+  let local = store.get(saveKey()), cloud = null;
+  if (fresh && !local){ const guest = store.get(SAVE_KEY); if (guest){ local = guest; toast('이 기기의 캐릭터를 새 계정으로 옮겼어요.'); } }
+  try { cloud = await cloudLoad(); } catch(e){ ACC.err = e.message; }
+  const useCloud = cloud && (!local || (cloud.at||0) > (local.savedAt||0));
+  S = migrate(useCloud ? cloud.S : local); B = null; UI.tab = 'home';
+  if (S){ store.set(saveKey(), S); if (!useCloud) cloudSave(); }
+}
+async function accLogout(){ if (cloudTimer) await cloudSave(); if (ACC.u) api('logout', {method:'POST'}).catch(()=>{}); ACC.u = null; store.del(AUTH_KEY); S = null; B = null; UI.guest = false; render(); }
+function authView(){
+  const m = UI.authMode || 'login', F = UI.authF || {};
+  return `<div class="authwrap"><div class="authhero" style="background-image:url(${NPC_FACE[NPC_FACE.length-1]})"><div class="authlogo"><b>내 공책 그정도 아님</b><small>공책 마을에서 시작하는 턴제 RPG</small></div></div>
+  <section class="card authcard"><div class="seg" role="tablist"><button role="tab" class="${m==='login'?'on':''}" aria-selected="${m==='login'}" data-act="authmode" data-v="login">로그인</button><button role="tab" class="${m==='signup'?'on':''}" aria-selected="${m==='signup'}" data-act="authmode" data-v="signup">회원가입</button></div>
+    <label class="field">아이디 <input id="a-id" autocomplete="username" maxlength="16" placeholder="영문·숫자 4~16자" value="${esc(F.id||'')}"></label>
+    <label class="field">비밀번호 <input id="a-pw" type="password" autocomplete="${m==='signup'?'new-password':'current-password'}" placeholder="6자 이상" value="${esc(F.pw||'')}"></label>
+    ${m==='signup' ? `<label class="field">비밀번호 확인 <input id="a-pw2" type="password" autocomplete="new-password" value="${esc(F.pw2||'')}"></label><p class="xs muted">비밀번호를 잊으면 찾을 수 없어요. 꼭 기억해 두세요.</p>` : ''}
+    ${ACC.err ? `<p class="small" style="color:var(--red);margin-top:8px" role="alert">${esc(ACC.err)}</p>` : ''}
+    <button class="cta" style="margin-top:12px" data-act="authgo" ${ACC.busy?'disabled':''}>${ACC.busy ? '잠시만요…' : m==='signup' ? '가입하고 시작하기' : '로그인'}</button>
+    <button class="btn link" style="margin-top:10px;width:100%" data-act="guest">계정 없이 이 기기에서만 하기</button></section></div>`;
+}
 let toastTimer = null;
 function toast(msg){
   document.querySelectorAll('.toast').forEach(t=>t.remove());
@@ -2616,7 +2681,9 @@ function recView(){
   return h;
 }
 function saveCard(){
-  return `<section class="card"><h2>저장 파일 내보내기 · 가져오기</h2>
+  const acc = !accOn() ? '' : ACC.u ? `<section class="card"><h2 class="row">계정 <span class="aside">${esc(ACC.u.id)}</span></h2><p class="small muted">진행이 자동으로 클라우드에 저장돼요. 다른 기기에서 같은 아이디로 로그인하면 이어서 할 수 있어요.${ACC.cloudAt ? ` · 마지막 클라우드 저장 ${new Date(ACC.cloudAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}` : ''}</p>${ACC.err?`<p class="small" style="color:var(--red)">${esc(ACC.err)}</p>`:''}<div class="btns"><button class="btn" data-act="logout">로그아웃</button></div></section>`
+    : `<section class="card"><h2>계정</h2><p class="small muted">지금은 이 기기에만 저장돼요. 로그인하면 클라우드에 저장돼요.</p><div class="btns"><button class="btn pri" data-act="logout">로그인 · 회원가입</button></div></section>`;
+  return acc + `<section class="card"><h2>저장 파일 내보내기 · 가져오기</h2>
     <p class="small muted" style="margin-bottom:10px">진행은 이 브라우저에 자동 저장된다. 다른 기기로 옮기려면 아래 내용을 복사해 두었다가 붙여 넣는다.</p>
     <textarea id="savebox" rows="4" aria-label="저장 데이터">${S ? esc(JSON.stringify(S)) : ''}</textarea>
     <div class="btns"><button class="btn" data-act="copy">복사</button><button class="btn" data-act="import">붙여 넣은 내용 불러오기</button></div>
@@ -2655,6 +2722,7 @@ const TABS = [['home','홈'],['hunt','사냥'],['char','캐릭터'],['skill','�
 let lastView = null;
 const fadeSig = el => el.className.replace(/ ?still/, '') + '|' + (el.getAttribute('aria-label')||'') + '|' + ((el.querySelector('h2,b')||{}).textContent||'');
 function render(){
+  if (accOn() && !ACC.u && !UI.guest){ lastView = 'auth'; app.className = 'app notabs'; app.innerHTML = authView(); return; }
   const key = !S ? 'create' : B ? 'battle' : `${UI.tab}:${UI.tab==='rec'?UI.rec:UI.tab==='bag'?UI.bag:''}`;
   const old = new Set([...app.querySelectorAll('.fade')].map(fadeSig));
   renderView();
@@ -2684,7 +2752,9 @@ function go(dest){
 }
 
 /* ---------- events ---------- */
-app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.target.value; });
+app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.target.value;
+  const ak = {'a-id':'id','a-pw':'pw','a-pw2':'pw2'}[e.target.id]; if (ak){ UI.authF = UI.authF || {}; UI.authF[ak] = e.target.value; } });
+app.addEventListener('keydown', e => { if (e.key==='Enter' && /^a-/.test(e.target.id||'')) accSubmit(UI.authMode||'login'); });
 app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value; });
 app.addEventListener('click', async e => {
   const g = e.target.closest('[data-go]'); if (g){ go(g.dataset.go); return; }
@@ -2695,6 +2765,10 @@ app.addEventListener('click', async e => {
   if (a==='hair'){ draft.hair = +b.dataset.v; render(); return; }
   if (a==='skin'){ draft.skin = +b.dataset.v; render(); return; }
   if (a==='gender'){ draft.gender = b.dataset.v; render(); return; }
+  if (a==='authmode'){ UI.authMode = b.dataset.v; ACC.err = ''; render(); return; }
+  if (a==='authgo'){ accSubmit(UI.authMode||'login'); return; }
+  if (a==='guest'){ UI.guest = true; S = migrate(store.get(SAVE_KEY)); render(); return; }
+  if (a==='logout'){ accLogout(); return; }
   if (a==='start'){ newGame(); UI.tab = 'home'; render(); window.scrollTo({top:0}); return; }
   if (a==='hunt'){ startBattle(+b.dataset.g, b.dataset.deep==='1'); return; }
   if (a==='target'){ if (B && !B.over){ B.target = +b.dataset.i; render(); } return; }
@@ -2745,7 +2819,7 @@ app.addEventListener('click', async e => {
   if (a==='potion'){ usePotion(b.dataset.k); return; }
   if (a==='sellmats'){ sellMats(); return; }
   if (a==='abandon'){
-    if (b.dataset.confirm){ S = null; B = null; store.del(SAVE_KEY); draft = newDraft(); render(); return; }
+    if (b.dataset.confirm){ S = null; B = null; store.del(saveKey()); draft = newDraft(); render(); return; }
     b.dataset.confirm = '1'; b.textContent = '정말 지운다 (되돌릴 수 없음)'; return;
   }
   const msg = document.getElementById('savemsg'), box = document.getElementById('savebox');
@@ -2800,7 +2874,9 @@ function migrate(d){
 }
 function boot(data){
   document.documentElement.style.setProperty('--townbg', `url(${NPC_FACE[NPC_FACE.length-1]})`);
-  S = migrate((data && data.S) || store.get(SAVE_KEY) || null);
+  S = migrate((data && data.S) || store.get(saveKey()) || null);
+  accProbe().then(on => { if (!on) return; ACC.on = true; ACC.u = store.get(AUTH_KEY);
+    if (ACC.u){ S = migrate(store.get(saveKey())); accEnter(false).then(render); } else { S = null; render(); } });
   if (data && data.draft) draft = {...newDraft(), ...data.draft};
   if (data && data.UI) Object.assign(UI, data.UI);
   render();

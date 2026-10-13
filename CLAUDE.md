@@ -12,6 +12,8 @@
 - 노비스 = 대머리 몸(피부 4) + 머리(7색) + 무기(7단계) + 주먹, 전투에서는 뒷모습. 직업은 통짜 그림(`assets/jobs/front*.png`, `assets/raw/jobs/cut/back*.png`).
 - 미리보기: `mockup/`(kickru 스타일). 하단 탭은 홈·사냥·캐릭터·가방·기록.
 - UI 시안: `design/ui_mockup/UI_01~16.png`(사용자 제공), 홈은 `home_style_pick3.png`의 3번(애니 일러스트 × 도트, 파스텔) 채택: 리나 오른쪽 크게·말풍선 왼쪽 아래·히어로가 페이지로 페이드·오늘의 미션 카드 3장. 홈 = 마을 히어로(제목·골드가 그림 위) + 아이콘 5칸 메뉴 + 캐릭터 카드. 전투 = 사냥터별 SVG 풍경(`sceneSVG`, `SCENE` 팔레트) 위에 카드, 스킬 창 초록 머리띠, 승리 패널은 전장 위. 여관은 확인 창(`innSheet`). 전투 원근: 몬스터는 오른쪽 위(발밑 받침 `.plat.foe`), 내 캐릭터는 왼쪽 아래, 전투 배경은 `sceneSVG(g, -165)`로 지평선을 턴 바 바로 아래로 올려 몬스터가 땅 위에 선다. 다른 탭도 파스텔 카드·굵은 제목·사냥 탭 풍경 배너·추천 사냥터 카드·잠김 🔒·알약 탭·업적 금테·승리 꽃잎. 그림·시스템은 건드리지 않고 UI만.
+- 사이트: Cloudflare Pages 프로젝트 `mnbrpg` → https://mnbrpg.pages.dev · https://game.mnbrpg.kro.kr (내도메인.한국 CNAME game → mnbrpg.pages.dev). 프로덕션 브랜치 `claude/wonderful-shannon-0stetz`, 빌드 `mkdir -p dist && cp index.html dist/`, 출력 `dist`(사이트엔 index.html만 공개).
+- 계정(자체 회원가입·로그인): `functions/api/[[path]].js`(Pages Functions + D1, 바인딩 이름 `DB`, 테이블은 자동 생성). 아이디 영문·숫자 4~16자, 비밀번호 PBKDF2 해시, 30일 토큰, 8번 틀리면 10분 잠금, 저장 PUT/GET `/api/save`. 클라이언트는 `/api/ping`이 되면 로그인 화면(`authView`), 안 되면(파일·Claude 미리보기) 예전처럼 기기 저장. 저장 키는 계정마다 `hero-notebook-save-v2:<아이디>`, 클라우드 저장은 4초 모아서(`cloudSave`), 로그인 때 더 최근 쪽을 씀(`accEnter`). 게스트(계정 없이)도 가능, 가입할 때 기기의 게스트 캐릭터를 계정으로 옮김.
 - 저장: localStorage 키 `hero-notebook-save-v2`, `S.ver`=4. 형식이 바뀌면 `migrate()`에서 구버전(v2·v3)을 변환해 기존 진행을 살린다.
 
 ## 현재 설계 (사용자와 합의, v4)
