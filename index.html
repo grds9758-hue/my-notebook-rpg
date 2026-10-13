@@ -229,7 +229,12 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .innart .win{position:absolute;left:62%;top:22px;width:70px;height:84px;border-radius:36px 36px 6px 6px;background:linear-gradient(180deg,#fff6d6,#ffd98a);box-shadow:0 0 0 5px #7a4a28,0 0 40px rgba(255,220,140,.9)}
 .innart span{font-size:64px;position:relative;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
 .sbody{padding:18px 20px 20px}
-.sbody h2{font-size:20px}.sbody .q{font-size:16px;font-weight:700;margin:14px 0 6px;line-height:1.5}
+.sbody h2{font-size:20px}
+.sheet:has(.sd){max-height:86vh;overflow:auto}
+.sdgroup{margin-top:14px}.sdgroup h3{font-size:14px;margin:0 0 6px;color:var(--accent)}.sdgroup h3 small{font-size:11px;color:var(--muted);font-weight:500}
+.sdrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.sdrow small{display:block;font-size:11.5px;color:var(--muted)}.sdrow .b{color:var(--good);font-size:12px}
+.st .k small{font-size:11px;color:var(--muted);font-weight:500}.sbody .q{font-size:16px;font-weight:700;margin:14px 0 6px;line-height:1.5}
 /* small polish: icon tiles in lists, monster thumbnails */
 .ic{border-radius:14px}
 .mons{background:linear-gradient(180deg,#eaf3ff,#dbe9fb);border-radius:14px;padding:4px 10px 4px 4px}
@@ -437,7 +442,10 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 <script>
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
-const STATS = [['str','힘'],['agi','민첩'],['int','지능'],['vit','체력'],['spi','정신'],['luk','행운']];
+const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
+const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
+const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
+const START_STAT = 40;  // everyone starts equal: 6 × 40
 const SN = Object.fromEntries(STATS);
 const ORIGINS = ['북부 설원','동부 항구','남부 사막','서부 숲','중앙 왕도'];
 const NAMES = ['아린','도윤','세라','카일','하람','리오','유나','테오'];
@@ -452,13 +460,13 @@ const JOBS = {
   novice:{name:'노비스', key:['str','vit','agi'], main:'str', attr:'타격', sprite:null},
   warrior:{name:'소드맨', key:['str','vit','agi'], main:'str', attr:'베기', sprite:0, desc:'맨 앞에서 버티는 근접 전투',
     routes:[['greatsword','나이트',5,'물리 공격력 +15%'],['shield','크루세이더',6,'받는 피해 −15%'],['rider','드래곤 나이트',7,'속도 +20%']]},
-  archer:{name:'아처', key:['agi','luk','str'], main:'agi', attr:'관통', sprite:1, desc:'멀리서 약점을 꿰뚫는다',
+  archer:{name:'아처', key:['dex','agi','luk'], main:'dex', attr:'관통', sprite:1, desc:'멀리서 약점을 꿰뚫는다',
     routes:[['trapper','헌터',8,'덫 · 적 속도 −20%'],['bowman','스나이퍼',9,'치명타 +10%']]},
   thief:{name:'시프', key:['agi','str','luk'], main:'agi', attr:'베기', sprite:2, desc:'빠른 연속 공격과 회피',
     routes:[['dagger','어쌔신',10,'이도류 · 보조 단검이면 공격 2회'],['shuriken','닌자',11,'스킬 위력 +15%'],['dancer','댄서',12,'여캐 전용 · 회피 +10%']]},
-  healer:{name:'어콜라이트', key:['spi','vit','int'], main:'spi', attr:'타격', sprite:3, desc:'회복과 빛 속성',
+  healer:{name:'어콜라이트', key:['int','vit','dex'], main:'int', attr:'타격', sprite:3, desc:'회복과 빛 속성',
     routes:[['priest','프리스트',13,'회복량 +30%'],['monk','몽크',14,'물리 공격력 +20%']]},
-  mage:{name:'매지션', key:['int','spi','luk'], main:'int', attr:'타격', sprite:4, desc:'속성 마법으로 약점 공략',
+  mage:{name:'매지션', key:['int','dex','luk'], main:'int', attr:'타격', sprite:4, desc:'속성 마법으로 약점 공략',
     routes:[['wizard','위자드',15,'마법 위력 +20%'],['elementalist','소서러',16,'정령 추가 공격 30%']]},
 };
 const ROUTE = {}; for (const [j,J] of Object.entries(JOBS)) (J.routes||[]).forEach(([id,n,sp,d])=>ROUTE[id]={job:j,name:n,sprite:sp,desc:d});
@@ -717,7 +725,7 @@ const SUB_KINDS = {
   shield:{n:'방패', names:["가드", "버클러", "라운드 실드", "실드", "스파이크 실드", "미러 실드", "나이트 실드", "미스릴 실드", "타워 실드", "드래곤 실드"], def:.6, atk:0, bon:[['vit',.4]]},
   dagger:{n:'보조 단검', names:["나이프", "커터", "메인 고슈", "스틸레토", "쿠크리", "다마스커스", "글라디우스", "미스릴 대거", "소드브레이커", "드래곤 팽"], def:0, atk:.4, bon:[['agi',.4]]},
   quiver:{n:'화살통', names:["레더 퀴버", "우든 퀴버", "페더 퀴버", "아이언 퀴버", "실버 퀴버", "엘븐 퀴버", "윈드 퀴버", "프로스트 퀴버", "썬 퀴버", "드래곤 퀴버"], def:0, atk:.25, bon:[['luk',.4]]},
-  tome:{n:'마도서', names:["올드 스크롤", "스펠 북", "크리스털 북", "엘리멘탈 북", "바이블", "그리모어", "윈드 그리모어", "프로스트 그리모어", "썬 그리모어", "드래곤 그리모어"], def:0, atk:.2, bon:[['int',.4],['spi',.3]]},
+  tome:{n:'마도서', names:["올드 스크롤", "스펠 북", "크리스털 북", "엘리멘탈 북", "바이블", "그리모어", "윈드 그리모어", "프로스트 그리모어", "썬 그리모어", "드래곤 그리모어"], def:0, atk:.2, bon:[['int',.4],['dex',.3]]},
 };
 const SUB_RULE = {novice:'shield', warrior:'shield', greatsword:[null,'양손검 사용 중'], shield:'shield', rider:'shield',
   archer:'quiver', thief:[null,'어쌔신부터'], dagger:'dagger', shuriken:[null,'표창 사용 중'], dancer:[null,'춤 사용 중'],
@@ -731,7 +739,7 @@ const ATK = [6,12,20,30,42,56,72,90,110,132], DEF = [3,6,10,15,21,28,36,45,55,66
 const SLOT_SPEC = {
   weapon:{def:0, bon:[['main',1]]}, helm:{def:.6, bon:[['vit',.5]]}, top:{def:1, bon:[['vit',.8]]},
   bottom:{def:.8, bon:[['agi',.6]]}, suit:{def:1.8, bon:[['vit',.8],['agi',.6]]}, shoes:{def:.5, bon:[['agi',.5]]},
-  cape:{def:.4, bon:[['luk',.4],['spi',.3]]}, sub:{def:0, bon:[]}, necklace:{def:0, bon:[['vit',.3],['luk',.3]]}, earring:{def:0, bon:[['int',.4],['spi',.4]]}, ring:{def:0, bon:[]},
+  cape:{def:.4, bon:[['luk',.4],['dex',.3]]}, sub:{def:0, bon:[]}, necklace:{def:0, bon:[['vit',.3],['luk',.3]]}, earring:{def:0, bon:[['int',.4],['dex',.4]]}, ring:{def:0, bon:[]},
 };
 const ARMOR_SET_SLOTS = ['helm','top','bottom','suit','shoes','cape'];
 const LOOT_SLOTS = ['weapon','sub','helm','top','bottom','suit','shoes','cape','necklace','earring','ring','ring'];
@@ -750,7 +758,7 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMo
 let S = null, B = null;
 const newDraft = () => ({name:pick(NAMES), origin:ORIGINS[4], cand:0, hair:0, skin:0, gender:'m'});
 let draft = newDraft();
-const UI = {innAsk:false, auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
+const UI = {statInfo:false, innAsk:false, auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
 const app = document.getElementById('app');
 const store = {
   get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
@@ -808,13 +816,16 @@ const eff = k => S.stats[k] + bonus(k);
 const PL = () => effLv();
 const gearAtk = () => equipped().reduce((s,it)=>s+itemInfo(it).atk,0);
 const gearDef = () => equipped().reduce((s,it)=>s+itemInfo(it).def,0);
-const atk = () => Math.round((5 + eff(job().main)*1.1 + gearAtk() + PL()*2) * (1 + pas('atk') + bf('atk')));
-const matk = () => Math.round((5 + Math.max(eff('int'), eff('spi'))*1.2 + gearAtk()*.6 + PL()*2) * (1 + pas('matk') + bf('atk')));
+const atk = () => Math.round((5 + eff(job().main)*1.1 + (job().main==='dex' ? eff('str') : eff('dex'))*.15 + eff('luk')*.1 + gearAtk() + PL()*2) * (1 + pas('atk') + bf('atk')));
+const matk = () => Math.round((5 + eff('int')*1.2 + eff('dex')*.1 + gearAtk()*.6 + PL()*2) * (1 + pas('matk') + bf('atk')));
 const def = () => Math.round((eff('vit')/2 + gearDef() + PL()) * (1 + bf('def')));
 const crit = () => 3 + Math.floor(eff('luk')/6) + Math.round(pas('crit') + bf('crit'));
 const spd = () => Math.round((10 + eff('agi')/2 + PL()*.3) * (1 + pas('spd') + bf('spd')));
 const hpMax = () => Math.round((80 + PL()*12 + eff('vit')*2) * (1 + pas('hp')));
-const mpMax = () => Math.round(30 + PL()*4 + eff('int') + eff('spi'));
+const mpMax = () => Math.round(30 + PL()*4 + eff('int')*2);
+const critDmg = () => 1.5 + eff('luk')/400;
+const missRate = () => Math.max(.01, .08 - eff('dex')/800);
+const dodgeRate = () => Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
 const cp = () => Math.round(job().key.reduce((s,k)=>s+eff(k),0)/3 + PL()*.6);
 function clampVitals(){ S.hp = clamp(S.hp ?? hpMax(), 0, hpMax()); S.mp = clamp(S.mp ?? mpMax(), 0, mpMax()); }
 function gainExp(n){
@@ -855,15 +866,9 @@ function claimDaily(i){
 }
 
 /* ---------- new game ---------- */
-function candidates(){
-  const C = JOBS.novice, others = STATS.map(s=>s[0]).filter(k=>!C.key.includes(k));
-  const keyVals = [[45,45,45],[52,45,38],[38,45,52]], otherVals = [[40,35,30],[35,40,30],[30,40,35]], names = ['균형형','강타형','철벽형'];
-  return keyVals.map((kv,i) => { const st = {}; C.key.forEach((k,j)=>st[k]=kv[j]); others.forEach((k,j)=>st[k]=otherVals[i][j]); return {style:names[i], stats:st}; });
-}
 function newGame(){
-  const c = candidates()[draft.cand];
-  S = {ver:VER, name:draft.name.trim() || '이름 없는 견습생', origin:draft.origin, gender:draft.gender, hair:draft.hair, skin:draft.skin, style:c.style,
-    stats:{...c.stats}, job:'novice', route:null, lv:1, exp:0, points:0, hp:null, mp:null, gold:80, inv:{hp:3, mp:2}, mats:{},
+  S = {ver:VER, name:draft.name.trim() || '이름 없는 견습생', origin:draft.origin, gender:draft.gender, hair:draft.hair, skin:draft.skin,
+    stats:Object.fromEntries(STATS.map(([k])=>[k, START_STAT])), job:'novice', route:null, lv:1, exp:0, points:0, hp:null, mp:null, gold:80, inv:{hp:3, mp:2}, mats:{},
     fac:0, train:0, equip:{weapon:makeItem('weapon',0,0), top:makeItem('top',0,0), bottom:makeItem('bottom',0,0)}, bag:[],
     tot:{kills:0, wins:0, battles:0, weak:0, items:0, legend:0, losses:0}, titles:[], title:null, seen:{}, daily:null, sk:{}, sp:1};
   Object.values(S.equip).forEach(it=>it.isNew=false);
@@ -977,7 +982,7 @@ function foeHit(f){
   let dmg = Math.max(1, Math.round(f.atk*(special?1.35:1) * 70/(70 + def()) * (.9 + Math.random()*.2)));
   if (B.guard) dmg = Math.round(dmg/2);
   dmg = Math.max(1, Math.round(dmg * (1 - Math.min(.5, pas('block')))));
-  const dodge = Math.random() < Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
+  const dodge = Math.random() < dodgeRate();
   return {name: special ? f.acts[1] : f.acts[0], dmg, dodge};
 }
 function foeAct(i){
@@ -1007,8 +1012,8 @@ function hitFoe(f, attr, mult, magic){
   const c = Math.random()*100 < crit();
   if (rel==='weak') dmg = Math.round(dmg*1.5);
   if (rel==='resist') dmg = Math.round(dmg*.5);
-  if (c) dmg = Math.round(dmg*1.5);
-  const miss = rel!=='weak' && Math.random() < .05;
+  if (c) dmg = Math.round(dmg*critDmg());
+  const miss = rel!=='weak' && Math.random() < missRate();
   if (miss) dmg = 0;
   f.hp = Math.max(0, f.hp - dmg);
   if (rel==='weak'){ S.tot.weak++; dailyProgress('weak',1); }
@@ -1375,6 +1380,20 @@ setInterval(() => {
 
 /* ---------- town actions ---------- */
 const innCost = () => 10 + effLv()*3;
+function statSheet(){
+  const pc = v => (Math.round(v*1000)/10) + '%';
+  const rows = (title, list) => `<div class="sdgroup"><h3>${title}</h3>${list.map(([k,v,d])=>`<div class="sdrow"><span>${k}${d?`<small>${d}</small>`:''}</span><b class="num">${v}</b></div>`).join('')}</div>`;
+  const statRows = STATS.map(([k,n])=>{ const b = bonus(k); return [`${n} ${STAT_KO[k]}`, `${S.stats[k]}${b?` <span class="b">+${b}</span>`:''}`, STAT_DESC[k]]; });
+  const reduce = 1 - 70/(70 + def());
+  return `<div class="sheetwrap"><button class="sheetbg" data-act="statclose" aria-label="닫기"></button>
+    <div class="sheet fade" role="dialog" aria-label="상세 능력치"><div class="sbody sd">
+      <div class="row" style="justify-content:space-between"><h2>상세 능력치</h2><span class="xs muted">${lvTag()}</span></div>
+      ${rows('기본 능력치 <small>기본 + 장비</small>', statRows)}
+      ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', Math.round(critDmg()*100)+'%'], ['명중률', pc(1-missRate()), '약점 공격은 빗나가지 않음'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
+      ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(pas('regen'))]])}
+      ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
+      <div class="btns"><button class="btn pri" data-act="statclose">닫기</button></div></div></div></div>`;
+}
 function innSheet(){
   const c = innCost(), ok = S.gold >= c;
   return `<div class="sheetwrap"><button class="sheetbg" data-act="innno" aria-label="닫기"></button>
@@ -1800,7 +1819,7 @@ function setSummary(){
 }
 function charView(){
   const k = job().key, sel = UI.slotSel ? S.equip[UI.slotSel] : null;
-  let h = top('캐릭터', `${lvTag()} · ${esc(S.style)} · ${FACTIONS[S.fac].name}`);
+  let h = top('캐릭터', `${lvTag()} · ${FACTIONS[S.fac].name}`);
   if (canJobChange()){
     const p = UI.jobPick;
     h += `<section class="card"><h2>전직할 직업을 골라요</h2><p class="xs muted">전직하면 Lv.1부터 다시 시작하고 최대 Lv.99까지 오른다. 능력치와 장비는 그대로. 루트는 직업 Lv.${ROUTE_LV}에 고른다.${S.gender==='f'?' 여캐는 시프만 고를 수 있다.':''}</p>
@@ -1815,11 +1834,11 @@ function charView(){
   }
   h += `<section class="card"><div class="stage">${dollHTML(lookFront())}</div>${equipDoll(null)}${slotDetail()}`;
   h += `</section>`;
-  h += `<section class="card"><h2 class="row">능력치 ${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:'<span class="aside">레벨 업마다 2포인트</span>'}</h2>
+  h += `<section class="card"><h2 class="row">능력치 <span class="row" style="gap:8px">${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:''}<button class="chipbtn" data-act="statinfo">상세 보기 ›</button></span></h2>
     <div class="statgrid">${STATS.map(([s,n])=>{ const b = bonus(s);
-      return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n}</span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus" data-act="point" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
+      return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n} <small>${STAT_KO[s]}</small></span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus" data-act="point" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
     <div class="stats3"><div><div class="k">공격력</div><div class="v num">${atk()}</div></div><div><div class="k">방어력</div><div class="v num">${def()}</div></div><div><div class="k">속도</div><div class="v num">${spd()}</div></div></div>
-    <p class="xs muted" style="margin-top:10px">마법 공격력 ${matk()} · 치명타 ${crit()}% · 굵은 글씨가 ${job().name}의 핵심 능력</p></section>`;
+    <p class="xs muted" style="margin-top:10px">마법 공격력 ${matk()} · 치명타 ${crit()}% · 굵은 글씨가 ${job().name}의 핵심 능력 · 자세한 수치는 상세 보기</p></section>`;
   h += skillTreeHTML();
   const nf = FACTIONS[S.fac+1];
   h += `<section class="card"><h2>소속 · ${FACTIONS[S.fac].name}</h2><p class="xs muted">소속이 오를수록 EXP·골드 +4%씩 (지금 +${Math.round(facBonus()*100)}%)</p>
@@ -1911,7 +1930,7 @@ function saveCard(){
 
 /* ---------- create ---------- */
 function createView(){
-  const cands = candidates(), f = draft.gender==='f';
+  const f = draft.gender==='f';
   const L = f ? {img:SPR.fnovice_front} : {skin:draft.skin, hair:draft.hair, weapon:0};
   return `<div class="top"><div><h1>새 모험가</h1><div class="s">노비스로 시작해 Lv.50에 전직해요</div></div></div>
   <section class="card"><div class="stage cstage">${dollHTML(L)}</div>
@@ -1926,9 +1945,9 @@ function createView(){
     <label class="field">이름 <input id="f-name" maxlength="12" value="${esc(draft.name)}"></label>
     <label class="field" style="margin:0">출신 <select id="f-origin">${ORIGINS.map(o=>`<option ${o===draft.origin?'selected':''}>${o}</option>`).join('')}</select></label>
   </section>
-  <section class="card"><h2 class="row">성장 방향 <span class="aside">능력치 합 240</span></h2>
-    <div class="choices">${cands.map((cd,i)=>`<button class="opt" data-act="cand" data-v="${i}" aria-pressed="${i===draft.cand}"><b>${cd.style}</b>
-      <small>${STATS.map(([s,n])=>JOBS.novice.key.includes(s)?`<b style="color:var(--ink)">${n} ${cd.stats[s]}</b>`:`${n} ${cd.stats[s]}`).join(' · ')}</small></button>`).join('')}</div></section>
+  <section class="card"><h2 class="row">시작 능력치 <span class="aside">모두 같게 시작</span></h2>
+    <div class="statgrid">${STATS.map(([k,n])=>`<div class="st"><span class="k">${n} <small>${STAT_KO[k]}</small></span><b class="num">${START_STAT}</b></div>`).join('')}</div>
+    <p class="xs muted" style="margin-top:8px">레벨이 오를 때마다 능력치 포인트 2개를 원하는 곳에 찍는다.</p></section>
   <button class="cta" data-act="start">이 모습으로 시작하기</button>
   ${saveCard()}`;
 }
@@ -1945,9 +1964,10 @@ function render(){
   setTimeout(runTyper, 0);
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
   if (UI.innAsk) app.insertAdjacentHTML('beforeend', innSheet());
+  if (UI.statInfo) app.insertAdjacentHTML('beforeend', statSheet());
 }
 function go(dest){
-  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false; UI.innAsk = false;
+  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false; UI.innAsk = false; UI.statInfo = false;
   if (sub){ if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; }
   render(); window.scrollTo({top:0});
 }
@@ -1986,6 +2006,8 @@ app.addEventListener('click', async e => {
   if (a==='promo'){ startPromo(); return; }
   if (a==='train'){ doTrain(b.dataset.s); return; }
   if (a==='point'){ spendPoint(b.dataset.s); return; }
+  if (a==='statinfo'){ UI.statInfo = true; render(); return; }
+  if (a==='statclose'){ UI.statInfo = false; render(); return; }
   if (a==='jobpick'){ UI.jobPick = b.dataset.j; render(); return; }
   if (a==='jobchange'){ jobChange(UI.jobPick); return; }
   if (a==='routepick'){ UI.routePick = b.dataset.r; render(); return; }
@@ -2042,6 +2064,9 @@ function migrate(d){
   for (const k of ['inv','mats','seen']) if (!d[k]) d[k] = k==='inv' ? {hp:0,mp:0} : {};
   if (!d.titles) d.titles = [];
   [...d.bag, ...Object.values(d.equip)].forEach(it=>{ if (it) it.band = clamp(it.band||0, 0, 9); });
+  if (d.stats && d.stats.spi != null){ d.stats.dex = (d.stats.dex ?? 0) + d.stats.spi; delete d.stats.spi; }  // 정신 → DEX (라그나로크식)
+  [...(d.bag||[]), ...Object.values(d.equip||{})].forEach(it=>{ if (it && it.st==='spi') it.st = 'dex'; });
+  delete d.style;
   S = d; if (!S.sk){ S.sk = {}; S.sp = skillPointsEarned(); }
   clampVitals(); ensureDaily();
   return S;
