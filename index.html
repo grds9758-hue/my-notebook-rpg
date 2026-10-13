@@ -730,7 +730,7 @@ const ICON = {
 const svg = (k, s=20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICON[k]}</svg>`;
 
 /* ---------- battle ---------- */
-const monStats = m => ({hp:Math.round(24 + m*10), atk:Math.round(6 + m*3 - Math.max(0, m-50)*.4), def:Math.round(3 + m*2), spd:10 + m*.6});
+const monStats = m => ({hp:Math.round(60 + m*9), atk:Math.round(8 + m*2.3 - Math.max(0, m-50)*.6), def:Math.round(3 + m*2), spd:25 + m*.8});
 function spawn(g, deep, elite){
   const G = GD[g], [lo,hi] = groundLv(g, deep);
   const n = elite ? 3 : (Math.random()<.25 ? 1 : Math.random()<.6 ? 2 : 3);
@@ -782,7 +782,7 @@ function foeAct(i){
   if (f.stun){ f.stun = false; B.log = `${esc(f.name)}은(는) 움직이지 못한다!`; B.pops = {}; B.queue.shift(); B.turnFoe = null; advance(); return; }
   const special = Math.random() < .25 && f.acts.length > 1;
   const name = special ? f.acts[1] : f.acts[0];
-  let dmg = Math.max(1, Math.round((f.atk*(special?1.35:1) - def()*.5) * (.9 + Math.random()*.2)));
+  let dmg = Math.max(1, Math.round(f.atk*(special?1.35:1) * 70/(70 + def()) * (.9 + Math.random()*.2)));
   if (B.guard) dmg = Math.round(dmg/2);
   dmg = Math.max(1, Math.round(dmg * (1 - Math.min(.5, pas('block')))));
   const dodge = Math.random() < Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
