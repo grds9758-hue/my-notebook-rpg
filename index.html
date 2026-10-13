@@ -47,6 +47,21 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .grow{flex:1;min-width:0}
 .doll{position:relative;width:64px;height:64px;flex:none;display:block}
 .doll img{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.town{position:relative;border-radius:20px;overflow:hidden;height:250px;margin-bottom:12px;background:linear-gradient(180deg,#9fd0f5 0%,#cfe9fb 55%,#e9dcc0 56%,#d9c49c 100%)}
+.townbg i{position:absolute;bottom:44%;background:#f3e6cf;border:2px solid #b7926a;border-radius:4px}
+.townbg i:before{content:"";position:absolute;left:-10%;right:-10%;bottom:100%;height:28px;background:#c95b4a;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.townbg .h1{left:6%;width:64px;height:54px}.townbg .h2{right:8%;width:78px;height:66px}.townbg .h3{left:38%;width:46px;height:38px;bottom:52%;opacity:.7}
+.town .npc{position:absolute;left:50%;transform:translateX(-50%);bottom:52px;height:200px;width:auto}
+.town .talk{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(255,255,255,.96);border:2px solid #7d8fb3;border-radius:10px;padding:8px 12px;font-size:13.5px;line-height:1.5;color:#1d2533;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.town .talk .nm{font-weight:700;color:#2c4f9a;font-size:12.5px}
+.town .talk p{margin:0}
+.menu{padding:6px}
+.mi{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-radius:12px;padding:10px;text-align:left;color:var(--ink)}
+.mi+.mi{border-top:1px solid var(--line);border-radius:0}
+.mi .ic{width:36px;height:36px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;font-size:18px;flex:none}
+.mi b{display:block;font-size:14.5px}.mi small{display:block;color:var(--muted);font-size:12px}
+.mi:disabled{opacity:.5}
+.gbtns{display:flex;flex-direction:column;gap:6px;flex:none}
 .avatar{width:76px;height:76px;border-radius:16px;background:var(--surface-2);display:grid;place-items:center;flex:none;overflow:hidden}
 .who{font-size:13px;color:var(--sub)}
 .big{font-size:20px;font-weight:700;margin:2px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -531,7 +546,11 @@ const SUB_KINDS = {
 const SUB_RULE = {novice:'shield', warrior:'shield', greatsword:[null,'양손검 사용 중'], shield:'shield', rider:'shield',
   archer:'quiver', thief:[null,'어쌔신부터'], dagger:'dagger', shuriken:[null,'표창 사용 중'], dancer:[null,'춤 사용 중'],
   healer:'tome', priest:'tome', monk:[null,'맨손 격투'], mage:'tome'};
-function subRule(){ const r = (S.route && SUB_RULE[S.route]!==undefined) ? SUB_RULE[S.route] : (SUB_RULE[S.job] ?? 'tome'); return Array.isArray(r) ? {kind:null, why:r[1]} : {kind:r}; }
+function subRule(){
+  const r = (S.route && SUB_RULE[S.route]!==undefined) ? SUB_RULE[S.route] : (SUB_RULE[S.job] ?? 'tome');
+  if (r==='dagger' && !skLv('as_dual')) return {kind:null, why:'이도류 수련 필요'};
+  return Array.isArray(r) ? {kind:null, why:r[1]} : {kind:r};
+}
 const ATK = [6,12,20,30,42,56,72,90,110,132], DEF = [3,6,10,15,21,28,36,45,55,66];
 const SLOT_SPEC = {
   weapon:{def:0, bon:[['main',1]]}, helm:{def:.6, bon:[['vit',.5]]}, top:{def:1, bon:[['vit',.8]]},
@@ -555,7 +574,7 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMo
 let S = null, B = null;
 const newDraft = () => ({name:pick(NAMES), origin:ORIGINS[4], cand:0, hair:0, skin:0, gender:'m'});
 let draft = newDraft();
-const UI = {tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
+const UI = {auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
 const app = document.getElementById('app');
 const store = {
   get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
@@ -624,10 +643,10 @@ function clampVitals(){ S.hp = clamp(S.hp ?? hpMax(), 0, hpMax()); S.mp = clamp(
 function gainExp(n){
   n = Math.max(0, Math.round(n)); let ups = 0;
   if (S.lv >= maxLv()){ S.exp = 0; return 0; }
-  S.exp += n;
+  S.exp += n; const hp0 = hpMax(), mp0 = mpMax();
   while (S.lv < maxLv() && S.exp >= needExp(S.lv)){ S.exp -= needExp(S.lv); S.lv++; S.points += 2; S.sp = (S.sp||0) + 1; ups++; }
   if (S.lv >= maxLv()) S.exp = 0;
-  if (ups){ S.hp = hpMax(); S.mp = mpMax(); }
+  if (ups){ S.hp = Math.min(hpMax(), S.hp + hpMax() - hp0); S.mp = Math.min(mpMax(), S.mp + mpMax() - mp0); }
   return ups;
 }
 function gainItem(it){
@@ -776,16 +795,19 @@ function tickBuffs(){
   for (const k in B.buffs) if (--B.buffs[k].t <= 0) delete B.buffs[k];
   for (const k of ['debuff','enchant']) if (B[k] && --B[k].t <= 0) B[k] = null;
 }
-function foeAct(i){
-  B.fxd = 0;
-  const f = B.foes[i]; if (!f || f.hp<=0){ B.queue.shift(); B.turnFoe = null; advance(); return; }
-  if (f.stun){ f.stun = false; B.log = `${esc(f.name)}은(는) 움직이지 못한다!`; B.pops = {}; B.queue.shift(); B.turnFoe = null; advance(); return; }
+function foeHit(f){
   const special = Math.random() < .25 && f.acts.length > 1;
-  const name = special ? f.acts[1] : f.acts[0];
   let dmg = Math.max(1, Math.round(f.atk*(special?1.35:1) * 70/(70 + def()) * (.9 + Math.random()*.2)));
   if (B.guard) dmg = Math.round(dmg/2);
   dmg = Math.max(1, Math.round(dmg * (1 - Math.min(.5, pas('block')))));
   const dodge = Math.random() < Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
+  return {name: special ? f.acts[1] : f.acts[0], dmg, dodge};
+}
+function foeAct(i){
+  B.fxd = 0;
+  const f = B.foes[i]; if (!f || f.hp<=0){ B.queue.shift(); B.turnFoe = null; advance(); return; }
+  if (f.stun){ f.stun = false; B.log = `${esc(f.name)}은(는) 움직이지 못한다!`; B.pops = {}; B.queue.shift(); B.turnFoe = null; advance(); return; }
+  const {name, dmg, dodge} = foeHit(f);
   if (dodge){ B.log = `${esc(f.name)}의 ${esc(name)} → <b>회피!</b>`; B.pops = {me:'MISS'}; }
   else { S.hp = Math.max(0, S.hp - dmg); B.took += dmg; B.log = `${esc(f.name)}의 ${esc(name)} → ${dmg} 피해${B.guard?' (방어)':''}`; B.pops = {me:dmg}; fxFoeHit(); }
   B.queue.shift(); B.turnFoe = null;
@@ -1101,7 +1123,7 @@ function win(){
   }
   let promo = null;
   if (B.mode==='promo'){ S.fac++; promo = FACTIONS[S.fac].name; S.titles.push(promo + ' 입단'); }
-  B.over = {win:true, exp, gold, mats, loot, ups, promo};
+  B.over = {win:true, exp, gold, mats, loot, ups, promo, n};
 }
 function lose(){
   const lostGold = Math.round(S.gold*.1), lostExp = Math.round(S.exp*.1);
@@ -1112,6 +1134,62 @@ function endBattle(again){
   const g = B.g, deep = B.deep; clearTimeout(foeTimer); B = null;
   if (again && S.hp > 1) startBattle(g, deep); else { UI.tab = 'hunt'; save(); render(); window.scrollTo({top:0}); }
 }
+
+/* ---------- auto hunt: 10 quick battles, then a 1-minute cooldown ---------- */
+const AUTO_N = 10, AUTO_CD = 60000;
+const autoLeft = () => Math.max(0, (S.autoAt||0) + AUTO_CD - Date.now());
+function simBattle(g, deep){
+  B = {g, deep, mode:'auto', foes:spawn(g, deep, false), round:1, buffs:{}, debuff:null, enchant:null, guard:false, took:0, pops:{}, over:null};
+  S.tot.battles++;
+  const skills = learnedActive().filter(s=>s.kind==='dmg');
+  const dual = S.route==='dagger' && S.equip.sub && S.equip.sub.kind==='dagger';
+  for (let r=0; r<40 && S.hp>0 && B.foes.some(f=>f.hp>0); r++){
+    S.hp = Math.min(hpMax(), S.hp + Math.round(hpMax()*pas('regen')));
+    for (let a=0; a<2; a++){
+      const alive = B.foes.filter(f=>f.hp>0); if (!alive.length) break;
+      const t = alive.slice().sort((x,y)=>x.hp-y.hp)[0], weak = knownWeak(t);
+      const sk = skills.find(s=>S.mp>=s.mp && weak.includes(s.attr)) || (alive.length>1 ? skills.find(s=>s.all && S.mp>=s.mp) : null);
+      if (sk){ S.mp -= sk.mp; dailyProgress('skill',1); for (const f of (sk.all ? alive : [t])) for (let h=0; h<sk.hits; h++) hitFoe(f, sk.attr, sk.mult*(1+pas('skill')), sk.magic); }
+      else { const n = 1 + (dual?1:0) + (Math.random() < pas('double') ? 1 : 0); for (let h=0; h<n; h++) hitFoe(t, job().attr, 1, false); }
+    }
+    for (const f of B.foes) if (f.hp>0 && S.hp>0){ const o = foeHit(f); if (!o.dodge){ S.hp = Math.max(0, S.hp - o.dmg); B.took += o.dmg; } }
+    if (S.hp>0 && S.hp < hpMax()*.3 && S.inv.hp){ S.inv.hp--; S.hp = Math.min(hpMax(), S.hp + Math.round(hpMax()*.5)); }
+  }
+  if (S.hp<=0) lose(); else if (B.foes.every(f=>f.hp<=0)) win(); else B.over = {run:true};
+  const o = B.over; B = null; return o;
+}
+function autoHunt(g, deep){
+  if (autoLeft()){ toast(`자동 사냥은 ${Math.ceil(autoLeft()/1000)}초 뒤에 다시 할 수 있다.`); return; }
+  if (!groundOpen(g, deep)) return;
+  if (S.hp < hpMax()*.35){ toast('HP가 너무 낮다. 쉬고 가자.'); return; }
+  const R = {g, deep, n:0, wins:0, exp:0, gold:0, kills:0, ups:0, items:[], mats:{}, lost:null, stop:null, hp0:S.inv.hp};
+  const lv0 = S.lv;
+  for (let i=0; i<AUTO_N; i++){
+    if (S.hp < hpMax()*.3 && !S.inv.hp){ R.stop = 'HP가 낮아 멈췄다'; break; }
+    const o = simBattle(g, deep); R.n++;
+    if (o.win){ R.wins++; R.exp += o.exp; R.gold += o.gold; R.kills += o.n||0; for (const k in o.mats) R.mats[k] = (R.mats[k]||0) + o.mats[k]; if (o.loot && o.loot!=='full') R.items.push(o.loot); if (o.loot==='full') R.full = true; }
+    else if (o.lostGold!=null){ R.lost = o; R.stop = '쓰러져서 멈췄다'; break; }
+  }
+  R.ups = S.lv - lv0; R.potions = R.hp0 - S.inv.hp; S.autoAt = Date.now(); UI.auto = R;
+  save(); render(); window.scrollTo({top:0});
+}
+function autoCard(){
+  const R = UI.auto; if (!R) return '';
+  const G = GD[R.g];
+  return `<section class="card fade autores"><h2 class="row">자동 사냥 결과 <span class="aside">${R.deep?'심층 ':''}${G.ground} · ${R.n}전 ${R.wins}승</span></h2>
+    <div class="rewards"><span style="color:var(--gold)">EXP +${fmt(R.exp)}</span><span>골드 +${fmt(R.gold)}</span>${Object.entries(R.mats).map(([k,v])=>`<span>${esc(k)} ×${v}</span>`).join('')}</div>
+    ${R.ups?`<p style="margin-top:6px;font-weight:700;color:var(--accent)">레벨 업 +${R.ups}! ${lvTag()}</p>`:''}
+    ${R.items.length?`<p class="small" style="margin-top:6px">전리품 · ${R.items.map(itemLabel).join(', ')}</p>`:''}${R.full?'<p class="xs muted">가방이 가득 차 놓친 전리품이 있다.</p>':''}
+    <p class="xs muted" style="margin-top:6px">${R.potions?`체력 물약 ${R.potions}개 사용 · `:''}${R.stop?`<b style="color:var(--red)">${R.stop}</b>${R.lost?` (골드 ${fmt(R.lost.lostGold)}, 경험치 ${fmt(R.lost.lostExp)} 잃음)`:''}`:'10전 모두 마쳤다'}</p>
+    <div class="btns"><button class="btn" data-act="autoclose">닫기</button></div></section>`;
+}
+const autoBtn = (g, deep, cls='btn sm') => `<button class="${cls}" data-act="auto" data-g="${g}" data-deep="${deep?1:0}" data-autocd ${autoLeft()?'disabled':''}>${autoLeft()?`자동 ${Math.ceil(autoLeft()/1000)}초`:'자동 ×10'}</button>`;
+setInterval(() => {
+  if (!S) return;
+  document.querySelectorAll('[data-autocd]').forEach(b => { const l = autoLeft(), sec = Math.ceil(l/1000); b.disabled = !!l;
+    if (b.classList.contains('mi')) b.querySelector('b').textContent = l ? `자동 사냥 · ${sec}초 뒤 가능` : '자동 사냥 맡기기';
+    else b.textContent = l ? `자동 ${sec}초` : '자동 ×10'; });
+}, 1000);
 
 /* ---------- town actions ---------- */
 const innCost = () => 10 + effLv()*3;
@@ -1242,19 +1320,31 @@ const todoList = T => `<div class="list">${T.map(t=>`<button class="item" data-g
   <span class="grow"><span class="t">${t.t}${t.dot?' <span class="dot"></span>':''}</span><span class="d">${t.d}</span></span><span class="chev">›</span></button>`).join('')}</div>`;
 
 /* ---------- home ---------- */
+const NPC_SVG = `<svg viewBox="0 0 200 240" class="npc" aria-hidden="true"> <defs> <linearGradient id="npc-hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8683a"/><stop offset="1" stop-color="#7a3c22"/></linearGradient> <linearGradient id="npc-dress" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6fc4"/><stop offset="1" stop-color="#244c96"/></linearGradient> <radialGradient id="npc-cheek"><stop offset="0" stop-color="#ff9aa6" stop-opacity=".7"/><stop offset="1" stop-color="#ff9aa6" stop-opacity="0"/></radialGradient> <linearGradient id="npc-iris" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3f8c"/><stop offset=".6" stop-color="#4f86e0"/><stop offset="1" stop-color="#8fc0ff"/></linearGradient> </defs> <g stroke="#3a2620" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"> <path d="M52 92 C40 140 44 190 38 222 L86 212 L114 212 L162 222 C156 190 160 140 148 92 Z" fill="url(#npc-hair)"/> <path d="M62 178 C66 160 80 152 100 152 C120 152 134 160 138 178 L150 240 L50 240 Z" fill="url(#npc-dress)"/> <path d="M78 186 L122 186 L130 240 L70 240 Z" fill="#fbfbff"/> <path d="M70 176 C82 170 90 178 100 172 C110 178 118 170 130 176 L124 190 C114 186 108 192 100 188 C92 192 86 186 76 190 Z" fill="#fff"/> <path d="M90 136 L110 136 L110 156 L90 156 Z" fill="#f6c9ad"/> <path d="M80 152 L100 166 L120 152 L124 160 L100 176 L76 160 Z" fill="#fff"/> <path d="M100 166 L86 158 L86 174 Z M100 166 L114 158 L114 174 Z" fill="#e2445c"/> <circle cx="100" cy="166" r="4.5" fill="#c22f48"/> <path d="M58 92 C58 64 76 46 100 46 C124 46 142 64 142 92 C142 120 124 142 100 142 C76 142 58 120 58 92 Z" fill="#ffe3cf"/> <path d="M58 84 C50 110 52 140 60 160 C66 150 66 120 70 100 Z" fill="url(#npc-hair)"/> <path d="M142 84 C150 110 148 140 140 160 C134 150 134 120 130 100 Z" fill="url(#npc-hair)"/> <path d="M56 92 C54 58 76 38 102 38 C128 38 148 58 144 94 C138 84 134 76 128 70 C126 82 120 88 116 92 C114 82 110 76 106 72 C102 82 94 90 86 94 C88 84 88 78 86 72 C80 82 72 88 64 90 Z" fill="url(#npc-hair)"/> <circle cx="57.4" cy="55.5" r="8" fill="#fff"/><circle cx="63.2" cy="47.7" r="8" fill="#fff"/><circle cx="73.0" cy="41.5" r="8" fill="#fff"/><circle cx="85.7" cy="37.4" r="8" fill="#fff"/><circle cx="100.0" cy="36.0" r="8" fill="#fff"/><circle cx="114.3" cy="37.4" r="8" fill="#fff"/><circle cx="127.0" cy="41.5" r="8" fill="#fff"/><circle cx="136.8" cy="47.7" r="8" fill="#fff"/><circle cx="142.6" cy="55.5" r="8" fill="#fff"/> <path d="M58 60 C74 40 126 40 142 60 L139 66 C122 50 78 50 61 66 Z" fill="#2c4f9a"/> </g> <g stroke="#2a1a18" stroke-width="2.2" stroke-linecap="round"> <ellipse cx="82" cy="104" rx="9" ry="12" fill="url(#npc-iris)"/> <ellipse cx="118" cy="104" rx="9" ry="12" fill="url(#npc-iris)"/> <path d="M71 95 C75 90 87 89 93 93 M71 95 L67 93" fill="none" stroke-width="3.4"/> <path d="M107 93 C113 89 125 90 129 95 M129 95 L133 93" fill="none" stroke-width="3.4"/> </g> <circle cx="79" cy="99" r="3.6" fill="#fff"/><circle cx="115" cy="99" r="3.6" fill="#fff"/> <circle cx="85" cy="110" r="1.6" fill="#fff"/><circle cx="121" cy="110" r="1.6" fill="#fff"/> <ellipse cx="72" cy="120" rx="9" ry="5" fill="url(#npc-cheek)"/><ellipse cx="128" cy="120" rx="9" ry="5" fill="url(#npc-cheek)"/> <path d="M100 116 l-1.5 3" stroke="#d99a80" stroke-width="1.8" stroke-linecap="round"/> <path d="M92 126 C96 132 104 132 108 126 C104 128 96 128 92 126 Z" fill="#d9566a" stroke="#8a2a36" stroke-width="1.6" stroke-linejoin="round"/> <path d="M78 54 C88 48 100 48 108 50" stroke="#e8a070" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/> <g stroke="#3a2620" stroke-width="2.2" stroke-linejoin="round"> <path d="M140 182 C150 170 156 160 160 150 L170 154 C166 168 158 182 148 194 Z" fill="url(#npc-dress)"/> <path d="M160 152 C158 140 162 132 168 132 C176 132 178 142 174 154 Z" fill="#ffe3cf"/> <path d="M156 150 L178 156 L176 162 L154 156 Z" fill="#fff"/> </g> </svg>`;
+function guideLine(){
+  if (S.hp < hpMax()*.4) return '어머, 많이 다치셨네요! 여관에서 푹 쉬고 가세요.';
+  if (canJobChange()) return '축하드려요! 이제 전직하실 수 있어요. 캐릭터 화면에서 직업을 골라 주세요.';
+  if (canRoute()) return '드디어 루트를 고르실 때가 됐네요. 어떤 길로 가실지 기대돼요!';
+  if (S.sp) return `스킬 포인트가 ${S.sp}개 남아 있어요. 스킬 트리에서 새 기술을 배워 보세요.`;
+  if (promoReady()) return `${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`;
+  return pick(['어서 오세요, 모험가님! 공책 마을 안내원 리나예요. 무엇을 도와드릴까요?', '오늘도 사냥 나가세요? 몸조심하세요!', '자동 사냥도 맡겨 주세요. 한 번에 열 번씩 다녀올 수 있어요.', '약점 속성을 노리면 한 번 더 움직일 수 있대요.']);
+}
 function homeView(){
   const b = bestGround(), G = GD[b.g], T = todos();
-  let h = top('내 공책 그정도 아님', `${esc(S.name)} · ${FACTIONS[S.fac].name}`, `<button class="btn" style="padding:7px" data-go="rec:save" aria-label="저장 설정">${svg('gear',20)}</button>`);
-  h += `<section class="card"><div class="row"><span class="avatar">${dollHTML(lookFront())}</span>
-      <div class="grow"><div class="who">${esc(S.name)}${S.title?` · 「${esc(S.title)}」`:''}</div>
-        <div class="big"><span class="lv">${lvTag()}</span>전투력 ${cp()}</div>
-        <div class="xs muted">${S.job==='novice' ? `전직까지 ${Math.max(0, NOVICE_MAX - S.lv)}레벨` : S.route ? `${ROUTE[S.route].desc}` : `루트 선택까지 ${Math.max(0, ROUTE_LV - S.lv)}레벨`}</div></div></div>
-    ${bars()}
-    <div class="stats3"><div><div class="k">처치한 몬스터</div><div class="v num">${fmt(S.tot.kills)}</div></div>
-      <div><div class="k">승리</div><div class="v num">${fmt(S.tot.wins)}</div></div>
-      <div><div class="k">약점 공격</div><div class="v num">${fmt(S.tot.weak)}</div></div></div></section>`;
+  let h = top('공책 마을', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `<button class="btn" style="padding:7px" data-go="rec:save" aria-label="저장 설정">${svg('gear',20)}</button>`);
+  h += autoCard();
+  if (UI.homeLine == null) UI.homeLine = guideLine();
+  h += `<section class="town"><div class="townbg" aria-hidden="true"><i class="h1"></i><i class="h2"></i><i class="h3"></i></div>${NPC_SVG}
+    <div class="talk"><div class="nm">[안내원] 리나</div><p>${UI.homeLine}</p></div></section>
+    <section class="card menu">
+      <button class="mi" data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}"><span class="ic">⚔️</span><span class="grow"><b>사냥터로 보내 주세요</b><small>${b.deep?'심층 ':''}${G.ground} · 추천</small></span></button>
+      <button class="mi" data-act="auto" data-g="${b.g}" data-deep="${b.deep?1:0}" data-autocd ${autoLeft()?'disabled':''}><span class="ic">🔁</span><span class="grow"><b>${autoLeft()?`자동 사냥 · ${Math.ceil(autoLeft()/1000)}초 뒤 가능`:'자동 사냥 맡기기'}</b><small>${G.ground}에서 10번 · 다녀오면 1분 휴식</small></span></button>
+      <button class="mi" data-act="rest"><span class="ic">🛏️</span><span class="grow"><b>여관에서 쉬기</b><small>HP·MP 모두 회복 · ${innCost()}골드</small></span></button>
+      <button class="mi" data-go="char"><span class="ic">🏋️</span><span class="grow"><b>훈련소 · 스킬</b><small>능력치·스킬 포인트 쓰기</small></span></button>
+      <button class="mi" data-go="rec:daily"><span class="ic">📜</span><span class="grow"><b>오늘의 미션</b><small>${S.daily?`${S.daily.list.filter(m=>m.claimed).length} / 3 완료`:''}</small></span></button>
+    </section>`;
+  h += `<section class="card">${bars()}</section>`;
   if (T.length) h += `<section class="card"><h2>확인할 일</h2>${todoList(T)}</section>`;
-  h += `<button class="cta" data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}">${b.deep?'심층 ':''}${G.ground}에서 사냥하기</button>`;
   return h;
 }
 
@@ -1266,11 +1356,12 @@ function groundRow(g, deep, rec){
   return `<div class="gr ${rec?'rec':''} ${open?'':'lock'}"><div class="mons">${mons}</div><div class="grow"><b>${deep?'심층 ':''}${G.ground}</b>
     <span class="chip ${rec?'blue':''}">${open ? (rec?'추천 · ':'') + `Lv.${lo}–${hi}` : `잠김 · ${reqTxt}`}</span>
     <div class="xs muted">${G.mons.map(m=>m.name).join(' · ')} · 1마리 EXP ${fmt(mexp(lo))}~</div></div>
-    ${open?`<button class="btn sm soft" data-act="hunt" data-g="${g}" data-deep="${deep?1:0}">사냥</button>`:''}</div>`;
+    ${open?`<div class="gbtns"><button class="btn sm soft" data-act="hunt" data-g="${g}" data-deep="${deep?1:0}">사냥</button>${autoBtn(g, deep)}</div>`:''}</div>`;
 }
 function huntView(){
   const b = bestGround();
   let h = top('사냥', `${lvTag()} · HP ${fmt(S.hp)}/${fmt(hpMax())} · MP ${fmt(S.mp)}/${fmt(mpMax())}`);
+  h += autoCard();
   h += `<section class="card"><div class="btns" style="margin-top:0"><button class="btn" data-act="potion" data-k="hp" ${S.inv.hp?'':'disabled'}>체력 물약 ${S.inv.hp}</button><button class="btn" data-act="potion" data-k="mp" ${S.inv.mp?'':'disabled'}>마나 물약 ${S.inv.mp}</button><button class="btn soft" data-act="rest">여관 ${innCost()}G</button></div></section>`;
   if (isJob()) h += `<section class="card"><h2 class="row">심층 사냥터 <span class="aside">전직 후 10레벨마다 개방</span></h2>${GD.map((G,g)=>groundRow(g,true,b.deep&&g===b.g)).join('')}</section>`;
   h += `<section class="card"><h2 class="row">사냥터 <span class="aside">${isJob()?'모두 개방':'노비스 Lv.1~50'}</span></h2>${GD.map((G,g)=>groundRow(g,false,!b.deep&&g===b.g)).join('')}
@@ -1373,7 +1464,7 @@ function pdSlot(slot, label, style, fitItem){
   if (!it && slot==='top' && S.equip.suit){ it = S.equip.suit; key = 'suit'; }
   const cls = [it?'':'empty', UI.slotSel===key?'on':'', slotFits(slot, fitItem)?'fit':''].join(' ');
   const act = it ? `data-act="slot" data-s="${key}"` : 'disabled';
-  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(itemInfo(it).name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${key==='suit'?'한벌옷':slot==='sub'&&subRule().kind?SUB_KINDS[subRule().kind].n:label}</small></button>`;
+  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(itemInfo(it).name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${key==='suit'?'한벌옷':label}</small></button>`;
 }
 function equipDoll(fitItem){
   const pos = Object.entries(PD_POS).map(([s,[x,y]])=>pdSlot(s, SLOTN[s], `left:${x}px;top:${y}px`, fitItem)).join('');
@@ -1575,6 +1666,8 @@ app.addEventListener('click', async e => {
   if (a==='leave'){ endBattle(false); return; }
   if (a==='again'){ endBattle(true); return; }
   if (a==='rest'){ rest(); return; }
+  if (a==='auto'){ autoHunt(+b.dataset.g, b.dataset.deep==='1'); return; }
+  if (a==='autoclose'){ UI.auto = null; render(); return; }
   if (a==='promo'){ startPromo(); return; }
   if (a==='train'){ doTrain(b.dataset.s); return; }
   if (a==='point'){ spendPoint(b.dataset.s); return; }

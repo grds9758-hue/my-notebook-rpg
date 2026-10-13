@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="400" height="480">
+  <defs>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8683a"/><stop offset="1" stop-color="#7a3c22"/></linearGradient>
+    <linearGradient id="dress" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6fc4"/><stop offset="1" stop-color="#244c96"/></linearGradient>
+    <radialGradient id="cheek"><stop offset="0" stop-color="#ff9aa6" stop-opacity=".7"/><stop offset="1" stop-color="#ff9aa6" stop-opacity="0"/></radialGradient>
+    <linearGradient id="iris" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3f8c"/><stop offset=".6" stop-color="#4f86e0"/><stop offset="1" stop-color="#8fc0ff"/></linearGradient>
+  </defs>
+  <g stroke="#3a2620" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- back hair -->
+    <path d="M52 92 C40 140 44 190 38 222 L86 212 L114 212 L162 222 C156 190 160 140 148 92 Z" fill="url(#hair)"/>
+    <!-- body / dress -->
+    <path d="M62 178 C66 160 80 152 100 152 C120 152 134 160 138 178 L150 240 L50 240 Z" fill="url(#dress)"/>
+    <!-- apron -->
+    <path d="M78 186 L122 186 L130 240 L70 240 Z" fill="#fbfbff"/>
+    <path d="M70 176 C82 170 90 178 100 172 C110 178 118 170 130 176 L124 190 C114 186 108 192 100 188 C92 192 86 186 76 190 Z" fill="#fff"/>
+    <!-- neck -->
+    <path d="M90 136 L110 136 L110 156 L90 156 Z" fill="#f6c9ad"/>
+    <!-- collar + ribbon -->
+    <path d="M80 152 L100 166 L120 152 L124 160 L100 176 L76 160 Z" fill="#fff"/>
+    <path d="M100 166 L86 158 L86 174 Z M100 166 L114 158 L114 174 Z" fill="#e2445c"/>
+    <circle cx="100" cy="166" r="4.5" fill="#c22f48"/>
+    <!-- face -->
+    <path d="M58 92 C58 64 76 46 100 46 C124 46 142 64 142 92 C142 120 124 142 100 142 C76 142 58 120 58 92 Z" fill="#ffe3cf"/>
+    <!-- ears hidden by side hair; side locks -->
+    <path d="M58 84 C50 110 52 140 60 160 C66 150 66 120 70 100 Z" fill="url(#hair)"/>
+    <path d="M142 84 C150 110 148 140 140 160 C134 150 134 120 130 100 Z" fill="url(#hair)"/>
+    <!-- bangs -->
+    <path d="M56 92 C54 58 76 38 102 38 C128 38 148 58 144 94 C138 84 134 76 128 70 C126 82 120 88 116 92 C114 82 110 76 106 72 C102 82 94 90 86 94 C88 84 88 78 86 72 C80 82 72 88 64 90 Z" fill="url(#hair)"/>
+    <!-- headdress (maid frill) -->
+    <circle cx="57.4" cy="55.5" r="8" fill="#fff"/><circle cx="63.2" cy="47.7" r="8" fill="#fff"/><circle cx="73.0" cy="41.5" r="8" fill="#fff"/><circle cx="85.7" cy="37.4" r="8" fill="#fff"/><circle cx="100.0" cy="36.0" r="8" fill="#fff"/><circle cx="114.3" cy="37.4" r="8" fill="#fff"/><circle cx="127.0" cy="41.5" r="8" fill="#fff"/><circle cx="136.8" cy="47.7" r="8" fill="#fff"/><circle cx="142.6" cy="55.5" r="8" fill="#fff"/>
+    <path d="M58 60 C74 40 126 40 142 60 L139 66 C122 50 78 50 61 66 Z" fill="#2c4f9a"/>
+  </g>
+  <!-- eyes -->
+  <g stroke="#2a1a18" stroke-width="2.2" stroke-linecap="round">
+    <ellipse cx="82" cy="104" rx="9" ry="12" fill="url(#iris)"/>
+    <ellipse cx="118" cy="104" rx="9" ry="12" fill="url(#iris)"/>
+    <path d="M71 95 C75 90 87 89 93 93 M71 95 L67 93" fill="none" stroke-width="3.4"/>
+    <path d="M107 93 C113 89 125 90 129 95 M129 95 L133 93" fill="none" stroke-width="3.4"/>
+  </g>
+  <circle cx="79" cy="99" r="3.6" fill="#fff"/><circle cx="115" cy="99" r="3.6" fill="#fff"/>
+  <circle cx="85" cy="110" r="1.6" fill="#fff"/><circle cx="121" cy="110" r="1.6" fill="#fff"/>
+  <!-- brows -->
+  <!-- cheeks, nose, mouth -->
+  <ellipse cx="72" cy="120" rx="9" ry="5" fill="url(#cheek)"/><ellipse cx="128" cy="120" rx="9" ry="5" fill="url(#cheek)"/>
+  <path d="M100 116 l-1.5 3" stroke="#d99a80" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M92 126 C96 132 104 132 108 126 C104 128 96 128 92 126 Z" fill="#d9566a" stroke="#8a2a36" stroke-width="1.6" stroke-linejoin="round"/>
+  <!-- hair shine -->
+  <path d="M78 54 C88 48 100 48 108 50" stroke="#e8a070" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  <!-- waving hand -->
+  <g stroke="#3a2620" stroke-width="2.2" stroke-linejoin="round">
+    <path d="M140 182 C150 170 156 160 160 150 L170 154 C166 168 158 182 148 194 Z" fill="url(#dress)"/>
+    <path d="M160 152 C158 140 162 132 168 132 C176 132 178 142 174 154 Z" fill="#ffe3cf"/>
+    <path d="M156 150 L178 156 L176 162 L154 156 Z" fill="#fff"/>
+  </g>
+</svg>
