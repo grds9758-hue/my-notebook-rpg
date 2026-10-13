@@ -1293,13 +1293,14 @@ function win(){
     exp += e; gold += rnd(2, 4) + Math.round(f.m*.8);
     if (Math.random() < .5) mats[f.drop] = (mats[f.drop]||0) + 1;
   }
-  exp = Math.round(exp * (1 + facBonus())); gold = Math.round(gold * (1 + facBonus()));
+  const am = B.mode==='auto' ? AUTO_REWARD : 1;  // auto hunt pays less than fighting yourself
+  exp = Math.round(exp * (1 + facBonus()) * am); gold = Math.round(gold * (1 + facBonus()) * am);
   const ups = gainExp(exp);
   S.gold += gold; for (const k in mats) S.mats[k] = (S.mats[k]||0) + mats[k];
   S.tot.kills += n; S.tot.wins++;
   dailyProgress('kill', n); dailyProgress('win', 1); if (!B.took) dailyProgress('nohit', 1);
   let loot = null;
-  if (B.mode==='promo' || Math.random() < .12 + n*.04){
+  if (B.mode==='promo' || Math.random() < (.12 + n*.04) * (B.mode==='auto' ? .5 : 1)){
     const rar = clamp((Math.random()<.5?0:Math.random()<.6?1:Math.random()<.7?2:3) + (B.mode==='promo'?1:0), 0, 4);
     const it = makeItem(randomSlot(), B.g, rar, B.deep); loot = gainItem(it) ? it : 'full';
   }
@@ -1318,7 +1319,7 @@ function endBattle(again){
 }
 
 /* ---------- auto hunt: 10 quick battles, then a 1-minute cooldown ---------- */
-const AUTO_N = 10, AUTO_CD = 60000;
+const AUTO_N = 10, AUTO_CD = 60000, AUTO_REWARD = .6;
 const autoLeft = () => Math.max(0, (S.autoAt||0) + AUTO_CD - Date.now());
 function simBattle(g, deep){
   B = {g, deep, mode:'auto', foes:spawn(g, deep, false), round:1, buffs:{}, debuff:null, enchant:null, guard:false, took:0, pops:{}, over:null};
@@ -1327,10 +1328,10 @@ function simBattle(g, deep){
   const dual = S.route==='dagger' && S.equip.sub && S.equip.sub.kind==='dagger';
   for (let r=0; r<40 && S.hp>0 && B.foes.some(f=>f.hp>0); r++){
     S.hp = Math.min(hpMax(), S.hp + Math.round(hpMax()*pas('regen')));
-    for (let a=0; a<2; a++){
+    for (let a=0; a<2; a++){  // auto: 2 plain attacks a round — no skills, no weakness bonus action
       const alive = B.foes.filter(f=>f.hp>0); if (!alive.length) break;
       const t = alive.slice().sort((x,y)=>x.hp-y.hp)[0], weak = knownWeak(t);
-      const sk = skills.find(s=>S.mp>=s.mp && weak.includes(s.attr)) || (alive.length>1 ? skills.find(s=>s.all && S.mp>=s.mp) : null);
+      const sk = null;  // auto never uses skills
       if (sk){ S.mp -= sk.mp; dailyProgress('skill',1); for (const f of (sk.all ? alive : [t])) for (let h=0; h<sk.hits; h++) hitFoe(f, sk.attr, sk.mult*(1+pas('skill')), sk.magic); }
       else { const n = 1 + (dual?1:0) + (Math.random() < pas('double') ? 1 : 0); for (let h=0; h<n; h++) hitFoe(t, job().attr, 1, false); }
     }
@@ -1367,6 +1368,7 @@ function autoCard(){
     ${R.ups?`<p style="margin-top:6px;font-weight:700;color:var(--accent)">레벨 업 +${R.ups}! ${lvTag()}</p>`:''}
     ${R.items.length?`<p class="small" style="margin-top:6px">전리품 · ${R.items.map(itemLabel).join(', ')}</p>`:''}${R.full?'<p class="xs muted">가방이 가득 차 놓친 전리품이 있다.</p>':''}
     <p class="xs muted" style="margin-top:6px">${R.potions?`체력 물약 ${R.potions}개 사용 · `:''}${R.stop?`<b style="color:var(--red)">${R.stop}</b>${R.lost?` (골드 ${fmt(R.lost.lostGold)}, 경험치 ${fmt(R.lost.lostExp)} 잃음)`:''}`:'10전 모두 마쳤다'}</p>
+    <p class="xs muted">자동 사냥은 스킬 없이 일반 공격만 한다(약점 보너스 행동 없음) · 보상 ${Math.round(AUTO_REWARD*100)}% · 전리품 확률 절반</p>
     <div class="btns"><button class="btn" data-act="autoclose">닫기</button></div></section>`;
 }
 const autoBtn = (g, deep, cls='btn sm') => `<button class="${cls}" data-act="auto" data-g="${g}" data-deep="${deep?1:0}" data-autocd ${autoLeft()?'disabled':''}>${autoLeft()?`자동 ${Math.ceil(autoLeft()/1000)}초`:'자동 ×10'}</button>`;
@@ -1540,7 +1542,7 @@ function guideLine(){
   if (promoReady()) return {f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`};
   if (S.points) return {f:'gentle', t:`능력치 포인트가 ${S.points}개 있어요. 훈련소에서 나눠 주세요.`};
   return pick([{f:'welcome', t:'어서 오세요, 모험가님! 공책 마을 안내원 리나예요. 무엇을 도와드릴까요?'}, {f:'smile', t:'오늘도 사냥 나가세요? 몸조심하세요!'},
-    {f:'happy', t:'자동 사냥도 맡겨 주세요. 한 번에 열 번씩 다녀올 수 있어요.'}, {f:'think', t:'약점 속성을 노리면 한 번 더 움직일 수 있대요. 정보 버튼으로 살펴보세요.'},
+    {f:'happy', t:'자동 사냥도 맡겨 주세요. 열 번씩 다녀오지만, 직접 싸우는 것보다 벌이는 적어요.'}, {f:'think', t:'약점 속성을 노리면 한 번 더 움직일 수 있대요. 정보 버튼으로 살펴보세요.'},
     {f:'calm', t:'장비는 가방에서 몸 위에 바로 끼울 수 있어요.'}, {f:'blush', t:'에헤헤… 오늘도 와 주셨네요.'}, {f:'glance', t:'일일 미션도 잊지 마세요!'}]);
 }
 const say = (f, t) => { UI.homeLine = {f, t}; UI.talk = null; };
