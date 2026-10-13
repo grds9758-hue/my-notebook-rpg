@@ -281,16 +281,16 @@ const KIND_ICON = {heal:'💚',guard:'🛡️',buff:'📯',scan:'👁️'};
 const NOVICE_MAX = 50, JOB_MAX = 99, ROUTE_LV = 30;
 const JOBS = {
   novice:{name:'노비스', key:['str','vit','agi'], main:'str', attr:'타격', sprite:null},
-  warrior:{name:'전사', key:['str','vit','agi'], main:'str', attr:'베기', sprite:0, desc:'맨 앞에서 버티는 근접 전투',
-    routes:[['greatsword','양손검 기사',5,'강타 위력 +20%'],['shield','방패 기사',6,'받는 피해 −15%'],['rider','라이딩 기사',7,'속도 +20%']]},
-  archer:{name:'궁수', key:['agi','luk','str'], main:'agi', attr:'관통', sprite:1, desc:'멀리서 약점을 꿰뚫는다',
-    routes:[['trapper','트랩 궁수',8,'적 속도 −20% 덫'],['bowman','활 궁수',9,'치명타 +10%']]},
-  thief:{name:'도적', key:['agi','str','luk'], main:'agi', attr:'베기', sprite:2, desc:'빠른 연속 공격과 회피',
-    routes:[['dagger','단검 도적',10,'이도류 · 공격 2회'],['shuriken','표창 도적',11,'표창 던지기가 적 전체에'],['dancer','무희',12,'여캐 전용 · 회피 +10%']]},
-  healer:{name:'힐러', key:['spi','vit','int'], main:'spi', attr:'타격', sprite:3, desc:'회복과 빛 속성',
-    routes:[['priest','사제',13,'회복량 +30%'],['monk','몽크',14,'격투 위력 +25%']]},
-  mage:{name:'마법사', key:['int','spi','luk'], main:'int', attr:'타격', sprite:4, desc:'속성 마법으로 약점 공략',
-    routes:[['wizard','위자드',15,'마법 위력 +20%'],['elementalist','정령사',16,'정령이 행동마다 추가 공격']]},
+  warrior:{name:'소드맨', key:['str','vit','agi'], main:'str', attr:'베기', sprite:0, desc:'맨 앞에서 버티는 근접 전투',
+    routes:[['greatsword','나이트',5,'강타 위력 +20%'],['shield','크루세이더',6,'받는 피해 −15%'],['rider','드래곤 나이트',7,'속도 +20%']]},
+  archer:{name:'아처', key:['agi','luk','str'], main:'agi', attr:'관통', sprite:1, desc:'멀리서 약점을 꿰뚫는다',
+    routes:[['trapper','헌터',8,'적 속도 −20% 덫'],['bowman','스나이퍼',9,'치명타 +10%']]},
+  thief:{name:'시프', key:['agi','str','luk'], main:'agi', attr:'베기', sprite:2, desc:'빠른 연속 공격과 회피',
+    routes:[['dagger','어쌔신',10,'이도류 · 공격 2회'],['shuriken','닌자',11,'표창 던지기가 적 전체에'],['dancer','댄서',12,'여캐 전용 · 회피 +10%']]},
+  healer:{name:'어콜라이트', key:['spi','vit','int'], main:'spi', attr:'타격', sprite:3, desc:'회복과 빛 속성',
+    routes:[['priest','프리스트',13,'회복량 +30%'],['monk','몽크',14,'격투 위력 +25%']]},
+  mage:{name:'매지션', key:['int','spi','luk'], main:'int', attr:'타격', sprite:4, desc:'속성 마법으로 약점 공략',
+    routes:[['wizard','위자드',15,'마법 위력 +20%'],['elementalist','소서러',16,'정령이 행동마다 추가 공격']]},
 };
 const ROUTE = {}; for (const [j,J] of Object.entries(JOBS)) (J.routes||[]).forEach(([id,n,sp,d])=>ROUTE[id]={job:j,name:n,sprite:sp,desc:d});
 /* skills: kind dmg/heal/guard/buff/scan; lv = level needed in the current job */
@@ -394,7 +394,7 @@ const SUB_KINDS = {
   tome:{n:'마도서', names:['낡은 주문서','견습 마도서','수정 마도서','원소 마도서','늪의 비서','망령의 서','바람의 서','서리의 서','태양의 서','용언의 서'], def:0, atk:.2, bon:[['int',.4],['spi',.3]]},
 };
 const SUB_RULE = {novice:'shield', warrior:'shield', greatsword:[null,'양손검 사용 중'], shield:'shield', rider:'shield',
-  archer:'quiver', thief:[null,'단검 도적부터'], dagger:'dagger', shuriken:[null,'표창 사용 중'], dancer:[null,'춤 사용 중'],
+  archer:'quiver', thief:[null,'어쌔신부터'], dagger:'dagger', shuriken:[null,'표창 사용 중'], dancer:[null,'춤 사용 중'],
   healer:'tome', priest:'tome', monk:[null,'맨손 격투'], mage:'tome'};
 function subRule(){ const r = (S.route && SUB_RULE[S.route]!==undefined) ? SUB_RULE[S.route] : (SUB_RULE[S.job] ?? 'tome'); return Array.isArray(r) ? {kind:null, why:r[1]} : {kind:r}; }
 const ATK = [6,12,20,30,42,56,72,90,110,132], DEF = [3,6,10,15,21,28,36,45,55,66];
@@ -804,7 +804,7 @@ function startPromo(){ if (!promoReady()) return; const b = bestGround(); startB
 const canJobChange = () => S.job==='novice' && S.lv >= NOVICE_MAX;
 function jobChange(j){
   if (!canJobChange() || !JOBS[j] || j==='novice') return;
-  if (S.gender==='f' && j!=='thief'){ toast('여캐는 도적으로만 전직할 수 있다.'); return; }
+  if (S.gender==='f' && j!=='thief'){ toast('여캐는 시프로만 전직할 수 있다.'); return; }
   S.job = j; S.route = null; S.lv = 1; S.exp = 0; S.points += 5;
   dropBadSub(); S.hp = hpMax(); S.mp = mpMax(); S.titles.push(`${job().name} 전직`);
   UI.jobPick = null; toast(`${job().name}(으)로 전직했다! Lv.1부터 다시 시작`); save(); render(); window.scrollTo({top:0});
@@ -812,7 +812,7 @@ function jobChange(j){
 const canRoute = () => isJob() && !S.route && S.lv >= ROUTE_LV;
 function chooseRoute(r){
   if (!canRoute() || !ROUTE[r] || ROUTE[r].job!==S.job) return;
-  if (r==='dancer' && S.gender!=='f'){ toast('무희는 여캐 전용이다.'); return; }
+  if (r==='dancer' && S.gender!=='f'){ toast('댄서는 여캐 전용이다.'); return; }
   S.route = r; dropBadSub(); S.titles.push(ROUTE[r].name); UI.routePick = null; toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
 }
 function equipItem(id, ringSlot){
@@ -1045,7 +1045,7 @@ function charView(){
   let h = top('캐릭터', `${lvTag()} · ${esc(S.style)} · ${FACTIONS[S.fac].name}`);
   if (canJobChange()){
     const p = UI.jobPick;
-    h += `<section class="card"><h2>전직할 직업을 골라요</h2><p class="xs muted">전직하면 Lv.1부터 다시 시작하고 최대 Lv.99까지 오른다. 능력치와 장비는 그대로. 루트는 직업 Lv.${ROUTE_LV}에 고른다.${S.gender==='f'?' 여캐는 도적만 고를 수 있다.':''}</p>
+    h += `<section class="card"><h2>전직할 직업을 골라요</h2><p class="xs muted">전직하면 Lv.1부터 다시 시작하고 최대 Lv.99까지 오른다. 능력치와 장비는 그대로. 루트는 직업 Lv.${ROUTE_LV}에 고른다.${S.gender==='f'?' 여캐는 시프만 고를 수 있다.':''}</p>
       ${Object.entries(JOBS).filter(([j])=>j!=='novice').map(([j,J])=>`<button class="jobcard" data-act="jobpick" data-j="${j}" aria-pressed="${p===j}" ${S.gender==='f'&&j!=='thief'?'disabled':''}><img class="px" src="${S.gender==='f'&&j==='thief'?SPR.fthief_front:SPR['jf'+J.sprite]}" alt=""><span class="grow"><b>${J.name}</b>
         <span class="xs muted" style="display:block">${J.desc} · 핵심 ${J.key.slice(0,2).map(x=>SN[x]).join('·')}</span><span class="route">루트 · ${J.routes.map(r=>r[1]).join(' / ')}</span></span></button>`).join('')}
       <button class="cta" style="margin-top:12px" data-act="jobchange" ${p?'':'disabled'}>${p?`${JOBS[p].name}(으)로 전직하기`:'직업을 골라 주세요'}</button></section>`;
@@ -1158,7 +1158,7 @@ function createView(){
   const L = f ? {img:SPR.fnovice_front} : {skin:draft.skin, hair:draft.hair, weapon:0};
   return `<div class="top"><div><h1>새 모험가</h1><div class="s">노비스로 시작해 Lv.50에 전직해요</div></div></div>
   <section class="card"><div class="stage cstage">${dollHTML(L)}</div>
-    <div class="opts"><button class="opt" style="text-align:center" data-act="gender" data-v="m" aria-pressed="${!f}"><b>남캐</b><small>모든 직업</small></button><button class="opt" style="text-align:center" data-act="gender" data-v="f" aria-pressed="${f}"><b>여캐</b><small>도적(무희) 전용</small></button></div></section>
+    <div class="opts"><button class="opt" style="text-align:center" data-act="gender" data-v="m" aria-pressed="${!f}"><b>남캐</b><small>모든 직업</small></button><button class="opt" style="text-align:center" data-act="gender" data-v="f" aria-pressed="${f}"><b>여캐</b><small>시프(댄서) 전용</small></button></div></section>
   <section class="card">
     <div class="label">머리 색${f?' · 여캐는 준비 중':''}</div>
     <div class="colors">${HAIRS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="hair" data-v="${i}" aria-pressed="${!f&&i===draft.hair}" aria-label="${n}" title="${n}" ${f?'disabled':''}></button>`).join('')}</div>
