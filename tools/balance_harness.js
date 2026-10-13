@@ -5,6 +5,15 @@ window.__balance = (opts={}) => {
   render = ()=>{}; save = ()=>{}; runFoes = ()=>{}; fxPlay = ()=>{}; toast = ()=>{};
   const ROUTES = Object.entries(ROUTE).map(([r,o])=>[o.job, r]);
   const VAL = s => { const e = s.e; if (e.k==='dmg') return 3 + (e.all?.5:0); if (e.k==='pas') return ['atk','matk','skill','crit','double','spirit'].includes(e.st) ? 2.5 : ['hp','block','dodge','regen'].includes(e.st) ? 1.8 : e.st==='spd' ? 1.2 : 2; if (e.k==='buff') return 1.6; if (e.k==='heal') return 1.5; if (e.k==='debuff') return 1.2; return .4; };
+  function buildNovice(lv){
+    S.job='novice'; S.route=null; S.third=false; S.lv=lv; S.gender='m';
+    for (const [s2] of STATS) S.stats[s2] = 40; const k = JOBS.novice.key, w=[.6,.25,.15]; k.forEach((s2,i)=>{ S.stats[s2] += Math.round((lv-1)*2*w[i]); });
+    S.sk = {}; let sp = lv;
+    while (sp > 0){ let best=null, bv=-1; for (const s2 of TREES.novice.list){ if (skLv(s2.id)>=s2.max || !skReqOk(s2)) continue; const v = Math.max(VAL(s2), ...TREES.novice.list.filter(u=>(u.req||[]).some(([id,l])=>id===s2.id && skLv(s2.id)<l)).map(u=>VAL(u)*.95)) - skLv(s2.id)*.02; if (v>bv){bv=v;best=s2;} } if (!best) break; S.sk[best.id]=skLv(best.id)+1; sp--; }
+    const band = bandFor(lv);
+    for (const sl of [...SLOT_ORDER, ...RING_SLOTS]) S.equip[sl] = null;
+    for (const sl of ['weapon','sub','helm','top','bottom','shoes','cape','necklace','earring']){ const it = makeItem(sl, band, 1, false); if (canWear(itemInfo(it), it)) S.equip[sl] = it; }
+  }
   function build(j, r, lv, third){
     S.job = j; S.route = lv>=ROUTE_LV || third ? r : null; S.third = !!third; S.lv = lv; S.gender = r==='dancer' ? 'f' : 'm';
     const pts = 98 + 5 + (lv-1)*2 + 40*6 + (third ? 5 + 98*2 : 0), k = JOBS[j].key, w = [.6,.25,.15];
@@ -31,8 +40,8 @@ window.__balance = (opts={}) => {
     for (const s of acts) if (s.kind==='dmg' && (s.mp <= S.mp || (s.magic && B.stk.free))){ const v = score(s); if (v > bv*1.05){ bv = v; best = s; } }
     return best ? ['skill', best] : ['attack'];
   }
-  function fight(g){
-    S.hp = hpMax(); S.mp = mpMax(); startBattle(g, true); clearTimeout(foeTimer);
+  function fight(g, deep=true){
+    S.hp = hpMax(); S.mp = mpMax(); startBattle(g, deep); clearTimeout(foeTimer);
     for (const f of B.foes){ f.hp = f.max = Math.round(f.hp*(opts.hpMul||1)); f.atk = Math.round(f.atk*(opts.atkMul||1)); }
     let steps = 0, acts = 0;
     while (!B.over && steps++ < 400){
@@ -42,8 +51,13 @@ window.__balance = (opts={}) => {
     }
     const o = {win: !!(B.over && B.over.win), rounds: acts, hpLeft: S.hp/hpMax(), mpUsed: 1 - S.mp/mpMax()}; B = null; return o;
   }
+  if (opts.novice) for (const lv of [3,10,20,30,40,48]){
+    buildNovice(lv); const g = clamp(Math.floor(lv/5), 0, 9); let w=0, rd=0, hp=0, mp=0;
+    for (let i=0;i<N;i++){ const o = fight(g, false); if (o.win){ w++; rd += o.rounds; hp += o.hpLeft; } mp += o.mpUsed; }
+    out.push({job:'novice', route:'-', name:'노비스', lv, win: Math.round(w/N*100), rounds: w? +(rd/w).toFixed(2):0, hpLeft: w? Math.round(hp/w*100):0, mp: Math.round(mp/N*100), atk: atk(), matk: matk(), hpMax: hpMax()});
+  }
   const levels = opts.levels || [[20,0],[40,0],[70,0],[99,0],[50,1]];
-  for (const [j,r] of ROUTES) for (const [lv,third] of levels){
+  if (!opts.onlyNovice) for (const [j,r] of ROUTES) for (const [lv,third] of levels){
     if (lv < ROUTE_LV && !third && ROUTES.findIndex(x=>x[0]===j) !== ROUTES.findIndex(x=>x[1]===r)) continue;  // pre-route rows: one per job
     build(j, r, lv, third);
     const g = clamp(Math.floor((lv-1)/10), 0, 9); let w=0, rd=0, hp=0, mp=0;

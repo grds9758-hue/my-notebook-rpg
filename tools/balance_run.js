@@ -6,7 +6,7 @@ const fs = require('fs');
   const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args:['--no-sandbox'] }); const p = await b.newPage();
   const errs=[]; p.on('pageerror', e=>errs.push(e.message)); await p.route(/fonts\./, r => r.abort());
   await p.goto('file://'+D+'b.html'); await p.click('[data-act="start"]');
-  const r = await p.evaluate(a=>__balance(a), {n:+process.argv[2]||60, hpMul:+process.argv[3]||1, atkMul:+process.argv[4]||1, pw: process.env.PW ? JSON.parse(process.env.PW) : null});
+  const r = await p.evaluate(a=>__balance(a), {n:+process.argv[2]||60, hpMul:+process.argv[3]||1, atkMul:+process.argv[4]||1, pw: process.env.PW ? JSON.parse(process.env.PW) : null, novice: !!process.env.NOV, onlyNovice: process.env.NOV==='only'});
   console.log('name'.padEnd(10), 'lv'.padEnd(7), 'win act hp% mp% | atk matk hp');
   for (const x of r) console.log(x.name.padEnd(10), String(x.lv).padEnd(7), String(x.win).padStart(3), String(x.rounds).padStart(4), String(x.hpLeft).padStart(3), String(x.mp).padStart(3), '|', x.atk, x.matk, x.hpMax);
   fs.writeFileSync(D+'last.json', JSON.stringify(r));
