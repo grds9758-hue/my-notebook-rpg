@@ -144,6 +144,21 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .jobcard img{width:72px;height:72px;flex:none}
 .jobcard:disabled{opacity:.45}
 .route{font-size:12px;color:var(--accent);font-weight:500;margin-top:2px;display:block}
+/* equipment paper doll: faint body outline with slots on the body parts */
+.pd{position:relative;width:280px;height:350px;margin:0 auto}
+.pd svg.body{position:absolute;inset:0;width:100%;height:100%;fill:var(--surface-2);stroke:var(--line);stroke-width:2}
+.pd .ps{position:absolute;transform:translate(-50%,-50%)}
+.ps{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0;width:64px}
+.ps .sq{width:48px;height:48px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.ps.empty .sq{border:1.5px dashed var(--line);background:color-mix(in srgb,var(--surface) 70%,transparent);box-shadow:none}
+.ps small{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.ps.on .sq{box-shadow:0 0 0 3px var(--accent)}
+.ps.fit .sq{box-shadow:0 0 0 3px var(--accent);animation:blink 1s infinite}
+@media (prefers-reduced-motion:reduce){.ps.fit .sq{animation:none}}
+.ps.suitcover .sq{opacity:.45}
+.ringrow{display:flex;justify-content:center;gap:8px;margin-top:6px}
+.ringrow .ps{position:static;transform:none;width:52px}
+.ringrow .ps .sq{width:40px;height:40px}
 /* bag */
 .inv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .cell{aspect-ratio:1;border-radius:12px;background:var(--surface-2);position:relative;display:grid;place-items:center;border:2px solid transparent;padding:0}
@@ -952,6 +967,37 @@ function battleView(){
 }
 
 /* ---------- character ---------- */
+/* paper doll: slots placed on a faint body outline (viewer's left = the character's right hand) */
+const PD_POS = {helm:[140,40], earring:[212,66], cape:[218,140], top:[140,132], weapon:[40,196], bottom:[140,214], shoes:[140,312]};
+const PD_BODY = `<svg class="body" viewBox="0 0 280 350" aria-hidden="true"><circle cx="140" cy="58" r="46"/><rect x="104" y="104" width="72" height="96" rx="22"/>
+  <rect x="62" y="112" width="30" height="88" rx="15" transform="rotate(18 77 112)"/><rect x="188" y="112" width="30" height="88" rx="15" transform="rotate(-18 203 112)"/>
+  <rect x="108" y="190" width="28" height="104" rx="14"/><rect x="144" y="190" width="28" height="104" rx="14"/><ellipse cx="118" cy="300" rx="20" ry="10"/><ellipse cx="162" cy="300" rx="20" ry="10"/></svg>`;
+function slotFits(slot, it){
+  if (!it) return false;
+  if (it.slot==='ring') return slot.startsWith('ring');
+  if (it.slot==='suit') return slot==='top' || slot==='bottom';
+  return it.slot===slot;
+}
+function pdSlot(slot, label, style, fitItem){
+  let it = S.equip[slot], cover = false;
+  if (!it && (slot==='top' || slot==='bottom') && S.equip.suit){ it = S.equip.suit; cover = slot==='bottom'; }
+  const cls = [it?'':'empty', UI.slotSel===slot?'on':'', slotFits(slot, fitItem)?'fit':'', cover?'suitcover':''].join(' ');
+  const name = it ? itemInfo(it).name : label;
+  const act = it ? `data-act="slot" data-s="${it===S.equip.suit&&!S.equip[slot]?'suit':slot}"` : 'disabled';
+  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${it&&it===S.equip.suit?'한벌옷':label}</small></button>`;
+}
+function equipDoll(fitItem){
+  const pos = Object.entries(PD_POS).map(([s,[x,y]])=>pdSlot(s, SLOTN[s], `left:${x}px;top:${y}px`, fitItem)).join('');
+  return `<div class="pd">${PD_BODY}${pos}</div><div class="ringrow">${RING_SLOTS.map((s,i)=>pdSlot(s, `반지${i+1}`, '', fitItem)).join('')}</div>`;
+}
+function slotDetail(){
+  const sel = UI.slotSel ? S.equip[UI.slotSel] : null; if (!sel) return '';
+  const info = itemInfo(sel), p = [];
+  if (info.atk) p.push(`공격력 <b>+${info.atk}</b>`); if (info.def) p.push(`방어력 <b>+${info.def}</b>`);
+  for (const x in info.bon) p.push(`${SN[x]} <b>+${info.bon[x]}</b>`);
+  return `<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px"><b>${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
+    <p class="eff">${p.join(' · ')}</p><div class="btns"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn" data-act="slot" data-s="">닫기</button></div></div>`;
+}
 function slotCell(slotKey, it, label){
   if (!it) return `<div class="slot empty"><span class="sq"></span><span class="nm">${label}<small>비어 있음</small></span></div>`;
   const info = itemInfo(it);
@@ -978,17 +1024,7 @@ function charView(){
     h += `<section class="card"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}><img class="px" src="${SPR['jf'+sp]}" alt=""><span class="grow"><b>${n}</b><span class="xs muted" style="display:block">${d}</span></span></button>`).join('')}
       <button class="cta" style="margin-top:12px" data-act="route" ${p?'':'disabled'}>${p?`${ROUTE[p].name} 루트로`:'루트를 골라 주세요'}</button></section>`;
   }
-  h += `<section class="card"><div class="stage">${dollHTML(lookFront())}</div>
-    <div class="slots">${SLOT_ORDER.map(s=>slotCell(s, S.equip[s], SLOTN[s])).join('')}</div>
-    <div class="label" style="margin-top:14px">반지 · 5칸</div>
-    <div class="slots rings">${RING_SLOTS.map((s,i)=>slotCell(s, S.equip[s], `반지 ${i+1}`)).join('')}</div>`;
-  if (sel){
-    const info = itemInfo(sel), p = [];
-    if (info.atk) p.push(`공격력 <b>+${info.atk}</b>`); if (info.def) p.push(`방어력 <b>+${info.def}</b>`);
-    for (const x in info.bon) p.push(`${SN[x]} <b>+${info.bon[x]}</b>`);
-    h += `<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px"><b>${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
-      <p class="eff">${p.join(' · ')}</p><div class="btns"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn" data-act="slot" data-s="">닫기</button></div></div>`;
-  }
+  h += `<section class="card"><div class="stage">${dollHTML(lookFront())}</div>${equipDoll(null)}${slotDetail()}`;
   h += `</section>`;
   h += `<section class="card"><h2 class="row">능력치 ${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:'<span class="aside">레벨 업마다 2포인트</span>'}</h2>
     <div class="statgrid">${STATS.map(([s,n])=>{ const b = bonus(s);
@@ -1025,6 +1061,8 @@ function bagView(){
   const items = S.bag.slice().sort((a,b)=>(b.deep?1:0)-(a.deep?1:0) || b.rar-a.rar || b.band-a.band);
   const cells = items.map(it=>`<button class="cell rb${it.rar} ${UI.sel===it.id?'sel':''}" data-act="sel" data-id="${it.id}" aria-label="${RARITY[it.rar]} ${itemInfo(it).name}">${itemIcon(it)}${it.isNew?'<span class="new"></span>':''}</button>`);
   const blanks = Math.max(0, Math.ceil((items.length+1)/5)*5 - items.length);
+  const selIt = S.bag.find(x=>x.id===UI.sel);
+  h += `<section class="card"><h2 class="row">착용 중 <span class="aside">${selIt?'파란 칸에 장착돼요':'칸을 누르면 정보'}</span></h2>${equipDoll(selIt)}${slotDetail()}</section>`;
   h += `<section class="card">${items.length ? `<div class="inv">${cells.join('')}${'<span class="cell blank"></span>'.repeat(blanks)}</div>` : '<p class="small muted">사냥에서 전리품을 얻으면 여기에 쌓인다.</p>'}</section>`;
   const it = S.bag.find(x=>x.id===UI.sel);
   if (it){
