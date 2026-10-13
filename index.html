@@ -922,11 +922,11 @@ function skDesc(s, lv){
     case 'steal': return `${pc(o.v)} 확률로 골드 훔치기`;
     case 'enchant': return `3라운드 일반 공격이 ${o.attr} 속성`;
     case 'pas':
-      if (o.st==='fury') return `맞을 때마다 투지 1중첩(최대 ${STACK_MAX.fury}) · 중첩당 공격력 +${pc(o.v)} · 전투가 끝나면 사라짐`;
-      if (o.st==='aim') return `같은 적을 연달아 일반 공격하면 조준 1중첩(최대 ${STACK_MAX.aim}) · 중첩당 치명타 +${Math.round(o.v)}% · 대상을 바꾸거나 스킬을 쓰면 0`;
+      if (o.st==='fury') return `맞을 때마다 투지 1중첩(최대 ${stkMax('fury')}) · 중첩당 공격력 +${pc(o.v)} · 전투가 끝나면 사라짐`;
+      if (o.st==='aim') return `같은 적을 연달아 일반 공격하면 조준 1중첩(최대 ${stkMax('aim')}) · 중첩당 치명타 +${Math.round(o.v)}% · 대상을 바꾸거나 스킬을 쓰면 0`;
       if (o.st==='toxin') return `독 피해 강화: 적 차례마다 중첩당 공격력의 ${pc(POISON_BASE + o.v)} · 피해 후 1중첩 줄어듦`;
       if (o.st==='sphere') return `공격·공격 스킬마다 기 구슬 1개(최대 ${Math.round(o.v)}) · 아수라 패황권이 모두 소모`;
-      if (o.st==='over') return `마법 공격 스킬마다 과부하 1중첩(최대 ${STACK_MAX.over}) · 중첩당 마법 공격력 +${pc(o.v)} · 가득 차면 다음 마법 스킬 MP 0, 쓰고 나면 0`;
+      if (o.st==='over') return `마법 공격 스킬마다 과부하 1중첩(최대 ${stkMax('over')}) · 중첩당 마법 공격력 +${pc(o.v)} · 가득 차면 다음 마법 스킬 MP 0, 쓰고 나면 0`;
       return `${ST[o.st]} +${o.st==='crit'?Math.round(o.v)+'%':pc(o.v)}`;
   }
   return '';
@@ -938,17 +938,18 @@ function canLearn(s){ return myTrees().includes(s.tree) && S.sp > 0 && skLv(s.id
    기 구슬 sphere: +1 per attack/attack skill, cap = 기공 수련 Lv+1 · 과부하 over: +1 per magic attack skill, full → next magic skill costs 0 MP
    독 poison (on each foe): +1 per 인베넘 hit (cap 5), ticks at that foe's turn, then −1; 베넘 스플래셔 pops all */
 const STACK_MAX = {fury:5, aim:5, over:5, poison:5};
+const stkMax = k => Math.max(2, STACK_MAX[k] + setPas(k+'Max'));  // job set 5-piece bonuses move the caps
 const POISON_BASE = .05;
 const stk = k => (B && B.stk && B.stk[k]) || 0;
-const sphereMax = () => skLv('mk_sphere') ? Math.round(lerp(SKILL.mk_sphere.e.v, skLv('mk_sphere'))) : 0;
-function stackGain(k){ if (!B || !B.stk) return; const cap = k==='sphere' ? sphereMax() : STACK_MAX[k]; B.stk[k] = Math.min(cap, (B.stk[k]||0) + 1); }
+const sphereMax = () => skLv('mk_sphere') ? Math.round(lerp(SKILL.mk_sphere.e.v, skLv('mk_sphere'))) + setPas('sphereMax') : 0;
+function stackGain(k){ if (!B || !B.stk) return; const cap = k==='sphere' ? sphereMax() : stkMax(k); B.stk[k] = Math.min(cap, (B.stk[k]||0) + 1); }
 function stackChips(){
   if (!B || !B.stk) return '';
   const c = [];
-  if (skLv('s_fury')) c.push(`<span class="stk fury">투지 ${stk('fury')}/${STACK_MAX.fury}</span>`);
-  if (skLv('a_aim')) c.push(`<span class="stk aim">조준 ${stk('aim')}/${STACK_MAX.aim}</span>`);
+  if (skLv('s_fury')) c.push(`<span class="stk fury">투지 ${stk('fury')}/${stkMax('fury')}</span>`);
+  if (skLv('a_aim')) c.push(`<span class="stk aim">조준 ${stk('aim')}/${stkMax('aim')}</span>`);
   if (sphereMax()) c.push(`<span class="stk sph">기 ${'●'.repeat(stk('sphere'))}${'○'.repeat(sphereMax()-stk('sphere'))}</span>`);
-  if (skLv('wz_over')) c.push(`<span class="stk over">${B.stk.free ? '과부하 가득 · 다음 마법 MP 0' : `과부하 ${stk('over')}/${STACK_MAX.over}`}</span>`);
+  if (skLv('wz_over')) c.push(`<span class="stk over">${B.stk.free ? '과부하 가득 · 다음 마법 MP 0' : `과부하 ${stk('over')}/${stkMax('over')}`}</span>`);
   return c.length ? `<div class="stks">${c.join('')}</div>` : '';
 }
 const ROUTE_PAS = {greatsword:{atk:.15}, shield:{block:.15}, rider:{spd:.2}, bowman:{crit:10}, dancer:{dodge:.1}, monk:{atk:.2}, shuriken:{skill:.15}, wizard:{matk:.2}, elementalist:{spirit:.3}};
@@ -1058,16 +1059,35 @@ const SETS = {
   rose:{name:'와일드 로즈', band:3, deep:false, b3:{atk:.05, matk:.05}, b5:{crit:5}},
   valk:{name:'발키리', band:6, deep:false, b3:{hp:.08}, b5:{block:.08}},
   ygg:{name:'이그드라실', band:9, deep:false, b3:{atk:.08, matk:.08}, b5:{regen:.02}},
-  odin:{name:'오딘의 축복', band:3, deep:true, b3:{atk:.08, matk:.08}, b5:{critDmg:.1}},
-  imp:{name:'임페리얼', band:6, deep:true, b3:{hp:.1}, b5:{spd:.1}},
-  ragna:{name:'라그나로크', band:9, deep:true, b3:{atk:.1, matk:.1}, b5:{skill:.15}},
+  j1:{band:3, deep:true}, j2:{band:6, deep:true}, j3:{band:9, deep:true},  // 전직 세트: 직업마다 다름(JOB_SETS)
 };
+/* 직업 세트 (디아블로식 클래스 세트): 3세트는 능력치, 5세트는 그 직업의 핵심 기술을 바꾼다. 이름·효과는 지금 직업을 따른다 */
+const JOB_SETS = {
+  warrior:[{name:'투사의 맹세', b3:{atk:.08, hp:.05}, b5:{furyMax:3, block:.05}},
+           {name:'불굴의 성채', b3:{hp:.12}, b5:{block:.1, regen:.02}},
+           {name:'신검 발뭉', b3:{atk:.12}, b5:{skill:.2, furyMax:2}}],
+  archer: [{name:'바람추적자', b3:{atk:.08, spd:.05}, b5:{aimMax:3, crit:5}},
+           {name:'매의 군주', b3:{atk:.1}, b5:{critDmg:.2}},
+           {name:'천궁 아르테미스', b3:{atk:.12, crit:5}, b5:{double:.15, aimMax:2}}],
+  thief:  [{name:'그림자 송곳니', b3:{atk:.08, spd:.05}, b5:{poisonMax:3, toxin:.03}},
+           {name:'밤의 장막', b3:{atk:.1}, b5:{dodge:.08, double:.1}},
+           {name:'밤의 지배자', b3:{atk:.12, crit:5}, b5:{double:.2, critDmg:.1}}],
+  healer: [{name:'성광의 기도', b3:{matk:.08, hp:.05}, b5:{heal:.3, regen:.01}},
+           {name:'수호 천사', b3:{hp:.12}, b5:{sphereMax:2, block:.08}},
+           {name:'대천사의 은총', b3:{atk:.1, matk:.1}, b5:{skill:.2, heal:.2}}],
+  mage:   [{name:'비전 학도', b3:{matk:.1}, b5:{overMax:-2}},
+           {name:'원소의 군주', b3:{matk:.1, hp:.05}, b5:{spirit:.3, critDmg:.1}},
+           {name:'별의 현자', b3:{matk:.14}, b5:{skill:.2, overMax:-1}}],
+};
+const setDef = k => k && k[0]==='j' && k.length===2 ? {...SETS[k], ...JOB_SETS[S.job==='novice'?'warrior':S.job][+k[1]-1]} : SETS[k];
+const SET_OLD = {odin:'j1', imp:'j2', ragna:'j3'};
 const SET_PIECE = {helm:'헬름', top:'아머', bottom:'레깅스', suit:'슈트', shoes:'부츠', cape:'매니퓰'};
 const SET_CHANCE = .03, SET_CHANCE_PROMO = .1;
-const SETK = {atk:'공격력', matk:'마법 공격력', hp:'최대 HP', crit:'치명타', block:'받는 피해 감소', regen:'매 턴 HP 회복', critDmg:'치명타 피해', spd:'속도', skill:'스킬 위력'};
-const setEffText = o => Object.entries(o).map(([k,v])=>`${SETK[k]} +${k==='crit'?v+'%':Math.round(v*100)+'%'}`).join(' · ');
+const SETK = {atk:'공격력', matk:'마법 공격력', hp:'최대 HP', crit:'치명타', block:'받는 피해 감소', regen:'매 턴 HP 회복', critDmg:'치명타 피해', spd:'속도', skill:'스킬 위력', dodge:'회피', double:'공격 2회 확률', spirit:'정령 추가 공격', heal:'회복 스킬', toxin:'독 피해(공격력의)'};
+const SETX = {furyMax:v=>`투지 최대 중첩 +${v}`, aimMax:v=>`조준 최대 중첩 +${v}`, poisonMax:v=>`독 최대 중첩 +${v}`, sphereMax:v=>`기 구슬 최대 +${v}`, overMax:v=>`과부하가 ${-v}중첩 빨리 가득 참`};
+const setEffText = o => Object.entries(o).map(([k,v])=>SETX[k] ? SETX[k](v) : `${SETK[k]} +${k==='crit'?v+'%':Math.round(v*100)+'%'}`).join(' · ');
 function setCounts(){ const c = {}; ARMOR_SET_SLOTS.forEach(sl=>{ const it = S.equip[sl]; if (it && it.sb) c[it.sb] = (c[it.sb]||0) + (sl==='suit'?2:1); }); return c; }
-function setPas(st){ let v = 0; for (const [k,n] of Object.entries(setCounts())){ const T = SETS[k]; if (!T) continue; if (n>=3 && T.b3[st]) v += T.b3[st]; if (n>=5 && T.b5[st]) v += T.b5[st]; } return v; }
+function setPas(st){ if (!S) return 0; let v = 0; for (const [k,n] of Object.entries(setCounts())){ const T = setDef(k); if (!T) continue; if (n>=3 && T.b3[st]) v += T.b3[st]; if (n>=5 && T.b5[st]) v += T.b5[st]; } return v; }
 function maybeSet(it, promo){  // a rare roll turns an armor drop into the nearest set at or below its band
   if (!ARMOR_SET_SLOTS.includes(it.slot) || Math.random() >= (promo ? SET_CHANCE_PROMO : SET_CHANCE)) return it;
   const c = Object.entries(SETS).filter(([,T]) => T.deep===!!it.deep && T.band <= it.band).sort((a,b)=>b[1].band-a[1].band)[0];
@@ -1125,7 +1145,8 @@ function itemInfo(it){
   const K = it.slot==='sub' ? SUB_KINDS[it.kind||'shield'] : null;
   if (it.slot==='ring') bon[it.st] = v(.5);
   else (K ? K.bon : sp.bon).forEach(([k,w]) => { const kk = k==='main' ? JOBS[S.job].main : k; bon[kk] = (bon[kk]||0) + v(w); });
-  const SB = it.sb && SETS[it.sb];
+  if (SET_OLD[it.sb]) it.sb = SET_OLD[it.sb];
+  const SB = it.sb && setDef(it.sb);
   const base = SB ? `${it.t3?'초월 ':''}${SB.name} ${SET_PIECE[it.slot]}` : it.t3 ? '초월 ' + jobGearName(it) : it.deep ? jobGearName(it) : it.slot==='ring' ? `${ITEM_NAMES.ring[b]} 링(${SN[it.st]})` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
   return {
     name: base, reqLv: it.deep ? JOB_TIERS[b] : BANDS[b], reqJob: !!it.deep, t3: !!it.t3,
@@ -1400,16 +1421,16 @@ function playerAction(kind, arg){
       else if (anyMiss && targets.length===1){ useIcon('miss'); B.log += ' · 행동 −2'; }
       else useIcon('normal');
       // stacks after the action resolves
-      if (sk.id==='t_venom') for (const t of targets){ const f = B.foes[t]; if (f.hp>0) f.poison = Math.min(STACK_MAX.poison, (f.poison||0) + 1); }
+      if (sk.id==='t_venom') for (const t of targets){ const f = B.foes[t]; if (f.hp>0) f.poison = Math.min(stkMax('poison'), (f.poison||0) + 1); }
       const pops = Object.values(popped).reduce((a,v)=>a+v,0); if (pops) B.log += ` · <b>독 ${pops}중첩 폭발!</b>`;
       if (spheres){ B.stk.sphere = 0; B.log += ` · <b>기 구슬 ${spheres}개 해방!</b>`; } else stackGain('sphere');
       if (kind==='attack'){ if (B.stk.aimT===targets[0]) stackGain('aim'); else { B.stk.aim = 0; stackGain('aim'); } B.stk.aimT = targets[0]; if (!skLv('a_aim')) B.stk.aim = 0; }
       else { B.stk.aim = 0; B.stk.aimT = null; }
-      if (magic && skLv('wz_over')){ if (freeCast){ B.stk.over = 0; B.stk.free = false; B.log += ' · 과부하 해방(MP 0)'; } else { stackGain('over'); if (B.stk.over >= STACK_MAX.over) B.stk.free = true; } }
+      if (magic && skLv('wz_over')){ if (freeCast){ B.stk.over = 0; B.stk.free = false; B.log += ' · 과부하 해방(MP 0)'; } else { stackGain('over'); if (B.stk.over >= stkMax('over')) B.stk.free = true; } }
       const left = alive.filter(i=>B.foes[i].hp>0);
       if (left.length && Math.random() < Math.min(1, pas('spirit'))){ fxArgs.push(left[0]); const r = hitFoe(B.foes[left[0]], pick(['불','얼음','번개']), .5, true); B.log += ` · 정령 추가 ${r.dmg}`; }
     } else if (sk.kind==='heal'){ fxArgs = [kind, sk, []];
-      const amt = Math.round(hpMax() * sk.pct * (S.route==='priest'?1.3:1)); S.hp = Math.min(hpMax(), S.hp + amt);
+      const amt = Math.round(hpMax() * sk.pct * (S.route==='priest'?1.3:1) * (1 + setPas('heal'))); S.hp = Math.min(hpMax(), S.hp + amt);
       B.log = `${sk.n} → HP ${amt} 회복`; B.pops = {me:'+'+amt}; useIcon('normal');
     } else if (sk.kind==='guard'){ fxArgs = [kind, sk, []];
       B.guard = true; B.log = `${sk.n} → 이번 턴 받는 피해 절반`; B.icons = [];
@@ -2333,8 +2354,8 @@ function slotCell(slotKey, it, label){
   return `<button class="slot" data-act="slot" data-s="${slotKey}" aria-label="${info.name} 정보"><span class="sq rb${it.rar} ${it.sb?'setit':''}">${itemIcon(it)}</span><span class="nm">${info.name}<small>${label} · <span class="rar${it.rar}">${RARITY[it.rar]}</span></small></span></button>`;
 }
 function setSummary(){
-  const rows = Object.entries(setCounts()).sort((a,b)=>b[1]-a[1]).map(([k,c])=>{ const T = SETS[k];
-    return `<span class="setrow"><b class="setnm">${T.name} 세트</b> ${Math.min(c,5)}/5<br><span class="${c>=3?'on':'off'}">3세트 · ${setEffText(T.b3)}</span><br><span class="${c>=5?'on':'off'}">5세트 · ${setEffText(T.b5)}</span></span>`; });
+  const rows = Object.entries(setCounts()).sort((a,b)=>b[1]-a[1]).map(([k,c])=>{ let T;
+    T = setDef(k); return `<span class="setrow"><b class="setnm">${T.name} 세트</b> ${Math.min(c,5)}/5<br><span class="${c>=3?'on':'off'}">3세트 · ${setEffText(T.b3)}</span><br><span class="${c>=5?'on':'off'}">5세트 · ${setEffText(T.b5)}</span></span>`; });
   return rows.length ? rows.join('') : '세트 장비를 입지 않았다';
 }
 function charView(){
@@ -2354,7 +2375,7 @@ function charView(){
       <button class="btn sm ${promoReady()?'pri':''}" data-act="promo" ${promoReady()?'':'disabled'}>도전</button></div>`:'<p class="small">최고 소속이다.</p>'}</section>`;
   h += `<section class="card"><h2 class="row">훈련소 <span class="aside">1회 ${fmt(trainCost())}골드 · 할수록 비싸짐</span></h2>
     <div class="choices">${STATS.map(([s,n])=>`<button class="opt" style="text-align:center" data-act="train" data-s="${s}" ${S.gold<trainCost()?'disabled':''}><b>${n} +1</b><small>지금 ${S.stats[s]}</small></button>`).join('')}</div></section>`;
-  h += `<section class="card"><h2>세트 효과</h2><div class="small">${setSummary()}</div><p class="xs muted" style="margin-top:6px">세트 장비는 방어구가 떨어질 때 드물게(3%, 승급 시험 10%) 나온다. 투구·상의·하의·신발·망토(한벌옷은 2칸) 중 3칸·5칸을 맞추면 효과. 노비스 세트: 와일드 로즈(Lv15)·발키리(Lv30)·이그드라실(Lv45) · 전직 세트: 오딘의 축복(Lv30)·임페리얼(Lv60)·라그나로크(Lv90).</p></section>`;
+  h += `<section class="card"><h2>세트 효과</h2><div class="small">${setSummary()}</div><p class="xs muted" style="margin-top:6px">세트 장비는 방어구가 떨어질 때 드물게(3%, 승급 시험 10%) 나온다. 투구·상의·하의·신발·망토(한벌옷은 2칸) 중 3칸·5칸을 맞추면 효과. 노비스 세트: 와일드 로즈(Lv15)·발키리(Lv30)·이그드라실(Lv45) · 전직 세트는 직업마다 3개(Lv30·60·90), 5세트가 그 직업의 핵심 기술을 바꾼다.</p></section>`;
   return h;
 }
 
@@ -2392,7 +2413,7 @@ function bagView(){
     h += `<section class="card"><div class="row"><span class="sq rb${it.rar} ${it.sb?'setit':''}" style="width:56px;height:56px">${itemIcon(it)}</span>
       <span class="grow"><span class="who" style="display:block">${info.kind||SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${ok?'':'color:var(--red)'}">${reqText(info)} 이상</span>${info.set!=null?` · <b class="setnm">${info.setName} 세트</b>`:''}</span>
       <b style="font-size:18px" class="${it.sb?'setnm':''}">${info.name}</b></span></div>
-      ${it.sb ? `<p class="xs" style="margin-top:6px"><b class="setnm">세트 효과</b> · 3세트 ${setEffText(SETS[it.sb].b3)} · 5세트 ${setEffText(SETS[it.sb].b5)}</p>` : ''}
+      ${it.sb ? `<p class="xs" style="margin-top:6px"><b class="setnm">세트 효과</b> · 3세트 ${setEffText(setDef(it.sb).b3)} · 5세트 ${setEffText(setDef(it.sb).b5)}</p>` : ''}
       <p class="eff" style="margin-top:10px">${parts.join(' · ')}</p>
       ${cur.length && it.slot!=='ring' ? `<p class="xs muted">지금 착용: ${cur.map(c=>itemInfo(c).name).join(', ')}${it.slot==='suit'?' (한벌옷을 입으면 상의·하의를 벗는다)':''}</p>` : ''}
       ${UI.ringPick && it.slot==='ring' ? `<p class="small" style="margin-top:8px">반지 칸이 가득 찼다. 바꿀 칸을 고른다.</p><div class="btns">${RING_SLOTS.map((s,i)=>`<button class="btn sm" data-act="equip" data-id="${it.id}" data-ring="${s}">${i+1}번</button>`).join('')}</div>` : ''}
