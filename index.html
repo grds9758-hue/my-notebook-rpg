@@ -528,6 +528,33 @@ const RING_SLOTS = ['ring0','ring1','ring2','ring3','ring4'];
 const SLOTN = {weapon:'무기',sub:'보조무기',necklace:'목걸이',helm:'투구',top:'상의',bottom:'하의',suit:'한벌옷',shoes:'신발',cape:'망토',earring:'귀걸이',ring:'반지'};
 const RARITY = ['일반','고급','희귀','영웅','전설'];
 const BANDS = [1,5,10,15,20,25,30,35,40,45];
+const JOB_GEAR = {"jobs":{"전사":{"armor":["가죽 갑주","사슬 갑주","강철 판금","기사 판금","미스릴 판금","용비늘 판금","성기사 갑주","흑철 갑주","영웅의 갑주","군신의 갑주"],"weapon":["철검","기사의 검","강철 장검"],"routes":{"양손검 기사":["바스타드 소드","클레이모어","츠바이핸더","용살검","화염의 대검","천둥의 대검","태초의 대검"],"방패 기사":["기사검·둥근 방패","미스릴 검·카이트 방패","수호자의 검·탑 실드","성기사의 검·성방패","용비늘 검·용린 방패","성채의 검·성벽 방패","불멸의 검·이지스"],"라이딩 기사":["기병창","랜스","미스릴 랜스","돌격창","용기병의 창","천마의 창","군신의 창"]}},"궁수":{"armor":["사냥꾼 가죽옷","숲지기 경갑","레인저 경갑","매의 경갑","바람 경갑","엘프 경갑","그림자 경갑","폭풍 경갑","천공 경갑","신궁의 경갑"],"weapon":["사냥꾼의 활","복합궁","장궁"],"routes":{"트랩 궁수":["연발 석궁","강철 석궁","기계 석궁","폭탄 석궁","거미줄 석궁","공성 석궁","천벌의 석궁"],"활 궁수":["엘프의 장궁","미스릴 장궁","바람의 활","별빛 활","폭풍 활","천공의 활","신궁 「유성」"]}},"도적":{"armor":["낡은 밤옷","그림자 옷","암행 경갑","독사 경갑","밤까마귀 경갑","미스릴 밤옷","망령 경갑","흑요 경갑","밤의 군주 경갑","명왕의 밤옷"],"weapon":["단도","쿠크리","강철 단검"],"routes":{"단검 도적":["쌍단검","독사의 쌍검","미스릴 쌍검","그림자 쌍검","흡혈 쌍검","밤의 쌍검","명왕의 쌍검"],"표창 도적":["강철 표창","독 표창","미스릴 표창","바람 표창","폭염 표창","뇌신 표창","천랑성 표창"],"무희(여캐)":["비단 부채","무희의 곡도","달빛 부채","나비 곡도","홍련 부채","별의 춤 곡도","천무의 부채"]}},"힐러":{"armor":["수련 사제복","순례자 로브","은빛 사제복","성직 로브","미스릴 사제복","천사 로브","성배 로브","빛의 법의","교황 법의","여신의 법의"],"weapon":["견습 성직 지팡이","은 메이스","축복의 지팡이"],"routes":{"사제":["성광의 지팡이","미스릴 성장","대천사의 지팡이","성배 지팡이","빛의 홀","교황의 홀","여신의 홀"],"몽크":["철권 너클","호랑이 발톱","미스릴 너클","용권 너클","금강 너클","천둥 너클","무신의 권갑"]}},"마법사":{"armor":["견습 로브","마법사 로브","수정 로브","원소 로브","미스릴 로브","비전 로브","대마도사 로브","별빛 로브","혼돈 로브","근원의 로브"],"weapon":["견습 지팡이","수정 지팡이","마력의 지팡이"],"routes":{"위자드":["불꽃 지팡이","서리 지팡이","번개 지팡이","대마도사 지팡이","별의 지팡이","혼돈의 지팡이","태초의 마도서"],"정령사":["정령석 오브","사대정령 오브","미스릴 오브","정령왕의 오브","원소의 심장","세계수 오브","근원의 오브"]}}},"cape":["정령의 망토","성수정 망토","흑진주 망토","용혈 망토","천공 망토","별의 망토","세계수 망토","혼돈 망토","영웅의 망토","신의 망토"],"earring":["정령석 귀걸이","성수정 귀걸이","흑진주 귀걸이","용혈석 귀걸이","천공석 귀걸이","별의 눈물 귀걸이","세계수 잎 귀걸이","혼돈석 귀걸이","영웅의 귀걸이","신의 귀걸이"]}; /*JOBGEAR*/
+/* 전직 후 장비: 직업 Lv 1·10·…·90 (심층 사냥터 g에서 g단계가 나온다). 이름은 지금 직업·루트를 따른다 */
+const JOB_TIERS = [1,10,20,30,40,50,60,70,80,90];
+const JOB_KEY = {warrior:'전사', archer:'궁수', thief:'도적', healer:'힐러', mage:'마법사'};
+const ROUTE_KEY = {greatsword:'양손검 기사', shield:'방패 기사', rider:'라이딩 기사', trapper:'트랩 궁수', bowman:'활 궁수', dagger:'단검 도적', shuriken:'표창 도적', dancer:'무희(여캐)', priest:'사제', monk:'몽크', wizard:'위자드', elementalist:'정령사'};
+const JOB_PIECE = {warrior:['투구','흉갑','각반','장화'], archer:['두건','조끼','바지','부츠'], thief:['복면','상의','하의','신발'], healer:['관','상의','하의','신발'], mage:['모자','상의','하의','신발']};
+const JOB_MAT = JOB_GEAR.earring.map(n => n.replace(/ 귀걸이$/, ''));
+const JOB_SHIELD = [...JOB_MAT.slice(0,3).map(m=>m+' 방패'), ...JOB_GEAR.jobs['전사'].routes['방패 기사'].map(n=>n.split('·')[1])];
+const JOB_SUB_NOUN = {dagger:'단도', quiver:'화살통', tome:'마도서'};
+function jobGear(){ return JOB_GEAR.jobs[JOB_KEY[S.job] || '전사']; }
+function jobGearName(it){
+  const J = jobGear(), b = it.band, set = J.armor[b], stem = set.split(' ').slice(0,-1).join(' ') || set, P = JOB_PIECE[S.job] || JOB_PIECE.warrior;
+  switch (it.slot){
+    case 'weapon': { if (b < 3) return J.weapon[b]; const Rt = J.routes[ROUTE_KEY[S.route]] || Object.values(J.routes)[0]; return Rt[b-3].split('·')[0]; }
+    case 'helm': return `${stem} ${P[0]}`;
+    case 'top': return `${stem} ${P[1]}`;
+    case 'bottom': return `${stem} ${P[2]}`;
+    case 'suit': return set;
+    case 'shoes': return `${stem} ${P[3]}`;
+    case 'cape': return JOB_GEAR.cape[b];
+    case 'earring': return JOB_GEAR.earring[b];
+    case 'necklace': return JOB_GEAR.earring[b].replace(/귀걸이$/, '목걸이');
+    case 'ring': return `${JOB_MAT[b]} ${SN[it.st]}의 반지`;
+    case 'sub': return (it.kind||'shield')==='shield' ? JOB_SHIELD[b] : `${JOB_MAT[b]} ${JOB_SUB_NOUN[it.kind]}`;
+  }
+  return '';
+}
 const SET_NAMES = ['견습생','사냥꾼','용병','철기사','늪지기','망령','협곡','설원','사막','용비늘'];
 const ITEM_NAMES = {
   weapon:['나무 방망이','단단한 방망이','못 박힌 방망이','쇠테 방망이','강철 몽둥이','미스릴 몽둥이','용뼈 몽둥이','유령 몽둥이','빙결 몽둥이','태양 몽둥이'],
@@ -611,9 +638,10 @@ function itemInfo(it){
   const K = it.slot==='sub' ? SUB_KINDS[it.kind||'shield'] : null;
   if (it.slot==='ring') bon[it.st] = v(.5);
   else (K ? K.bon : sp.bon).forEach(([k,w]) => { const kk = k==='main' ? JOBS[S.job].main : k; bon[kk] = (bon[kk]||0) + v(w); });
-  const base = it.slot==='ring' ? `${ITEM_NAMES.ring[b]} ${SN[it.st]}의 반지` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
+  const base = it.deep ? jobGearName(it) : it.slot==='ring' ? `${ITEM_NAMES.ring[b]} ${SN[it.st]}의 반지` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
   return {
-    name: (it.deep ? '심연의 ' : '') + base, reqLv: BANDS[b], reqJob: !!it.deep,
+    name: base, reqLv: it.deep ? JOB_TIERS[b] : BANDS[b], reqJob: !!it.deep,
+    setName: ARMOR_SET_SLOTS.includes(it.slot) ? (it.deep ? jobGear().armor[b] : SET_NAMES[b]) : null,
     atk: it.slot==='weapon' ? Math.round(ATK[b]*mult) : K && K.atk ? Math.round(ATK[b]*K.atk*mult) : 0,
     def: (K ? K.def : sp.def) ? Math.round(DEF[b]*(K ? K.def : sp.def)*mult) : 0, bon, kind: K ? K.n : null,
     set: ARMOR_SET_SLOTS.includes(it.slot) ? b : null,
@@ -1538,7 +1566,7 @@ function slotDetail(){
   const info = itemInfo(sel), p = [];
   if (info.atk) p.push(`공격력 <b>+${info.atk}</b>`); if (info.def) p.push(`방어력 <b>+${info.def}</b>`);
   for (const x in info.bon) p.push(`${SN[x]} <b>+${info.bon[x]}</b>`);
-  return `<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px"><b>${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
+  return `<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px"><b>${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${info.setName} 세트`:''}</span>
     <p class="eff">${p.join(' · ')}</p><div class="btns"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn" data-act="slot" data-s="">닫기</button></div></div>`;
 }
 function slotCell(slotKey, it, label){
@@ -1548,8 +1576,8 @@ function slotCell(slotKey, it, label){
 }
 function setSummary(){
   const cnt = {};
-  ARMOR_SET_SLOTS.forEach(s=>{ const it = S.equip[s]; if (it) cnt[it.band] = (cnt[it.band]||0) + (s==='suit'?2:1); });
-  const rows = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([b,c])=>`<b>${SET_NAMES[b]} 세트</b> ${c}/5`);
+  ARMOR_SET_SLOTS.forEach(s=>{ const it = S.equip[s]; if (it){ const k = itemInfo(it).setName; cnt[k] = (cnt[k]||0) + (s==='suit'?2:1); } });
+  const rows = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([b,c])=>`<b>${b} 세트</b> ${c}/5`);
   return rows.length ? rows.join(' · ') : '세트 장비를 입지 않았다';
 }
 function charView(){
@@ -1617,7 +1645,7 @@ function bagView(){
     for (const x in info.bon) parts.push(`${SN[x]} <b>+${info.bon[x]}</b>${cmp(x,info.bon[x])}`);
     const ok = canWear(info, it);
     h += `<section class="card"><div class="row"><span class="sq rb${it.rar}" style="width:56px;height:56px">${itemIcon(it)}</span>
-      <span class="grow"><span class="who" style="display:block">${info.kind||SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${ok?'':'color:var(--red)'}">${reqText(info)} 이상</span>${info.set!=null?` · ${SET_NAMES[info.set]} 세트`:''}</span>
+      <span class="grow"><span class="who" style="display:block">${info.kind||SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${ok?'':'color:var(--red)'}">${reqText(info)} 이상</span>${info.set!=null?` · ${info.setName} 세트`:''}</span>
       <b style="font-size:18px">${info.name}</b></span></div>
       <p class="eff" style="margin-top:10px">${parts.join(' · ')}</p>
       ${cur.length && it.slot!=='ring' ? `<p class="xs muted">지금 착용: ${cur.map(c=>itemInfo(c).name).join(', ')}${it.slot==='suit'?' (한벌옷을 입으면 상의·하의를 벗는다)':''}</p>` : ''}

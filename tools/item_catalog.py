@@ -1,6 +1,6 @@
 import json, html
-SP='./'  # folder holding items.json (dump of index.html constants)
-d=json.load(open(SP+'items.json')); eq=json.load(open('design/equipment.json'))
+SP='/tmp/claude-0/-home-user-my-notebook-rpg/9b572592-0d22-5c86-91be-9930054f090d/scratchpad/'
+d=json.load(open(SP+'items.json')); eq=json.load(open('design/equipment.json')); JG=json.load(open(SP+'jobgear.json'))
 N=d['ITEM_NAMES']; B=d['BANDS']; SET=d['SET']; SUB=d['SUB_KINDS']; G=d['GD']
 e=html.escape
 slots=[('weapon','무기','힘(직업 주능력)·공격력'),('helm','투구','방어·체력'),('top','상의','방어·체력'),('bottom','하의','방어·민첩'),('suit','한벌옷','상의+하의 칸을 함께 차지'),('shoes','신발','방어·민첩'),('cape','망토','행운·정신'),('necklace','목걸이','체력·행운'),('earring','귀걸이','지능·정신')]
@@ -14,11 +14,34 @@ subwho={'shield':'노비스 · 소드맨 · 크루세이더 · 드래곤 나이�
 subcards=''.join(f'<article class="slot"><header><h3>{e(v["n"])}</h3><span class="hint">{subwho[k]}</span></header>{lvlist(v["names"])}</article>' for k,v in SUB.items())
 ringrows=''.join(f'<li><span class="lv">Lv.{B[i]}</span><span class="nm">{e(m)} ○○의 반지</span></li>' for i,m in enumerate(N['ring']))
 mats=''.join(f'<tr><td class="g">{e(g["ground"])}</td><td>{e(m["name"])}</td><td><b>{e(m["drop"])}</b></td><td class="num">{4*(gi+1)}G</td></tr>' for gi,g in enumerate(G) for m in g['mons'])
-jobs=''
-for jn,j in eq['jobs'].items():
-    routes=''.join(f'<div class="route"><b>{e(rn)}</b><span>{" · ".join(e(x) for x in rw)}</span></div>' for rn,rw in j['routes'].items())
-    jobs+=f'<article class="slot plan"><header><h3>{e(jn)}</h3><span class="hint">{e(j["stat"])}</span></header><p class="row"><b>방어구 세트</b> {" · ".join(e(x) for x in j["armor"])}</p><p class="row"><b>공용 무기</b> {" · ".join(e(x) for x in j["weapon"])}</p>{routes}</article>'
+JOBN={'warrior':'소드맨','archer':'아처','thief':'시프','healer':'어콜라이트','mage':'매지션'}
+RN={'greatsword':'나이트','shield':'크루세이더','rider':'드래곤 나이트','trapper':'헌터','bowman':'스나이퍼','dagger':'어쌔신','shuriken':'닌자','dancer':'댄서','priest':'프리스트','monk':'몽크','wizard':'위자드','elementalist':'소서러'}
+JT=[1,10,20,30,40,50,60,70,80,90]
+def nm(x): return x.split('|')[0]
+jobs=''; shared=None
+done=set()
+for key,rows in JG.items():
+    j,r=key.split('/')
+    if j not in done:
+        done.add(j)
+        sets=[x.split('|')[2] for x in rows['suit']]
+        tr=''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm"><b>{e(sets[i])}</b><small>{e(nm(rows["helm"][i]))} · {e(nm(rows["top"][i]))} · {e(nm(rows["bottom"][i]))} · {e(nm(rows["shoes"][i]))}</small></span></li>' for i in range(10))
+        jobs+=f'<article class="slot"><header><h3>{JOBN[j]} 방어구</h3><span class="hint">세트 = 한벌옷 이름 · 투구·상의·하의·신발</span></header><ol class="tier">{tr}</ol></article>'
+        wr=''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(rows["weapon"][i]))}</span></li>' for i in range(3))
+        jobs+=f'<article class="slot"><header><h3>{JOBN[j]} 무기 (공용)</h3><span class="hint">루트 고르기 전 Lv.1·10·20</span></header><ol class="tier">{wr}</ol></article>'
+    rw=''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(rows["weapon"][i]))}</span>{"<span class=set>"+e(nm(rows["sub"][i]))+"</span>" if r=="shield" and i>=3 else ""}</li>' for i in range(3,10))
+    jobs+=f'<article class="slot"><header><h3>{RN[r]} 무기</h3><span class="hint">루트 전용 Lv.30~90{" · 꼬리표는 짝 방패" if r=="shield" else ""}</span></header><ol class="tier">{rw}</ol></article>'
+    shared=rows
+acc=''
+for sl,t in [('cape','망토'),('necklace','목걸이'),('earring','귀걸이')]:
+    acc+=f'<article class="slot"><header><h3>{t}</h3><span class="hint">전직 공용</span></header>'+'<ol class="tier">'+''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(shared[sl][i]))}</span></li>' for i in range(10))+'</ol></article>'
+acc+='<article class="slot"><header><h3>반지</h3><span class="hint">재질 10 × 능력치 6</span></header><ol class="tier">'+''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(shared["ring"][i]).replace("힘의 반지","○○의 반지"))}</span></li>' for i in range(10))+'</ol></article>'
+subj=''
+for k,t in [('shield','방패'),('dagger','보조 단검'),('quiver','화살통'),('tome','마도서')]:
+    pass
 sh=eq['shared_job_tier']
+MATS=[x.replace(' 귀걸이','') for x in sh['귀걸이']]
+JOB_SHIELD_N=[m+' 방패' for m in MATS[:3]]+[x.split('·')[1] for x in eq['jobs']['전사']['routes']['방패 기사']]
 base=sum(len(N[k]) for k,_,_ in slots)+len(N['ring'])*6+sum(len(v['names']) for v in SUB.values())
 page=f'''<title>공책 RPG 아이템 도감</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
@@ -55,7 +78,7 @@ section{{display:grid;gap:12px}}
 .tier li{{display:flex;gap:10px;align-items:baseline;padding:3px 0;border-bottom:1px dashed var(--line)}}
 .tier li:last-child{{border-bottom:0}}
 .lv{{flex:none;width:44px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}}
-.nm{{flex:1;min-width:0}}
+.nm{{flex:1;min-width:0}} .nm small{{display:block;color:var(--muted);font-size:12px}}
 .set{{flex:none;font-size:11px;color:var(--accent);background:var(--soft);border-radius:6px;padding:0 6px}}
 .note{{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:13px}}
 .stat-chips{{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}}
@@ -74,8 +97,8 @@ td.g{{color:var(--muted)}} td.num{{font-variant-numeric:tabular-nums;text-align:
 <main class="wrap">
 <header>
   <h1>공책 RPG 아이템 도감</h1>
-  <p class="lead">지금 게임(index.html)에 들어 있는 장비·보조무기·반지·재료·소모품 전부. 장비는 같은 이름에 희귀도 5단계가 붙고, 전직 후에는 같은 이름 앞에 「심연의」가 붙은 강화판이 나온다.</p>
-  <div class="stats"><span>장비 칸 <b>11</b>종</span><span>등급대 <b>10</b>단계 (Lv.1~45)</span><span>희귀도 <b>5</b></span><span>기본 이름 <b>{base}</b>개</span><span>재료 <b>{len(G)*2}</b>종</span><span>소모품 <b>2</b>종</span></div>
+  <p class="lead">지금 게임에 들어 있는 장비·보조무기·반지·재료·소모품 전부. 노비스 장비는 Lv.1~45(전직 전후 모두 착용), 전직 후 장비는 직업 Lv.1~90. 모든 장비에 희귀도 5단계가 붙는다.</p>
+  <div class="stats"><span>장비 칸 <b>11</b>종</span><span>노비스 장비 <b>10</b>단계 (Lv.1~45)</span><span>전직 장비 <b>10</b>단계 (직업 Lv.1~90)</span><span>희귀도 <b>5</b></span><span>기본 이름 <b>{base}</b>개</span><span>재료 <b>{len(G)*2}</b>종</span><span>소모품 <b>2</b>종</span></div>
 </header>
 
 <section>
@@ -84,7 +107,7 @@ td.g{{color:var(--muted)}} td.num{{font-variant-numeric:tabular-nums;text-align:
 </section>
 
 <section>
-  <div class="sec-h"><h2>장비</h2><p>Lv는 착용 레벨(노비스 기준, 전직하면 모두 착용). 파란 꼬리표는 세트 이름(효과는 아직 없음)</p></div>
+  <div class="sec-h"><h2>노비스 · 공용 장비</h2><p>노비스 Lv.1~45, 전직 후에도 그대로 착용. 파란 꼬리표는 세트 이름(효과는 아직 없음)</p></div>
   <div class="grid">{cards}
     <article class="slot"><header><h3>반지 · 5칸</h3><span class="hint">재질 10 × 능력치 6 = 60종</span></header>
       <ol class="tier">{ringrows}</ol>
@@ -95,11 +118,6 @@ td.g{{color:var(--muted)}} td.num{{font-variant-numeric:tabular-nums;text-align:
 <section>
   <div class="sec-h"><h2>보조무기</h2><p>칸 이름은 늘 '보조무기'. 직업·루트에 따라 들어가는 종류가 다르다. 나이트·몽크·시프·닌자·댄서는 ✕</p></div>
   <div class="grid">{subcards}</div>
-</section>
-
-<section>
-  <div class="sec-h"><h2>심연 장비</h2><p>전직 후에만 드롭</p></div>
-  <p class="note">위 장비·보조무기·반지와 같은 이름 앞에 <b>「심연의」</b>가 붙는다 (예: 심연의 강철 몽둥이). 능력치는 약 1.6~1.7배, 착용 조건은 전직 후 직업 Lv. 그림은 기본 장비와 같이 써도 되고, 보라빛 오라 같은 변형으로 구분해도 된다.</p>
 </section>
 
 <section>
@@ -115,13 +133,15 @@ td.g{{color:var(--muted)}} td.num{{font-variant-numeric:tabular-nums;text-align:
 </section>
 
 <section>
-  <div class="sec-h"><h2>직업 장비 <span class="badge">설계만 · 아직 게임에 없음</span></h2><p>design/equipment.json. 전직 후 직업 Lv 1·10·20…90 기준</p></div>
-  <div class="grid">{jobs}
-    <article class="slot plan"><header><h3>직업 공용 악세서리</h3><span class="hint">전직 후 10단계</span></header>
-      <p class="row"><b>망토</b> {" · ".join(e(x) for x in sh['망토'])}</p><p class="row"><b>귀걸이</b> {" · ".join(e(x) for x in sh['귀걸이'])}</p><p class="row"><b>반지</b> {e(sh['반지'])}</p></article>
+  <div class="sec-h"><h2>전직 후 장비</h2><p>전직하면 Lv.1부터 99까지. 심층 사냥터에서 직업 Lv 1·10·20…90의 10단계가 나오고, 이름은 내 직업·루트에 맞춰 바뀐다</p></div>
+  <div class="grid">{jobs}</div>
+  <div class="sec-h"><h3>전직 후 악세서리 · 보조무기</h3></div>
+  <div class="grid">{acc}
+    <article class="slot"><header><h3>보조무기</h3><span class="hint">방패 · 보조 단검 · 화살통 · 마도서</span></header>
+      <ol class="tier">{''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(JOB_SHIELD_N[i])} · {e(MATS[i])} 단도/화살통/마도서</span></li>' for i in range(10))}</ol></article>
   </div>
 </section>
 </main>
 '''
-open(SP+'items.html','w').write(page)
+open(SP+'catalog/items.html','w').write(page)
 print(base, len(page))
