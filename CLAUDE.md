@@ -33,6 +33,11 @@
 - 앞모습 무기 수정: `tools/weapon_paint.py`(크레딧 없이 픽셀로 다시 그림) → `assets/jobs/front*.png`. 직업 그림: `assets/raw/jobs/{front,back}N.png` → `tools/job_gallery.py`로 잘라 `assets/raw/jobs/cut/`.
 - 레벨업은 메이플 느낌이되 너무 힘들지 않게.
 
+## 스킬 트리 (라그나로크식)
+- `TREES`(index.html): 노비스·5직업·12루트 트리. 스킬마다 최대 레벨, 선행 조건(`req`), MP·효과가 레벨에 따라 오른다(`lerp`).
+- 레벨 업마다 스킬 포인트 1(`S.sp`), 배운 레벨은 `S.sk`. 노비스 트리는 전직 후에도 남는다. 구버전 저장은 레벨만큼 포인트를 돌려준다.
+- 효과 종류: dmg·heal·guard·scan·buff·debuff·stun·steal·enchant·pas(패시브). 루트 기본 보너스는 `ROUTE_PAS`.
+
 ## 크레딧 충전되면 다시 그릴 것 (사용자 요청)
 - 직접 고친 앞모습 무기는 도트 차이가 나서 PixelLab으로 다시: 궁수·도적·양손검 기사·트랩 궁수·활 궁수·단검 도적·표창 도적·사제(front 1,2,5,8,9,10,11,13).
 - 여캐 노비스·여캐 도적 앞뒤(화풍이 너무 단순), 라이딩 기사 앞(말 없음), 무희·몽크 뒤(남캐+칼).

@@ -136,6 +136,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .skill .t small{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
 .skill .mpc{font-size:12px;font-weight:700;color:var(--mp);flex:none}
 .skill.lock{opacity:.45}
+.skill.tree.lock{opacity:1}.skill.tree.lock .el,.skill.tree.lock .t{opacity:.55}
+.skill.tree .plus:disabled{opacity:.3}
 .skill.best{border-color:var(--red);background:var(--red-soft)}
 .skill.best .t small{color:var(--red)}
 .skill:disabled{opacity:.45}
@@ -275,74 +277,205 @@ const NAMES = ['아린','도윤','세라','카일','하람','리오','유나','�
 const HAIRS = [['#5a302a','갈색'],['#3a3646','흑발'],['#deb460','금발'],['#be4634','적발'],['#c6c8d8','은발'],['#4c6ebe','청발'],['#dc7ca4','분홍']];
 const SKINS = [['#f6c39f','밝은 피부'],['#e7a77f','살구빛'],['#be7e58','구릿빛'],['#805238','어두운 피부']];
 const ATTR_ICON = {'타격':'🔨','베기':'⚔️','관통':'🏹','불':'🔥','얼음':'❄️','번개':'⚡','빛':'✨','어둠':'🌑','물':'💧','독':'☠️'};
-const KIND_ICON = {heal:'💚',guard:'🛡️',buff:'📯',scan:'👁️'};
+const KIND_ICON = {heal:'💚',guard:'🛡️',buff:'📯',scan:'👁️',debuff:'💢',stun:'💫',steal:'💰',enchant:'🌟',pas:'📘'};
 
 /* ---------- jobs ---------- */
 const NOVICE_MAX = 50, JOB_MAX = 99, ROUTE_LV = 30;
 const JOBS = {
   novice:{name:'노비스', key:['str','vit','agi'], main:'str', attr:'타격', sprite:null},
   warrior:{name:'소드맨', key:['str','vit','agi'], main:'str', attr:'베기', sprite:0, desc:'맨 앞에서 버티는 근접 전투',
-    routes:[['greatsword','나이트',5,'강타 위력 +20%'],['shield','크루세이더',6,'받는 피해 −15%'],['rider','드래곤 나이트',7,'속도 +20%']]},
+    routes:[['greatsword','나이트',5,'물리 공격력 +15%'],['shield','크루세이더',6,'받는 피해 −15%'],['rider','드래곤 나이트',7,'속도 +20%']]},
   archer:{name:'아처', key:['agi','luk','str'], main:'agi', attr:'관통', sprite:1, desc:'멀리서 약점을 꿰뚫는다',
-    routes:[['trapper','헌터',8,'적 속도 −20% 덫'],['bowman','스나이퍼',9,'치명타 +10%']]},
+    routes:[['trapper','헌터',8,'덫 · 적 속도 −20%'],['bowman','스나이퍼',9,'치명타 +10%']]},
   thief:{name:'시프', key:['agi','str','luk'], main:'agi', attr:'베기', sprite:2, desc:'빠른 연속 공격과 회피',
-    routes:[['dagger','어쌔신',10,'이도류 · 공격 2회'],['shuriken','닌자',11,'표창 던지기가 적 전체에'],['dancer','댄서',12,'여캐 전용 · 회피 +10%']]},
+    routes:[['dagger','어쌔신',10,'이도류 · 보조 단검이면 공격 2회'],['shuriken','닌자',11,'스킬 위력 +15%'],['dancer','댄서',12,'여캐 전용 · 회피 +10%']]},
   healer:{name:'어콜라이트', key:['spi','vit','int'], main:'spi', attr:'타격', sprite:3, desc:'회복과 빛 속성',
-    routes:[['priest','프리스트',13,'회복량 +30%'],['monk','몽크',14,'격투 위력 +25%']]},
+    routes:[['priest','프리스트',13,'회복량 +30%'],['monk','몽크',14,'물리 공격력 +20%']]},
   mage:{name:'매지션', key:['int','spi','luk'], main:'int', attr:'타격', sprite:4, desc:'속성 마법으로 약점 공략',
-    routes:[['wizard','위자드',15,'마법 위력 +20%'],['elementalist','소서러',16,'정령이 행동마다 추가 공격']]},
+    routes:[['wizard','위자드',15,'마법 위력 +20%'],['elementalist','소서러',16,'정령 추가 공격 30%']]},
 };
 const ROUTE = {}; for (const [j,J] of Object.entries(JOBS)) (J.routes||[]).forEach(([id,n,sp,d])=>ROUTE[id]={job:j,name:n,sprite:sp,desc:d});
-/* skills: kind dmg/heal/guard/buff/scan; lv = level needed in the current job */
-const SKILLS = {
-  novice:[
-    {id:'bash',n:'세게 내려치기',lv:1,mp:5,kind:'dmg',attr:'타격',mult:1.6,d:'타격 1.6배'},
-    {id:'scan',n:'살펴보기',lv:3,mp:2,kind:'scan',d:'적 약점 공개 · 전투마다 첫 번은 행동 소모 없음'},
-    {id:'torch',n:'횃불 휘두르기',lv:8,mp:8,kind:'dmg',attr:'불',mult:1.3,d:'불 1.3배'},
-    {id:'aid',n:'응급처치',lv:15,mp:8,kind:'heal',pct:.3,d:'HP 30% 회복'},
-    {id:'sweep',n:'휘두르기',lv:25,mp:12,kind:'dmg',attr:'타격',mult:.9,all:true,d:'적 전체 타격 0.9배'},
-  ],
-  warrior:[
-    {id:'smash',n:'강타',lv:1,mp:6,kind:'dmg',attr:'베기',mult:1.8,d:'베기 1.8배'},
-    {id:'scan',n:'살펴보기',lv:1,mp:2,kind:'scan',d:'적 약점 공개'},
-    {id:'guardup',n:'철벽',lv:5,mp:6,kind:'guard',d:'이번 턴 받는 피해 절반, 행동 끝'},
-    {id:'cleave',n:'휩쓸기',lv:12,mp:12,kind:'dmg',attr:'베기',mult:1.0,all:true,d:'적 전체 베기'},
-    {id:'cry',n:'전투의 함성',lv:20,mp:10,kind:'buff',d:'3라운드 공격력 +30%'},
-    {id:'quake',n:'대지 가르기',lv:40,mp:20,kind:'dmg',attr:'타격',mult:1.6,all:true,d:'적 전체 타격 1.6배'},
-  ],
-  archer:[
-    {id:'pierce',n:'관통 사격',lv:1,mp:6,kind:'dmg',attr:'관통',mult:1.8,d:'관통 1.8배'},
-    {id:'scan',n:'매의 눈',lv:1,mp:2,kind:'scan',d:'적 약점 공개'},
-    {id:'firearrow',n:'불화살',lv:5,mp:8,kind:'dmg',attr:'불',mult:1.5,d:'불 1.5배'},
-    {id:'rain',n:'화살비',lv:12,mp:12,kind:'dmg',attr:'관통',mult:1.0,all:true,d:'적 전체 관통'},
-    {id:'icearrow',n:'얼음 화살',lv:20,mp:10,kind:'dmg',attr:'얼음',mult:1.6,d:'얼음 1.6배'},
-    {id:'storm',n:'폭풍 사격',lv:40,mp:22,kind:'dmg',attr:'번개',mult:1.5,all:true,d:'적 전체 번개 1.5배'},
-  ],
-  thief:[
-    {id:'double',n:'연속 찌르기',lv:1,mp:6,kind:'dmg',attr:'베기',mult:.9,hits:2,d:'베기 0.9배 × 2회'},
-    {id:'scan',n:'급소 찾기',lv:1,mp:2,kind:'scan',d:'적 약점 공개'},
-    {id:'poison',n:'독 바르기',lv:5,mp:8,kind:'dmg',attr:'독',mult:1.5,d:'독 1.5배'},
-    {id:'star',n:'표창 던지기',lv:12,mp:10,kind:'dmg',attr:'관통',mult:1.2,d:'관통 1.2배'},
-    {id:'shadow',n:'그림자 숨기',lv:20,mp:10,kind:'guard',d:'이번 턴 받는 피해 절반, 행동 끝'},
-    {id:'assassin',n:'암살',lv:40,mp:20,kind:'dmg',attr:'어둠',mult:2.6,d:'어둠 2.6배'},
-  ],
-  healer:[
-    {id:'heal',n:'힐',lv:1,mp:8,kind:'heal',pct:.4,d:'HP 40% 회복'},
-    {id:'scan',n:'성스러운 눈',lv:1,mp:2,kind:'scan',d:'적 약점 공개'},
-    {id:'holy',n:'성광',lv:5,mp:8,kind:'dmg',attr:'빛',mult:1.7,d:'빛 1.7배'},
-    {id:'bless',n:'축복',lv:12,mp:10,kind:'buff',d:'3라운드 공격력 +30%'},
-    {id:'judg',n:'심판의 빛',lv:20,mp:16,kind:'dmg',attr:'빛',mult:1.1,all:true,d:'적 전체 빛'},
-    {id:'sanct',n:'성역',lv:40,mp:24,kind:'heal',pct:.8,d:'HP 80% 회복'},
-  ],
-  mage:[
-    {id:'fire',n:'파이어볼',lv:1,mp:7,kind:'dmg',attr:'불',mult:1.8,d:'불 1.8배'},
-    {id:'scan',n:'마력 탐지',lv:1,mp:2,kind:'scan',d:'적 약점 공개'},
-    {id:'ice',n:'아이스 스피어',lv:5,mp:7,kind:'dmg',attr:'얼음',mult:1.8,d:'얼음 1.8배'},
-    {id:'bolt',n:'체인 라이트닝',lv:12,mp:14,kind:'dmg',attr:'번개',mult:1.1,all:true,d:'적 전체 번개'},
-    {id:'light',n:'빛의 창',lv:20,mp:12,kind:'dmg',attr:'빛',mult:1.9,d:'빛 1.9배'},
-    {id:'meteor',n:'메테오',lv:40,mp:26,kind:'dmg',attr:'불',mult:1.7,all:true,d:'적 전체 불 1.7배'},
-  ],
+/* skill trees (Ragnarok-style): 1 skill point per level, skills have levels and prerequisites.
+   e.k: dmg(attr,m=[base,perLv],all,hits) · heal(p) · guard · buff(st,v,t) · debuff(def) · stun(v) · steal(v) · scan · enchant(attr) · pas(st,v)
+   pas st: atk matk crit dodge double regen hp block spirit spd */
+const TREES = {
+  novice:{name:'노비스', list:[
+    {id:'n_bash',n:'세게 내려치기',max:5,mp:[4,1],e:{k:'dmg',attr:'타격',m:[1.3,.1]}},
+    {id:'n_scan',n:'살펴보기',max:1,mp:[2,0],e:{k:'scan'}},
+    {id:'n_aid',n:'응급처치',max:5,mp:[5,1],e:{k:'heal',p:[.15,.05]}},
+    {id:'n_body',n:'기초 체력 단련',max:5,e:{k:'pas',st:'hp',v:[.02,.02]}},
+    {id:'n_torch',n:'횃불 휘두르기',max:5,mp:[6,1],req:[['n_bash',3]],e:{k:'dmg',attr:'불',m:[1.1,.1]}},
+    {id:'n_sweep',n:'휘두르기',max:5,mp:[9,1],req:[['n_bash',5]],e:{k:'dmg',attr:'타격',m:[.6,.08],all:1}},
+    {id:'n_dead',n:'죽은 척',max:1,mp:[3,0],req:[['n_aid',3]],e:{k:'guard'}},
+  ]},
+  warrior:{name:'소드맨', list:[
+    {id:'s_bash',n:'배쉬',max:10,mp:[5,1],e:{k:'dmg',attr:'베기',m:[1.3,.12]}},
+    {id:'s_mast',n:'한손검 수련',max:10,e:{k:'pas',st:'atk',v:[.02,.02]}},
+    {id:'s_hpr',n:'HP 회복력 향상',max:10,e:{k:'pas',st:'regen',v:[.01,.005]}},
+    {id:'s_prov',n:'프로보크',max:5,mp:[4,1],req:[['s_bash',3]],e:{k:'debuff',v:[.1,.06]}},
+    {id:'s_mag',n:'매그넘 브레이크',max:10,mp:[10,1],req:[['s_bash',5]],e:{k:'dmg',attr:'불',m:[.7,.06],all:1}},
+    {id:'s_endure',n:'인듀어',max:1,mp:[6,0],req:[['s_prov',3]],e:{k:'guard'}},
+  ]},
+  greatsword:{name:'나이트', list:[
+    {id:'k_aura',n:'오러 블레이드',max:10,e:{k:'pas',st:'atk',v:[.04,.02]}},
+    {id:'k_bowl',n:'볼링 배쉬',max:10,mp:[13,1],e:{k:'dmg',attr:'베기',m:[1.0,.1],all:1}},
+    {id:'k_quick',n:'투핸드 퀴큰',max:10,mp:[10,1],e:{k:'buff',st:'spd',v:[.1,.03],t:3}},
+    {id:'k_counter',n:'오토 카운터',max:5,mp:[6,0],req:[['k_quick',3]],e:{k:'guard'}},
+    {id:'k_spiral',n:'스파이럴 피어스',max:10,mp:[18,1],req:[['k_aura',5]],e:{k:'dmg',attr:'관통',m:[2.0,.15]}},
+  ]},
+  shield:{name:'크루세이더', list:[
+    {id:'c_guard',n:'오토 가드',max:10,e:{k:'pas',st:'block',v:[.03,.02]}},
+    {id:'c_holy',n:'홀리 크로스',max:10,mp:[11,1],e:{k:'dmg',attr:'빛',m:[1.4,.12]}},
+    {id:'c_charge',n:'실드 차지',max:5,mp:[10,1],e:{k:'stun',v:[.3,.08]}},
+    {id:'c_def',n:'디펜더',max:5,mp:[12,1],req:[['c_guard',3]],e:{k:'buff',st:'def',v:[.2,.06],t:3}},
+    {id:'c_grand',n:'그랜드 크로스',max:10,mp:[20,1],req:[['c_holy',5]],e:{k:'dmg',attr:'빛',m:[1.1,.1],all:1}},
+  ]},
+  rider:{name:'드래곤 나이트', list:[
+    {id:'d_ride',n:'기승 수련',max:10,e:{k:'pas',st:'spd',v:[.04,.02]}},
+    {id:'d_pierce',n:'피어스',max:10,mp:[8,1],e:{k:'dmg',attr:'관통',m:[.8,.07],hits:2}},
+    {id:'d_stab',n:'스피어 스탭',max:10,mp:[12,1],e:{k:'dmg',attr:'관통',m:[.9,.08],all:1}},
+    {id:'d_boom',n:'스피어 부메랑',max:5,mp:[10,1],req:[['d_pierce',3]],e:{k:'dmg',attr:'관통',m:[1.6,.12]}},
+    {id:'d_breath',n:'드래곤 브레스',max:10,mp:[22,1],req:[['d_ride',5]],e:{k:'dmg',attr:'불',m:[1.4,.12],all:1}},
+  ]},
+  archer:{name:'아처', list:[
+    {id:'a_double',n:'더블 스트레이핑',max:10,mp:[5,1],e:{k:'dmg',attr:'관통',m:[.8,.07],hits:2}},
+    {id:'a_owl',n:'올빼미의 눈',max:10,e:{k:'pas',st:'crit',v:[1,1]}},
+    {id:'a_vult',n:'독수리의 눈',max:10,e:{k:'pas',st:'atk',v:[.02,.02]}},
+    {id:'a_shower',n:'애로우 샤워',max:10,mp:[9,1],req:[['a_double',5]],e:{k:'dmg',attr:'관통',m:[.6,.06],all:1}},
+    {id:'a_focus',n:'집중력 향상',max:10,mp:[10,1],req:[['a_owl',3]],e:{k:'buff',st:'crit',v:[10,3],t:3}},
+    {id:'a_charge',n:'차지 애로우',max:1,mp:[12,0],req:[['a_vult',5]],e:{k:'stun',v:[.6,0]}},
+  ]},
+  trapper:{name:'헌터', list:[
+    {id:'h_ankle',n:'앵클 스네어',max:5,mp:[8,1],e:{k:'stun',v:[.35,.08]}},
+    {id:'h_land',n:'랜드마인',max:10,mp:[10,1],e:{k:'dmg',attr:'타격',m:[1.6,.12]}},
+    {id:'h_blitz',n:'블리츠 비트',max:10,mp:[12,1],e:{k:'dmg',attr:'관통',m:[.6,.05],hits:3}},
+    {id:'h_blast',n:'블래스트 마인',max:10,mp:[14,1],req:[['h_land',3]],e:{k:'dmg',attr:'번개',m:[1.0,.1],all:1}},
+    {id:'h_clay',n:'클레이모어 트랩',max:10,mp:[18,1],req:[['h_blast',5]],e:{k:'dmg',attr:'불',m:[1.3,.12],all:1}},
+  ]},
+  bowman:{name:'스나이퍼', list:[
+    {id:'p_true',n:'트루 사이트',max:10,mp:[12,1],e:{k:'buff',st:'atk',v:[.15,.04],t:3}},
+    {id:'p_wind',n:'윈드 워크',max:10,mp:[10,1],e:{k:'buff',st:'spd',v:[.15,.03],t:3}},
+    {id:'p_frost',n:'서리 화살',max:10,mp:[10,1],e:{k:'dmg',attr:'얼음',m:[1.6,.1]}},
+    {id:'p_falcon',n:'팔콘 어썰트',max:5,mp:[16,2],req:[['p_wind',3]],e:{k:'dmg',attr:'관통',m:[1.8,.15]}},
+    {id:'p_sharp',n:'샤프 슈팅',max:5,mp:[18,2],req:[['p_true',5]],e:{k:'dmg',attr:'관통',m:[2.2,.2]}},
+  ]},
+  thief:{name:'시프', list:[
+    {id:'t_double',n:'더블 어택',max:10,e:{k:'pas',st:'double',v:[.05,.03]}},
+    {id:'t_dodge',n:'회피율 증가',max:10,e:{k:'pas',st:'dodge',v:[.02,.01]}},
+    {id:'t_steal',n:'훔치기',max:10,mp:[4,0],e:{k:'steal',v:[.2,.05]}},
+    {id:'t_venom',n:'인베넘',max:10,mp:[6,1],req:[['t_double',3]],e:{k:'dmg',attr:'독',m:[1.2,.1]}},
+    {id:'t_throw',n:'투척 단검',max:5,mp:[7,1],req:[['t_steal',3]],e:{k:'dmg',attr:'관통',m:[1.0,.1]}},
+    {id:'t_hide',n:'하이딩',max:1,mp:[6,0],req:[['t_dodge',5]],e:{k:'guard'}},
+  ]},
+  dagger:{name:'어쌔신', list:[
+    {id:'as_dual',n:'이도류 수련',max:10,e:{k:'pas',st:'atk',v:[.03,.02]}},
+    {id:'as_sonic',n:'소닉 블로우',max:10,mp:[16,1],e:{k:'dmg',attr:'베기',m:[.5,.05],hits:4}},
+    {id:'as_cloak',n:'클로킹',max:1,mp:[8,0],e:{k:'guard'}},
+    {id:'as_splash',n:'베넘 스플래셔',max:10,mp:[14,1],req:[['as_sonic',3]],e:{k:'dmg',attr:'독',m:[1.1,.1],all:1}},
+    {id:'as_grim',n:'그림 투스',max:5,mp:[12,1],req:[['as_cloak',1]],e:{k:'dmg',attr:'어둠',m:[.9,.08],all:1}},
+  ]},
+  shuriken:{name:'닌자', list:[
+    {id:'nj_star',n:'수리검 던지기',max:10,mp:[6,1],e:{k:'dmg',attr:'관통',m:[.7,.06],hits:2}},
+    {id:'nj_fire',n:'화염진',max:10,mp:[12,1],e:{k:'dmg',attr:'불',m:[1.0,.1],all:1}},
+    {id:'nj_ice',n:'빙섬창',max:10,mp:[10,1],e:{k:'dmg',attr:'얼음',m:[1.6,.12]}},
+    {id:'nj_clone',n:'분신',max:5,mp:[12,1],req:[['nj_star',3]],e:{k:'buff',st:'dodge',v:[.15,.03],t:3}},
+    {id:'nj_thunder',n:'뇌격쇄',max:10,mp:[16,1],req:[['nj_fire',5]],e:{k:'dmg',attr:'번개',m:[1.1,.1],all:1}},
+  ]},
+  dancer:{name:'댄서', list:[
+    {id:'dn_wink',n:'매혹의 윙크',max:5,mp:[8,1],e:{k:'stun',v:[.3,.08]}},
+    {id:'dn_spin',n:'회전 무용',max:10,mp:[12,1],e:{k:'dmg',attr:'베기',m:[1.0,.1],all:1}},
+    {id:'dn_tempo',n:'템포 업',max:10,mp:[10,1],e:{k:'buff',st:'spd',v:[.15,.04],t:3}},
+    {id:'dn_kiss',n:'집시의 키스',max:5,mp:[10,1],req:[['dn_tempo',3]],e:{k:'heal',p:[.15,.04]}},
+    {id:'dn_fan',n:'바람의 부채춤',max:10,mp:[14,1],req:[['dn_spin',5]],e:{k:'dmg',attr:'번개',m:[1.6,.12]}},
+  ]},
+  healer:{name:'어콜라이트', list:[
+    {id:'ac_heal',n:'힐',max:10,mp:[6,1],e:{k:'heal',p:[.2,.04]}},
+    {id:'ac_ruwach',n:'루아크',max:1,mp:[2,0],e:{k:'scan'}},
+    {id:'ac_bless',n:'블레싱',max:10,mp:[10,1],e:{k:'buff',st:'atk',v:[.1,.03],t:3}},
+    {id:'ac_agi',n:'속도 증가',max:10,mp:[10,1],req:[['ac_heal',3]],e:{k:'buff',st:'spd',v:[.1,.03],t:3}},
+    {id:'ac_light',n:'홀리 라이트',max:10,mp:[9,1],req:[['ac_bless',3]],e:{k:'dmg',attr:'빛',m:[1.5,.1]}},
+    {id:'ac_ang',n:'엔젤러스',max:10,mp:[12,1],req:[['ac_agi',3]],e:{k:'buff',st:'def',v:[.15,.04],t:3}},
+  ]},
+  priest:{name:'프리스트', list:[
+    {id:'pr_sanc',n:'생츄어리',max:10,mp:[16,2],e:{k:'heal',p:[.4,.05]}},
+    {id:'pr_impos',n:'임포시티오 마누스',max:5,mp:[12,1],e:{k:'buff',st:'atk',v:[.15,.04],t:3}},
+    {id:'pr_asper',n:'아스페르시오',max:5,mp:[14,1],e:{k:'enchant',attr:'빛'}},
+    {id:'pr_kyrie',n:'키리에 엘레이손',max:1,mp:[10,0],req:[['pr_impos',3]],e:{k:'guard'}},
+    {id:'pr_magnus',n:'마그누스 엑소시즘',max:10,mp:[26,2],req:[['pr_sanc',3]],e:{k:'dmg',attr:'빛',m:[1.4,.12],all:1}},
+  ]},
+  monk:{name:'몽크', list:[
+    {id:'mk_triple',n:'삼단장',max:10,e:{k:'pas',st:'double',v:[.08,.03]}},
+    {id:'mk_combo',n:'연타장',max:10,mp:[10,1],e:{k:'dmg',attr:'타격',m:[.6,.05],hits:3}},
+    {id:'mk_chi',n:'기공',max:5,mp:[10,1],e:{k:'buff',st:'atk',v:[.2,.05],t:3}},
+    {id:'mk_steel',n:'금강',max:1,mp:[10,0],req:[['mk_chi',3]],e:{k:'guard'}},
+    {id:'mk_fist',n:'아수라 패황권',max:5,mp:[30,4],req:[['mk_combo',5]],e:{k:'dmg',attr:'타격',m:[3.0,.3]}},
+  ]},
+  mage:{name:'매지션', list:[
+    {id:'mg_fire',n:'파이어 볼트',max:10,mp:[6,1],e:{k:'dmg',attr:'불',m:[1.2,.12]}},
+    {id:'mg_cold',n:'콜드 볼트',max:10,mp:[6,1],e:{k:'dmg',attr:'얼음',m:[1.2,.12]}},
+    {id:'mg_light',n:'라이트닝 볼트',max:10,mp:[6,1],e:{k:'dmg',attr:'번개',m:[1.2,.12]}},
+    {id:'mg_sight',n:'사이트',max:1,mp:[2,0],e:{k:'scan'}},
+    {id:'mg_soul',n:'소울 스트라이크',max:10,mp:[8,1],req:[['mg_sight',1]],e:{k:'dmg',attr:'어둠',m:[.8,.07],hits:2}},
+    {id:'mg_napalm',n:'나팜 비트',max:10,mp:[10,1],req:[['mg_soul',3]],e:{k:'dmg',attr:'어둠',m:[.8,.07],all:1}},
+    {id:'mg_safety',n:'세이프티 월',max:1,mp:[10,0],req:[['mg_napalm',3]],e:{k:'guard'}},
+  ]},
+  wizard:{name:'위자드', list:[
+    {id:'wz_jupitel',n:'유피텔 썬더',max:10,mp:[14,1],e:{k:'dmg',attr:'번개',m:[.6,.06],hits:3}},
+    {id:'wz_meteor',n:'메테오 스톰',max:10,mp:[22,2],e:{k:'dmg',attr:'불',m:[1.4,.12],all:1}},
+    {id:'wz_storm',n:'스톰 거스트',max:10,mp:[22,2],e:{k:'dmg',attr:'얼음',m:[1.4,.12],all:1}},
+    {id:'wz_quag',n:'쿼그마이어',max:5,mp:[10,1],e:{k:'stun',v:[.25,.07]}},
+    {id:'wz_lord',n:'로드 오브 버밀리언',max:10,mp:[26,2],req:[['wz_jupitel',5]],e:{k:'dmg',attr:'번개',m:[1.5,.12],all:1}},
+  ]},
+  elementalist:{name:'소서러', list:[
+    {id:'so_summon',n:'정령 소환',max:10,e:{k:'pas',st:'spirit',v:[.2,.05]}},
+    {id:'so_dust',n:'다이아몬드 더스트',max:10,mp:[18,1],e:{k:'dmg',attr:'얼음',m:[1.3,.12],all:1}},
+    {id:'so_grave',n:'어스 그레이브',max:10,mp:[18,1],e:{k:'dmg',attr:'타격',m:[1.3,.12],all:1}},
+    {id:'so_poison',n:'포이즌 버스터',max:10,mp:[18,1],req:[['so_grave',3]],e:{k:'dmg',attr:'독',m:[1.4,.12],all:1}},
+    {id:'so_psychic',n:'사이킥 웨이브',max:10,mp:[22,2],req:[['so_summon',5]],e:{k:'dmg',attr:'어둠',m:[1.2,.1],all:1}},
+  ]},
 };
+const MAGIC_TREES = ['mage','wizard','elementalist','healer','priest'];
+const SKILL = {}; for (const [t,T] of Object.entries(TREES)) T.list.forEach(s=>{ s.tree = t; SKILL[s.id] = s; });
+const lerp = (a, lv) => a[0] + a[1]*(lv-1);
+const skLv = id => (S.sk && S.sk[id]) || 0;
+const myTrees = () => ['novice', ...(isJob() ? [S.job] : []), ...(S.route ? [S.route] : [])];
+function skillAt(s, lv){
+  const e = s.e, o = {id:s.id, n:s.n, kind:e.k, lv, mp: s.mp ? Math.round(lerp(s.mp, lv)) : 0, magic: MAGIC_TREES.includes(s.tree)};
+  if (e.k==='dmg'){ o.attr = e.attr; o.mult = lerp(e.m, lv); o.all = !!e.all; o.hits = e.hits || 1; }
+  if (e.k==='heal') o.pct = lerp(e.p, lv);
+  if (['buff','debuff','stun','steal','pas'].includes(e.k)){ o.st = e.st; o.v = lerp(e.v, lv); o.t = e.t || 3; }
+  if (e.k==='enchant') o.attr = e.attr;
+  return o;
+}
+function skDesc(s, lv){
+  const o = skillAt(s, Math.max(1, lv)), pc = v => Math.round(v*100) + '%';
+  const ST = {skill:'스킬 위력', atk:'공격력', def:'방어력', spd:'속도', crit:'치명타', dodge:'회피', hp:'최대 HP', regen:'매 턴 HP 회복', block:'받는 피해 감소', double:'공격 2회 확률', spirit:'정령 추가 공격', matk:'마법 공격력'};
+  switch (o.kind){
+    case 'dmg': return `${o.all?'적 전체 ':''}${o.attr} ${o.mult.toFixed(2)}배${o.hits>1?` × ${o.hits}회`:''}`;
+    case 'heal': return `HP ${pc(o.pct)} 회복`;
+    case 'guard': return '이번 턴 받는 피해 절반, 행동 끝';
+    case 'scan': return '적 약점 공개 · 전투마다 첫 번은 행동 소모 없음';
+    case 'buff': return `${o.t}라운드 ${ST[o.st]} +${o.st==='crit'?Math.round(o.v)+'%':pc(o.v)}`;
+    case 'debuff': return `3라운드 적 전체 방어력 −${pc(o.v)}`;
+    case 'stun': return `${pc(Math.min(.95,o.v))} 확률로 적의 다음 행동을 막음`;
+    case 'steal': return `${pc(o.v)} 확률로 골드 훔치기`;
+    case 'enchant': return `3라운드 일반 공격이 ${o.attr} 속성`;
+    case 'pas': return `${ST[o.st]} +${o.st==='crit'?Math.round(o.v)+'%':pc(o.v)}`;
+  }
+  return '';
+}
+function skReqOk(s){ return (s.req||[]).every(([id,l]) => skLv(id) >= l); }
+function canLearn(s){ return myTrees().includes(s.tree) && S.sp > 0 && skLv(s.id) < s.max && skReqOk(s); }
+const ROUTE_PAS = {greatsword:{atk:.15}, shield:{block:.15}, rider:{spd:.2}, bowman:{crit:10}, dancer:{dodge:.1}, monk:{atk:.2}, shuriken:{skill:.15}, wizard:{matk:.2}, elementalist:{spirit:.3}};
+function pas(st){
+  let v = (S.route && ROUTE_PAS[S.route] && ROUTE_PAS[S.route][st]) || 0;
+  for (const t of myTrees()) for (const s of TREES[t].list) if (s.e.k==='pas' && s.e.st===st && skLv(s.id)) v += lerp(s.e.v, skLv(s.id));
+  return v;
+}
+const learnedActive = () => myTrees().flatMap(t => TREES[t].list.filter(s => s.e.k!=='pas' && skLv(s.id)).map(s => skillAt(s, skLv(s.id))));
+const skillPointsEarned = () => (S.job==='novice' ? S.lv : NOVICE_MAX + S.lv-1);
+const bf = st => (B && B.buffs && B.buffs[st]) ? B.buffs[st].v : 0;
+
 
 /* ---------- factions (promotion tests) ---------- */
 const FACTIONS = [
@@ -420,7 +553,7 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMo
 let S = null, B = null;
 const newDraft = () => ({name:pick(NAMES), origin:ORIGINS[4], cand:0, hair:0, skin:0, gender:'m'});
 let draft = newDraft();
-const UI = {tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null};
+const UI = {tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
 const app = document.getElementById('app');
 const store = {
   get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
@@ -477,12 +610,12 @@ const eff = k => S.stats[k] + bonus(k);
 const PL = () => effLv();
 const gearAtk = () => equipped().reduce((s,it)=>s+itemInfo(it).atk,0);
 const gearDef = () => equipped().reduce((s,it)=>s+itemInfo(it).def,0);
-const atk = () => Math.round(5 + eff(job().main)*1.1 + gearAtk() + PL()*2);
-const matk = () => Math.round(5 + Math.max(eff('int'), eff('spi'))*1.2 + gearAtk()*.6 + PL()*2);
-const def = () => Math.round(eff('vit')/2 + gearDef() + PL());
-const crit = () => 3 + Math.floor(eff('luk')/6) + (S.route==='bowman'?10:0);
-const spd = () => Math.round((10 + eff('agi')/2 + PL()*.3) * (S.route==='rider'?1.2:1));
-const hpMax = () => Math.round(80 + PL()*12 + eff('vit')*2);
+const atk = () => Math.round((5 + eff(job().main)*1.1 + gearAtk() + PL()*2) * (1 + pas('atk') + bf('atk')));
+const matk = () => Math.round((5 + Math.max(eff('int'), eff('spi'))*1.2 + gearAtk()*.6 + PL()*2) * (1 + pas('matk') + bf('atk')));
+const def = () => Math.round((eff('vit')/2 + gearDef() + PL()) * (1 + bf('def')));
+const crit = () => 3 + Math.floor(eff('luk')/6) + Math.round(pas('crit') + bf('crit'));
+const spd = () => Math.round((10 + eff('agi')/2 + PL()*.3) * (1 + pas('spd') + bf('spd')));
+const hpMax = () => Math.round((80 + PL()*12 + eff('vit')*2) * (1 + pas('hp')));
 const mpMax = () => Math.round(30 + PL()*4 + eff('int') + eff('spi'));
 const cp = () => Math.round(job().key.reduce((s,k)=>s+eff(k),0)/3 + PL()*.6);
 function clampVitals(){ S.hp = clamp(S.hp ?? hpMax(), 0, hpMax()); S.mp = clamp(S.mp ?? mpMax(), 0, mpMax()); }
@@ -490,7 +623,7 @@ function gainExp(n){
   n = Math.max(0, Math.round(n)); let ups = 0;
   if (S.lv >= maxLv()){ S.exp = 0; return 0; }
   S.exp += n;
-  while (S.lv < maxLv() && S.exp >= needExp(S.lv)){ S.exp -= needExp(S.lv); S.lv++; S.points += 2; ups++; }
+  while (S.lv < maxLv() && S.exp >= needExp(S.lv)){ S.exp -= needExp(S.lv); S.lv++; S.points += 2; S.sp = (S.sp||0) + 1; ups++; }
   if (S.lv >= maxLv()) S.exp = 0;
   if (ups){ S.hp = hpMax(); S.mp = mpMax(); }
   return ups;
@@ -534,7 +667,7 @@ function newGame(){
   S = {ver:VER, name:draft.name.trim() || '이름 없는 견습생', origin:draft.origin, gender:draft.gender, hair:draft.hair, skin:draft.skin, style:c.style,
     stats:{...c.stats}, job:'novice', route:null, lv:1, exp:0, points:0, hp:null, mp:null, gold:80, inv:{hp:3, mp:2}, mats:{},
     fac:0, train:0, equip:{weapon:makeItem('weapon',0,0), top:makeItem('top',0,0), bottom:makeItem('bottom',0,0)}, bag:[],
-    tot:{kills:0, wins:0, battles:0, weak:0, items:0, legend:0, losses:0}, titles:[], title:null, seen:{}, daily:null};
+    tot:{kills:0, wins:0, battles:0, weak:0, items:0, legend:0, losses:0}, titles:[], title:null, seen:{}, daily:null, sk:{}, sp:1};
   Object.values(S.equip).forEach(it=>it.isNew=false);
   for (const s of [...SLOT_ORDER, ...RING_SLOTS]) if (!(s in S.equip)) S.equip[s] = null;
   clampVitals(); ensureDaily(); save();
@@ -611,7 +744,7 @@ function spawn(g, deep, elite){
 }
 function startBattle(g, deep, mode){
   if (S.hp <= 1){ toast('HP가 없다. 물약을 쓰거나 여관에서 쉬자.'); return; }
-  B = {g, deep, mode:mode||'hunt', foes:spawn(g, deep, mode==='promo'), round:1, queue:[], icons:[], guard:false, buff:0, scanUsed:false,
+  B = {g, deep, mode:mode||'hunt', foes:spawn(g, deep, mode==='promo'), round:1, queue:[], icons:[], guard:false, buffs:{}, debuff:null, enchant:null, scanUsed:false,
     took:0, log:'', pops:{}, sub:null, target:null, over:null, stage:mode==='promo'?1:0, turnFoe:null};
   S.tot.battles++;
   newRound(); save(); render(); runFoes(); window.scrollTo({top:0});
@@ -631,19 +764,25 @@ function upcoming(){
 function advance(){
   if (checkEnd()) return;
   B.queue = B.queue.filter(w => w==='me' || B.foes[w].hp>0);
-  if (!B.queue.length){ B.round++; if (B.buff) B.buff--; newRound(); return; }
+  if (!B.queue.length){ B.round++; tickBuffs(); newRound(); return; }
   const w = B.queue[0];
-  if (w==='me'){ B.icons = ['f','f']; B.guard = false; B.sub = null; B.turnFoe = null; return; }
+  if (w==='me'){ B.icons = ['f','f']; B.guard = false; B.sub = null; B.turnFoe = null;
+    const rg = Math.round(hpMax()*pas('regen')); if (rg && S.hp < hpMax()){ S.hp = Math.min(hpMax(), S.hp + rg); B.pops = {...B.pops, me:'+'+rg}; } return; }
   B.turnFoe = w;
+}
+function tickBuffs(){
+  for (const k in B.buffs) if (--B.buffs[k].t <= 0) delete B.buffs[k];
+  for (const k of ['debuff','enchant']) if (B[k] && --B[k].t <= 0) B[k] = null;
 }
 function foeAct(i){
   const f = B.foes[i]; if (!f || f.hp<=0){ B.queue.shift(); B.turnFoe = null; advance(); return; }
+  if (f.stun){ f.stun = false; B.log = `${esc(f.name)}은(는) 움직이지 못한다!`; B.pops = {}; B.queue.shift(); B.turnFoe = null; advance(); return; }
   const special = Math.random() < .25 && f.acts.length > 1;
   const name = special ? f.acts[1] : f.acts[0];
   let dmg = Math.max(1, Math.round((f.atk*(special?1.35:1) - def()*.5) * (.9 + Math.random()*.2)));
   if (B.guard) dmg = Math.round(dmg/2);
-  if (S.route==='shield') dmg = Math.round(dmg*.85);
-  const dodge = Math.random() < Math.min(.3, eff('agi')/600 + (S.job==='thief'?.06:0) + (S.route==='dancer'?.1:0));
+  dmg = Math.max(1, Math.round(dmg * (1 - Math.min(.5, pas('block')))));
+  const dodge = Math.random() < Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
   if (dodge){ B.log = `${esc(f.name)}의 ${esc(name)} → <b>회피!</b>`; B.pops = {me:'MISS'}; }
   else { S.hp = Math.max(0, S.hp - dmg); B.took += dmg; B.log = `${esc(f.name)}의 ${esc(name)} → ${dmg} 피해${B.guard?' (방어)':''}`; B.pops = {me:dmg}; }
   B.queue.shift(); B.turnFoe = null;
@@ -661,8 +800,8 @@ const relation = (f, attr) => f.weak.includes(attr) ? 'weak' : f.resist.includes
 function reveal(f, attr){ const s = S.seen[f.id] = S.seen[f.id] || []; if (!s.includes(attr)) s.push(attr); }
 function hitFoe(f, attr, mult, magic){
   const rel = relation(f, attr); reveal(f, attr);
-  const base = (magic ? matk() : atk()) * mult * (B.buff ? 1.3 : 1);
-  let dmg = Math.max(1, Math.round((base - f.def*.5) * (.9 + Math.random()*.2)));
+  const base = (magic ? matk() : atk()) * mult;
+  let dmg = Math.max(1, Math.round((base - f.def*.5*(1 - (B.debuff ? B.debuff.v : 0))) * (.9 + Math.random()*.2)));
   const c = Math.random()*100 < crit();
   if (rel==='weak') dmg = Math.round(dmg*1.5);
   if (rel==='resist') dmg = Math.round(dmg*.5);
@@ -679,13 +818,13 @@ function playerAction(kind, arg){
   const target = B.target!=null && B.foes[B.target] && B.foes[B.target].hp>0 ? B.target : alive[0];
   B.pops = {};
   if (kind==='attack' || kind==='skill'){
-    const sk = kind==='skill' ? arg : {kind:'dmg', attr:job().attr, mult:1, n:'공격'};
+    const sk = kind==='skill' ? arg : {kind:'dmg', attr:B.enchant ? B.enchant.attr : job().attr, mult:1, n:'공격'};
     if (kind==='skill'){ if (S.mp < sk.mp){ toast('MP가 모자라다.'); return; } S.mp -= sk.mp; dailyProgress('skill',1); }
     if (sk.kind==='dmg'){
-      const magic = ['mage','healer'].includes(S.job) && kind==='skill';
-      const mult = sk.mult * (S.route==='greatsword' && sk.id==='smash' ? 1.2 : 1) * (S.route==='wizard' && magic ? 1.2 : 1) * (S.route==='monk' ? 1.25 : 1);
-      const targets = sk.all || (S.route==='shuriken' && sk.id==='star') ? alive : [target];
-      const hits = (sk.hits||1) + (S.route==='dagger' && kind==='attack' ? 1 : 0);
+      const magic = kind==='skill' && sk.magic;
+      const mult = sk.mult * (kind==='skill' ? 1 + pas('skill') : 1);
+      const targets = sk.all ? alive : [target];
+      const hits = (sk.hits||1) + (kind==='attack' && S.route==='dagger' && S.equip.sub && S.equip.sub.kind==='dagger' ? 1 : 0) + (kind==='attack' && Math.random() < pas('double') ? 1 : 0);
       let anyWeak = false, anyMiss = false; const agg = {};
       for (const t of targets) for (let h=0; h<hits; h++){
         const r = hitFoe(B.foes[t], sk.attr, mult, magic);
@@ -700,14 +839,24 @@ function playerAction(kind, arg){
       else if (anyMiss && targets.length===1){ useIcon('miss'); B.log += ' · 행동 −2'; }
       else useIcon('normal');
       const left = alive.filter(i=>B.foes[i].hp>0);
-      if (S.route==='elementalist' && left.length){ const r = hitFoe(B.foes[left[0]], pick(['불','얼음','번개']), .5, true); B.log += ` · 정령 추가 ${r.dmg}`; }
+      if (left.length && Math.random() < Math.min(1, pas('spirit'))){ const r = hitFoe(B.foes[left[0]], pick(['불','얼음','번개']), .5, true); B.log += ` · 정령 추가 ${r.dmg}`; }
     } else if (sk.kind==='heal'){
       const amt = Math.round(hpMax() * sk.pct * (S.route==='priest'?1.3:1)); S.hp = Math.min(hpMax(), S.hp + amt);
       B.log = `${sk.n} → HP ${amt} 회복`; B.pops = {me:'+'+amt}; useIcon('normal');
     } else if (sk.kind==='guard'){
       B.guard = true; B.log = `${sk.n} → 이번 턴 받는 피해 절반`; B.icons = [];
     } else if (sk.kind==='buff'){
-      B.buff = 3; B.log = `${sk.n} → 3라운드 공격력 +30%`; useIcon('normal');
+      B.buffs[sk.st] = {v:sk.v, t:sk.t}; B.log = `${sk.n} → ${skDesc(SKILL[sk.id], sk.lv)}`; useIcon('normal');
+    } else if (sk.kind==='debuff'){
+      B.debuff = {v:sk.v, t:3}; B.log = `${sk.n} → 3라운드 적 방어력 −${Math.round(sk.v*100)}%`; useIcon('normal');
+    } else if (sk.kind==='stun'){
+      const f = B.foes[target], ok = Math.random() < Math.min(.95, sk.v);
+      if (ok) f.stun = true; B.log = `${sk.n} → ${esc(f.name)} ${ok?'<b>행동 불능!</b>':'버텨냈다'}`; if (!ok) B.pops = {[target]:{dmg:0, miss:true}}; useIcon('normal');
+    } else if (sk.kind==='steal'){
+      const f = B.foes[target], ok = !f.stolen && Math.random() < sk.v, g = rnd(3, 6) + Math.round(f.m*1.2);
+      if (ok){ f.stolen = true; S.gold += g; } B.log = `${sk.n} → ${f.stolen && ok ? `골드 ${g} 훔쳤다!` : f.stolen ? '이미 털었다' : '실패'}`; useIcon('normal');
+    } else if (sk.kind==='enchant'){
+      B.enchant = {attr:sk.attr, t:3}; B.log = `${sk.n} → 3라운드 일반 공격이 ${sk.attr} 속성`; useIcon('normal');
     } else if (sk.kind==='scan'){
       alive.forEach(i=>{ const f = B.foes[i]; [...f.weak, ...f.resist].forEach(a=>reveal(f,a)); S.seen[f.id+':all'] = 1; });
       B.log = `${sk.n} → 약점이 드러났다`;
@@ -793,6 +942,29 @@ function doTrain(k){
   if (S.gold < trainCost()){ toast('골드가 모자라다.'); return; }
   S.gold -= trainCost(); S.stats[k]++; S.train++; clampVitals(); toast(`${SN[k]} +1`); save(); render();
 }
+function learnSkill(id){
+  const s = SKILL[id]; if (!s || !canLearn(s)) return;
+  S.sk[id] = skLv(id) + 1; S.sp--; clampVitals(); save(); render();
+}
+function skillTreeHTML(){
+  const trees = myTrees(); if (!trees.includes(UI.tree)) UI.tree = trees[trees.length-1];
+  const T = TREES[UI.tree];
+  let h = `<section class="card" id="skills"><h2 class="row">스킬 트리 <span class="aside" ${S.sp?'style="color:var(--accent);font-weight:700"':''}>남은 스킬 포인트 ${S.sp||0}</span></h2>`;
+  if (trees.length > 1) h += seg('tree', trees.map(t=>[t, TREES[t].name]));
+  h += T.list.map(s=>{
+    const lv = skLv(s.id), o = skillAt(s, Math.max(1, lv)), ok = canLearn(s), lock = !skReqOk(s);
+    const req = (s.req||[]).map(([id,l])=>`${SKILL[id].n} Lv.${l}`).join(', ');
+    const now = lv ? skDesc(s, lv) : '', next = lv < s.max ? skDesc(s, lv+1) : '';
+    return `<div class="skill tree ${lv?'':'lock'}"><span class="el">${s.e.k==='dmg'?ATTR_ICON[s.e.attr]:KIND_ICON[s.e.k]}</span>
+      <span class="t">${s.n} <span class="xs ${lv?'':'muted'}"><b>${lv}</b>/${s.max}</span>${s.e.k==='pas'?' <span class="xs muted">패시브</span>':''}
+        <small>${lv?`지금: ${now}`:''}${lv&&next?'<br>':''}${next?`다음: ${next}`:' · 최고 레벨'}${o.mp?` · MP ${o.mp}`:''}</small>
+        ${lock?`<small style="color:var(--red)">선행: ${req}</small>`:''}</span>
+      ${lv<s.max?`<button class="plus" data-act="learn" data-id="${s.id}" ${ok?'':'disabled'} aria-label="${s.n} 배우기">+</button>`:''}</div>`;
+  }).join('');
+  if (S.route) h += `<p class="small" style="margin-top:10px">루트 · <b>${ROUTE[S.route].name}</b>: ${ROUTE[S.route].desc}</p>`;
+  h += `<p class="xs muted" style="margin-top:8px">레벨 업마다 스킬 포인트 1. 선행 스킬을 올려야 다음 스킬이 열린다.</p></section>`;
+  return h;
+}
 function spendPoint(k){ if (!S.points) return; S.stats[k]++; S.points--; clampVitals(); save(); render(); }
 function promoReady(){
   const F = FACTIONS[S.fac+1]; if (!F) return false;
@@ -876,6 +1048,7 @@ function todos(){
   const dr = dailyReady();
   if (dr) T.push({ic:'📜', t:`일일 미션 보상 ${dr}개`, d:'기록 탭에서 받기', go:'rec:daily', dot:true});
   else if (S.daily){ const left = S.daily.list.filter(m=>!m.claimed); if (left.length) T.push({ic:'📜', t:`오늘의 미션 ${3-left.length} / 3`, d:left.map(m=>`${m.t} ${m.p}/${m.n}`).join(' · '), go:'rec:daily'}); }
+  if (S.sp) T.push({ic:'📘', t:`스킬 포인트 ${S.sp}`, d:'캐릭터 → 스킬 트리에서 배우기', go:'char', dot:true});
   if (S.points) T.push({ic:'💪', t:`능력치 포인트 ${S.points}`, d:'캐릭터에서 분배', go:'char', dot:true});
   const nw = S.bag.filter(x=>x.isNew);
   if (nw.length) T.push({ic:'🎁', t:'새 장비를 얻었어요', d:nw.slice(0,2).map(x=>`${RARITY[x.rar]} · ${itemInfo(x).name}`).join(', ')+(nw.length>2?` 외 ${nw.length-2}개`:''), go:'bag', dot:true});
@@ -973,8 +1146,8 @@ function battleView(){
   } else if (meTurn){
     if (B.sub==='skill'){
       const tf = B.foes[tgt], weak = tf ? knownWeak(tf) : [];
-      h += `<p class="hint">대상: ${tf?esc(tf.name):''}${weak.length?` · 약점 ${weak.join(', ')}`:''}</p>` + SKILLS[S.job].filter(s=>s.lv<=S.lv).map(s=>{ const best = s.attr && weak.includes(s.attr);
-        return `<button class="skill ${best?'best':''}" data-act="useskill" data-id="${s.id}" ${S.mp<s.mp?'disabled':''}><span class="el">${ATTR_ICON[s.attr]||KIND_ICON[s.kind]}</span><span class="t">${s.n}<small>${s.d}${best?' · 약점! 행동 +½':''}</small></span><span class="mpc">MP ${s.mp}</span></button>`; }).join('')
+      h += `<p class="hint">대상: ${tf?esc(tf.name):''}${weak.length?` · 약점 ${weak.join(', ')}`:''}</p>` + (learnedActive().length ? '' : '<p class="hint">배운 스킬이 없다. 캐릭터 → 스킬에서 배우자.</p>') + learnedActive().map(s=>{ const best = s.kind==='dmg' && s.attr && weak.includes(s.attr);
+        return `<button class="skill ${best?'best':''}" data-act="useskill" data-id="${s.id}" ${S.mp<s.mp?'disabled':''}><span class="el">${ATTR_ICON[s.attr]||KIND_ICON[s.kind]}</span><span class="t">${s.n} <span class="xs muted">Lv.${s.lv}</span><small>${skDesc(SKILL[s.id], s.lv)}${best?' · 약점! 행동 +½':''}</small></span><span class="mpc">MP ${s.mp}</span></button>`; }).join('')
         + `<div class="btns"><button class="btn" data-act="sub" data-v="">뒤로</button></div>`;
     } else if (B.sub==='item'){
       h += `<div class="btns"><button class="btn" data-act="bitem" data-k="hp" ${S.inv.hp?'':'disabled'}>체력 물약 ${S.inv.hp}</button><button class="btn" data-act="bitem" data-k="mp" ${S.inv.mp?'':'disabled'}>마나 물약 ${S.inv.mp}</button></div><div class="btns"><button class="btn" data-act="sub" data-v="">뒤로</button></div>`;
@@ -1062,8 +1235,7 @@ function charView(){
       return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n}</span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus" data-act="point" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
     <div class="stats3"><div><div class="k">공격력</div><div class="v num">${atk()}</div></div><div><div class="k">방어력</div><div class="v num">${def()}</div></div><div><div class="k">속도</div><div class="v num">${spd()}</div></div></div>
     <p class="xs muted" style="margin-top:10px">마법 공격력 ${matk()} · 치명타 ${crit()}% · 굵은 글씨가 ${job().name}의 핵심 능력</p></section>`;
-  h += `<section class="card"><h2 class="row">스킬 <span class="aside">${job().name}</span></h2>${SKILLS[S.job].map(s=>`<div class="skill ${s.lv>S.lv?'lock':''}"><span class="el">${ATTR_ICON[s.attr]||KIND_ICON[s.kind]}</span><span class="t">${s.n}<small>${s.d}${s.lv>S.lv?` · Lv.${s.lv}에 배움`:''}</small></span><span class="mpc">MP ${s.mp}</span></div>`).join('')}
-    ${S.route?`<p class="small" style="margin-top:10px">루트 · <b>${ROUTE[S.route].name}</b>: ${ROUTE[S.route].desc}</p>`:''}</section>`;
+  h += skillTreeHTML();
   const nf = FACTIONS[S.fac+1];
   h += `<section class="card"><h2>소속 · ${FACTIONS[S.fac].name}</h2><p class="xs muted">소속이 오를수록 EXP·골드 +4%씩 (지금 +${Math.round(facBonus()*100)}%)</p>
     ${nf?`<div class="item" style="padding-bottom:0"><span class="ic blue">🛡️</span><span class="grow"><span class="t">${nf.name} 승급 시험</span><span class="d">조건 ${promoReqText(nf)} · 정예 몬스터 3연전(도망 불가)</span></span>
@@ -1183,7 +1355,7 @@ function render(){
   ensureDaily();
   if (B){ app.className = 'app notabs'; app.innerHTML = battleView(); return; }
   const V = {home:homeView, hunt:huntView, char:charView, bag:bagView, rec:recView}[UI.tab] || homeView;
-  const dots = {home:false, hunt:false, char:!!S.points || canJobChange() || canRoute() || promoReady(), bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
+  const dots = {home:false, hunt:false, char:!!S.points || !!S.sp || canJobChange() || canRoute() || promoReady(), bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
 }
@@ -1212,7 +1384,8 @@ app.addEventListener('click', async e => {
   if (a==='guard'){ playerAction('guard'); return; }
   if (a==='run'){ playerAction('run'); return; }
   if (a==='sub'){ if (B){ B.sub = b.dataset.v || null; render(); } return; }
-  if (a==='useskill'){ playerAction('skill', SKILLS[S.job].find(s=>s.id===b.dataset.id)); return; }
+  if (a==='useskill'){ playerAction('skill', learnedActive().find(s=>s.id===b.dataset.id)); return; }
+  if (a==='learn'){ learnSkill(b.dataset.id); return; }
   if (a==='bitem'){ playerAction('item', b.dataset.k); return; }
   if (a==='leave'){ endBattle(false); return; }
   if (a==='again'){ endBattle(true); return; }
@@ -1276,7 +1449,8 @@ function migrate(d){
   for (const k of ['inv','mats','seen']) if (!d[k]) d[k] = k==='inv' ? {hp:0,mp:0} : {};
   if (!d.titles) d.titles = [];
   [...d.bag, ...Object.values(d.equip)].forEach(it=>{ if (it) it.band = clamp(it.band||0, 0, 9); });
-  S = d; clampVitals(); ensureDaily();
+  S = d; if (!S.sk){ S.sk = {}; S.sp = skillPointsEarned(); }
+  clampVitals(); ensureDaily();
   return S;
 }
 function boot(data){
