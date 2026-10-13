@@ -98,6 +98,70 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .cta:disabled{opacity:.45}
 .btns{display:flex;gap:8px;margin-top:12px}
 .btns>*{flex:1}
+[hidden]{display:none!important}
+/* home: town hero with the header on top, icon tiles, character card */
+.townhero{position:relative;margin:0 -16px 12px;height:470px;background:#9fd0f5 center 30%/cover no-repeat;border-radius:0 0 26px 26px;overflow:hidden}
+.townhero:before{content:"";position:absolute;inset:0 0 auto 0;height:110px;background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,0))}
+.townhero .top{position:relative;z-index:2;padding:16px 16px 0}
+.townhero .btn.ghost{background:rgba(255,255,255,.85)}
+.townhero .npcbtn{position:absolute;left:56%;transform:translateX(-50%);bottom:118px;height:300px;background:none;border:0;padding:0;z-index:1}
+.townhero .npc{display:block;height:100%;width:auto;filter:drop-shadow(0 6px 14px rgba(40,30,80,.28));transform-origin:50% 100%}
+.townhero .npcbtn.hop .npc{animation:hop .35s ease-out}
+.townhero .tapme{position:absolute;right:16px;top:118px;z-index:2;background:rgba(255,255,255,.9);color:#3554a0;font-size:11.5px;font-weight:700;border-radius:99px;padding:3px 10px;animation:blink 1.6s infinite;pointer-events:none}
+.townhero .talk{position:absolute;left:14px;right:14px;bottom:16px;z-index:2;min-height:92px;background:rgba(255,255,255,.96);border:2px solid #bcd0f2;border-radius:18px;padding:10px 14px 12px;font-size:14px;line-height:1.5;color:#262c38;box-shadow:0 6px 18px rgba(30,40,80,.18);text-align:left;cursor:pointer}
+.townhero .talk .nm{font-weight:700;color:#2f62c8;font-size:13px;margin-bottom:2px}
+.townhero .talk p{margin:0;min-height:1.5em}
+.townhero .talk .more{position:absolute;right:14px;bottom:6px;color:#3d5aa8;font-size:11px;animation:blink 1.2s infinite}
+.townhero .choices{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.townhero .choices button{border:1.5px solid #8fb2ee;background:#fff;color:#2c5bb8;border-radius:10px;padding:5px 11px;font-size:12.5px;font-weight:700}
+@media (prefers-reduced-motion:reduce){.townhero .talk .more,.townhero .tapme{animation:none}.townhero .npcbtn.hop .npc{animation:none}}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 10px}
+.mi.tile{flex-direction:column;gap:6px;padding:4px 2px;border:0;border-radius:14px;text-align:center;align-items:center}
+.mi.tile+.mi.tile{border-top:0;border-radius:14px}
+.mi.tile b{font-size:11.5px;font-weight:700;line-height:1.3;display:block}
+.mi.tile b small{display:inline;color:var(--muted);font-weight:500;font-size:11px}
+.tic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.06)}
+.t-red .tic{background:linear-gradient(180deg,#fff0f0,#ffdcdc)}.t-gold .tic{background:linear-gradient(180deg,#fff8de,#ffe9a8)}
+.t-blue .tic{background:linear-gradient(180deg,#eef6ff,#d6e8ff)}.t-purple .tic{background:linear-gradient(180deg,#f6efff,#e6d6ff)}.t-orange .tic{background:linear-gradient(180deg,#fff4e6,#ffe0b8)}
+.hcard{padding:16px}
+.hcard-top{align-items:center;gap:12px;flex-wrap:nowrap}
+.hav{width:92px;height:92px;flex:none;display:grid;place-items:center}
+.hname{font-size:18px}.hname small{font-size:12px;color:var(--muted);font-weight:500}
+.chipbtn{border:0;background:var(--surface-2);color:var(--sub);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700;flex:none}
+.hbars{display:grid;gap:6px;margin-top:8px}
+.hb{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;font-size:12px;color:var(--sub)}
+.hb .b{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}.hb .b i{display:block;height:100%;border-radius:99px}
+.hb .v{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+/* battle: illustrated backdrop behind floating cards */
+.bscene{position:relative;margin:0 -16px;padding:0 16px 16px;min-height:100vh;overflow:hidden}
+.bscene .scene-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.bwrap{position:relative;z-index:1;padding-top:2px}
+.bscene .turnbar{box-shadow:0 4px 14px rgba(30,40,60,.12)}
+.bscene .field2{background:none!important}
+.bscene .field2:before{display:none}
+.bscene .bpanel{box-shadow:0 -2px 18px rgba(30,40,60,.14)}
+.bpanel.withhead{padding-top:0;overflow:hidden}
+.phead{display:flex;justify-content:space-between;gap:8px;margin:0 -14px 10px;padding:10px 16px;background:linear-gradient(180deg,#43b06d,#2f9459);color:#fff;font-weight:700;font-size:13.5px}
+.victory{position:absolute;left:8%;right:8%;top:16%;z-index:5;text-align:center;background:rgba(255,255,255,.95);border-radius:22px;padding:16px 14px;border:3px solid #ffd6e3;box-shadow:0 0 0 4px rgba(255,255,255,.6),0 10px 24px rgba(40,40,80,.18)}
+.victory:before,.victory:after{content:"✿ ❀ ✿";position:absolute;left:0;right:0;font-size:12px;color:#ff9ec4;letter-spacing:6px}
+.victory:before{top:-12px}.victory:after{bottom:-12px;color:#9ed9a4}
+.victory .big2{font-size:34px;font-weight:900;color:var(--accent);line-height:1.15}
+.victory .big2.lose{color:var(--red)}
+.victory .rewards{justify-content:center;margin-top:6px}
+.victory .lvup{margin-top:6px;font-weight:700;color:var(--accent);font-size:14px}
+.bav{width:64px;height:64px;flex:none;display:grid;place-items:center;margin-right:4px}
+/* inn sheet */
+.sheetwrap{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.sheetbg{position:absolute;inset:0;background:rgba(20,24,36,.45);border:0}
+.sheet{position:relative;width:100%;max-width:480px;background:var(--surface);border-radius:26px 26px 0 0;overflow:hidden;padding-bottom:env(safe-area-inset-bottom)}
+.innart{height:170px;background:radial-gradient(circle at 70% 30%,rgba(255,236,170,.9),rgba(255,236,170,0) 55%),linear-gradient(180deg,#e8a86a,#b5703f 70%,#8a5530);position:relative;display:grid;place-items:center}
+.innart .win{position:absolute;left:62%;top:22px;width:70px;height:84px;border-radius:36px 36px 6px 6px;background:linear-gradient(180deg,#fff6d6,#ffd98a);box-shadow:0 0 0 5px #7a4a28,0 0 40px rgba(255,220,140,.9)}
+.innart span{font-size:64px;position:relative;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+.sbody{padding:18px 20px 20px}
+.sbody h2{font-size:20px}.sbody .q{font-size:16px;font-weight:700;margin:14px 0 6px;line-height:1.5}
+/* small polish: icon tiles in lists, monster thumbnails */
+.ic{border-radius:14px}
+.mons{background:linear-gradient(180deg,#eaf3ff,#dbe9fb);border-radius:14px;padding:4px 10px 4px 4px}
 .tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:5}
 .tabs .in{display:flex;width:100%;max-width:480px}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--tabicon);background:none;border:0;padding:2px 0;position:relative}
@@ -605,7 +669,7 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMo
 let S = null, B = null;
 const newDraft = () => ({name:pick(NAMES), origin:ORIGINS[4], cand:0, hair:0, skin:0, gender:'m'});
 let draft = newDraft();
-const UI = {auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
+const UI = {innAsk:false, auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
 const app = document.getElementById('app');
 const store = {
   get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
@@ -1223,12 +1287,21 @@ const autoBtn = (g, deep, cls='btn sm') => `<button class="${cls}" data-act="aut
 setInterval(() => {
   if (!S) return;
   document.querySelectorAll('[data-autocd]').forEach(b => { const l = autoLeft(), sec = Math.ceil(l/1000); b.disabled = !!l;
-    if (b.classList.contains('mi')) b.querySelector('b').textContent = l ? `자동 사냥 · ${sec}초 뒤 가능` : '자동 사냥 맡기기';
+    if (b.classList.contains('tile')) b.querySelector('b').innerHTML = l ? `자동 사냥<br>${sec}초` : '자동 사냥<br>맡기기';
+    else if (b.classList.contains('mi')) b.querySelector('b').textContent = l ? `자동 사냥 · ${sec}초 뒤 가능` : '자동 사냥 맡기기';
     else b.textContent = l ? `자동 ${sec}초` : '자동 ×10'; });
 }, 1000);
 
 /* ---------- town actions ---------- */
 const innCost = () => 10 + effLv()*3;
+function innSheet(){
+  const c = innCost(), ok = S.gold >= c;
+  return `<div class="sheetwrap"><button class="sheetbg" data-act="innno" aria-label="닫기"></button>
+    <div class="sheet fade" role="dialog" aria-label="여관에서 쉬기"><div class="innart" aria-hidden="true"><i class="win"></i><span>🛏️</span></div>
+      <div class="sbody"><h2>여관에서 쉬기</h2><p class="xs muted">HP·MP 모두 회복 · ${c}골드</p>
+      <p class="q">${c}골드를 지불하고<br>여관에서 휴식하시겠어요?</p><p class="small muted">HP ${fmt(S.hp)}/${fmt(hpMax())} · MP ${fmt(S.mp)}/${fmt(mpMax())} → 모두 회복${ok?'':` · <b style="color:var(--red)">골드가 ${c - S.gold} 모자라요</b>`}</p>
+      <div class="btns"><button class="btn" data-act="innno">취소</button><button class="btn pri" data-act="innyes" ${ok?'':'disabled'}>휴식하기</button></div></div></div></div>`;
+}
 function rest(){
   if (S.hp>=hpMax() && S.mp>=mpMax()){ toast('이미 기운이 넘친다.'); return; }
   if (S.gold < innCost()){ toast('골드가 모자라다.'); say('shy', '저… 숙박비가 조금 모자라신 것 같아요.'); render(); return; }
@@ -1417,23 +1490,32 @@ function runTyper(){
 function typerSkip(){ if (!typer) return false; clearInterval(typer); typer = null; const p = document.querySelector('.town .talk p[data-type]'); if (p) p.textContent = p.dataset.type; return true; }
 function homeView(){
   const b = bestGround(), G = GD[b.g], T = todos();
-  let h = top('공책 마을', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `<button class="btn" style="padding:7px" data-go="rec:save" aria-label="저장 설정">${svg('gear',20)}</button>`);
-  h += autoCard();
   if (!UI.homeLine || !UI.homeLine.t) UI.homeLine = guideLine();
-  const tl = talkLine();
-  h += `<section class="town" style="background-image:url(${NPC_FACE[NPC_FACE.length-1]})">
+  const tl = talkLine(), cd = autoLeft();
+  const pct = S.lv>=maxLv() ? 100 : S.exp/needExp(S.lv)*100;
+  const tile = (attrs, ic, label, cls='') => `<button class="mi tile ${cls}" ${attrs}><span class="tic">${ic}</span><b>${label}</b></button>`;
+  let h = `<section class="townhero" style="background-image:url(${NPC_FACE[NPC_FACE.length-1]})">
+    ${top('공책 마을', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `<button class="btn ghost" style="padding:7px" data-go="rec:save" aria-label="저장 설정">${svg('gear',20)}</button>`)}
     <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[tl.f] ?? 2]}" alt="안내원 리나"></button>
     ${UI.talk ? '' : '<span class="tapme" aria-hidden="true">터치해서 대화</span>'}
     <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나</div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
-      ${UI.talk && UI.talk.menu ? `<div class="choices"><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>
-    <section class="card menu">
-      <button class="mi" data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}"><span class="ic">⚔️</span><span class="grow"><b>사냥터로 보내 주세요</b><small>${b.deep?'심층 ':''}${G.ground} · 추천</small></span></button>
-      <button class="mi" data-act="auto" data-g="${b.g}" data-deep="${b.deep?1:0}" data-autocd ${autoLeft()?'disabled':''}><span class="ic">🔁</span><span class="grow"><b>${autoLeft()?`자동 사냥 · ${Math.ceil(autoLeft()/1000)}초 뒤 가능`:'자동 사냥 맡기기'}</b><small>${G.ground}에서 10번 · 다녀오면 1분 휴식</small></span></button>
-      <button class="mi" data-act="rest"><span class="ic">🛏️</span><span class="grow"><b>여관에서 쉬기</b><small>HP·MP 모두 회복 · ${innCost()}골드</small></span></button>
-      <button class="mi" data-go="char"><span class="ic">🏋️</span><span class="grow"><b>훈련소 · 스킬</b><small>능력치·스킬 포인트 쓰기</small></span></button>
-      <button class="mi" data-go="rec:daily"><span class="ic">📜</span><span class="grow"><b>오늘의 미션</b><small>${S.daily?`${S.daily.list.filter(m=>m.claimed).length} / 3 완료`:''}</small></span></button>
+      ${UI.talk && UI.talk.menu ? `<div class="choices"><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
+  h += autoCard();
+  h += `<section class="card tiles">
+      ${tile(`data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}" aria-label="사냥터로 보내 주세요 · ${G.ground}"`, '⚔️', '사냥터로<br>보내 주세요', 't-red')}
+      ${tile(`data-act="auto" data-g="${b.g}" data-deep="${b.deep?1:0}" data-autocd ${cd?'disabled':''} aria-label="자동 사냥 맡기기 · ${G.ground}에서 10번"`, '🔁', cd?`자동 사냥<br>${Math.ceil(cd/1000)}초`:'자동 사냥<br>맡기기', 't-gold')}
+      ${tile(`data-act="rest" aria-label="여관에서 쉬기 · ${innCost()}골드"`, '🛏️', '여관에서<br>쉬기', 't-blue')}
+      ${tile(`data-go="char" aria-label="훈련소 · 스킬"`, '🏋️', '훈련소<br>· 스킬', 't-purple')}
+      ${tile(`data-go="rec:daily" aria-label="오늘의 미션"`, '🏆', `오늘의 미션<br><small>${S.daily?`${S.daily.list.filter(m=>m.claimed).length}/3`:''}</small>`, 't-orange')}
     </section>`;
-  h += `<section class="card">${bars()}</section>`;
+  h += `<section class="card hcard"><div class="row hcard-top"><span class="hav">${dollHTML(lookFront(), 92)}</span>
+      <div class="grow"><div class="row" style="justify-content:space-between;gap:8px"><b class="hname">${esc(S.name)}${S.title?` <small>「${esc(S.title)}」</small>`:''}</b><button class="chipbtn" data-go="char">상세 보기 ›</button></div>
+        <div class="xs muted">${lvTag()} · 전투력 ${cp()}</div>
+        <div class="hbars">
+          <div class="hb"><span>경험치</span><span class="b"><i style="width:${pct}%;background:var(--exp)"></i></span><span class="v">${S.lv>=maxLv()?'MAX':pct.toFixed(1)+'%'}</span></div>
+          <div class="hb"><span>HP</span><span class="b"><i style="width:${S.hp/hpMax()*100}%;background:var(--hp)"></i></span><span class="v">${fmt(S.hp)}/${fmt(hpMax())}</span></div>
+          <div class="hb"><span>MP</span><span class="b"><i style="width:${S.mp/mpMax()*100}%;background:var(--mp)"></i></span><span class="v">${fmt(S.mp)}/${fmt(mpMax())}</span></div>
+        </div></div></div></section>`;
   if (T.length) h += `<section class="card"><h2>확인할 일</h2>${todoList(T)}</section>`;
   return h;
 }
@@ -1459,6 +1541,42 @@ function huntView(){
   return h;
 }
 
+/* ---------- battle scenery: a soft illustrated backdrop behind the battle cards, one palette per hunting ground ---------- */
+const SCENE = [
+  {sky:['#7cc6f5','#dff3ff'], far:'#9cc4de', hill:'#8fcf6e', g:['#a6dc78','#6fb653'], tree:'#3f8f45', path:'#ecd9a2', fl:['#ff9ec4','#ffe066','#ffffff']},
+  {sky:['#93cbe8','#dcefe9'], far:'#7aa7b3', hill:'#5d9a52', g:['#7cbc62','#4a8a3f'], tree:'#2d6631', path:'#d8c690', fl:['#ffffff','#ffe066','#b6f08a'], dense:1},
+  {sky:['#34323d','#5d5864'], far:'#4a4552', hill:'#5a5249', g:['#7a6e60','#4f463d'], tree:'#3b3530', path:'#8f8270', fl:['#7fd6ff','#b28cff'], rock:1},
+  {sky:['#f0b98a','#ffe8c8'], far:'#c39674', hill:'#a8875c', g:['#c2a86e','#8e7848'], tree:'#6b5634', path:'#e2cf9e', fl:['#ff8a3d','#ffd166']},
+  {sky:['#9fb6a4','#d4dfcb'], far:'#7f957f', hill:'#64805a', g:['#6f8c5c','#465f3f'], tree:'#344f36', path:'#76a39b', fl:['#b78cff','#e2b6ff']},
+  {sky:['#5a5778','#9590b0'], far:'#4f4b68', hill:'#5f5d6e', g:['#6e6d7c','#47465a'], tree:'#2f2e3d', path:'#8c899c', fl:['#9fe3ff','#d6f3ff']},
+  {sky:['#f4ad7d','#ffe3c4'], far:'#c87a54', hill:'#d0926a', g:['#d9a06f','#ad7650'], tree:'#8a5638', path:'#f0cfa2', fl:['#ffd166'], rock:1},
+  {sky:['#b3e1fb','#f0faff'], far:'#a6cbe6', hill:'#dcecf6', g:['#f1f8fc','#cfe4f1'], tree:'#6f9cbc', path:'#ffffff', fl:['#ffffff','#bfe8ff'], pine:1},
+  {sky:['#ffcf8f','#fff2d6'], far:'#e9bf80', hill:'#efcd8c', g:['#f3d797','#dab06a'], tree:'#7aa35a', path:'#fbe6b8', fl:['#ffffff'], dune:1},
+  {sky:['#521f2b','#a4433f'], far:'#3a1820', hill:'#5a2a26', g:['#6e3a30','#43221d'], tree:'#2a1214', path:'#8a4a36', fl:['#ff9a3d','#ffd166'], rock:1},
+];
+function sceneSVG(g){
+  const P = SCENE[g] || SCENE[0];
+  let seed = 7 + g*31; const rr = () => (seed = (seed*9301 + 49297) % 233280) / 233280;
+  let trees = '', fl = '', clouds = '';
+  for (let i=0;i<4;i++){ const x = rr()*390, y = 40 + rr()*90, w = 50 + rr()*50; clouds += `<ellipse cx="${x}" cy="${y}" rx="${w}" ry="${w*.28}" fill="#fff" opacity="${g===2||g===5||g===9?.08:.7}"/>`; }
+  const n = P.dense ? 14 : 8;
+  for (let i=0;i<n;i++){ const x = (i+.5)/n*390 + (rr()-.5)*30, y = 300 + rr()*30, r = 16 + rr()*16;
+    if (P.rock) trees += `<path d="M${x-r} ${y+10} L${x-r*.4} ${y-r} L${x+r*.5} ${y-r*.6} L${x+r} ${y+10}Z" fill="${P.tree}" opacity=".85"/>`;
+    else if (P.pine) trees += `<path d="M${x} ${y-r*2} L${x+r*.8} ${y+8} L${x-r*.8} ${y+8}Z" fill="${P.tree}"/><path d="M${x} ${y-r*2} L${x+r*.35} ${y-r*1.1} L${x-r*.35} ${y-r*1.1}Z" fill="#fff" opacity=".8"/>`;
+    else if (P.dune) trees += i%3 ? '' : `<rect x="${x-3}" y="${y-r}" width="6" height="${r+8}" rx="3" fill="${P.tree}"/><rect x="${x-10}" y="${y-r*.6}" width="5" height="${r*.5}" rx="2.5" fill="${P.tree}"/>`;
+    else trees += `<rect x="${x-3}" y="${y-4}" width="6" height="18" fill="#6b4a2f"/><circle cx="${x}" cy="${y-r*.6}" r="${r}" fill="${P.tree}"/><circle cx="${x-r*.45}" cy="${y-r*.9}" r="${r*.45}" fill="#fff" opacity=".12"/>`; }
+  for (let i=0;i<70;i++){ const y = 380 + rr()*460, x = rr()*390, c = P.fl[i % P.fl.length], s2 = 1.6 + rr()*2.4*(y/600);
+    fl += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${s2.toFixed(1)}" fill="${c}" opacity=".9"/>`; }
+  return `<svg class="scene-bg" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="sk${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[0]}"/><stop offset="1" stop-color="${P.sky[1]}"/></linearGradient>
+      <linearGradient id="gr${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.g[0]}"/><stop offset="1" stop-color="${P.g[1]}"/></linearGradient></defs>
+    <rect width="390" height="844" fill="url(#sk${g})"/>${clouds}
+    ${P.dune ? `<path d="M0 300 Q90 230 190 285 T390 260 V360 H0Z" fill="${P.far}"/>` : `<path d="M0 300 L60 210 L120 270 L190 180 L260 262 L320 205 L390 268 V360 H0Z" fill="${P.far}" opacity=".9"/>`}
+    <path d="M0 330 Q100 290 200 320 T390 310 V420 H0Z" fill="${P.hill}"/>${trees}
+    <rect y="350" width="390" height="494" fill="url(#gr${g})"/>
+    <path d="M170 350 Q195 600 120 844 H290 Q215 600 220 350Z" fill="${P.path}" opacity=".55"/>${fl}</svg>`;
+}
+
 /* ---------- battle view ---------- */
 function weakChips(f){
   const seen = S.seen[f.id] || [], all = S.seen[f.id+':all'];
@@ -1474,6 +1592,16 @@ function popHTML(p){
   return `${p.rel==='weak'?`<span class="pop weakp"${d}>약점!</span>`:''}<span class="pop ${p.rel==='resist'?'miss':''}"${d}>${p.dmg}${p.crit?'!':''}</span>`;
 }
 const knownWeak = f => (S.seen[f.id+':all'] ? f.weak : f.weak.filter(a=>(S.seen[f.id]||[]).includes(a)));
+function overHTML(O){
+  if (O==='run') return `<div class="victory fade"><div class="big2" style="color:var(--sub)">도망쳤다</div><div class="xs muted">무사히 빠져나왔다.</div></div>`;
+  if (!O.win) return `<div class="victory lose fade"><div class="big2 lose">쓰러졌다…</div><div class="small muted">골드 ${fmt(O.lostGold)}, 경험치 ${fmt(O.lostExp)}를 잃고 마을로 실려 왔다. 치료를 받아 HP 절반으로 깨어났다.</div></div>`;
+  return `<div class="victory fade"><div class="big2">${O.promo ? '승급 시험 통과!' : '승리!'}</div>
+    <div class="xs muted">${B.round}라운드 · 받은 피해 ${fmt(B.took)}</div>
+    <div class="rewards"><span style="color:var(--gold)">EXP +${fmt(O.exp)}</span><span>골드 +${fmt(O.gold)}</span>${Object.entries(O.mats).map(([k,v])=>`<span>${esc(k)} ×${v}</span>`).join('')}</div>
+    ${O.ups?`<div class="lvup">레벨 업! ${lvTag()} · 능력치 포인트 +${O.ups*2}</div>`:''}
+    ${O.promo?`<div style="margin-top:4px;font-weight:700">소속: ${O.promo} · EXP·골드 +${Math.round(facBonus()*100)}%</div>`:''}
+    ${O.loot?`<div class="small" style="margin-top:4px">${O.loot==='full'?'전리품이 있었지만 가방이 가득 찼다':`전리품 · <b>${itemLabel(O.loot)}</b>`}</div>`:''}</div>`;
+}
 function battleView(){
   const meTurn = !B.over && B.queue[0]==='me';
   const order = upcoming().map((w,i)=>{
@@ -1494,21 +1622,17 @@ function battleView(){
     <div class="plat me"></div><div class="me-on ${meHit?'hit':''}">${dollHTML(lookBack())}${B.pops.me!=null?`<span class="pop" style="top:40px;left:60%">${B.pops.me}</span>`:''}</div>
     <canvas class="fxc" aria-hidden="true"></canvas>
     <div class="blog" role="status" aria-live="polite">${B.log || (meTurn ? '내 차례! 명령을 고르세요.' : '')}</div>
+    ${B.over ? overHTML(B.over) : ''}
   </div>`;
-  h += `<div class="bpanel"><div class="bstat"><div class="nm">${esc(S.name)}<small>${lvTag()}</small></div><div class="bars2">
+  const skillMenu = meTurn && B.sub==='skill';
+  h += `<div class="bpanel ${skillMenu?'withhead':''}">${skillMenu?`<div class="phead"><span>사용할 스킬을 선택하세요.</span><span>MP ${fmt(S.mp)}/${fmt(mpMax())}</span></div>`:''}<div class="bstat" ${skillMenu?'hidden':''}>${B.over?`<span class="bav">${dollHTML(lookFront(), 64)}</span>`:''}<div class="nm">${esc(S.name)}<small>${lvTag()}</small></div><div class="bars2">
     <div class="bl"><span>HP</span><span class="b"><i style="width:${S.hp/hpMax()*100}%;background:var(--hp)"></i></span><span>${fmt(S.hp)}/${fmt(hpMax())}</span></div>
     <div class="bl"><span>MP</span><span class="b"><i style="width:${S.mp/mpMax()*100}%;background:var(--mp)"></i></span><span>${fmt(S.mp)}/${fmt(mpMax())}</span></div></div></div>`;
   if (B.over){
     const O = B.over;
-    if (O==='run') h += `<div class="result" style="margin-top:12px"><div class="big2" style="color:var(--sub)">도망쳤다</div></div><div class="btns"><button class="btn" data-act="leave">돌아가기</button><button class="btn pri" data-act="again">다시 사냥</button></div>`;
-    else if (O.win) h += `<div class="result fade" style="margin-top:12px"><div class="big2">${O.promo ? '승급 시험 통과!' : '승리!'}</div>
-      <div class="xs muted">${B.round}라운드 · 받은 피해 ${fmt(B.took)}</div>
-      <div class="rewards"><span style="color:var(--gold)">EXP +${fmt(O.exp)}</span><span>골드 +${fmt(O.gold)}</span>${Object.entries(O.mats).map(([k,v])=>`<span>${esc(k)} ×${v}</span>`).join('')}</div>
-      ${O.ups?`<div style="margin-top:6px;font-weight:700;color:var(--accent)">레벨 업! ${lvTag()} · 능력치 포인트 +${O.ups*2}</div>`:''}
-      ${O.promo?`<div style="margin-top:6px;font-weight:700">소속: ${O.promo} · EXP·골드 +${Math.round(facBonus()*100)}%</div>`:''}
-      ${O.loot?`<div class="small" style="margin-top:6px">${O.loot==='full'?'전리품이 있었지만 가방이 가득 찼다':`전리품 · <b>${itemLabel(O.loot)}</b>`}</div>`:''}</div>
-      <div class="btns"><button class="btn" data-act="leave">돌아가기</button>${B.mode==='promo'?'':`<button class="btn pri" data-act="again" ${S.hp<=1?'disabled':''}>계속 사냥</button>`}</div>`;
-    else h += `<div class="result fade" style="margin-top:12px"><div class="big2 lose">쓰러졌다…</div><div class="small muted">골드 ${fmt(O.lostGold)}, 경험치 ${fmt(O.lostExp)}를 잃고 마을로 실려 왔다. 치료를 받아 HP 절반으로 깨어났다.</div></div><div class="btns"><button class="btn pri" data-act="leave">마을로</button></div>`;
+    if (O==='run') h += `<div class="btns"><button class="btn" data-act="leave">돌아가기</button><button class="btn pri" data-act="again">다시 사냥</button></div>`;
+    else if (O.win) h += `<div class="btns"><button class="btn" data-act="leave">돌아가기</button>${B.mode==='promo'?'':`<button class="btn pri" data-act="again" ${S.hp<=1?'disabled':''}>계속 사냥</button>`}</div>`;
+    else h += `<div class="btns"><button class="btn pri" data-act="leave">마을로</button></div>`;
   } else if (meTurn){
     if (B.sub==='skill'){
       const tf = B.foes[tgt], weak = tf ? knownWeak(tf) : [];
@@ -1719,15 +1843,16 @@ const TABS = [['home','홈'],['hunt','사냥'],['char','캐릭터'],['bag','가�
 function render(){
   if (!S){ app.className = 'app notabs'; app.innerHTML = createView(); return; }
   ensureDaily();
-  if (B){ app.className = 'app notabs'; app.innerHTML = battleView(); if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
+  if (B){ app.className = 'app notabs'; app.innerHTML = `<div class="bscene">${sceneSVG(B.g)}<div class="bwrap">${battleView()}</div></div>`; if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
   const V = {home:homeView, hunt:huntView, char:charView, bag:bagView, rec:recView}[UI.tab] || homeView;
   const dots = {home:false, hunt:false, char:!!S.points || !!S.sp || canJobChange() || canRoute() || promoReady(), bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
   setTimeout(runTyper, 0);
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
+  if (UI.innAsk) app.insertAdjacentHTML('beforeend', innSheet());
 }
 function go(dest){
-  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false;
+  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false; UI.innAsk = false;
   if (sub){ if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; }
   render(); window.scrollTo({top:0});
 }
@@ -1756,7 +1881,9 @@ app.addEventListener('click', async e => {
   if (a==='bitem'){ playerAction('item', b.dataset.k); return; }
   if (a==='leave'){ endBattle(false); return; }
   if (a==='again'){ endBattle(true); return; }
-  if (a==='rest'){ rest(); return; }
+  if (a==='rest'){ if (S.hp>=hpMax() && S.mp>=mpMax()) rest(); else { UI.innAsk = true; render(); } return; }
+  if (a==='innyes'){ UI.innAsk = false; rest(); return; }
+  if (a==='innno'){ UI.innAsk = false; render(); return; }
   if (a==='auto'){ autoHunt(+b.dataset.g, b.dataset.deep==='1'); return; }
   if (a==='autoclose'){ UI.auto = null; render(); return; }
   if (a==='talk' || a==='talknext'){ if (typerSkip()) return; talkNext(); render(); return; }
