@@ -1,0 +1,486 @@
+이모지·기호로 대신하고 있는 그림 전체 목록 (아이콘 의뢰용)
+작성 2026-10-13 · 게임 코드(index.html)에서 이모지·기호를 전부 찾아 정리했습니다.
+
+공통 규격: 도트(라그나로크 생김새 + 메이플식 채색), 투명 배경 PNG, 글씨 없음.
+  - 작은 UI 아이콘: 64 × 64px 캔버스 (화면에선 16~28px로 작게 보이므로 굵고 단순하게)
+  - 스킬 아이콘: 64 × 64px, 둥근 모서리 사각 테두리 안에 그림 (라그나로크·던파 스킬 아이콘 느낌)
+  - 파일 이름은 아래 영문 그대로
+
+※ 이미 다른 목록에 있는 것(중복 제외): 강화 망치 ⚒️(ui_hammer) · 카드 덱 🃏(ui_deck) · 도감(ui_dex) ·
+  상점·대장간·온천·여관·훈련소 메뉴(ui_shop 등) · 여관 창 🛏️(bg_inn 배경) → icons_new.csv 참고
+
+==================================================================
+1. 속성 아이콘 (스킬·공격·약점 표시) — 10개
+==================================================================
+  attr_blunt.png           지금 🔨      타격 — 망치·주먹 충격
+  attr_slash.png           지금 ⚔️     베기 — 칼날 궤적
+  attr_pierce.png          지금 🏹      관통 — 화살촉·창끝
+  attr_fire.png            지금 🔥      불 — 불꽃
+  attr_ice.png             지금 ❄️     얼음 — 눈 결정
+  attr_thunder.png         지금 ⚡      번개 — 번개
+  attr_holy.png            지금 ✨      빛 — 빛나는 별·십자 빛
+  attr_dark.png            지금 🌑      어둠 — 보라 초승달·어둠 구체
+  attr_water.png           지금 💧      물 — 물방울
+  attr_poison.png          지금 ☠️     독 — 초록 독방울·해골
+
+==================================================================
+2. 스킬 종류 아이콘 (스킬 아이콘이 없을 때 대신 쓰는 기본 아이콘) — 10개
+==================================================================
+  kind_heal.png            지금 💚      회복 — 초록 하트 + 십자
+  kind_guard.png           지금 🛡️     방어 — 방패
+  kind_buff.png            지금 📯      강화(버프) — 위쪽 화살표 + 빛
+  kind_scan.png            지금 👁️     살펴보기 — 눈 + 돋보기
+  kind_debuff.png          지금 💢      약화(디버프) — 금 간 방패·아래 화살표
+  kind_stun.png            지금 💫      기절 — 머리 위 도는 별
+  kind_steal.png           지금 💰      훔치기 — 동전 주머니 + 손
+  kind_enchant.png         지금 🌟      속성 부여 — 빛나는 무기
+  kind_passive.png         지금 📘      패시브 — 펼친 책
+  kind_attack.png          지금 (없음)   일반 공격 — 칼 하나 (공격 버튼용)
+
+==================================================================
+3. 홈 메뉴 타일 — 5개 (마을 안내 메뉴 아이콘 ui_* 와 다르게, 홈 큰 버튼용)
+==================================================================
+  home_hunt.png            지금 ⚔️     사냥터로 보내 주세요 — 교차한 칼
+  home_auto.png            지금 🔁      자동 사냥 맡기기 — 모래시계 + 칼
+  home_inn.png             지금 🛏️     여관에서 쉬기 — 침대 + 달
+  home_training.png        지금 🏋️     훈련소·스킬 — 허수아비 + 목검
+  home_mission.png         지금 🏆      오늘의 미션 — 트로피
+
+==================================================================
+4. 리나 대화 메뉴 버튼 — 5개
+==================================================================
+  talk_shop.png            지금 🛒      상점 — 장바구니
+  talk_craft.png           지금 ⚗️     제작 — 플라스크
+  talk_gift.png            지금 🎁      선물 — 리본 상자
+  talk_job.png             지금 ⭐      전직 의뢰 — 금별 + 두루마리
+  talk_town.png            지금 🗺️     마을 안내(새로 생길 메뉴) — 접힌 지도
+
+==================================================================
+5. 할 일·알림 목록 아이콘 (홈 '할 일' 카드, 리나 '할 일 알려줘') — 6개
+==================================================================
+  todo_quest.png           지금 📜      의뢰·미션 진행 — 두루마리
+  todo_job.png             지금 ⭐      전직 가능 — 빛나는 별
+  todo_newitem.png         지금 🎁      새 장비 획득 — 상자 + 반짝
+  todo_point.png           지금 💪      능력치 포인트 — 근육 팔
+  todo_skillpoint.png      지금 📘      스킬 포인트 — 책 + 플러스
+  todo_lowhp.png           지금 🩹      HP 낮음 — 반창고
+
+==================================================================
+6. 일일 미션 종류 — 5개
+==================================================================
+  mission_kill.png         지금 ⚔️     몬스터 처치 — 칼 + 해골
+  mission_win.png          지금 🏆      전투 승리 — 트로피
+  mission_weak.png         지금 🎯      약점 공격 — 과녁
+  mission_skill.png        지금 ✨      스킬 사용 — 빛나는 손
+  mission_nohit.png        지금 💀      무피격 승리 — 방패 + 반짝
+
+==================================================================
+7. 상태·표시 아이콘 — 18개
+==================================================================
+  ui_lock.png              지금 🔒      잠긴 사냥터·스킬 — 자물쇠
+  ui_streak.png            지금 🔥      연속 사냥 — 불꽃 + 숫자 자리 비움
+  ui_rare.png              지금 ✨      희귀 몬스터 표시 — 금빛 반짝
+  ui_heart_full.png        지금 ♥      리나 호감도(채움) — 분홍 하트
+  ui_heart_empty.png       지금 ♡      리나 호감도(빈칸) — 빈 하트 테두리
+  ui_orb_full.png          지금 ●      기 구슬(채움) — 빛나는 구슬
+  ui_orb_empty.png         지금 ○      기 구슬(빈칸) — 빈 구슬
+  ui_star.png              지금 ★      카드 등급 별 — 금별
+  ui_check.png             지금 ✓      선행 스킬 충족 — 초록 체크
+  ui_cross.png             지금 ✗      선행 스킬 부족 — 빨간 X
+  ui_blocked.png           지금 ✕      쓸 수 없는 장비 칸 — 회색 X + 사슬
+  ui_up.png                지금 ▲      장비 비교: 더 좋음 — 초록 위 화살표
+  ui_down.png              지금 ▼      장비 비교: 더 나쁨 — 빨간 아래 화살표
+  ui_target.png            지금 ▼      전투에서 노리는 적 표시 — 빨간 역삼각 표식
+  ui_poison_stack.png      지금 ☠️     적의 독 중첩 — 작은 독방울
+  ui_coin.png              지금 (그림)   골드 — 금화 (지금은 코드로 그린 동그라미)
+  ui_gear.png              지금 (그림)   설정 버튼 — 톱니바퀴
+  ui_new.png               지금 (점)    새 아이템 표시 — 빨간 점 → 작은 NEW 반짝
+
+==================================================================
+8. 승리 화면 꾸밈 — 2개
+==================================================================
+  fx_petal.png             지금 ✿❀     승리 꽃잎(떨어지는 꽃잎) — 분홍 꽃잎 1장 (게임에서 여러 개 뿌림)
+  fx_victory_frame.png     지금 ✿ ❀ ✿  승리 패널 위·아래 꽃 장식 — 가로로 긴 꽃 장식 띠 (256 × 32px)
+
+==================================================================
+9. 하단 탭 아이콘 — 6개 (지금은 코드로 그린 선 아이콘, 바꿔도 되고 그대로 둬도 됨)
+==================================================================
+  tab_home.png             지금 (선)    홈 — 집
+  tab_hunt.png             지금 (선)    사냥 — 칼
+  tab_char.png             지금 (선)    캐릭터 — 사람 실루엣
+  tab_skill.png            지금 (선)    스킬 — 별 카드
+  tab_bag.png              지금 (선)    가방 — 배낭
+  tab_rec.png              지금 (선)    기록 — 트로피
+
+==================================================================
+10. 스킬 아이콘 — 299개 (스킬마다 1개, 지금은 속성·종류 이모지)
+==================================================================
+  파일 이름: skill_<스킬코드>.png  (예: skill_n_bash.png)
+  그림 기준: 스킬 이름과 효과가 한눈에 보이게. 같은 트리(직업)는 같은 테두리 색으로 통일.
+    노비스 회색 · 소드맨 계열 남색 · 아처 계열 초록 · 시프 계열 보라 · 어콜라이트 계열 금색 · 매지션 계열 파랑 · 3차는 테두리에 금장식
+  패시브는 테두리를 점선 느낌 또는 책갈피 표시로 액티브와 구분.
+
+  ■ 노비스 (11개)
+    skill_n_bash         세게 내려치기 — 공격 · 타격
+    skill_n_scan         살펴보기 — 살펴보기
+    skill_n_aid          응급처치 — 회복
+    skill_n_body         기초 체력 단련 — 패시브 · 최대 HP
+    skill_n_torch        횃불 휘두르기 — 공격 · 불
+    skill_n_sweep        휘두르기 — 공격 · 타격 · 적 전체
+    skill_n_dead         죽은 척 — 방어
+    skill_n_throw        돌 던지기 — 공격 · 관통
+    skill_n_run          빠른 걸음 — 패시브 · 속도
+    skill_n_luck         행운의 동전 — 패시브 · 치명타
+    skill_n_rest         숨 고르기 — 패시브 · HP 회복
+
+  ■ 소드맨 (12개)
+    skill_s_bash         배쉬 — 공격 · 베기
+    skill_s_mast         한손검 수련 — 패시브 · 공격력
+    skill_s_hpr          HP 회복력 향상 — 패시브 · HP 회복
+    skill_s_prov         프로보크 — 약화(디버프)
+    skill_s_mag          매그넘 브레이크 — 공격 · 불 · 적 전체
+    skill_s_fury         투지 — 패시브 · 투지
+    skill_s_endure       인듀어 — 방어
+    skill_s_thrust       찌르기 — 공격 · 관통
+    skill_s_crash        어퍼 슬래시 — 공격 · 베기
+    skill_s_iron         아이언 바디 — 패시브 · 피해 감소
+    skill_s_war          워크라이 — 강화(버프) · 공격력
+    skill_s_shout        포효 — 기절
+
+  ■ 나이트 (11개)
+    skill_k_aura         오러 블레이드 — 패시브 · 공격력
+    skill_k_bowl         볼링 배쉬 — 공격 · 베기 · 적 전체
+    skill_k_quick        투핸드 퀴큰 — 강화(버프) · 속도
+    skill_k_counter      오토 카운터 — 방어
+    skill_k_spiral       스파이럴 피어스 — 공격 · 관통
+    skill_k_parry        패링 — 패시브 · 피해 감소
+    skill_k_charge       차지 어택 — 공격 · 관통
+    skill_k_conc         컨센트레이션 — 강화(버프) · 치명타
+    skill_k_cleave       대검 일섬 — 공격 · 베기
+    skill_k_mastery      양손검 수련 — 패시브 · 공격력
+    skill_k_sense        전투 감각 — 패시브 · 치명타
+
+  ■ 크루세이더 (11개)
+    skill_c_guard        오토 가드 — 패시브 · 피해 감소
+    skill_c_holy         홀리 크로스 — 공격 · 빛
+    skill_c_charge       실드 차지 — 기절
+    skill_c_def          디펜더 — 강화(버프) · 방어력
+    skill_c_grand        그랜드 크로스 — 공격 · 빛 · 적 전체
+    skill_c_faith        페이스 — 패시브 · 최대 HP
+    skill_c_reflect      리플렉트 실드 — 패시브 · 피해 감소
+    skill_c_boom         실드 부메랑 — 공격 · 타격
+    skill_c_devotion     디보션 — 방어
+    skill_c_heal         힐 — 회복
+    skill_c_wall         신성한 방벽 — 패시브 · HP 회복
+
+  ■ 드래곤 나이트 (11개)
+    skill_d_ride         기승 수련 — 패시브 · 속도
+    skill_d_pierce       피어스 — 공격 · 관통
+    skill_d_stab         스피어 스탭 — 공격 · 관통 · 적 전체
+    skill_d_boom         스피어 부메랑 — 공격 · 관통
+    skill_d_breath       드래곤 브레스 — 공격 · 불 · 적 전체
+    skill_d_spear        창 수련 — 패시브 · 공격력
+    skill_d_brand        브랜디쉬 스피어 — 공격 · 관통 · 적 전체
+    skill_d_roar         드래곤 로어 — 기절
+    skill_d_dive         드래곤 다이브 — 공격 · 불
+    skill_d_blood        용의 혈통 — 패시브 · 최대 HP
+    skill_d_rush         돌격 본능 — 패시브 · 치명타
+
+  ■ 아처 (11개)
+    skill_a_double       더블 스트레이핑 — 공격 · 관통
+    skill_a_owl          올빼미의 눈 — 패시브 · 치명타
+    skill_a_vult         독수리의 눈 — 패시브 · 공격력
+    skill_a_shower       애로우 샤워 — 공격 · 관통 · 적 전체
+    skill_a_focus        집중력 향상 — 강화(버프) · 치명타
+    skill_a_aim          조준 — 패시브 · 조준
+    skill_a_charge       차지 애로우 — 기절
+    skill_a_arrow        애로우 리펄스 — 공격 · 관통
+    skill_a_step         바람의 보법 — 패시브 · 회피
+    skill_a_fire         파이어 애로우 — 속성 부여 · 불
+    skill_a_ice          아이스 애로우 — 공격 · 얼음
+
+  ■ 헌터 (12개)
+    skill_h_ankle        앵클 스네어 — 기절
+    skill_h_land         랜드마인 — 공격 · 타격
+    skill_h_blitz        블리츠 비트 — 공격 · 관통
+    skill_h_blast        블래스트 마인 — 공격 · 번개 · 적 전체
+    skill_h_clay         클레이모어 트랩 — 공격 · 불 · 적 전체
+    skill_h_study        트랩 연구 — 패시브 · 스킬 위력
+    skill_h_detect       디텍팅 — 살펴보기
+    skill_h_spark        스파크 트랩 — 공격 · 번개
+    skill_h_freeze       프리징 트랩 — 기절
+    skill_h_falcon       매 길들이기 — 패시브 · 치명타
+    skill_h_wild         야생 감각 — 패시브 · 회피
+    skill_h_steel        강철 화살촉 — 패시브 · 공격력
+
+  ■ 스나이퍼 (12개)
+    skill_p_true         트루 사이트 — 강화(버프) · 공격력
+    skill_p_wind         윈드 워크 — 강화(버프) · 속도
+    skill_p_frost        서리 화살 — 공격 · 얼음
+    skill_p_falcon       팔콘 어썰트 — 공격 · 관통
+    skill_p_sharp        샤프 슈팅 — 공격 · 관통
+    skill_p_eye          매의 눈 — 패시브 · 치명타
+    skill_p_bane         애로우 베인 — 공격 · 관통
+    skill_p_storm        애로우 스톰 — 공격 · 관통 · 적 전체
+    skill_p_mark         약점 표식 — 약화(디버프)
+    skill_p_aimshot      정밀 사격 — 패시브 · 공격력
+    skill_p_gale         바람의 가호 — 패시브 · 속도
+    skill_p_deadly       데들리 애로우 — 패시브 · 스킬 위력
+
+  ■ 시프 (12개)
+    skill_t_double       더블 어택 — 패시브 · 2회 공격
+    skill_t_dodge        회피율 증가 — 패시브 · 회피
+    skill_t_steal        훔치기 — 훔치기
+    skill_t_venom        인베넘 — 공격 · 독
+    skill_t_toxin        독 숙련 — 패시브 · 독
+    skill_t_throw        투척 단검 — 공격 · 관통
+    skill_t_hide         하이딩 — 방어
+    skill_t_detox        해독 — 회복
+    skill_t_haste        헤이스트 — 강화(버프) · 속도
+    skill_t_sand         샌드 어택 — 기절
+    skill_t_back         백 스탭 — 공격 · 베기
+    skill_t_vital        급소 공략 — 패시브 · 치명타
+
+  ■ 어쌔신 (11개)
+    skill_as_dual        이도류 수련 — 패시브 · 공격력
+    skill_as_sonic       소닉 블로우 — 공격 · 베기
+    skill_as_cloak       클로킹 — 방어
+    skill_as_splash      베넘 스플래셔 — 공격 · 독 · 적 전체
+    skill_as_grim        그림 투스 — 공격 · 어둠 · 적 전체
+    skill_as_katar       카타르 수련 — 패시브 · 치명타
+    skill_as_edp         인챈트 데들리 포이즌 — 속성 부여 · 독
+    skill_as_cross       크로스 임팩트 — 공격 · 베기
+    skill_as_soul        소울 디스트로이어 — 공격 · 어둠
+    skill_as_shadow      그림자 걸음 — 패시브 · 회피
+    skill_as_lethal      치명 독 — 패시브 · 스킬 위력
+
+  ■ 닌자 (12개)
+    skill_nj_star        수리검 던지기 — 공격 · 관통
+    skill_nj_fire        화염진 — 공격 · 불 · 적 전체
+    skill_nj_ice         빙섬창 — 공격 · 얼음
+    skill_nj_clone       분신 — 강화(버프) · 회피
+    skill_nj_thunder     뇌격쇄 — 공격 · 번개 · 적 전체
+    skill_nj_mast        수리검 수련 — 패시브 · 공격력
+    skill_nj_smoke       연막 — 방어
+    skill_nj_kunai       쿠나이 폭발 — 공격 · 불 · 적 전체
+    skill_nj_kage        그림자 베기 — 공격 · 어둠
+    skill_nj_ninpo       인법 수련 — 패시브 · 스킬 위력
+    skill_nj_agile       닌자의 몸놀림 — 패시브 · 회피
+    skill_nj_vital       급소 찌르기 — 패시브 · 치명타
+
+  ■ 댄서 (12개)
+    skill_dn_wink        매혹의 윙크 — 기절
+    skill_dn_spin        회전 무용 — 공격 · 베기 · 적 전체
+    skill_dn_tempo       템포 업 — 강화(버프) · 속도
+    skill_dn_kiss        집시의 키스 — 회복
+    skill_dn_fan         바람의 부채춤 — 공격 · 번개
+    skill_dn_grace       우아한 발놀림 — 패시브 · 회피
+    skill_dn_song        응원의 노래 — 강화(버프) · 공격력
+    skill_dn_lure        유혹의 춤 — 약화(디버프)
+    skill_dn_finale      피날레 — 공격 · 빛 · 적 전체
+    skill_dn_rhythm      리듬감 — 패시브 · 속도
+    skill_dn_charm       매력 — 패시브 · 치명타
+    skill_dn_stamina     무희의 체력 — 패시브 · 최대 HP
+
+  ■ 어콜라이트 (13개)
+    skill_ac_heal        힐 — 회복
+    skill_ac_ruwach      루아크 — 살펴보기
+    skill_ac_bless       블레싱 — 강화(버프) · 공격력
+    skill_ac_agi         속도 증가 — 강화(버프) · 속도
+    skill_ac_light       홀리 라이트 — 공격 · 빛
+    skill_ac_ang         엔젤러스 — 강화(버프) · 방어력
+    skill_ac_divine      디바인 프로텍션 — 패시브 · 피해 감소
+    skill_ac_demon       디몬 베인 — 패시브 · 공격력
+    skill_ac_pneuma      뉴마 — 방어
+    skill_ac_signum      시그넘 크루시스 — 약화(디버프)
+    skill_ac_cure        큐어 — 회복
+    skill_ac_faith       신앙심 — 패시브 · 마법 공격력
+    skill_ac_med         메디테이션 — 패시브 · HP 회복
+
+  ■ 프리스트 (14개)
+    skill_pr_sanc        생츄어리 — 회복
+    skill_pr_impos       임포시티오 마누스 — 강화(버프) · 공격력
+    skill_pr_asper       아스페르시오 — 속성 부여 · 빛
+    skill_pr_kyrie       키리에 엘레이손 — 방어
+    skill_pr_magnus      마그누스 엑소시즘 — 공격 · 빛 · 적 전체
+    skill_pr_mace        메이스 수련 — 패시브 · 공격력
+    skill_pr_gloria      글로리아 — 강화(버프) · 치명타
+    skill_pr_lex         렉스 디비나 — 기절
+    skill_pr_turn        턴 언데드 — 공격 · 빛
+    skill_pr_aeterna     렉스 에테르나 — 약화(디버프)
+    skill_pr_holy        신성 마법 수련 — 패시브 · 마법 공격력
+    skill_pr_ward        수호의 기도 — 패시브 · 피해 감소
+    skill_pr_grace       은총 — 패시브 · 최대 HP
+    skill_pr_spirit      성령의 가호 — 패시브 · HP 회복
+
+  ■ 몽크 (11개)
+    skill_mk_triple      삼단장 — 패시브 · 2회 공격
+    skill_mk_combo       연타장 — 공격 · 타격
+    skill_mk_chi         기공 — 강화(버프) · 공격력
+    skill_mk_steel       금강 — 방어
+    skill_mk_sphere      기공 수련 — 패시브 · 기 구슬
+    skill_mk_fist        아수라 패황권 — 공격 · 타격
+    skill_mk_iron        철포삼 — 패시브 · 최대 HP
+    skill_mk_palm        장권 — 공격 · 타격
+    skill_mk_finger      지탄 — 공격 · 타격
+    skill_mk_calm        청심 — 회복
+    skill_mk_step        보법 — 패시브 · 회피
+
+  ■ 매지션 (16개)
+    skill_mg_fire        파이어 볼트 — 공격 · 불
+    skill_mg_cold        콜드 볼트 — 공격 · 얼음
+    skill_mg_light       라이트닝 볼트 — 공격 · 번개
+    skill_mg_sight       사이트 — 살펴보기
+    skill_mg_soul        소울 스트라이크 — 공격 · 어둠
+    skill_mg_napalm      나팜 비트 — 공격 · 어둠 · 적 전체
+    skill_mg_safety      세이프티 월 — 방어
+    skill_mg_amp         마력 증폭 — 패시브 · 마법 공격력
+    skill_mg_fwall       파이어 월 — 공격 · 불 · 적 전체
+    skill_mg_frost       프로스트 다이버 — 기절
+    skill_mg_thunder     썬더 스톰 — 공격 · 번개 · 적 전체
+    skill_mg_energy      에너지 코트 — 강화(버프) · 방어력
+    skill_mg_focus       정신 집중 — 패시브 · 치명타
+    skill_mg_mana        마나 친화 — 패시브 · 스킬 위력
+    skill_mg_ward        마나 실드 — 패시브 · 피해 감소
+    skill_mg_vigor       마법사의 체력 — 패시브 · 최대 HP
+
+  ■ 위자드 (12개)
+    skill_wz_jupitel     유피텔 썬더 — 공격 · 번개
+    skill_wz_meteor      메테오 스톰 — 공격 · 불 · 적 전체
+    skill_wz_storm       스톰 거스트 — 공격 · 얼음 · 적 전체
+    skill_wz_quag        쿼그마이어 — 기절
+    skill_wz_over        마력 과부하 — 패시브 · 과부하
+    skill_wz_lord        로드 오브 버밀리언 — 공격 · 번개 · 적 전체
+    skill_wz_heaven      헤븐즈 드라이브 — 공격 · 타격 · 적 전체
+    skill_wz_wisdom      대마법사의 지혜 — 패시브 · 마법 공격력
+    skill_wz_sight       사이트 래셔 — 공격 · 불 · 적 전체
+    skill_wz_wall        아이스 월 — 방어
+    skill_wz_elem        원소 지배 — 패시브 · 스킬 위력
+    skill_wz_rampage     마력 폭주 — 패시브 · 치명타
+
+  ■ 소서러 (11개)
+    skill_so_summon      정령 소환 — 패시브 · 정령
+    skill_so_dust        다이아몬드 더스트 — 공격 · 얼음 · 적 전체
+    skill_so_grave       어스 그레이브 — 공격 · 타격 · 적 전체
+    skill_so_poison      포이즌 버스터 — 공격 · 독 · 적 전체
+    skill_so_psychic     사이킥 웨이브 — 공격 · 어둠 · 적 전체
+    skill_so_bond        정령 교감 — 패시브 · 마법 공격력
+    skill_so_wind        바람 정령의 가호 — 강화(버프) · 속도
+    skill_so_spear       바레티르 스피어 — 공격 · 번개
+    skill_so_cloud       클라우드 킬 — 약화(디버프)
+    skill_so_earth       대지의 가호 — 패시브 · 피해 감소
+    skill_so_water       물의 정령 — 패시브 · HP 회복
+
+  ■ 로드 나이트 (7개)
+    skill_lk_berserk     버서크 — 강화(버프) · 공격력
+    skill_lk_spiral      클래싱 스파이럴 — 공격 · 관통
+    skill_lk_head        헤드 크러시 — 공격 · 베기
+    skill_lk_joint       조인트 비트 — 기절
+    skill_lk_ignite      이그니션 브레이크 — 공격 · 불 · 적 전체
+    skill_lk_master      투핸드 마스터 — 패시브 · 공격력
+    skill_lk_lord        로드의 위엄 — 패시브 · 치명타
+
+  ■ 팔라딘 (7개)
+    skill_pa_chain       쉴드 체인 — 공격 · 타격
+    skill_pa_press       프레셔 — 공격 · 빛
+    skill_pa_sac         세크리파이스 — 방어
+    skill_pa_gospel      가스펠 — 회복
+    skill_pa_genesis     제네시스 레이 — 공격 · 빛 · 적 전체
+    skill_pa_faith       성기사의 신념 — 패시브 · 최대 HP
+    skill_pa_wall        수호의 맹세 — 패시브 · 피해 감소
+
+  ■ 룬 나이트 (7개)
+    skill_rk_hundred     헌드레드 스피어 — 공격 · 관통
+    skill_rk_sonic       소닉 웨이브 — 공격 · 베기
+    skill_rk_rune        인챈트 블레이드 — 속성 부여 · 번개
+    skill_rk_storm       스톰 블래스트 — 공격 · 번개 · 적 전체
+    skill_rk_dragon      드래곤 하울링 — 약화(디버프)
+    skill_rk_rider       룬 마스터리 — 패시브 · 속도
+    skill_rk_scale       용비늘 갑주 — 패시브 · 피해 감소
+
+  ■ 레인저 (7개)
+    skill_ra_aimed       에임드 볼트 — 공격 · 관통
+    skill_ra_cluster     클러스터 밤 — 공격 · 불 · 적 전체
+    skill_ra_camo        카모플라주 — 강화(버프) · 치명타
+    skill_ra_fear        피어 브리즈 — 강화(버프) · 2회 공격
+    skill_ra_warg        워그 바이트 — 기절
+    skill_ra_main        메인 마스터리 — 패시브 · 공격력
+    skill_ra_hunt        사냥꾼의 직감 — 패시브 · 치명타
+
+  ■ 윈드 호크 (7개)
+    skill_wh_gale        게일 스톰 — 공격 · 관통 · 적 전체
+    skill_wh_cres        크레시브 볼트 — 공격 · 관통
+    skill_wh_hawk        호크 러시 — 공격 · 관통
+    skill_wh_calam       캘러미티 게일 — 강화(버프) · 치명타
+    skill_wh_wind        바람의 눈 — 약화(디버프)
+    skill_wh_wing        바람의 날개 — 패시브 · 속도
+    skill_wh_eye         매의 눈 — 패시브 · 치명타
+
+  ■ 길로틴 크로스 (7개)
+    skill_gc_roll        롤링 커터 — 공격 · 베기 · 적 전체
+    skill_gc_ripper      크로스 리퍼 슬래셔 — 공격 · 베기
+    skill_gc_counter     카운터 슬래시 — 공격 · 어둠
+    skill_gc_venom       베넘 프레셔 — 기절
+    skill_gc_hide        다크 일루전 — 강화(버프) · 회피
+    skill_gc_cross       크로스 임팩트 수련 — 패시브 · 공격력
+    skill_gc_shadow      그림자 걸음 — 패시브 · 회피
+
+  ■ 오보로 (7개)
+    skill_ob_cross       십자 참 — 공격 · 베기
+    skill_ob_fuma        풍마 수리검 난무 — 공격 · 관통 · 적 전체
+    skill_ob_illu        환술 — 약화(디버프)
+    skill_ob_clone       그림자 분신 — 강화(버프) · 2회 공격
+    skill_ob_moon        월야 참 — 공격 · 어둠
+    skill_ob_art         오보로 인법 — 패시브 · 스킬 위력
+    skill_ob_mist        안개 몸놀림 — 패시브 · 회피
+
+  ■ 원더러 (7개)
+    skill_wd_severe      세베룸 스톰 — 공격 · 베기 · 적 전체
+    skill_wd_reverb      리버브레이션 — 공격 · 타격
+    skill_wd_rain        레인 스톰 — 공격 · 관통
+    skill_wd_swing       스윙 댄스 — 강화(버프) · 속도
+    skill_wd_lullaby     자장가 — 기절
+    skill_wd_lesson      레슨 — 패시브 · 스킬 위력
+    skill_wd_grace       방랑자의 몸짓 — 패시브 · 회피
+
+  ■ 아크 비숍 (7개)
+    skill_ab_adora       아도라무스 — 공격 · 빛
+    skill_ab_judex       쥬덱스 — 공격 · 빛 · 적 전체
+    skill_ab_heal        하이니스 힐 — 회복
+    skill_ab_epic        에피클레시스 — 강화(버프) · 방어력
+    skill_ab_lauda       라우다 아그누스 — 약화(디버프)
+    skill_ab_canto       칸토 칸디두스 — 패시브 · 마법 공격력
+    skill_ab_oratio      오라티오 — 패시브 · HP 회복
+
+  ■ 수라 (7개)
+    skill_su_tiger       호포 — 공격 · 타격
+    skill_su_rampage     천라지망 — 공격 · 타격
+    skill_su_knuckle     나찰파황격 — 공격 · 타격
+    skill_su_sky         흑룡 회전권 — 공격 · 타격 · 적 전체
+    skill_su_gate        기공 증폭 — 강화(버프) · 공격력
+    skill_su_body        금강불괴 — 패시브 · 최대 HP
+    skill_su_fist        수라의 주먹 — 패시브 · 공격력
+
+  ■ 워록 (7개)
+    skill_wl_comet       코멧 — 공격 · 불 · 적 전체
+    skill_wl_chain       체인 라이트닝 — 공격 · 번개
+    skill_wl_frost       잭 프로스트 — 공격 · 얼음 · 적 전체
+    skill_wl_soul        소울 익스펜션 — 공격 · 어둠
+    skill_wl_frozen      화이트 임프리즌 — 기절
+    skill_wl_read        리딩 스펠북 — 패시브 · 마법 공격력
+    skill_wl_rad         라디우스 — 패시브 · 스킬 위력
+
+  ■ 엘리멘탈 마스터 (7개)
+    skill_em_hell        헬 인페르노 — 공격 · 불
+    skill_em_storm       다이아몬드 스톰 — 공격 · 얼음 · 적 전체
+    skill_em_quake       어스 퀘이크 — 공격 · 타격 · 적 전체
+    skill_em_vortex      바레티르 볼텍스 — 공격 · 번개
+    skill_em_union       정령 합체 — 강화(버프) · 마법 공격력
+    skill_em_spirit      정령의 군주 — 패시브 · 스킬 위력
+    skill_em_elem        원소 지배 — 패시브 · 마법 공격력
+
+==================================================================
+합계
+==================================================================
+  UI·표시 아이콘 67개 + 스킬 아이콘 299개 = 366개
+  우선순위: 1~8번(UI, 61개)은 1차 아이콘 발주에 같이 · 9번 탭은 선택 · 10번 스킬은 3순위 이후
