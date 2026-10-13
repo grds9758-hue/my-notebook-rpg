@@ -1055,29 +1055,29 @@ const SLOT_SPEC = {
 const ARMOR_SET_SLOTS = ['helm','top','bottom','suit','shoes','cape'];
 /* 세트 장비: 일반 장비엔 세트가 없고, 방어구가 떨어질 때 3%(승급 시험 10%)만 세트 장비로 나온다. 세트는 6개뿐.
    투구·상의·하의·신발·망토(한벌옷은 2칸) 중 3칸이면 3세트 효과, 5칸이면 5세트 효과까지 */
-const SETS = {
-  rose:{name:'와일드 로즈', band:3, deep:false, b3:{atk:.05, matk:.05}, b5:{crit:5}},
-  valk:{name:'발키리', band:6, deep:false, b3:{hp:.08}, b5:{block:.08}},
-  ygg:{name:'이그드라실', band:9, deep:false, b3:{atk:.08, matk:.08}, b5:{regen:.02}},
+const SETS = {  // 세트는 '조금 더 좋은' 정도로만: 5세트를 다 모아도 전체 힘이 1할 남짓 오르게 (진득하게 키우도록)
+  rose:{name:'와일드 로즈', band:3, deep:false, b3:{atk:.03, matk:.03}, b5:{crit:3}},
+  valk:{name:'발키리', band:6, deep:false, b3:{hp:.05}, b5:{block:.04}},
+  ygg:{name:'이그드라실', band:9, deep:false, b3:{atk:.04, matk:.04}, b5:{regen:.01}},
   j1:{band:3, deep:true}, j2:{band:6, deep:true}, j3:{band:9, deep:true},  // 전직 세트: 직업마다 다름(JOB_SETS)
 };
 /* 직업 세트 (디아블로식 클래스 세트): 3세트는 능력치, 5세트는 그 직업의 핵심 기술을 바꾼다. 이름·효과는 지금 직업을 따른다 */
 const JOB_SETS = {
-  warrior:[{name:'투사의 맹세', b3:{atk:.08, hp:.05}, b5:{furyMax:3, block:.05}},
-           {name:'불굴의 성채', b3:{hp:.12}, b5:{block:.1, regen:.02}},
-           {name:'신검 발뭉', b3:{atk:.12}, b5:{skill:.2, furyMax:2}}],
-  archer: [{name:'바람추적자', b3:{atk:.08, spd:.05}, b5:{aimMax:3, crit:5}},
-           {name:'매의 군주', b3:{atk:.1}, b5:{critDmg:.2}},
-           {name:'천궁 아르테미스', b3:{atk:.12, crit:5}, b5:{double:.15, aimMax:2}}],
-  thief:  [{name:'그림자 송곳니', b3:{atk:.08, spd:.05}, b5:{poisonMax:3, toxin:.03}},
-           {name:'밤의 장막', b3:{atk:.1}, b5:{dodge:.08, double:.1}},
-           {name:'밤의 지배자', b3:{atk:.12, crit:5}, b5:{double:.2, critDmg:.1}}],
-  healer: [{name:'성광의 기도', b3:{matk:.08, hp:.05}, b5:{heal:.3, regen:.01}},
-           {name:'수호 천사', b3:{hp:.12}, b5:{sphereMax:2, block:.08}},
-           {name:'대천사의 은총', b3:{atk:.1, matk:.1}, b5:{skill:.2, heal:.2}}],
-  mage:   [{name:'비전 학도', b3:{matk:.1}, b5:{overMax:-2}},
-           {name:'원소의 군주', b3:{matk:.1, hp:.05}, b5:{spirit:.3, critDmg:.1}},
-           {name:'별의 현자', b3:{matk:.14}, b5:{skill:.2, overMax:-1}}],
+  warrior:[{name:'투사의 맹세', b3:{atk:.04, hp:.03}, b5:{furyMax:1, block:.03}},
+           {name:'불굴의 성채', b3:{hp:.06}, b5:{block:.05, regen:.01}},
+           {name:'신검 발뭉', b3:{atk:.05}, b5:{skill:.08, furyMax:1}}],
+  archer: [{name:'바람추적자', b3:{atk:.04, spd:.03}, b5:{aimMax:1, crit:3}},
+           {name:'매의 군주', b3:{atk:.05}, b5:{critDmg:.1}},
+           {name:'천궁 아르테미스', b3:{atk:.05, crit:3}, b5:{double:.06, aimMax:1}}],
+  thief:  [{name:'그림자 송곳니', b3:{atk:.04, spd:.03}, b5:{poisonMax:1, toxin:.01}},
+           {name:'밤의 장막', b3:{atk:.05}, b5:{dodge:.03, double:.05}},
+           {name:'밤의 지배자', b3:{atk:.05, crit:3}, b5:{double:.06, critDmg:.05}}],
+  healer: [{name:'성광의 기도', b3:{matk:.04, hp:.03}, b5:{heal:.15, regen:.005}},
+           {name:'수호 천사', b3:{hp:.06}, b5:{sphereMax:1, block:.04}},
+           {name:'대천사의 은총', b3:{atk:.05, matk:.05}, b5:{skill:.08, heal:.1}}],
+  mage:   [{name:'비전 학도', b3:{matk:.05}, b5:{overMax:-1}},
+           {name:'원소의 군주', b3:{matk:.05, hp:.03}, b5:{spirit:.15, critDmg:.05}},
+           {name:'별의 현자', b3:{matk:.06}, b5:{skill:.08, overMax:-1}}],
 };
 const setDef = k => k && k[0]==='j' && k.length===2 ? {...SETS[k], ...JOB_SETS[S.job==='novice'?'warrior':S.job][+k[1]-1]} : SETS[k];
 const SET_OLD = {odin:'j1', imp:'j2', ragna:'j3'};
@@ -1085,13 +1085,13 @@ const SET_PIECE = {helm:'헬름', top:'아머', bottom:'레깅스', suit:'슈트
 const SET_CHANCE = .03, SET_CHANCE_PROMO = .1;
 const SETK = {atk:'공격력', matk:'마법 공격력', hp:'최대 HP', crit:'치명타', block:'받는 피해 감소', regen:'매 턴 HP 회복', critDmg:'치명타 피해', spd:'속도', skill:'스킬 위력', dodge:'회피', double:'공격 2회 확률', spirit:'정령 추가 공격', heal:'회복 스킬', toxin:'독 피해(공격력의)'};
 const SETX = {furyMax:v=>`투지 최대 중첩 +${v}`, aimMax:v=>`조준 최대 중첩 +${v}`, poisonMax:v=>`독 최대 중첩 +${v}`, sphereMax:v=>`기 구슬 최대 +${v}`, overMax:v=>`과부하가 ${-v}중첩 빨리 가득 참`};
-const setEffText = o => Object.entries(o).map(([k,v])=>SETX[k] ? SETX[k](v) : `${SETK[k]} +${k==='crit'?v+'%':Math.round(v*100)+'%'}`).join(' · ');
+const setEffText = o => Object.entries(o).map(([k,v])=>SETX[k] ? SETX[k](v) : `${SETK[k]} +${k==='crit'?v+'%':Math.round(v*1000)/10+'%'}`).join(' · ');
 function setCounts(){ const c = {}; ARMOR_SET_SLOTS.forEach(sl=>{ const it = S.equip[sl]; if (it && it.sb) c[it.sb] = (c[it.sb]||0) + (sl==='suit'?2:1); }); return c; }
 function setPas(st){ if (!S) return 0; let v = 0; for (const [k,n] of Object.entries(setCounts())){ const T = setDef(k); if (!T) continue; if (n>=3 && T.b3[st]) v += T.b3[st]; if (n>=5 && T.b5[st]) v += T.b5[st]; } return v; }
 function maybeSet(it, promo){  // a rare roll turns an armor drop into the nearest set at or below its band
   if (!ARMOR_SET_SLOTS.includes(it.slot) || Math.random() >= (promo ? SET_CHANCE_PROMO : SET_CHANCE)) return it;
   const c = Object.entries(SETS).filter(([,T]) => T.deep===!!it.deep && T.band <= it.band).sort((a,b)=>b[1].band-a[1].band)[0];
-  if (c){ it.sb = c[0]; it.band = c[1].band; it.rar = Math.max(it.rar, 2); }
+  if (c){ it.sb = c[0]; it.band = c[1].band; }
   return it;
 }
 const LOOT_SLOTS = ['weapon','sub','helm','top','bottom','suit','shoes','cape','necklace','earring','ring','ring'];
@@ -1139,7 +1139,7 @@ function makeItem(slot, band, rar, deep){
 }
 const randomSlot = () => pick(LOOT_SLOTS);
 function itemInfo(it){
-  const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = (1 + .15*r) * (it.deep ? 1.7 : 1) * (it.t3 ? 1.5 : 1) * (it.sb ? 1.15 : 1);
+  const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = (1 + .15*r) * (it.deep ? 1.7 : 1) * (it.t3 ? 1.5 : 1) * (it.sb ? 1.05 : 1);
   const v = w => Math.max(1, Math.round(((b+1)*w + r*.6) * (it.deep ? 1.6 : 1) * (it.t3 ? 1.4 : 1)));
   const bon = {};
   const K = it.slot==='sub' ? SUB_KINDS[it.kind||'shield'] : null;
