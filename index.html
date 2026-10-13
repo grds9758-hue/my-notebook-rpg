@@ -99,6 +99,45 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .btns{display:flex;gap:8px;margin-top:12px}
 .btns>*{flex:1}
 [hidden]{display:none!important}
+/* ===== preview of proposed UI polish ===== */
+.top h1{font-weight:900;font-size:24px;color:#23306a;text-shadow:0 0 6px #fff,0 2px 0 #fff}
+.card{box-shadow:0 6px 18px rgba(80,90,160,.08);border:1px solid #eceaf7}
+.app > *{animation:rise .35s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.app > *{animation:none}}
+.pbanner{position:relative;margin:0 -16px 12px;padding:0 16px 14px;overflow:hidden;border-radius:0 0 26px 26px}
+.pbanner .scene-bg{position:absolute;left:0;top:-150px;width:100%;height:auto;z-index:0}
+.pbanner > *:not(svg){position:relative;z-index:1}
+.pbanner:after{content:"";position:absolute;inset:auto 0 0 0;height:60px;background:linear-gradient(180deg,rgba(243,241,251,0),var(--bg));z-index:0}
+.pbanner .top .s{color:#26335f;font-weight:700;text-shadow:0 0 4px #fff}
+.feat{margin-top:70px;background:rgba(255,255,255,.95);border-radius:20px;padding:10px 14px;box-shadow:0 8px 22px rgba(30,40,90,.18);z-index:2}
+.feat .fl{font-size:12px;font-weight:700;color:#2f62c8}
+.feat .gr{border-top:0;background:none!important;padding:6px 0 2px}
+.feat .gr .mons img{width:58px;height:58px}
+.gr.lock{opacity:.55;filter:saturate(.4)}
+.gr.lock .chip:before{content:"🔒 "}
+.stage{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.55)),var(--townbg) center 35%/cover!important;border-radius:20px}
+.seg{background:#eceaf8;border-radius:99px;padding:4px}
+.seg button{border-radius:99px}
+.seg button.on{background:#fff;color:var(--accent);box-shadow:0 2px 8px rgba(60,80,160,.15)}
+.ps .sq{border-radius:18px!important;background:linear-gradient(180deg,#f6f9ff,#e6efff)!important;border-style:solid!important;border-color:#d7e4ff!important}
+.ps.empty .sq{opacity:.75}
+.skill.tree:has(.plus:not([disabled])){border-color:#bcd3ff;background:linear-gradient(180deg,#f8fbff,#eef4ff)}
+.st{background:linear-gradient(180deg,#fbfaff,#f3f2fd);border-radius:14px}
+.plus:not([disabled]){box-shadow:0 0 0 3px rgba(49,130,246,.18);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(49,130,246,.06)}}
+.list .item{background:linear-gradient(180deg,#fbfaff,#f4f3fd);border:1px solid #e9e7f7;border-radius:16px;padding:12px;margin-top:8px}
+.list .item:has(.chip.blue){border-color:#f2c56b;background:linear-gradient(180deg,#fffaf0,#fff1d6)}
+.list .item .ic{width:52px;height:52px;border-radius:16px;background:#fff}
+.btns .btn.soft[data-act="sellmats"]{background:var(--accent);color:#fff;width:100%;padding:14px;font-size:15px}
+.foe .nm{background:linear-gradient(180deg,#fff,#eef3ff);border:1.5px solid #b8cdf5;color:#24305e;padding:2px 10px;border-radius:8px;position:relative}
+.foe .nm:before,.foe .nm:after{content:"";position:absolute;top:50%;width:6px;height:6px;background:#b8cdf5;transform:translateY(-50%) rotate(45deg)}
+.foe .nm:before{left:-4px}.foe .nm:after{right:-4px}
+.bpanel:has(.cmds){box-shadow:0 0 0 3px rgba(80,150,255,.35),0 -2px 22px rgba(60,120,255,.35)!important}
+.victory{overflow:visible}
+.victory .petal{position:absolute;top:-10px;width:10px;height:8px;border-radius:8px 0;background:#ffb3cf;animation:fall 2.4s linear infinite;opacity:.9}
+@keyframes fall{to{transform:translateY(190px) rotate(300deg);opacity:0}}
+
 /* home: town hero with the header on top, icon tiles, character card */
 .townhero{position:relative;margin:0 -16px 12px;height:470px;background:#9fd0f5 center 30%/cover no-repeat;border-radius:0 0 26px 26px;overflow:hidden}
 .townhero:before{content:"";position:absolute;inset:0 0 auto 0;height:110px;background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,0))}
@@ -354,6 +393,16 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 @keyframes ropop{0%{transform:translate(-50%,8px) scale(1.5);opacity:0}25%{transform:translate(-50%,-20px) scale(1.1);opacity:1}55%{transform:translate(-50%,-6px) scale(1)}75%{transform:translate(-50%,-12px)}100%{transform:translate(-50%,-8px)}}
 .plat{position:absolute;border-radius:50%;background:rgba(20,40,25,.25)}
 .plat.me{left:4px;bottom:-26px;width:170px;height:46px}
+/* Pokémon-style depth: foes stand back on the upper right, my character close on the lower left */
+.plat.foe{left:40%;right:2%;top:78px;height:34px;background:radial-gradient(ellipse at 50% 50%,rgba(20,40,25,.28),rgba(20,40,25,.10) 70%,transparent 72%)}
+.foes{left:38%!important;right:0!important;top:12px!important;justify-content:space-evenly!important;padding:0!important;z-index:2}
+.foes .foe{width:auto;flex:1;min-width:0}
+.foes .foe .nm{font-size:10.5px;max-width:110px}
+.foes .foe .hpb{width:100%;max-width:96px}
+.foes:has(.foe:nth-child(2)) .spr{width:72px;height:72px}
+.foes:has(.foe:nth-child(3)) .spr{width:62px;height:62px}
+.foes:has(.foe:nth-child(3)) .nm{max-width:78px;font-size:10px;padding:1px 6px}
+.foes:has(.foe:nth-child(3)) .foe:nth-child(2){margin-top:-10px}
 .me-on{position:absolute;left:-6px;bottom:-34px;width:190px;height:190px}
 .me-on .doll{width:190px;height:190px}
 .me-on.hit{animation:shake .3s}
@@ -1576,7 +1625,8 @@ function groundRow(g, deep, rec){
 }
 function huntView(){
   const b = bestGround();
-  let h = top('사냥', `${lvTag()} · HP ${fmt(S.hp)}/${fmt(hpMax())} · MP ${fmt(S.mp)}/${fmt(mpMax())}`);
+  let h = `<section class="pbanner">${sceneSVG(b.g)}${top('사냥', `${lvTag()} · HP ${fmt(S.hp)}/${fmt(hpMax())} · MP ${fmt(S.mp)}/${fmt(mpMax())}`)}
+    <div class="feat"><span class="fl">추천 사냥터</span>${groundRow(b.g, b.deep, true)}</div></section>`;
   h += autoCard();
   h += `<section class="card"><div class="btns" style="margin-top:0"><button class="btn" data-act="potion" data-k="hp" ${S.inv.hp?'':'disabled'}>체력 물약 ${S.inv.hp}</button><button class="btn" data-act="potion" data-k="mp" ${S.inv.mp?'':'disabled'}>마나 물약 ${S.inv.mp}</button><button class="btn soft" data-act="rest">여관 ${innCost()}G</button></div></section>`;
   if (isJob()) h += `<section class="card"><h2 class="row">심층 사냥터 <span class="aside">전직 후 10레벨마다 개방</span></h2>${GD.map((G,g)=>groundRow(g,true,b.deep&&g===b.g)).join('')}</section>`;
@@ -1598,7 +1648,7 @@ const SCENE = [
   {sky:['#ffcf8f','#fff2d6'], far:'#e9bf80', hill:'#efcd8c', g:['#f3d797','#dab06a'], tree:'#7aa35a', path:'#fbe6b8', fl:['#ffffff'], dune:1},
   {sky:['#521f2b','#a4433f'], far:'#3a1820', hill:'#5a2a26', g:['#6e3a30','#43221d'], tree:'#2a1214', path:'#8a4a36', fl:['#ff9a3d','#ffd166'], rock:1},
 ];
-function sceneSVG(g){
+function sceneSVG(g, dy=0){  // dy lifts the horizon (battle: the ground starts right under the turn bar)
   const P = SCENE[g] || SCENE[0];
   let seed = 7 + g*31; const rr = () => (seed = (seed*9301 + 49297) % 233280) / 233280;
   let trees = '', fl = '', clouds = '';
@@ -1614,11 +1664,11 @@ function sceneSVG(g){
   return `<svg class="scene-bg" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs><linearGradient id="sk${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[0]}"/><stop offset="1" stop-color="${P.sky[1]}"/></linearGradient>
       <linearGradient id="gr${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.g[0]}"/><stop offset="1" stop-color="${P.g[1]}"/></linearGradient></defs>
-    <rect width="390" height="844" fill="url(#sk${g})"/>${clouds}
+    <rect width="390" height="844" fill="url(#sk${g})"/>${clouds}<g transform="translate(0 ${dy})">
     ${P.dune ? `<path d="M0 300 Q90 230 190 285 T390 260 V360 H0Z" fill="${P.far}"/>` : `<path d="M0 300 L60 210 L120 270 L190 180 L260 262 L320 205 L390 268 V360 H0Z" fill="${P.far}" opacity=".9"/>`}
     <path d="M0 330 Q100 290 200 320 T390 310 V420 H0Z" fill="${P.hill}"/>${trees}
-    <rect y="350" width="390" height="494" fill="url(#gr${g})"/>
-    <path d="M170 350 Q195 600 120 844 H290 Q215 600 220 350Z" fill="${P.path}" opacity=".55"/>${fl}</svg>`;
+    <rect y="350" width="390" height="${494 - dy}" fill="url(#gr${g})"/>
+    <path d="M170 350 Q195 600 120 ${844 - dy} H290 Q215 600 220 350Z" fill="${P.path}" opacity=".55"/>${fl}</g></svg>`;
 }
 
 /* ---------- battle view ---------- */
@@ -1639,7 +1689,8 @@ const knownWeak = f => (S.seen[f.id+':all'] ? f.weak : f.weak.filter(a=>(S.seen[
 function overHTML(O){
   if (O==='run') return `<div class="victory fade"><div class="big2" style="color:var(--sub)">도망쳤다</div><div class="xs muted">무사히 빠져나왔다.</div></div>`;
   if (!O.win) return `<div class="victory lose fade"><div class="big2 lose">쓰러졌다…</div><div class="small muted">골드 ${fmt(O.lostGold)}, 경험치 ${fmt(O.lostExp)}를 잃고 마을로 실려 왔다. 치료를 받아 HP 절반으로 깨어났다.</div></div>`;
-  return `<div class="victory fade"><div class="big2">${O.promo ? '승급 시험 통과!' : '승리!'}</div>
+  const petals = Array.from({length:10},(_,i)=>`<i class="petal" style="left:${5+i*9.5}%;animation-delay:${(i*0.23)%2}s;background:${['#ffb3cf','#ffd6e6','#b9f0c3','#ffe28a'][i%4]}"></i>`).join('');
+  return `<div class="victory fade">${petals}<div class="big2">${O.promo ? '승급 시험 통과!' : '승리!'}</div>
     <div class="xs muted">${B.round}라운드 · 받은 피해 ${fmt(B.took)}</div>
     <div class="rewards"><span style="color:var(--gold)">EXP +${fmt(O.exp)}</span><span>골드 +${fmt(O.gold)}</span>${Object.entries(O.mats).map(([k,v])=>`<span>${esc(k)} ×${v}</span>`).join('')}</div>
     ${O.ups?`<div class="lvup">레벨 업! ${lvTag()} · 능력치 포인트 +${O.ups*2}</div>`:''}
@@ -1663,7 +1714,7 @@ function battleView(){
   let h = `<div class="turnbar"><div class="hd"><span>턴 순서 · <b>${B.round}라운드</b>${B.mode==='promo'?` · 승급 시험 ${B.stage}/3`:''}</span><span class="press" aria-label="남은 행동"><span style="margin-right:4px">내 행동</span>${icons}</span></div><div class="order">${order}</div></div>
   <div class="field2 g${B.g}">
     <div class="foes">${foes}</div>
-    <div class="plat me"></div><div class="me-on ${meHit?'hit':''}">${dollHTML(lookBack())}${B.pops.me!=null?`<span class="pop" style="top:40px;left:60%">${B.pops.me}</span>`:''}</div>
+    <div class="plat foe"></div><div class="plat me"></div><div class="me-on ${meHit?'hit':''}">${dollHTML(lookBack())}${B.pops.me!=null?`<span class="pop" style="top:40px;left:60%">${B.pops.me}</span>`:''}</div>
     <canvas class="fxc" aria-hidden="true"></canvas>
     <div class="blog" role="status" aria-live="polite">${B.log || (meTurn ? '내 차례! 명령을 고르세요.' : '')}</div>
     ${B.over ? overHTML(B.over) : ''}
@@ -1887,7 +1938,7 @@ const TABS = [['home','홈'],['hunt','사냥'],['char','캐릭터'],['bag','가�
 function render(){
   if (!S){ app.className = 'app notabs'; app.innerHTML = createView(); return; }
   ensureDaily();
-  if (B){ app.className = 'app notabs'; app.innerHTML = `<div class="bscene">${sceneSVG(B.g)}<div class="bwrap">${battleView()}</div></div>`; if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
+  if (B){ app.className = 'app notabs'; app.innerHTML = `<div class="bscene">${sceneSVG(B.g, -165)}<div class="bwrap">${battleView()}</div></div>`; if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
   const V = {home:homeView, hunt:huntView, char:charView, bag:bagView, rec:recView}[UI.tab] || homeView;
   const dots = {home:false, hunt:false, char:!!S.points || !!S.sp || canJobChange() || canRoute() || promoReady(), bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
@@ -1996,6 +2047,7 @@ function migrate(d){
   return S;
 }
 function boot(data){
+  document.documentElement.style.setProperty('--townbg', `url(${NPC_FACE[NPC_FACE.length-1]})`);
   S = migrate((data && data.S) || store.get(SAVE_KEY) || null);
   if (data && data.draft) draft = {...newDraft(), ...data.draft};
   if (data && data.UI) Object.assign(UI, data.UI);
