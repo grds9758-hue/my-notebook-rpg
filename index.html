@@ -230,6 +230,56 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .innart span{font-size:64px;position:relative;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
 .sbody{padding:18px 20px 20px}
 .sbody h2{font-size:20px}
+/* skill tree grid */
+.stree{position:relative;margin:12px 0 4px}
+.stree svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.stree path{fill:none;stroke:#cfd6e6;stroke-width:3;stroke-dasharray:6 5;vector-effect:non-scaling-stroke}
+.stree path.on{stroke:#5b9bff;stroke-dasharray:none}
+.stree .rq{font-size:11px;fill:#e0566a;font-weight:700}
+.node{position:absolute;transform:translateX(-50%);width:76px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0}
+.node .ico{position:relative;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:linear-gradient(180deg,#fff,#eef2fb);border:2px solid #d9dfee;box-shadow:0 2px 6px rgba(60,70,120,.10)}
+.node.got .ico{border-color:#5b9bff;background:linear-gradient(180deg,#f3f8ff,#dceaff)}
+.node.max .ico{border-color:#e9b64a;background:linear-gradient(180deg,#fffaf0,#ffefc6)}
+.node.can .ico{box-shadow:0 0 0 3px rgba(91,155,255,.25),0 2px 6px rgba(60,70,120,.10)}
+.node.locked .ico{filter:grayscale(1);opacity:.55}
+.node.sel .ico{outline:3px solid #2f6fe0;outline-offset:2px}
+.node .lk{position:absolute;right:-6px;bottom:-6px;font-size:13px;font-style:normal;filter:none}
+.node .pb{position:absolute;left:-5px;top:-5px;width:17px;height:17px;border-radius:5px;background:#8b5cf6;color:#fff;font-size:10px;font-weight:900;font-style:normal;display:grid;place-items:center}
+.node .lvb{font-size:11px;font-weight:700;color:var(--sub);background:#fff;border:1px solid #e3e7f2;border-radius:99px;padding:0 6px;margin-top:-9px;position:relative}
+.node.got .lvb{color:#2f6fe0;border-color:#bcd3ff}
+.node small{font-size:10.5px;line-height:1.2;color:var(--ink);text-align:center;max-width:76px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all}
+.node.locked small{color:var(--muted)}
+.skd{margin-top:10px;background:linear-gradient(180deg,#fbfaff,#f3f2fd);border:1px solid #e4e2f6;border-radius:16px;padding:12px 14px;display:grid;gap:6px}
+.skd .ico.big{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:#fff;border:1px solid #dde3f2;flex:none}
+.skd p{margin:0}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;border-radius:6px;padding:0 6px;margin-right:4px}
+.tag.now{background:#dceaff;color:#2f6fe0}.tag.nx{background:#e9f9e3;color:#2f8a3e}
+.rqi{display:inline-block;font-size:12px;font-weight:700;color:#e0566a;margin-right:6px}.rqi.ok{color:#2f8a3e}
+.btn.wide{width:100%;margin-top:4px}
+/* equipment window */
+.eqw{border:1px solid #e1e5f2;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#fbfcff,#f2f5fd)}
+.eqh{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:linear-gradient(180deg,#5d86d8,#4a6fc4);color:#fff;font-size:12.5px}
+.eqh b{font-size:14px;letter-spacing:.5px}
+.eqb{display:grid;grid-template-columns:minmax(0,1fr) 84px minmax(0,1fr);gap:5px;padding:10px 6px}
+.eqc{display:grid;gap:6px;align-content:start}
+.eqm{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.eqfig{position:relative;z-index:1}
+.eqp{width:80px;height:16px;border-radius:50%;background:radial-gradient(ellipse,rgba(60,80,140,.22),transparent 70%);margin-top:-10px}
+.er{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e3e8f4;border-radius:12px;padding:4px;text-align:left;min-width:0}
+.er.r{flex-direction:row-reverse;text-align:right}
+.er .sq{width:34px;height:34px;border-radius:10px!important;flex:none;display:grid;place-items:center;background:linear-gradient(180deg,#f6f9ff,#e6efff);border:1px solid #d7e4ff}
+.er .sq img,.er .sq svg{max-width:28px;max-height:28px}
+.er .et{display:flex;flex-direction:column;min-width:0;flex:1}
+.er .et small{font-size:10px;color:var(--muted)}
+.er .et b{font-size:11px;line-height:1.25;word-break:keep-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.er.empty .et b{color:#c5cbd8}
+.er.on{border-color:#2f6fe0;box-shadow:0 0 0 2px rgba(47,111,224,.2)}
+.er.fit{border-color:#2f6fe0;animation:blink 1s infinite}
+.er.blocked{background:#f7f8fb}.er.blocked .sq{color:var(--red);font-weight:900;font-size:18px;background:#f1f2f6;border-color:#e3e5ec}.er.blocked .et b{color:var(--red);font-size:10.5px}
+.eqa{display:flex;align-items:center;gap:8px;padding:0 10px 10px}
+.eqa > small{font-size:11px;color:var(--muted);font-weight:700;flex:none}
+.eqa .ringrow{margin:0;gap:6px;flex:1;justify-content:space-between}
+.eqa .ringrow .ps{width:auto}.eqa .ringrow .ps .sq{width:38px;height:38px}
 .stks{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .stk{font-size:11.5px;font-weight:700;border-radius:99px;padding:2px 9px;background:var(--surface-2);color:var(--sub)}
 .stk.fury{background:#ffe6e0;color:#c2410c}.stk.aim{background:#e6f4ff;color:#1d6fd6}.stk.sph{background:#fff4d6;color:#b7791f;letter-spacing:1px}.stk.over{background:#efe6ff;color:#6d3fd6}
@@ -792,7 +842,7 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMo
 let S = null, B = null;
 const newDraft = () => ({name:pick(NAMES), origin:ORIGINS[4], cand:0, hair:0, skin:0, gender:'m'});
 let draft = newDraft();
-const UI = {statInfo:false, innAsk:false, auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
+const UI = {skSel:null, statInfo:false, innAsk:false, auto:null, homeLine:null, tab:'home', bag:'equip', rec:'daily', sel:null, ringPick:false, slotSel:null, jobPick:null, routePick:null, tree:null};
 const app = document.getElementById('app');
 const store = {
   get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
@@ -853,12 +903,13 @@ const gearDef = () => equipped().reduce((s,it)=>s+itemInfo(it).def,0);
 const atk = () => Math.round((5 + eff(job().main)*1.1 + (job().main==='dex' ? eff('str') : eff('dex'))*.15 + eff('luk')*.1 + gearAtk() + PL()*2) * (1 + pas('atk') + bf('atk') + stk('fury')*pas('fury')));
 const matk = () => Math.round((5 + eff('int')*1.2 + eff('dex')*.1 + gearAtk()*.6 + PL()*2) * (1 + pas('matk') + bf('atk') + stk('over')*pas('over')));
 const def = () => Math.round((eff('vit')/2 + gearDef() + PL()) * (1 + bf('def')));
-const crit = () => 3 + Math.floor(eff('luk')/6) + Math.round(pas('crit') + bf('crit') + stk('aim')*pas('aim'));
+const crit = () => Math.min(100, 3 + Math.floor(eff('luk')/6) + Math.round(pas('crit') + bf('crit') + stk('aim')*pas('aim')));
 const spd = () => Math.round((10 + eff('agi')/2 + PL()*.3) * (1 + pas('spd') + bf('spd')));
 const hpMax = () => Math.round((80 + PL()*12 + eff('vit')*2) * (1 + pas('hp')));
 const mpMax = () => Math.round(30 + PL()*4 + eff('int')*2);
 const critDmg = () => 1.5 + eff('luk')/400;
 const missRate = () => Math.max(.01, .08 - eff('dex')/800);
+const regenRate = () => Math.min(.1, pas('regen'));
 const dodgeRate = () => Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
 const cp = () => Math.round(job().key.reduce((s,k)=>s+eff(k),0)/3 + PL()*.6);
 function clampVitals(){ S.hp = clamp(S.hp ?? hpMax(), 0, hpMax()); S.mp = clamp(S.mp ?? mpMax(), 0, mpMax()); }
@@ -1005,7 +1056,7 @@ function advance(){
   if (!B.queue.length){ B.round++; tickBuffs(); newRound(); return; }
   const w = B.queue[0];
   if (w==='me'){ B.icons = ['f','f']; B.guard = false; B.sub = null; B.turnFoe = null;
-    const rg = Math.round(hpMax()*pas('regen')); if (rg && S.hp < hpMax()){ S.hp = Math.min(hpMax(), S.hp + rg); B.pops = {...B.pops, me:'+'+rg}; } return; }
+    const rg = Math.round(hpMax()*regenRate()); if (rg && S.hp < hpMax()){ S.hp = Math.min(hpMax(), S.hp + rg); B.pops = {...B.pops, me:'+'+rg}; } return; }
   B.turnFoe = w;
 }
 function tickBuffs(){
@@ -1110,9 +1161,10 @@ function playerAction(kind, arg){
     } else if (sk.kind==='guard'){ fxArgs = [kind, sk, []];
       B.guard = true; B.log = `${sk.n} → 이번 턴 받는 피해 절반`; B.icons = [];
     } else if (sk.kind==='buff'){ fxArgs = [kind, sk, []];
-      B.buffs[sk.st] = {v:sk.v, t:sk.t}; B.log = `${sk.n} → ${skDesc(SKILL[sk.id], sk.lv)}`; useIcon('normal');
+      const ob = B.buffs[sk.st];  // same-stat buffs don't stack: keep the stronger value, refresh the longer duration
+      B.buffs[sk.st] = {v:Math.max(sk.v, ob ? ob.v : 0), t:Math.max(sk.t, ob ? ob.t : 0)}; B.log = `${sk.n} → ${skDesc(SKILL[sk.id], sk.lv)}${ob && ob.v > sk.v ? ' (더 강한 효과 유지)' : ''}`; useIcon('normal');
     } else if (sk.kind==='debuff'){ fxArgs = [kind, sk, alive];
-      B.debuff = {v:sk.v, t:3}; B.log = `${sk.n} → 3라운드 적 방어력 −${Math.round(sk.v*100)}%`; useIcon('normal');
+      B.debuff = {v:Math.max(sk.v, B.debuff ? B.debuff.v : 0), t:3}; B.log = `${sk.n} → 3라운드 적 방어력 −${Math.round(sk.v*100)}%`; useIcon('normal');
     } else if (sk.kind==='stun'){ fxArgs = [kind, sk, [target]];
       const f = B.foes[target], ok = Math.random() < Math.min(.95, sk.v);
       if (ok) f.stun = true; B.log = `${sk.n} → ${esc(f.name)} ${ok?'<b>행동 불능!</b>':'버텨냈다'}`; if (!ok) B.pops = {[target]:{dmg:0, miss:true}}; useIcon('normal');
@@ -1385,7 +1437,7 @@ function simBattle(g, deep){
   const skills = learnedActive().filter(s=>s.kind==='dmg');
   const dual = S.route==='dagger' && S.equip.sub && S.equip.sub.kind==='dagger';
   for (let r=0; r<40 && S.hp>0 && B.foes.some(f=>f.hp>0); r++){
-    S.hp = Math.min(hpMax(), S.hp + Math.round(hpMax()*pas('regen')));
+    S.hp = Math.min(hpMax(), S.hp + Math.round(hpMax()*regenRate()));
     for (let a=0; a<2; a++){  // auto: 2 plain attacks a round — no skills, no weakness bonus action
       const alive = B.foes.filter(f=>f.hp>0); if (!alive.length) break;
       const t = alive.slice().sort((x,y)=>x.hp-y.hp)[0], weak = knownWeak(t);
@@ -1451,7 +1503,7 @@ function statSheet(){
       <div class="row" style="justify-content:space-between"><h2>상세 능력치</h2><span class="xs muted">${lvTag()}</span></div>
       ${rows('기본 능력치 <small>기본 + 장비</small>', statRows)}
       ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', Math.round(critDmg()*100)+'%'], ['명중률', pc(1-missRate()), '약점 공격은 빗나가지 않음'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
-      ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(pas('regen'))]])}
+      ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
       ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
       <div class="btns"><button class="btn pri" data-act="statclose">닫기</button></div></div></div></div>`;
 }
@@ -1490,23 +1542,52 @@ function skillView(){
     <p class="xs muted">자동 사냥은 스킬을 쓰지 않아 투지·조준만 쌓여요.</p></div></section>`;
   return h;
 }
+function treeLayout(T){
+  // depth = longest prerequisite chain; a child sits under its first prerequisite when that cell is free
+  const depth = {}, pos = {};
+  const d = sk => depth[sk.id] ?? (depth[sk.id] = (sk.req||[]).length ? 1 + Math.max(...sk.req.map(([id])=>d(SKILL[id]))) : 0);
+  T.list.forEach(d);
+  const used = {}; let cols = 1;
+  for (const sk of [...T.list].sort((a,b)=>depth[a.id]-depth[b.id])){
+    const r = depth[sk.id]; used[r] = used[r] || new Set();
+    let c = (sk.req||[]).length ? pos[sk.req[0][0]].c : 0;
+    while (used[r].has(c)) c++;
+    used[r].add(c); pos[sk.id] = {r, c}; cols = Math.max(cols, c + 1);
+  }
+  return {pos, cols, rows: Math.max(...Object.values(depth)) + 1};
+}
+const skIcon = sk => sk.e.k==='dmg' ? ATTR_ICON[sk.e.attr] : KIND_ICON[sk.e.k];
+function learnWhy(sk){
+  if (skLv(sk.id) >= sk.max) return '최고 레벨';
+  if (!skReqOk(sk)) return '선행 스킬 부족';
+  if (!S.sp) return '스킬 포인트 없음';
+  return '';
+}
 function skillTreeHTML(){
   const trees = myTrees(); if (!trees.includes(UI.tree)) UI.tree = trees[trees.length-1];
-  const T = TREES[UI.tree];
+  const T = TREES[UI.tree], L = treeLayout(T), RH = 122, W = L.cols * 100, H = L.rows * RH;
+  if (!UI.skSel || !T.list.some(x=>x.id===UI.skSel)) UI.skSel = (T.list.find(canLearn) || T.list[0]).id;
   let h = `<section class="card" id="skills"><h2 class="row">스킬 트리 <span class="aside" ${S.sp?'style="color:var(--accent);font-weight:700"':''}>남은 스킬 포인트 ${S.sp||0}</span></h2>`;
   if (trees.length > 1) h += seg('tree', trees.map(t=>[t, TREES[t].name]));
-  h += T.list.map(s=>{
-    const lv = skLv(s.id), o = skillAt(s, Math.max(1, lv)), ok = canLearn(s), lock = !skReqOk(s);
-    const req = (s.req||[]).map(([id,l])=>`${SKILL[id].n} Lv.${l}`).join(', ');
-    const now = lv ? skDesc(s, lv) : '', next = lv < s.max ? skDesc(s, lv+1) : '';
-    return `<div class="skill tree ${lv?'':'lock'}"><span class="el">${s.e.k==='dmg'?ATTR_ICON[s.e.attr]:KIND_ICON[s.e.k]}</span>
-      <span class="t">${s.n} <span class="xs ${lv?'':'muted'}"><b>${lv}</b>/${s.max}</span>${s.e.k==='pas'?' <span class="xs muted">패시브</span>':''}
-        <small>${lv?`지금: ${now}`:''}${lv&&next?'<br>':''}${next?`다음: ${next}`:' · 최고 레벨'}${o.mp?` · MP ${o.mp}`:''}</small>
-        ${lock?`<small style="color:var(--red)">선행: ${req}</small>`:''}</span>
-      ${lv<s.max?`<button class="plus" data-act="learn" data-id="${s.id}" ${ok?'':'disabled'} aria-label="${s.n} 배우기">+</button>`:''}</div>`;
-  }).join('');
+  const lines = T.list.flatMap(sk => (sk.req||[]).map(([id,l]) => {
+    const a = L.pos[id], b = L.pos[sk.id], x1 = a.c*100+50, y1 = a.r*RH+98, x2 = b.c*100+50, y2 = b.r*RH-2, ym = (y1+y2)/2, ok = skLv(id) >= l;
+    return `<path d="M${x1} ${y1} V${ym} H${x2} V${y2}" class="${ok?'on':''}"/>${!ok?`<text x="${x2 + 8}" y="${y2 - 6}" class="rq">Lv.${l}</text>`:''}`; })).join('');
+  const nodes = T.list.map(sk => {
+    const p = L.pos[sk.id], lv = skLv(sk.id), can = canLearn(sk), lock = !skReqOk(sk);
+    const cls = [lv?'got':'', can?'can':'', lock?'locked':'', lv>=sk.max?'max':'', sk.e.k==='pas'?'pas':'', UI.skSel===sk.id?'sel':''].join(' ');
+    return `<button class="node ${cls}" style="left:${(p.c+.5)/L.cols*100}%;top:${p.r*RH}px" data-act="sksel" data-id="${sk.id}" aria-label="${sk.n} ${lv}/${sk.max}${lock?' · 잠김':''}">
+      <span class="ico">${skIcon(sk)}${lock?'<i class="lk">🔒</i>':''}${sk.e.k==='pas'?'<i class="pb">P</i>':''}</span><span class="lvb">${lv}/${sk.max}</span><small>${sk.n}</small></button>`; }).join('');
+  h += `<div class="stree" style="height:${H}px"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${nodes}</div>`;
+  // detail of the selected skill
+  const sk = SKILL[UI.skSel], lv = skLv(sk.id), o = skillAt(sk, Math.max(1, lv)), why = learnWhy(sk);
+  const kids = T.list.filter(x => (x.req||[]).some(([id]) => id===sk.id));
+  h += `<div class="skd"><div class="row" style="gap:10px;flex-wrap:nowrap"><span class="ico big">${skIcon(sk)}</span><div class="grow"><b>${sk.n}</b> <span class="xs muted">${sk.e.k==='pas'?'패시브':'액티브'} · Lv.${lv}/${sk.max}${o.mp&&sk.e.k!=='pas'?` · MP ${o.mp}`:''}</span></div></div>
+    ${lv?`<p class="small"><span class="tag now">지금</span> ${skDesc(sk, lv)}</p>`:''}${lv<sk.max?`<p class="small"><span class="tag nx">다음</span> ${skDesc(sk, lv+1)}</p>`:'<p class="small muted">최고 레벨</p>'}
+    ${(sk.req||[]).length?`<p class="small">선행: ${sk.req.map(([id,l])=>`<span class="rqi ${skLv(id)>=l?'ok':''}">${skLv(id)>=l?'✓':'✗'} ${SKILL[id].n} Lv.${l}</span>`).join(' ')}</p>`:''}
+    ${kids.length?`<p class="xs muted">이 스킬로 열리는 스킬: ${kids.map(x=>x.n).join(', ')}</p>`:''}
+    <button class="btn pri wide" data-act="learn" data-id="${sk.id}" ${why?'disabled':''}>${why || '배우기 (+1)'}</button></div>`;
   if (S.route) h += `<p class="small" style="margin-top:10px">루트 · <b>${ROUTE[S.route].name}</b>: ${ROUTE[S.route].desc}</p>`;
-  h += `<p class="xs muted" style="margin-top:8px">레벨 업마다 스킬 포인트 1. 선행 스킬을 올려야 다음 스킬이 열린다.</p></section>`;
+  h += `<p class="xs muted" style="margin-top:8px">칸을 눌러 자세히 보기 · 선으로 이어진 위 스킬을 먼저 올려야 아래 스킬이 열린다 · P = 패시브</p></section>`;
   return h;
 }
 function spendPoint(k){ if (!S.points) return; S.stats[k]++; S.points--; clampVitals(); save(); render(); }
@@ -1868,6 +1949,29 @@ function pdSlot(slot, label, style, fitItem){
   const act = it ? `data-act="slot" data-s="${key}"` : 'disabled';
   return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(itemInfo(it).name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${key==='suit'?'한벌옷':label}</small></button>`;
 }
+function slotState(slot, label, fitItem){
+  if (slot==='sub' && !subRule().kind && !S.equip.sub) return {blocked:true, why:subRule().why, label};
+  if (slot==='bottom' && S.equip.suit) return {blocked:true, why:'한벌옷 착용 중', label, fit:slotFits(slot, fitItem)};
+  let it = S.equip[slot], key = slot;
+  if (!it && slot==='top' && S.equip.suit){ it = S.equip.suit; key = 'suit'; }
+  return {it, key, label: key==='suit' ? '한벌옷' : label, on: UI.slotSel===key, fit: slotFits(slot, fitItem)};
+}
+function eqRow(slot, label, fitItem, side){
+  const st = slotState(slot, label, fitItem);
+  if (st.blocked) return `<button class="er ${side} blocked ${st.fit?'fit':''}" disabled aria-label="${label}: ${st.why}"><span class="sq">✕</span><span class="et"><small>${st.label}</small><b>${st.why}</b></span></button>`;
+  const it = st.it, info = it ? itemInfo(it) : null;
+  return `<button class="er ${side} ${it?'':'empty'} ${st.on?'on':''} ${st.fit?'fit':''}" ${it?`data-act="slot" data-s="${st.key}"`:'disabled'} aria-label="${st.label}: ${it?esc(info.name):'비어 있음'}">
+    <span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><span class="et"><small>${st.label}</small><b class="${it?'rar'+it.rar:''}">${it?esc(info.name):'—'}</b></span></button>`;
+}
+const EQ_LEFT = [['helm','투구'],['necklace','목걸이'],['weapon','무기'],['top','상의'],['bottom','하의']];
+const EQ_RIGHT = [['earring','귀걸이'],['cape','망토'],['sub','보조무기'],['shoes','신발']];
+function equipWindow(fitItem){
+  return `<div class="eqw"><div class="eqh"><b>장비</b><span>${lvTag()} · 전투력 ${cp()}</span></div>
+    <div class="eqb"><div class="eqc">${EQ_LEFT.map(([k,n])=>eqRow(k,n,fitItem,'l')).join('')}</div>
+      <div class="eqm"><span class="eqfig">${dollHTML(lookFront(), 110)}</span><span class="eqp"></span></div>
+      <div class="eqc">${EQ_RIGHT.map(([k,n])=>eqRow(k,n,fitItem,'r')).join('')}</div></div>
+    <div class="eqa"><small>반지</small><div class="ringrow">${RING_SLOTS.map((k,i)=>pdSlot(k, `${i+1}`, '', fitItem)).join('')}</div></div></div>`;
+}
 function equipDoll(fitItem){
   const pos = Object.entries(PD_POS).map(([s,[x,y]])=>pdSlot(s, SLOTN[s], `left:${x}px;top:${y}px`, fitItem)).join('');
   return `<div class="pd">${PD_BODY}${pos}</div><div class="ringrow">${RING_SLOTS.map((s,i)=>pdSlot(s, `반지${i+1}`, '', fitItem)).join('')}</div>`;
@@ -1906,7 +2010,7 @@ function charView(){
     h += `<section class="card"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}><img class="px" src="${SPR['jf'+sp]}" alt=""><span class="grow"><b>${n}</b><span class="xs muted" style="display:block">${d}</span></span></button>`).join('')}
       <button class="cta" style="margin-top:12px" data-act="route" ${p?'':'disabled'}>${p?`${ROUTE[p].name} 루트로`:'루트를 골라 주세요'}</button></section>`;
   }
-  h += `<section class="card"><div class="stage">${dollHTML(lookFront())}</div>${equipDoll(null)}${slotDetail()}`;
+  h += `<section class="card">${equipWindow(null)}${slotDetail()}`;
   h += `</section>`;
   h += `<section class="card"><h2 class="row">능력치 <span class="row" style="gap:8px">${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:''}<button class="chipbtn" data-act="statinfo">상세 보기 ›</button></span></h2>
     <div class="statgrid">${STATS.map(([s,n])=>{ const b = bonus(s);
@@ -1942,7 +2046,7 @@ function bagView(){
   const cells = items.map(it=>`<button class="cell rb${it.rar} ${UI.sel===it.id?'sel':''}" data-act="sel" data-id="${it.id}" aria-label="${RARITY[it.rar]} ${itemInfo(it).name}">${itemIcon(it)}${it.isNew?'<span class="new"></span>':''}</button>`);
   const blanks = Math.max(0, Math.ceil((items.length+1)/5)*5 - items.length);
   const selIt = S.bag.find(x=>x.id===UI.sel);
-  h += `<section class="card"><h2 class="row">착용 중 <span class="aside">${selIt?'파란 칸에 장착돼요':'칸을 누르면 정보'}</span></h2>${equipDoll(selIt)}${slotDetail()}</section>`;
+  h += `<section class="card"><h2 class="row">착용 중 <span class="aside">${selIt?'파란 칸에 장착돼요':'칸을 누르면 정보'}</span></h2>${equipWindow(selIt)}${slotDetail()}</section>`;
   h += `<section class="card">${items.length ? `<div class="inv">${cells.join('')}${'<span class="cell blank"></span>'.repeat(blanks)}</div>` : '<p class="small muted">사냥에서 전리품을 얻으면 여기에 쌓인다.</p>'}</section>`;
   const it = S.bag.find(x=>x.id===UI.sel);
   if (it){
@@ -2066,6 +2170,7 @@ app.addEventListener('click', async e => {
   if (a==='sub'){ if (B){ B.sub = b.dataset.v || null; render(); } return; }
   if (a==='useskill'){ playerAction('skill', learnedActive().find(s=>s.id===b.dataset.id)); return; }
   if (a==='learn'){ learnSkill(b.dataset.id); return; }
+  if (a==='sksel'){ UI.skSel = b.dataset.id; render(); return; }
   if (a==='bitem'){ playerAction('item', b.dataset.k); return; }
   if (a==='leave'){ endBattle(false); return; }
   if (a==='again'){ endBattle(true); return; }
