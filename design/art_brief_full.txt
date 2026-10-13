@@ -85,7 +85,7 @@
   - 지금 그림은 너무 단순해서 다시 그리는 대상. 남캐 노비스와 키·비율을 맞추기.
 
 ----------------------------------------
-1-5. 직업 29종 + 여캐 2종 — 통짜 시트 (앞 1장 + 뒤 1장씩)
+1-5. 직업 29종 + 여캐 시프 = 30종 — 통짜 시트 (앞 1장 + 뒤 1장씩)
 ----------------------------------------
   파일: char_<코드>_front.png / char_<코드>_back.png
   ★ = 지금 그림이 없음(새로 그림) / ◎ = 지금 그림이 있지만 다시 그리고 싶음 / ○ = 지금 그림 참고해서 시트화
@@ -132,8 +132,65 @@
   ★ t3_wizard     워록         위자드 강화판: 검붉은 로브, 해골 장식 지팡이, 떠다니는 마도서
   ★ t3_elementalist 엘리멘탈 마스터 소서러 강화판: 정령 4마리(작은 불새·물방울·바람 요정·돌거북)가 함께
 
-  합계: 직업 시트 31종 × (앞 + 뒤) = 62장
+  합계: 직업 시트 30종 × (앞 + 뒤) = 60장
   우선순위: ① 뒷모습(전투)부터 ② 지금 잘못된 것(◎) ③ 3차(★)
+
+----------------------------------------
+1-6. 캐릭터 스프라이트 시트 파일 목록 (이 이름 그대로) — 자세(동작)가 바뀌는 시트
+----------------------------------------
+  앞모습 시트 = 5줄(대기·걷기·기쁨·전직 포즈·온천), 뒷모습 시트 = 8줄(대기·공격·스킬·맞음·방어·아이템·쓰러짐·승리)
+
+  [1차 직업]
+    char_warrior_front.png  /  char_warrior_back.png   — 소드맨
+    char_archer_front.png  /  char_archer_back.png   — 아처
+    char_thief_front.png  /  char_thief_back.png   — 시프
+    char_healer_front.png  /  char_healer_back.png   — 어콜라이트
+    char_mage_front.png  /  char_mage_back.png   — 매지션
+
+  [2차 직업]
+    char_greatsword_front.png  /  char_greatsword_back.png   — 나이트
+    char_shield_front.png  /  char_shield_back.png   — 크루세이더
+    char_rider_front.png  /  char_rider_back.png   — 드래곤 나이트
+    char_trapper_front.png  /  char_trapper_back.png   — 헌터
+    char_bowman_front.png  /  char_bowman_back.png   — 스나이퍼
+    char_dagger_front.png  /  char_dagger_back.png   — 어쌔신
+    char_shuriken_front.png  /  char_shuriken_back.png   — 닌자
+    char_dancer_front.png  /  char_dancer_back.png   — 댄서(여)
+    char_priest_front.png  /  char_priest_back.png   — 프리스트
+    char_monk_front.png  /  char_monk_back.png   — 몽크
+    char_wizard_front.png  /  char_wizard_back.png   — 위자드
+    char_elementalist_front.png  /  char_elementalist_back.png   — 소서러
+
+  [3차 직업]
+    char_t3_greatsword_front.png  /  char_t3_greatsword_back.png   — 로드 나이트
+    char_t3_shield_front.png  /  char_t3_shield_back.png   — 팔라딘
+    char_t3_rider_front.png  /  char_t3_rider_back.png   — 룬 나이트
+    char_t3_trapper_front.png  /  char_t3_trapper_back.png   — 레인저
+    char_t3_bowman_front.png  /  char_t3_bowman_back.png   — 윈드 호크
+    char_t3_dagger_front.png  /  char_t3_dagger_back.png   — 길로틴 크로스
+    char_t3_shuriken_front.png  /  char_t3_shuriken_back.png   — 오보로
+    char_t3_dancer_front.png  /  char_t3_dancer_back.png   — 원더러(여)
+    char_t3_priest_front.png  /  char_t3_priest_back.png   — 아크 비숍
+    char_t3_monk_front.png  /  char_t3_monk_back.png   — 수라
+    char_t3_wizard_front.png  /  char_t3_wizard_back.png   — 워록
+    char_t3_elementalist_front.png  /  char_t3_elementalist_back.png   — 엘리멘탈 마스터
+
+  [여캐]
+    char_thief_f_front.png  /  char_thief_f_back.png   — 시프(여)
+
+  [노비스 — 여캐] char_novice_f_front.png / char_novice_f_back.png
+
+  [노비스 — 남캐 부품, 추천: 줄인 안 20장 (색은 게임에서 바꿈)]
+    char_novice_body_front.png / char_novice_body_back.png          — 대머리 몸(밝은 피부) + 옷
+    char_novice_hair_front.png / char_novice_hair_back.png          — 머리카락(갈색 기준)
+    char_novice_weapon0_front.png ~ char_novice_weapon6_front.png   — 무기 7단계 (앞)
+    char_novice_weapon0_back.png  ~ char_novice_weapon6_back.png    — 무기 7단계 (뒤)
+    char_novice_fist_front.png / char_novice_fist_back.png          — 무기 쥔 주먹
+  [노비스 — 남캐 부품, 색별로 다 그릴 때 44장]
+    char_novice_body_skin0~3_front/back · char_novice_hair_hair0~6_front/back ·
+    char_novice_weapon0~6_front/back · char_novice_fist_skin0~3_front/back
+
+  합계: 직업 60 + 여캐 노비스 2 + 남캐 노비스 20 = 82장 (색별로 다 그리면 106장)
 
 ==================================================================
 2. 일반 몬스터 20종 — 스프라이트 시트
