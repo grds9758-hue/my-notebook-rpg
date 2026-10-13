@@ -1,5 +1,5 @@
 import json, html
-SP='/tmp/claude-0/-home-user-my-notebook-rpg/9b572592-0d22-5c86-91be-9930054f090d/scratchpad/'
+SP='./'  # folder holding items.json / jobgear.json (dumps of index.html)
 d=json.load(open(SP+'items.json')); eq=json.load(open('design/equipment.json')); JG=json.load(open(SP+'jobgear.json'))
 N=d['ITEM_NAMES']; B=d['BANDS']; SET=d['SET']; SUB=d['SUB_KINDS']; G=d['GD']
 e=html.escape
@@ -12,7 +12,7 @@ def lvlist(names, setmark=False):
 cards=''.join(f'<article class="slot"><header><h3>{n}</h3><span class="hint">{h}</span></header>{lvlist(N[k], k in setslots)}</article>' for k,n,h in slots)
 subwho={'shield':'노비스 · 소드맨 · 크루세이더 · 드래곤 나이트','dagger':'어쌔신 (이도류 수련을 배운 뒤)','quiver':'아처 · 헌터 · 스나이퍼','tome':'어콜라이트 · 프리스트 · 매지션 · 위자드 · 소서러'}
 subcards=''.join(f'<article class="slot"><header><h3>{e(v["n"])}</h3><span class="hint">{subwho[k]}</span></header>{lvlist(v["names"])}</article>' for k,v in SUB.items())
-ringrows=''.join(f'<li><span class="lv">Lv.{B[i]}</span><span class="nm">{e(m)} ○○의 반지</span></li>' for i,m in enumerate(N['ring']))
+ringrows=''.join(f'<li><span class="lv">Lv.{B[i]}</span><span class="nm">{e(m)} 링(○○)</span></li>' for i,m in enumerate(N['ring']))
 mats=''.join(f'<tr><td class="g">{e(g["ground"])}</td><td>{e(m["name"])}</td><td><b>{e(m["drop"])}</b></td><td class="num">{4*(gi+1)}G</td></tr>' for gi,g in enumerate(G) for m in g['mons'])
 JOBN={'warrior':'소드맨','archer':'아처','thief':'시프','healer':'어콜라이트','mage':'매지션'}
 RN={'greatsword':'나이트','shield':'크루세이더','rider':'드래곤 나이트','trapper':'헌터','bowman':'스나이퍼','dagger':'어쌔신','shuriken':'닌자','dancer':'댄서','priest':'프리스트','monk':'몽크','wizard':'위자드','elementalist':'소서러'}
@@ -24,7 +24,7 @@ for key,rows in JG.items():
     j,r=key.split('/')
     if j not in done:
         done.add(j)
-        sets=[x.split('|')[2] for x in rows['suit']]
+        sets=[nm(x) for x in rows['suit']]
         tr=''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm"><b>{e(sets[i])}</b><small>{e(nm(rows["helm"][i]))} · {e(nm(rows["top"][i]))} · {e(nm(rows["bottom"][i]))} · {e(nm(rows["shoes"][i]))}</small></span></li>' for i in range(10))
         jobs+=f'<article class="slot"><header><h3>{JOBN[j]} 방어구</h3><span class="hint">세트 = 한벌옷 이름 · 투구·상의·하의·신발</span></header><ol class="tier">{tr}</ol></article>'
         wr=''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(rows["weapon"][i]))}</span></li>' for i in range(3))
@@ -35,13 +35,13 @@ for key,rows in JG.items():
 acc=''
 for sl,t in [('cape','망토'),('necklace','목걸이'),('earring','귀걸이')]:
     acc+=f'<article class="slot"><header><h3>{t}</h3><span class="hint">전직 공용</span></header>'+'<ol class="tier">'+''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(shared[sl][i]))}</span></li>' for i in range(10))+'</ol></article>'
-acc+='<article class="slot"><header><h3>반지</h3><span class="hint">재질 10 × 능력치 6</span></header><ol class="tier">'+''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(shared["ring"][i]).replace("힘의 반지","○○의 반지"))}</span></li>' for i in range(10))+'</ol></article>'
+acc+='<article class="slot"><header><h3>반지</h3><span class="hint">재질 10 × 능력치 6</span></header><ol class="tier">'+''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(nm(shared["ring"][i]).replace("링(힘)","링(○○)"))}</span></li>' for i in range(10))+'</ol></article>'
 subj=''
 for k,t in [('shield','방패'),('dagger','보조 단검'),('quiver','화살통'),('tome','마도서')]:
     pass
 sh=eq['shared_job_tier']
-MATS=[x.replace(' 귀걸이','') for x in sh['귀걸이']]
-JOB_SHIELD_N=[m+' 방패' for m in MATS[:3]]+[x.split('·')[1] for x in eq['jobs']['전사']['routes']['방패 기사']]
+MATS=[x.replace(' 이어링','') for x in sh['귀걸이']]
+JOB_SHIELD_N=[m+' 실드' for m in MATS[:3]]+[x.split('·')[1] for x in eq['jobs']['전사']['routes']['방패 기사']]
 base=sum(len(N[k]) for k,_,_ in slots)+len(N['ring'])*6+sum(len(v['names']) for v in SUB.values())
 page=f'''<title>공책 RPG 아이템 도감</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
@@ -138,10 +138,10 @@ td.g{{color:var(--muted)}} td.num{{font-variant-numeric:tabular-nums;text-align:
   <div class="sec-h"><h3>전직 후 악세서리 · 보조무기</h3></div>
   <div class="grid">{acc}
     <article class="slot"><header><h3>보조무기</h3><span class="hint">방패 · 보조 단검 · 화살통 · 마도서</span></header>
-      <ol class="tier">{''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(JOB_SHIELD_N[i])} · {e(MATS[i])} 단도/화살통/마도서</span></li>' for i in range(10))}</ol></article>
+      <ol class="tier">{''.join(f'<li><span class="lv">Lv.{JT[i]}</span><span class="nm">{e(JOB_SHIELD_N[i])} · {e(MATS[i])} 대거/퀴버/그리모어</span></li>' for i in range(10))}</ol></article>
   </div>
 </section>
 </main>
 '''
-open(SP+'catalog/items.html','w').write(page)
+open(SP+'items.html','w').write(page)
 print(base, len(page))
