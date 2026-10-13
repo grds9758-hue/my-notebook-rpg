@@ -1134,8 +1134,9 @@ const crit = () => Math.min(100, 3 + Math.floor(eff('luk')/6) + Math.round(pas('
 const spd = () => Math.round((10 + eff('agi')/2 + PL()*.3) * (1 + pas('spd') + bf('spd')));
 const hpMax = () => Math.round((80 + PL()*12 + eff('vit')*2) * (1 + pas('hp')));
 const mpMax = () => Math.round(30 + PL()*4 + eff('int')*2);
-const critDmg = () => 1.5 + eff('luk')/400;
-const missRate = () => Math.max(.01, .08 - eff('dex')/800);
+const critDmg = () => 1.25 + eff('luk')/400;  // LUK 40 → 135%
+// DEX 40 → 90% hit, more DEX → up to 97%; a foe above your level is harder to hit (+1% miss per level)
+const missRate = f => clamp(.15 - eff('dex')/800 + (f ? Math.max(0, f.m - effLv())*.01 : 0), .03, .4);
 const regenRate = () => Math.min(.1, pas('regen'));
 const dodgeRate = () => Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
 const cp = () => Math.round(job().key.reduce((s,k)=>s+eff(k),0)/3 + PL()*.6);
@@ -1336,7 +1337,7 @@ function hitFoe(f, attr, mult, magic){
   if (rel==='weak') dmg = Math.round(dmg*1.5);
   if (rel==='resist') dmg = Math.round(dmg*.5);
   if (c) dmg = Math.round(dmg*critDmg());
-  const miss = rel!=='weak' && Math.random() < missRate();
+  const miss = rel!=='weak' && Math.random() < missRate(f);
   if (miss) dmg = 0;
   f.hp = Math.max(0, f.hp - dmg);
   if (rel==='weak'){ S.tot.weak++; dailyProgress('weak',1); }
@@ -1729,7 +1730,7 @@ function statSheet(){
     <div class="sheet fade" role="dialog" aria-label="상세 능력치"><div class="sbody sd">
       <div class="row" style="justify-content:space-between"><h2>상세 능력치</h2><span class="xs muted">${lvTag()}</span></div>
       ${rows('기본 능력치 <small>기본 + 장비</small>', statRows)}
-      ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', Math.round(critDmg()*100)+'%'], ['명중률', pc(1-missRate()), '약점 공격은 빗나가지 않음'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
+      ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', Math.round(critDmg()*100)+'%'], ['명중률', pc(1-missRate()), '같은 레벨 적 기준 · 약점 공격은 빗나가지 않음 · 레벨 높은 적에겐 1레벨당 −1%'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
       ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
       ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
       <div class="btns"><button class="btn pri" data-act="statclose">닫기</button></div></div></div></div>`;
