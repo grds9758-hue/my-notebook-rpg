@@ -155,7 +155,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .ps.on .sq{box-shadow:0 0 0 3px var(--accent)}
 .ps.fit .sq{box-shadow:0 0 0 3px var(--accent);animation:blink 1s infinite}
 @media (prefers-reduced-motion:reduce){.ps.fit .sq{animation:none}}
-.ps.suitcover .sq{opacity:.45}
+.ps.blocked .sq{border:1.5px solid var(--line);background:var(--surface-2);box-shadow:none;color:var(--red);font-size:26px;font-weight:700;line-height:1}
+.ps.blocked small{color:var(--red)}
 .ringrow{display:flex;justify-content:center;gap:8px;margin-top:6px}
 .ringrow .ps{position:static;transform:none;width:52px}
 .ringrow .ps .sq{width:40px;height:40px}
@@ -367,9 +368,9 @@ const needExp = lv => isJob() ? Math.round((5 + lv*.6) * mexp(48 + lv*.55)) : Ma
 const maxLv = () => isJob() ? JOB_MAX : NOVICE_MAX;
 
 /* ---------- equipment ---------- */
-const SLOT_ORDER = ['weapon','helm','top','bottom','suit','shoes','cape','earring'];
+const SLOT_ORDER = ['weapon','sub','helm','top','bottom','suit','shoes','cape','necklace','earring'];
 const RING_SLOTS = ['ring0','ring1','ring2','ring3','ring4'];
-const SLOTN = {weapon:'무기',helm:'투구',top:'상의',bottom:'하의',suit:'한벌옷',shoes:'신발',cape:'망토',earring:'귀걸이',ring:'반지'};
+const SLOTN = {weapon:'무기',sub:'보조무기',necklace:'목걸이',helm:'투구',top:'상의',bottom:'하의',suit:'한벌옷',shoes:'신발',cape:'망토',earring:'귀걸이',ring:'반지'};
 const RARITY = ['일반','고급','희귀','영웅','전설'];
 const BANDS = [1,5,10,15,20,25,30,35,40,45];
 const SET_NAMES = ['견습생','사냥꾼','용병','철기사','늪지기','망령','협곡','설원','사막','용비늘'];
@@ -381,6 +382,8 @@ const ITEM_NAMES = {
   suit:['수련생 도복','사냥꾼 가죽옷','용병 전투복','견습 기사 갑주','늪지기 갑옷','망령 갑옷','협곡 갑옷','설원 갑옷','사막 갑옷','용기사 갑주'],
   shoes:['짚신','가죽 신발','징 박힌 장화','철 장화','늪지기 장화','망령 장화','협곡 장화','설원 장화','사막 장화','용비늘 장화'],
   cape:['해진 망토','여행자 망토','늑대 가죽 망토','용병 망토','늪지기 망토','망령 망토','협곡 망토','설원 망토','사막 망토','용날개 망토'],
+  sub:['냄비 뚜껑','나무 방패','가죽 방패','징 박힌 방패','철 방패','늪지기 방패','망령 방패','협곡 방패','설원 방패','용비늘 방패'],
+  necklace:['조개 목걸이','은 목걸이','월장석 목걸이','루비 목걸이','사파이어 목걸이','에메랄드 목걸이','미스릴 목걸이','빙정 목걸이','태양석 목걸이','용의 심장 목걸이'],
   earring:['구리 귀걸이','은 귀걸이','월장석 귀걸이','루비 귀걸이','사파이어 귀걸이','에메랄드 귀걸이','미스릴 귀걸이','빙정 귀걸이','태양석 귀걸이','용의 눈 귀걸이'],
   ring:['구리','은','금','백금','에메랄드','흑요석','미스릴','빙정','태양석','용의'],
 };
@@ -388,10 +391,10 @@ const ATK = [6,12,20,30,42,56,72,90,110,132], DEF = [3,6,10,15,21,28,36,45,55,66
 const SLOT_SPEC = {
   weapon:{def:0, bon:[['main',1]]}, helm:{def:.6, bon:[['vit',.5]]}, top:{def:1, bon:[['vit',.8]]},
   bottom:{def:.8, bon:[['agi',.6]]}, suit:{def:1.8, bon:[['vit',.8],['agi',.6]]}, shoes:{def:.5, bon:[['agi',.5]]},
-  cape:{def:.4, bon:[['luk',.4],['spi',.3]]}, earring:{def:0, bon:[['int',.4],['spi',.4]]}, ring:{def:0, bon:[]},
+  cape:{def:.4, bon:[['luk',.4],['spi',.3]]}, sub:{def:.6, bon:[['vit',.4]]}, necklace:{def:0, bon:[['vit',.3],['luk',.3]]}, earring:{def:0, bon:[['int',.4],['spi',.4]]}, ring:{def:0, bon:[]},
 };
 const ARMOR_SET_SLOTS = ['helm','top','bottom','suit','shoes','cape'];
-const LOOT_SLOTS = ['weapon','helm','top','bottom','suit','shoes','cape','earring','ring','ring'];
+const LOOT_SLOTS = ['weapon','sub','helm','top','bottom','suit','shoes','cape','necklace','earring','ring','ring'];
 const BAG_MAX = 40;
 const POTIONS = {hp:{name:'체력 물약',price:25,color:'#f04452',desc:'HP 50% 회복'},mp:{name:'마나 물약',price:25,color:'#3182f6',desc:'MP 50% 회복'}};
 
@@ -550,6 +553,8 @@ const SLOT_ICONS = {
   suit:'<path d="M8 2l4 2 4-2 4 4-2 3v13h-4l-2-6-2 6H6V9L4 6z"/>',
   shoes:'<path d="M5 11h6l1-6h5v8l3 2v4H4z"/>',
   cape:'<path d="M8 3h8l4 18H4zM10 3l2 4 2-4"/>',
+  sub:'<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/>',
+  necklace:'<path d="M5 3c0 6 3 9 7 9s7-3 7-9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12l4 5-4 5-4-5z"/>',
   earring:'<path d="M12 2a2 2 0 0 1 2 2v3h-4V4a2 2 0 0 1 2-2z"/><circle cx="12" cy="14" r="5" fill="none" stroke="currentColor" stroke-width="2.5"/>',
   ring:'<circle cx="12" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M9 6l3-4 3 4z"/>',
 };
@@ -968,7 +973,7 @@ function battleView(){
 
 /* ---------- character ---------- */
 /* paper doll: slots placed on a faint body outline (viewer's left = the character's right hand) */
-const PD_POS = {helm:[140,40], earring:[212,66], cape:[218,140], top:[140,132], weapon:[40,196], bottom:[140,214], shoes:[140,312]};
+const PD_POS = {helm:[140,40], necklace:[68,66], earring:[212,66], cape:[218,140], sub:[226,222], top:[140,132], weapon:[40,196], bottom:[140,214], shoes:[140,312]};
 const PD_BODY = `<svg class="body" viewBox="0 0 280 350" aria-hidden="true"><circle cx="140" cy="58" r="46"/><rect x="104" y="104" width="72" height="96" rx="22"/>
   <rect x="62" y="112" width="30" height="88" rx="15" transform="rotate(18 77 112)"/><rect x="188" y="112" width="30" height="88" rx="15" transform="rotate(-18 203 112)"/>
   <rect x="108" y="190" width="28" height="104" rx="14"/><rect x="144" y="190" width="28" height="104" rx="14"/><ellipse cx="118" cy="300" rx="20" ry="10"/><ellipse cx="162" cy="300" rx="20" ry="10"/></svg>`;
@@ -979,12 +984,13 @@ function slotFits(slot, it){
   return it.slot===slot;
 }
 function pdSlot(slot, label, style, fitItem){
-  let it = S.equip[slot], cover = false;
-  if (!it && (slot==='top' || slot==='bottom') && S.equip.suit){ it = S.equip.suit; cover = slot==='bottom'; }
-  const cls = [it?'':'empty', UI.slotSel===slot?'on':'', slotFits(slot, fitItem)?'fit':'', cover?'suitcover':''].join(' ');
-  const name = it ? itemInfo(it).name : label;
-  const act = it ? `data-act="slot" data-s="${it===S.equip.suit&&!S.equip[slot]?'suit':slot}"` : 'disabled';
-  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${it&&it===S.equip.suit?'한벌옷':label}</small></button>`;
+  if (slot==='bottom' && S.equip.suit)  // a suit covers the legs: the bottom slot is blocked
+    return `<button class="ps blocked ${slotFits(slot, fitItem)?'fit':''}" style="${style||''}" disabled aria-label="하의: 한벌옷을 입어 착용 불가"><span class="sq">✕</span><small>한벌옷 착용 중</small></button>`;
+  let it = S.equip[slot], key = slot;
+  if (!it && slot==='top' && S.equip.suit){ it = S.equip.suit; key = 'suit'; }
+  const cls = [it?'':'empty', UI.slotSel===key?'on':'', slotFits(slot, fitItem)?'fit':''].join(' ');
+  const act = it ? `data-act="slot" data-s="${key}"` : 'disabled';
+  return `<button class="ps ${cls}" style="${style||''}" ${act} aria-label="${label}: ${it?esc(itemInfo(it).name):'비어 있음'}"><span class="sq ${it?'rb'+it.rar:''}">${it?itemIcon(it):''}</span><small>${key==='suit'?'한벌옷':label}</small></button>`;
 }
 function equipDoll(fitItem){
   const pos = Object.entries(PD_POS).map(([s,[x,y]])=>pdSlot(s, SLOTN[s], `left:${x}px;top:${y}px`, fitItem)).join('');
