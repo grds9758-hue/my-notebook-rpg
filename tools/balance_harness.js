@@ -51,6 +51,11 @@ window.__balance = (opts={}) => {
     }
     const o = {win: !!(B.over && B.over.win), rounds: acts, hpLeft: S.hp/hpMax(), mpUsed: 1 - S.mp/mpMax()}; B = null; return o;
   }
+  if (opts.auto){ const rows = [[null,null,10],[null,null,30],[null,null,48],['warrior','greatsword',40],['mage','wizard',70],['thief','dagger',99],['healer','priest',70]];
+    for (const [j,r,lv] of rows){ j ? build(j,r,lv,false) : buildNovice(lv); const deep = !!j, g = deep ? clamp(Math.floor((lv-1)/10),0,9) : clamp(Math.floor(lv/5),0,9);
+      let sess = 0, full = 0, pots = 0; for (let k=0;k<20;k++){ S.hp = hpMax(); S.mp = mpMax(); S.inv.hp = 5; let w = 0; for (let i=0;i<10;i++){ if (S.hp < hpMax()*.3 && !S.inv.hp) break; const o = simBattle(g, deep); if (o && o.win) w++; else break; } sess++; if (w===10) full++; pots += 5 - S.inv.hp; }
+      out.push({job:j||'novice', route:r||'-', name:'자동 '+jobName(), lv, win: Math.round(full/sess*100), rounds: +(pots/sess).toFixed(1), hpLeft: 0, mp: 0, atk: atk(), matk: matk(), hpMax: hpMax()}); }
+    render = _r; save = _s; runFoes = _rf; fxPlay = _fx; toast = _t; return out; }
   if (opts.novice) for (const lv of [3,10,20,30,40,48]){
     buildNovice(lv); const g = clamp(Math.floor(lv/5), 0, 9); let w=0, rd=0, hp=0, mp=0;
     for (let i=0;i<N;i++){ const o = fight(g, false); if (o.win){ w++; rd += o.rounds; hp += o.hpLeft; } mp += o.mpUsed; }
