@@ -1631,7 +1631,7 @@ function win(){
   exp = Math.round(exp * (1 + facBonus()) * am); gold = Math.round(gold * (1 + facBonus()) * am);
   const ups = gainExp(exp);
   S.gold += gold; for (const k in mats) S.mats[k] = (S.mats[k]||0) + mats[k];
-  S.tot.kills += n; S.tot.wins++;
+  S.tot.kills += n; S.tot.wins++; jqKill(B.g, B.deep, n);
   dailyProgress('kill', n); dailyProgress('win', 1); if (!B.took) dailyProgress('nohit', 1);
   let loot = null;
   if (B.mode==='promo' || Math.random() < (.12 + n*.04) * (B.mode==='auto' ? .5 : 1)){
@@ -1730,6 +1730,30 @@ function statSheet(){
       ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
       ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
       <div class="btns"><button class="btn pri" data-act="statclose">닫기</button></div></div></div></div>`;
+}
+function jobSheet(){
+  let h = '';
+  if (canJobChange()){
+    const p = UI.jobPick;
+    h += `<section class="card" style="box-shadow:none;margin:0"><h2>전직할 직업을 골라요</h2><p class="xs muted">전직하면 Lv.1부터 다시 시작하고 최대 Lv.99까지 오른다. 능력치와 장비는 그대로, <b>노비스 스킬은 사라지고</b> 직업 스킬 트리가 열린다(스킬 포인트도 직업 Lv마다 새로 1씩). 루트는 직업 Lv.${ROUTE_LV}에 고른다.${S.gender==='f'?' 여캐는 시프만 고를 수 있다.':''}</p>
+      ${Object.entries(JOBS).filter(([j])=>j!=='novice').map(([j,J])=>`<button class="jobcard" data-act="jobpick" data-j="${j}" aria-pressed="${p===j}" ${S.gender==='f'&&j!=='thief'?'disabled':''}><img class="px" src="${S.gender==='f'&&j==='thief'?SPR.fthief_front:SPR['jf'+J.sprite]}" alt=""><span class="grow"><b>${J.name}</b>
+        <span class="xs muted" style="display:block">${J.desc} · 핵심 ${J.key.slice(0,2).map(x=>SN[x]).join('·')}</span><span class="route">루트 · ${J.routes.map(r=>r[1]).join(' / ')}</span></span></button>`).join('')}
+      <button class="cta" style="margin-top:12px" data-act="jobchange" ${p?'':'disabled'}>${p?`${JOBS[p].name}(으)로 전직하기`:'직업을 골라 주세요'}</button></section>`;
+  }
+  if (canThird()){
+    const R = ROUTE[S.route];
+    h += `<section class="card" style="box-shadow:none;margin:0"><h2>3차 전직</h2><p class="xs muted">${R.name} Lv.${JOB_MAX} 달성! 전직하면 <b>Lv.1부터 다시</b> 최대 Lv.${JOB_MAX}까지. 능력치·장비·배운 스킬은 그대로, 3차 스킬 트리가 더해지고 사냥터는 초월 단계로 바뀐다.</p>
+      <div class="jobcard" aria-pressed="true"><img class="px" src="${SPR['jf'+R.sprite]}" alt=""><span class="grow"><b>${THIRD[S.route]}</b><span class="xs muted" style="display:block">${TREES['t3_'+S.route].list.filter(s=>s.e.k!=='pas').slice(0,4).map(s=>s.n).join(' · ')}</span></span></div>
+      <button class="cta" style="margin-top:12px" data-act="third">${THIRD[S.route]}(으)로 전직하기</button></section>`;
+  }
+  if (canRoute()){
+    const p = UI.routePick;
+    h += `<section class="card" style="box-shadow:none;margin:0"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}><img class="px" src="${SPR['jf'+sp]}" alt=""><span class="grow"><b>${n}</b><span class="xs muted" style="display:block">${d}</span></span></button>`).join('')}
+      <button class="cta" style="margin-top:12px" data-act="route" ${p?'':'disabled'}>${p?`${ROUTE[p].name} 루트로`:'루트를 골라 주세요'}</button></section>`;
+  }
+  if (!h) return '';
+  return `<div class="sheetwrap"><button class="sheetbg" data-act="jobclose" aria-label="닫기"></button>
+    <div class="sheet fade" role="dialog" aria-label="전직" style="max-height:88vh;overflow:auto">${h}<div class="btns" style="padding:0 16px 16px"><button class="btn" data-act="jobclose">나중에</button></div></div></div>`;
 }
 function innSheet(){
   const c = innCost(), ok = S.gold >= c;
@@ -1837,20 +1861,33 @@ function promoReady(){
 }
 const promoReqText = F => F.req.job ? `전직 후 Lv.${F.req.job}` : `Lv.${F.req.lv}`;
 function startPromo(){ if (!promoReady()) return; const b = bestGround(); startBattle(b.g, b.deep, 'promo'); }
-const canJobChange = () => S.job==='novice' && S.lv >= NOVICE_MAX;
+/* 전직 의뢰: 레벨을 채우면 리나에게 의뢰를 받고(사냥터 몬스터 처치 + 재료), 끝내면 리나에게 말을 걸어 전직 */
+const jqStage = () => S.job==='novice' ? (S.lv >= NOVICE_MAX ? 'job' : null) : !S.route ? (S.lv >= ROUTE_LV ? 'route' : null) : !S.third ? (S.lv >= JOB_MAX ? 'third' : null) : null;
+const JQ_NAME = {job:'1차 전직', route:'2차 전직', third:'3차 전직'};
+const JQ_SPEC = {job:{g:9, deep:false, kill:30, mat:5}, route:{g:2, deep:true, kill:40, mat:8}, third:{g:9, deep:true, kill:50, mat:10}};
+function jqMake(st){ const q = JQ_SPEC[st]; return {st, g:q.g, deep:q.deep, kill:q.kill, mat:q.mat, k:0, drops:GD[q.g].mons.map(m=>m.drop)}; }
+const jqMats = () => S.jq ? S.jq.drops.reduce((a,d)=>a + (S.mats[d]||0), 0) : 0;
+const jqDone = () => !!(S.jq && S.jq.st===jqStage() && S.jq.k >= S.jq.kill && jqMats() >= S.jq.mat);
+const jqGround = () => `${S.jq.deep?'심층 ':''}${GD[S.jq.g].ground}`;
+const jqText = () => `${jqGround()} 몬스터 ${Math.min(S.jq.k,S.jq.kill)}/${S.jq.kill} · ${S.jq.drops.join('·')} ${Math.min(jqMats(),S.jq.mat)}/${S.jq.mat}`;
+function jqKill(g, deep, n){ if (S.jq && S.jq.st===jqStage() && S.jq.g===g && !!S.jq.deep===!!deep) S.jq.k += n; }
+function jqPay(){ let left = S.jq.mat; for (const d of S.jq.drops){ const u = Math.min(left, S.mats[d]||0); if (u){ S.mats[d] -= u; if (!S.mats[d]) delete S.mats[d]; left -= u; } } S.jq = null; }
+const canJobChange = () => S.job==='novice' && S.lv >= NOVICE_MAX && jqDone();
 function jobChange(j){
   if (!canJobChange() || !JOBS[j] || j==='novice') return;
   if (S.gender==='f' && j!=='thief'){ toast('여캐는 시프로만 전직할 수 있다.'); return; }
+  jqPay(); UI.jobSheet = false;
   for (const id of Object.keys(S.sk||{})) if (SKILL[id] && SKILL[id].tree==='novice') delete S.sk[id];  // novice skills are gone
   S.job = j; S.route = null; S.lv = 1; S.exp = 0; S.points += 5; S.sp = 1; UI.tree = null; UI.skSel = null;
   dropBadSub(); S.hp = hpMax(); S.mp = mpMax(); S.titles.push(`${job().name} 전직`);
   UI.jobPick = null; toast(`${job().name}(으)로 전직했다! Lv.1부터 · 노비스 스킬은 사라지고 직업 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
 }
-const canRoute = () => isJob() && !S.route && S.lv >= ROUTE_LV;
-const canThird = () => isJob() && S.route && !S.third && S.lv >= JOB_MAX;
+const canRoute = () => isJob() && !S.route && S.lv >= ROUTE_LV && jqDone();
+const canThird = () => isJob() && S.route && !S.third && S.lv >= JOB_MAX && jqDone();
 const THIRD = Object.fromEntries(Object.keys(ROUTE).map(r => [r, TREES['t3_'+r].name]));
 function thirdChange(){
   if (!canThird()) return;
+  jqPay(); UI.jobSheet = false;
   S.third = true; S.lv = 1; S.exp = 0; S.points += 5; S.sp += 1; UI.tree = null; UI.skSel = null;  // stats · gear · skills stay
   S.hp = Math.min(S.hp, hpMax()); S.mp = Math.min(S.mp, mpMax()); S.titles.push(`${THIRD[S.route]} 전직`);
   toast(`${THIRD[S.route]}(으)로 3차 전직! Lv.1부터 · 능력치·장비·스킬은 그대로, 3차 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
@@ -1858,6 +1895,7 @@ function thirdChange(){
 function chooseRoute(r){
   if (!canRoute() || !ROUTE[r] || ROUTE[r].job!==S.job) return;
   if (r==='dancer' && S.gender!=='f'){ toast('댄서는 여캐 전용이다.'); return; }
+  jqPay(); UI.jobSheet = false;
   S.route = r; dropBadSub(); S.titles.push(ROUTE[r].name); UI.routePick = null; toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
 }
 function equipItem(id, ringSlot){
@@ -1915,9 +1953,10 @@ function bars(){
 }
 function todos(){
   const T = [];
-  if (canJobChange()) T.push({ic:'⭐', t:'전직할 수 있어요!', d:'노비스 Lv.50 달성 · 캐릭터에서 직업 선택', go:'char', dot:true});
-  if (canThird()) T.push({ic:'👑', t:'3차 전직을 할 수 있어요!', d:`${ROUTE[S.route].name} Lv.${JOB_MAX} 달성 · 캐릭터에서 전직`, go:'char', dot:true});
-  if (canRoute()) T.push({ic:'🧭', t:'루트를 고를 수 있어요', d:`${job().name} Lv.${ROUTE_LV} 달성`, go:'char', dot:true});
+  const js = jqStage();
+  if (js){ const on = S.jq && S.jq.st===js;
+    T.push(jqDone() ? {ic:'⭐', t:`${JQ_NAME[js]} 의뢰 완료!`, d:'리나에게 말을 걸어 전직하기', go:'home', dot:true}
+      : on ? {ic:'📜', t:`${JQ_NAME[js]} 의뢰`, d:jqText(), go:'hunt'} : {ic:'⭐', t:`${JQ_NAME[js]} 의뢰를 받을 수 있어요`, d:'리나에게 말을 걸어 보세요', go:'home', dot:true}); }
   if (promoReady()) T.push({ic:'🛡️', t:'승급 시험을 볼 수 있어요', d:`${FACTIONS[S.fac].name} → ${FACTIONS[S.fac+1].name} · 정예 3연전`, go:'char', dot:true});
   const dr = dailyReady();
   if (dr) T.push({ic:'📜', t:`일일 미션 보상 ${dr}개`, d:'기록 탭에서 받기', go:'rec:daily', dot:true});
@@ -1938,9 +1977,10 @@ const NPC_FACE = ["data:image/webp;base64,UklGRoR0AABXRUJQVlA4WAoAAAAQAAAAAwEAOA
 const FACE = {cheer:0, happy:1, smile:2, reach:3, calm:4, surprised:5, blush:6, panic:7, cross:8, teary:9, think:10, joy:11, welcome:12, shy:13, tip:14, wink:14, glance:15, note:16, wave:17, gentle:2};
 function guideLine(){
   if (S.hp < hpMax()*.4) return {f:'panic', t:'어머, 많이 다치셨잖아요! 여관에서 푹 쉬고 가세요.'};
-  if (canJobChange()) return {f:'surprised', t:'세상에, 노비스 졸업이에요! 캐릭터 화면에서 직업을 골라 주세요.'};
-  if (canThird()) return {f:'surprised', t:`Lv.99라니… 대단해요! 이제 ${THIRD[S.route]}(으)로 3차 전직하실 수 있어요.`};
-  if (canRoute()) return {f:'joy', t:'드디어 루트를 고르실 때예요. 어떤 길로 가실지 기대돼요!'};
+  { const js = jqStage();
+    if (js && jqDone()) return {f:'joy', t:`의뢰를 다 해내셨군요! 저를 눌러서 ${JQ_NAME[js]}을 하세요.`};
+    if (js && !(S.jq && S.jq.st===js)) return {f:'surprised', t:`${JQ_NAME[js]}할 때가 됐어요! 저를 눌러서 전직 의뢰를 받아 주세요.`};
+    if (js) return {f:'tip', t:`전직 의뢰 진행 중이에요. ${jqText()}`}; }
   if (S.sp) return {f:'wink', t:`스킬 포인트가 ${S.sp}개 남아 있어요. 스킬 탭에서 새 기술을 배워 보세요!`};
   if (promoReady()) return {f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`};
   if (S.points) return {f:'gentle', t:`능력치 포인트가 ${S.points}개 있어요. 훈련소에서 나눠 주세요.`};
@@ -1971,12 +2011,22 @@ function talkTopics(){
 function talkOpen(){ UI.talk = {menu:true}; }
 function talkTopic(k){
   if (k==='bye'){ UI.talk = null; UI.homeLine = L('wave', pick(['언제든 불러 주세요!', '조심히 다녀오세요!', '또 이야기해요!'])); return; }
+  if (k==='job'){ UI.talk = jqTalk(); return; }
   UI.talk = {lines: talkTopics()[k], i:0};
+}
+function jqTalk(){
+  const js = jqStage(), n = JQ_NAME[js];
+  if (jqDone()) return {lines:[L('cheer', `${jqGround()} 의뢰 완료! 재료 ${S.jq.mat}개도 잘 받았어요.`), L('joy', `그럼… ${n}을 시작할게요. 마음의 준비 되셨죠?`)], i:0, end:'job'};
+  if (S.jq && S.jq.st===js) return {lines:[L('note', `${jqText()}`), L('tip', `${jqGround()}에서 몬스터를 잡고 ${S.jq.drops.join('·')}을(를) 모아 오세요. 자동 사냥도 쳐 줘요!`)], i:0};
+  S.jq = jqMake(js); save();
+  return {lines:[L('surprised', `${n}이요? 그럼 정식 의뢰를 드릴게요!`),
+    L('note', `${jqGround()}에서 몬스터 ${S.jq.kill}마리를 잡고, ${S.jq.drops.join('·')}을(를) 합쳐 ${S.jq.mat}개 모아 오세요.`),
+    L('cheer', '다 하시면 저한테 다시 말 걸어 주세요. 기다릴게요!')], i:0};
 }
 function talkNext(){
   const T = UI.talk; if (!T) { talkOpen(); return; }
   if (T.menu) return;
-  if (T.i < T.lines.length - 1) T.i++; else UI.talk = {menu:true, after:true};
+  if (T.i < T.lines.length - 1) T.i++; else if (T.end==='job'){ UI.talk = null; UI.homeLine = L('reach', '어떤 길로 가실지 골라 주세요!'); UI.jobSheet = true; } else UI.talk = {menu:true, after:true};
 }
 function talkLine(){
   const T = UI.talk;
@@ -2004,7 +2054,7 @@ function homeView(){
     <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[tl.f] ?? 2]}" alt="안내원 리나"></button>
     ${UI.talk ? '' : '<span class="tapme" aria-hidden="true">터치해서 대화</span>'}
     <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나</div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
-      ${UI.talk && UI.talk.menu ? `<div class="choices"><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
+      ${UI.talk && UI.talk.menu ? `<div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">⭐ ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
   h += autoCard();
   h += `<section class="card tiles">
       ${tile(`data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}" aria-label="사냥터로 보내 주세요 · ${G.ground}"`, '⚔️', '사냥터로<br>보내 주세요', 't-red')}
@@ -2248,24 +2298,7 @@ function setSummary(){
 function charView(){
   const k = job().key, sel = UI.slotSel ? S.equip[UI.slotSel] : null;
   let h = top('캐릭터', `${lvTag()} · ${FACTIONS[S.fac].name}`);
-  if (canJobChange()){
-    const p = UI.jobPick;
-    h += `<section class="card"><h2>전직할 직업을 골라요</h2><p class="xs muted">전직하면 Lv.1부터 다시 시작하고 최대 Lv.99까지 오른다. 능력치와 장비는 그대로, <b>노비스 스킬은 사라지고</b> 직업 스킬 트리가 열린다(스킬 포인트도 직업 Lv마다 새로 1씩). 루트는 직업 Lv.${ROUTE_LV}에 고른다.${S.gender==='f'?' 여캐는 시프만 고를 수 있다.':''}</p>
-      ${Object.entries(JOBS).filter(([j])=>j!=='novice').map(([j,J])=>`<button class="jobcard" data-act="jobpick" data-j="${j}" aria-pressed="${p===j}" ${S.gender==='f'&&j!=='thief'?'disabled':''}><img class="px" src="${S.gender==='f'&&j==='thief'?SPR.fthief_front:SPR['jf'+J.sprite]}" alt=""><span class="grow"><b>${J.name}</b>
-        <span class="xs muted" style="display:block">${J.desc} · 핵심 ${J.key.slice(0,2).map(x=>SN[x]).join('·')}</span><span class="route">루트 · ${J.routes.map(r=>r[1]).join(' / ')}</span></span></button>`).join('')}
-      <button class="cta" style="margin-top:12px" data-act="jobchange" ${p?'':'disabled'}>${p?`${JOBS[p].name}(으)로 전직하기`:'직업을 골라 주세요'}</button></section>`;
-  }
-  if (canThird()){
-    const R = ROUTE[S.route];
-    h += `<section class="card"><h2>3차 전직</h2><p class="xs muted">${R.name} Lv.${JOB_MAX} 달성! 전직하면 <b>Lv.1부터 다시</b> 최대 Lv.${JOB_MAX}까지. 능력치·장비·배운 스킬은 그대로, 3차 스킬 트리가 더해지고 사냥터는 초월 단계로 바뀐다.</p>
-      <div class="jobcard" aria-pressed="true"><img class="px" src="${SPR['jf'+R.sprite]}" alt=""><span class="grow"><b>${THIRD[S.route]}</b><span class="xs muted" style="display:block">${TREES['t3_'+S.route].list.filter(s=>s.e.k!=='pas').slice(0,4).map(s=>s.n).join(' · ')}</span></span></div>
-      <button class="cta" style="margin-top:12px" data-act="third">${THIRD[S.route]}(으)로 전직하기</button></section>`;
-  }
-  if (canRoute()){
-    const p = UI.routePick;
-    h += `<section class="card"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}><img class="px" src="${SPR['jf'+sp]}" alt=""><span class="grow"><b>${n}</b><span class="xs muted" style="display:block">${d}</span></span></button>`).join('')}
-      <button class="cta" style="margin-top:12px" data-act="route" ${p?'':'disabled'}>${p?`${ROUTE[p].name} 루트로`:'루트를 골라 주세요'}</button></section>`;
-  }
+  if (jqStage()) h += `<section class="card"><h2>${JQ_NAME[jqStage()]}</h2><p class="xs muted">${jqDone() ? '의뢰 완료! 마을의 리나에게 말을 걸면 전직할 수 있어요.' : S.jq && S.jq.st===jqStage() ? `전직 의뢰 진행 중 · ${jqText()}` : '레벨 달성! 마을의 리나에게 말을 걸어 전직 의뢰를 받으세요.'}</p><button class="cta" style="margin-top:10px" data-go="home">리나에게 가기</button></section>`;
   h += `<section class="card">${equipWindow(null)}${slotDetail()}`;
   h += `</section>`;
   h += `<section class="card"><h2 class="row">능력치 <span class="row" style="gap:8px">${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:''}<button class="chipbtn" data-act="statinfo">상세 보기 ›</button></span></h2>
@@ -2392,11 +2425,12 @@ function render(){
   ensureDaily();
   if (B){ app.className = 'app notabs'; app.innerHTML = `<div class="bscene">${sceneSVG(B.g, -165)}<div class="bwrap">${battleView()}</div></div>`; if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
   const V = {home:homeView, hunt:huntView, char:charView, skill:skillView, bag:bagView, rec:recView}[UI.tab] || homeView;
-  const dots = {home:false, hunt:false, char:!!S.points || canJobChange() || canRoute() || canThird() || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
+  const dots = {home:!!jqStage() && (jqDone() || !(S.jq && S.jq.st===jqStage())), hunt:false, char:!!S.points || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
   setTimeout(runTyper, 0);
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
   if (UI.innAsk) app.insertAdjacentHTML('beforeend', innSheet());
+  if (UI.jobSheet && UI.tab==='home') app.insertAdjacentHTML('beforeend', jobSheet());
   if (UI.statInfo) app.insertAdjacentHTML('beforeend', statSheet());
 }
 function go(dest){
@@ -2433,6 +2467,7 @@ app.addEventListener('click', async e => {
   if (a==='rest'){ if (S.hp>=hpMax() && S.mp>=mpMax()) rest(); else { UI.innAsk = true; render(); } return; }
   if (a==='innyes'){ UI.innAsk = false; rest(); return; }
   if (a==='innno'){ UI.innAsk = false; render(); return; }
+  if (a==='jobclose'){ UI.jobSheet = false; say('wave', '준비되시면 언제든 다시 불러 주세요!'); render(); return; }
   if (a==='auto'){ autoHunt(+b.dataset.g, b.dataset.deep==='1'); return; }
   if (a==='autoclose'){ UI.auto = null; render(); return; }
   if (a==='talk' || a==='talknext'){ if (typerSkip()) return; talkNext(); render(); return; }
