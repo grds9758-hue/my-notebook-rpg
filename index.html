@@ -782,12 +782,121 @@ const TREES = {
     {id:'so_earth',n:'대지의 가호',max:5,req:[['so_bond',1]],e:{k:'pas',st:'block',v:[.02,.01]}},
     {id:'so_water',n:'물의 정령',max:5,req:[['so_summon',1]],e:{k:'pas',st:'regen',v:[.005,.003]}},
   ]},
+  /* 3차 전직 (직업 Lv.99 → Lv.1): 루트마다 트리 하나, key = 't3_' + 루트 */
+  t3_greatsword:{name:'로드 나이트', list:[
+    {id:'lk_berserk',n:'버서크',max:5,mp:[20,2],e:{k:'buff',st:'atk',v:[.25,.05],t:3}},
+    {id:'lk_spiral',n:'클래싱 스파이럴',max:10,mp:[26,2],e:{k:'dmg',attr:'관통',m:[2.6,.18],hits:2}},
+    {id:'lk_head',n:'헤드 크러시',max:10,mp:[22,2],e:{k:'dmg',attr:'베기',m:[2.4,.16]}},
+    {id:'lk_joint',n:'조인트 비트',max:5,mp:[18,1],req:[['lk_head',3]],e:{k:'stun',v:[.35,.07]}},
+    {id:'lk_ignite',n:'이그니션 브레이크',max:10,mp:[34,2],req:[['lk_spiral',5]],e:{k:'dmg',attr:'불',m:[1.8,.14],all:1}},
+    {id:'lk_master',n:'투핸드 마스터',max:10,e:{k:'pas',st:'atk',v:[.03,.015]}},
+    {id:'lk_lord',n:'로드의 위엄',max:5,req:[['lk_berserk',1]],e:{k:'pas',st:'crit',v:[2,1]}},
+  ]},
+  t3_shield:{name:'팔라딘', list:[
+    {id:'pa_chain',n:'쉴드 체인',max:10,mp:[22,2],e:{k:'dmg',attr:'타격',m:[1.0,.08],hits:3}},
+    {id:'pa_press',n:'프레셔',max:10,mp:[24,2],e:{k:'dmg',attr:'빛',m:[2.6,.18]}},
+    {id:'pa_sac',n:'세크리파이스',max:5,mp:[18,1],e:{k:'guard'}},
+    {id:'pa_gospel',n:'가스펠',max:5,mp:[26,2],req:[['pa_press',3]],e:{k:'heal',p:[.25,.05]}},
+    {id:'pa_genesis',n:'제네시스 레이',max:10,mp:[36,2],req:[['pa_chain',5]],e:{k:'dmg',attr:'빛',m:[1.8,.14],all:1}},
+    {id:'pa_faith',n:'성기사의 신념',max:10,e:{k:'pas',st:'hp',v:[.03,.02]}},
+    {id:'pa_wall',n:'수호의 맹세',max:5,req:[['pa_sac',1]],e:{k:'pas',st:'block',v:[.02,.01]}},
+  ]},
+  t3_rider:{name:'룬 나이트', list:[
+    {id:'rk_hundred',n:'헌드레드 스피어',max:10,mp:[26,2],e:{k:'dmg',attr:'관통',m:[1.0,.07],hits:3}},
+    {id:'rk_sonic',n:'소닉 웨이브',max:10,mp:[22,2],e:{k:'dmg',attr:'베기',m:[2.5,.17]}},
+    {id:'rk_rune',n:'인챈트 블레이드',max:5,mp:[14,1],e:{k:'enchant',attr:'번개'}},
+    {id:'rk_storm',n:'스톰 블래스트',max:10,mp:[34,2],req:[['rk_sonic',5]],e:{k:'dmg',attr:'번개',m:[1.8,.14],all:1}},
+    {id:'rk_dragon',n:'드래곤 하울링',max:5,mp:[18,1],req:[['rk_hundred',3]],e:{k:'debuff',v:[.15,.04]}},
+    {id:'rk_rider',n:'룬 마스터리',max:10,e:{k:'pas',st:'spd',v:[.02,.01]}},
+    {id:'rk_scale',n:'용비늘 갑주',max:5,req:[['rk_rider',3]],e:{k:'pas',st:'block',v:[.02,.01]}},
+  ]},
+  t3_trapper:{name:'레인저', list:[
+    {id:'ra_aimed',n:'에임드 볼트',max:10,mp:[24,2],e:{k:'dmg',attr:'관통',m:[1.1,.08],hits:3}},
+    {id:'ra_cluster',n:'클러스터 밤',max:10,mp:[30,2],e:{k:'dmg',attr:'불',m:[1.7,.13],all:1}},
+    {id:'ra_camo',n:'카모플라주',max:5,mp:[16,1],e:{k:'buff',st:'crit',v:[15,3],t:3}},
+    {id:'ra_fear',n:'피어 브리즈',max:5,mp:[20,1],req:[['ra_aimed',3]],e:{k:'buff',st:'double',v:[.2,.05],t:3}},
+    {id:'ra_warg',n:'워그 바이트',max:5,mp:[18,1],req:[['ra_camo',1]],e:{k:'stun',v:[.35,.07]}},
+    {id:'ra_main',n:'메인 마스터리',max:10,e:{k:'pas',st:'atk',v:[.03,.015]}},
+    {id:'ra_hunt',n:'사냥꾼의 직감',max:5,req:[['ra_main',3]],e:{k:'pas',st:'crit',v:[2,1]}},
+  ]},
+  t3_bowman:{name:'윈드 호크', list:[
+    {id:'wh_gale',n:'게일 스톰',max:10,mp:[30,2],e:{k:'dmg',attr:'관통',m:[1.7,.13],all:1}},
+    {id:'wh_cres',n:'크레시브 볼트',max:10,mp:[24,2],e:{k:'dmg',attr:'관통',m:[2.7,.18]}},
+    {id:'wh_hawk',n:'호크 러시',max:5,mp:[20,1],req:[['wh_cres',3]],e:{k:'dmg',attr:'관통',m:[1.0,.07],hits:3}},
+    {id:'wh_calam',n:'캘러미티 게일',max:5,mp:[18,1],req:[['wh_gale',3]],e:{k:'buff',st:'crit',v:[15,3],t:3}},
+    {id:'wh_wind',n:'바람의 눈',max:5,mp:[14,1],e:{k:'debuff',v:[.15,.04]}},
+    {id:'wh_wing',n:'바람의 날개',max:10,e:{k:'pas',st:'spd',v:[.02,.01]}},
+    {id:'wh_eye',n:'매의 눈',max:5,req:[['wh_wing',3]],e:{k:'pas',st:'crit',v:[2,1]}},
+  ]},
+  t3_dagger:{name:'길로틴 크로스', list:[
+    {id:'gc_roll',n:'롤링 커터',max:10,mp:[22,2],e:{k:'dmg',attr:'베기',m:[1.6,.12],all:1}},
+    {id:'gc_ripper',n:'크로스 리퍼 슬래셔',max:10,mp:[28,2],req:[['gc_roll',3]],e:{k:'dmg',attr:'베기',m:[1.0,.07],hits:3}},
+    {id:'gc_counter',n:'카운터 슬래시',max:10,mp:[24,2],e:{k:'dmg',attr:'어둠',m:[2.6,.18]}},
+    {id:'gc_venom',n:'베넘 프레셔',max:5,mp:[20,1],req:[['gc_counter',3]],e:{k:'stun',v:[.35,.07]}},
+    {id:'gc_hide',n:'다크 일루전',max:5,mp:[16,1],e:{k:'buff',st:'dodge',v:[.1,.02],t:3}},
+    {id:'gc_cross',n:'크로스 임팩트 수련',max:10,e:{k:'pas',st:'atk',v:[.03,.015]}},
+    {id:'gc_shadow',n:'그림자 걸음',max:5,req:[['gc_hide',1]],e:{k:'pas',st:'dodge',v:[.01,.005]}},
+  ]},
+  t3_shuriken:{name:'오보로', list:[
+    {id:'ob_cross',n:'십자 참',max:10,mp:[24,2],e:{k:'dmg',attr:'베기',m:[2.6,.18]}},
+    {id:'ob_fuma',n:'풍마 수리검 난무',max:10,mp:[30,2],e:{k:'dmg',attr:'관통',m:[1.7,.13],all:1}},
+    {id:'ob_illu',n:'환술',max:5,mp:[18,1],req:[['ob_cross',3]],e:{k:'debuff',v:[.15,.04]}},
+    {id:'ob_clone',n:'그림자 분신',max:5,mp:[20,1],req:[['ob_fuma',3]],e:{k:'buff',st:'double',v:[.2,.05],t:3}},
+    {id:'ob_moon',n:'월야 참',max:5,mp:[26,2],req:[['ob_illu',1]],e:{k:'dmg',attr:'어둠',m:[1.0,.07],hits:3}},
+    {id:'ob_art',n:'오보로 인법',max:10,e:{k:'pas',st:'skill',v:[.03,.015]}},
+    {id:'ob_mist',n:'안개 몸놀림',max:5,req:[['ob_art',3]],e:{k:'pas',st:'dodge',v:[.01,.005]}},
+  ]},
+  t3_dancer:{name:'원더러', list:[
+    {id:'wd_severe',n:'세베룸 스톰',max:10,mp:[30,2],e:{k:'dmg',attr:'베기',m:[1.7,.13],all:1}},
+    {id:'wd_reverb',n:'리버브레이션',max:10,mp:[24,2],e:{k:'dmg',attr:'타격',m:[2.5,.17]}},
+    {id:'wd_rain',n:'레인 스톰',max:5,mp:[26,2],req:[['wd_severe',3]],e:{k:'dmg',attr:'관통',m:[1.0,.07],hits:3}},
+    {id:'wd_swing',n:'스윙 댄스',max:5,mp:[16,1],e:{k:'buff',st:'spd',v:[.2,.04],t:3}},
+    {id:'wd_lullaby',n:'자장가',max:5,mp:[18,1],req:[['wd_swing',1]],e:{k:'stun',v:[.35,.07]}},
+    {id:'wd_lesson',n:'레슨',max:10,e:{k:'pas',st:'skill',v:[.03,.015]}},
+    {id:'wd_grace',n:'방랑자의 몸짓',max:5,req:[['wd_lesson',3]],e:{k:'pas',st:'dodge',v:[.01,.005]}},
+  ]},
+  t3_priest:{name:'아크 비숍', list:[
+    {id:'ab_adora',n:'아도라무스',max:10,mp:[26,2],e:{k:'dmg',attr:'빛',m:[2.6,.18]}},
+    {id:'ab_judex',n:'쥬덱스',max:10,mp:[30,2],e:{k:'dmg',attr:'빛',m:[1.6,.12],all:1}},
+    {id:'ab_heal',n:'하이니스 힐',max:10,mp:[28,2],e:{k:'heal',p:[.35,.04]}},
+    {id:'ab_epic',n:'에피클레시스',max:5,mp:[22,1],req:[['ab_heal',3]],e:{k:'buff',st:'def',v:[.25,.05],t:3}},
+    {id:'ab_lauda',n:'라우다 아그누스',max:5,mp:[18,1],req:[['ab_judex',3]],e:{k:'debuff',v:[.15,.04]}},
+    {id:'ab_canto',n:'칸토 칸디두스',max:10,e:{k:'pas',st:'matk',v:[.03,.015]}},
+    {id:'ab_oratio',n:'오라티오',max:5,req:[['ab_canto',3]],e:{k:'pas',st:'regen',v:[.004,.002]}},
+  ]},
+  t3_monk:{name:'수라', list:[
+    {id:'su_tiger',n:'호포',max:10,mp:[22,2],e:{k:'dmg',attr:'타격',m:[2.6,.18]}},
+    {id:'su_rampage',n:'천라지망',max:10,mp:[28,2],e:{k:'dmg',attr:'타격',m:[1.0,.07],hits:3}},
+    {id:'su_knuckle',n:'나찰파황격',max:5,mp:[34,2],req:[['su_tiger',5]],e:{k:'dmg',attr:'타격',m:[3.2,.25]}},
+    {id:'su_sky',n:'흑룡 회전권',max:10,mp:[30,2],req:[['su_rampage',3]],e:{k:'dmg',attr:'타격',m:[1.6,.12],all:1}},
+    {id:'su_gate',n:'기공 증폭',max:5,mp:[16,1],e:{k:'buff',st:'atk',v:[.25,.05],t:3}},
+    {id:'su_body',n:'금강불괴',max:10,e:{k:'pas',st:'hp',v:[.03,.02]}},
+    {id:'su_fist',n:'수라의 주먹',max:5,req:[['su_gate',1]],e:{k:'pas',st:'atk',v:[.02,.01]}},
+  ]},
+  t3_wizard:{name:'워록', list:[
+    {id:'wl_comet',n:'코멧',max:10,mp:[40,3],req:[['wl_chain',3]],e:{k:'dmg',attr:'불',m:[2.0,.15],all:1}},
+    {id:'wl_chain',n:'체인 라이트닝',max:10,mp:[28,2],e:{k:'dmg',attr:'번개',m:[1.0,.07],hits:3}},
+    {id:'wl_frost',n:'잭 프로스트',max:10,mp:[30,2],e:{k:'dmg',attr:'얼음',m:[1.6,.12],all:1}},
+    {id:'wl_soul',n:'소울 익스펜션',max:10,mp:[24,2],e:{k:'dmg',attr:'어둠',m:[2.6,.18]}},
+    {id:'wl_frozen',n:'화이트 임프리즌',max:5,mp:[20,1],req:[['wl_frost',3]],e:{k:'stun',v:[.35,.07]}},
+    {id:'wl_read',n:'리딩 스펠북',max:10,e:{k:'pas',st:'matk',v:[.03,.015]}},
+    {id:'wl_rad',n:'라디우스',max:5,req:[['wl_read',3]],e:{k:'pas',st:'skill',v:[.02,.01]}},
+  ]},
+  t3_elementalist:{name:'엘리멘탈 마스터', list:[
+    {id:'em_hell',n:'헬 인페르노',max:10,mp:[26,2],e:{k:'dmg',attr:'불',m:[2.6,.18]}},
+    {id:'em_storm',n:'다이아몬드 스톰',max:10,mp:[30,2],e:{k:'dmg',attr:'얼음',m:[1.6,.12],all:1}},
+    {id:'em_quake',n:'어스 퀘이크',max:10,mp:[32,2],req:[['em_storm',3]],e:{k:'dmg',attr:'타격',m:[1.7,.13],all:1}},
+    {id:'em_vortex',n:'바레티르 볼텍스',max:5,mp:[28,2],req:[['em_hell',3]],e:{k:'dmg',attr:'번개',m:[1.0,.07],hits:3}},
+    {id:'em_union',n:'정령 합체',max:5,mp:[18,1],e:{k:'buff',st:'matk',v:[.25,.05],t:3}},
+    {id:'em_spirit',n:'정령의 군주',max:10,e:{k:'pas',st:'skill',v:[.03,.015]}},
+    {id:'em_elem',n:'원소 지배',max:5,req:[['em_spirit',3]],e:{k:'pas',st:'matk',v:[.02,.01]}},
+  ]},
 };
-const MAGIC_TREES = ['mage','wizard','elementalist','healer','priest'];
+const MAGIC_TREES = ['mage','wizard','elementalist','healer','priest','t3_wizard','t3_elementalist','t3_priest'];
 const SKILL = {}; for (const [t,T] of Object.entries(TREES)) T.list.forEach(s=>{ s.tree = t; SKILL[s.id] = s; });
 const lerp = (a, lv) => a[0] + a[1]*(lv-1);
 const skLv = id => (S.sk && S.sk[id]) || 0;
-const myTrees = () => isJob() ? [S.job, ...(S.route ? [S.route] : [])] : ['novice'];  // novice skills disappear after the job change
+const myTrees = () => isJob() ? [S.job, ...(S.route ? [S.route] : []), ...(S.third ? ['t3_'+S.route] : [])] : ['novice'];  // novice skills disappear after the job change
 function skillAt(s, lv){
   const e = s.e, o = {id:s.id, n:s.n, kind:e.k, lv, mp: s.mp ? Math.round(lerp(s.mp, lv)) : 0, magic: MAGIC_TREES.includes(s.tree)};
   if (e.k==='dmg'){ o.attr = e.attr; o.mult = lerp(e.m, lv); o.all = !!e.all; o.hits = e.hits || 1; }
@@ -860,9 +969,9 @@ const facBonus = () => S.fac * .04; // EXP·골드 +4% per rank
 /* ---------- hunting grounds & monsters ---------- */
 const GD = [{"ground":"초보자의 들판","mons":[{"name":"슬라임","weak":["불"],"resist":["타격"],"act":"몸통 박치기 · 분열(HP 50% 이하에서 작은 슬라임 1마리)","drop":"끈적한 젤리"},{"name":"들쥐","weak":["타격","얼음"],"resist":[],"act":"갉아먹기 · 선공(속도 높음)","drop":"쥐 꼬리"}]},{"ground":"늑대 숲","mons":[{"name":"회색 늑대","weak":["타격","불"],"resist":[],"act":"물어뜯기 · 하울링(늑대 공격력↑)","drop":"늑대 가죽"},{"name":"덩굴 정령","weak":["불"],"resist":["타격","물"],"act":"덩굴 휘감기(속박) · 광합성(회복)","drop":"질긴 덩굴"}]},{"ground":"버려진 광산","mons":[{"name":"코볼트","weak":["얼음","타격"],"resist":["불"],"act":"곡괭이질 · 폭약 던지기(전체)","drop":"철광석"},{"name":"박쥐 떼","weak":["번개","빛"],"resist":["타격"],"act":"흡혈 · 초음파(혼란)","drop":"박쥐 날개"}]},{"ground":"고블린 요새","mons":[{"name":"고블린 전사","weak":["관통"],"resist":[],"act":"베기 · 방패 들기(방어↑)","drop":"고블린 부적"},{"name":"고블린 주술사","weak":["타격"],"resist":["어둠"],"act":"저주 화살 · 동료 회복","drop":"주술 깃털"}]},{"ground":"트롤 늪지","mons":[{"name":"늪 트롤","weak":["불"],"resist":["타격"],"act":"몽둥이질 · 재생(매 턴 회복)","drop":"트롤의 피"},{"name":"독두꺼비","weak":["얼음"],"resist":["독"],"act":"독 침 뱉기 · 혀 낚아채기","drop":"독샘"}]},{"ground":"유령 폐허","mons":[{"name":"해골 병사","weak":["타격","빛"],"resist":["관통","어둠"],"act":"찌르기 · 뼈 재조립(한 번 쓰러져도 1턴 뒤 HP 30%로 부활)","drop":"낡은 뼈"},{"name":"떠도는 유령","weak":["빛","불"],"resist":["타격","베기"],"act":"냉기 손길 · 사라지기(1턴 회피)","drop":"유령의 천"}]},{"ground":"와이번 협곡","mons":[{"name":"와이번","weak":["관통","얼음"],"resist":["불"],"act":"급강하 · 꼬리 독침","drop":"와이번 비늘"},{"name":"바위 거인","weak":["타격"],"resist":["베기","관통"],"act":"바위 던지기 · 굳기(방어↑↑)","drop":"단단한 바위"}]},{"ground":"얼음 동굴","mons":[{"name":"아기 설인","weak":["불"],"resist":["얼음"],"act":"눈덩이 던지기 · 가슴 두드리기(공격력↑)","drop":"설인 털"},{"name":"얼음 정령","weak":["불","타격"],"resist":["얼음","물"],"act":"얼음 창 · 빙결(1턴 행동 불가)","drop":"얼음 결정"}]},{"ground":"사막 유적","mons":[{"name":"모래 전갈","weak":["얼음","타격"],"resist":["관통"],"act":"집게 · 독침(중독) · 모래 속 숨기","drop":"전갈 독침"},{"name":"미라","weak":["불"],"resist":["어둠","독"],"act":"붕대 휘감기(속박) · 저주(능력치↓)","drop":"고대 붕대"}]},{"ground":"고룡의 둥지","mons":[{"name":"고룡의 새끼","weak":["얼음"],"resist":["불"],"act":"불씨 뱉기 · 엄마 부르기","drop":"용의 비늘"},{"name":"용인 수호자","weak":["번개"],"resist":["베기","불"],"act":"찌르기 · 수호(보스 대신 맞기)","drop":"용인의 창날"}]}]; /*GD*/
 const isJob = () => S.job !== 'novice';
-const groundLv = (g, deep) => deep ? [50 + g*5, 55 + g*5] : [g===0?1:g*5, g*5+5];
+const groundLv = (g, deep) => deep ? [50 + g*5 + (S.third?55:0), 55 + g*5 + (S.third?55:0)] : [g===0?1:g*5, g*5+5];
 const groundOpen = (g, deep) => deep ? (isJob() && S.lv >= g*10 + 1) : (isJob() || S.lv >= (g===0?1:g*5));
-const effLv = () => isJob() ? 50 + Math.round(S.lv*.55) : S.lv;
+const effLv = () => S.third ? 105 + Math.round(S.lv*.55) : isJob() ? 50 + Math.round(S.lv*.55) : S.lv;
 function bestGround(){
   let b = 0;
   if (isJob()){ for (let g=0; g<10; g++) if (groundOpen(g,true)) b = g; return {g:b, deep:true}; }
@@ -976,34 +1085,35 @@ const bandFor = lv => clamp(Math.floor(lv/5), 0, 9);
 function makeItem(slot, band, rar, deep){
   const it = {id:uid(), slot, band:clamp(band,0,9), rar:clamp(rar,0,4), isNew:true};
   if (deep) it.deep = true;
+  if (deep && S.third) it.t3 = true;
   if (slot==='ring') it.st = pick(STATS)[0];
   if (slot==='sub') it.kind = subRule().kind || pick(Object.keys(SUB_KINDS));
   return it;
 }
 const randomSlot = () => pick(LOOT_SLOTS);
 function itemInfo(it){
-  const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = (1 + .15*r) * (it.deep ? 1.7 : 1);
-  const v = w => Math.max(1, Math.round(((b+1)*w + r*.6) * (it.deep ? 1.6 : 1)));
+  const b = it.band, r = it.rar, sp = SLOT_SPEC[it.slot], mult = (1 + .15*r) * (it.deep ? 1.7 : 1) * (it.t3 ? 1.5 : 1);
+  const v = w => Math.max(1, Math.round(((b+1)*w + r*.6) * (it.deep ? 1.6 : 1) * (it.t3 ? 1.4 : 1)));
   const bon = {};
   const K = it.slot==='sub' ? SUB_KINDS[it.kind||'shield'] : null;
   if (it.slot==='ring') bon[it.st] = v(.5);
   else (K ? K.bon : sp.bon).forEach(([k,w]) => { const kk = k==='main' ? JOBS[S.job].main : k; bon[kk] = (bon[kk]||0) + v(w); });
-  const base = it.deep ? jobGearName(it) : it.slot==='ring' ? `${ITEM_NAMES.ring[b]} 링(${SN[it.st]})` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
+  const base = it.t3 ? '초월 ' + jobGearName(it) : it.deep ? jobGearName(it) : it.slot==='ring' ? `${ITEM_NAMES.ring[b]} 링(${SN[it.st]})` : K ? K.names[b] : ITEM_NAMES[it.slot][b];
   return {
-    name: base, reqLv: it.deep ? JOB_TIERS[b] : BANDS[b], reqJob: !!it.deep,
+    name: base, reqLv: it.deep ? JOB_TIERS[b] : BANDS[b], reqJob: !!it.deep, t3: !!it.t3,
     setName: ARMOR_SET_SLOTS.includes(it.slot) ? (it.deep ? jobGear().armor[b] : SET_NAMES[b]) : null,
     atk: it.slot==='weapon' ? Math.round(ATK[b]*mult) : K && K.atk ? Math.round(ATK[b]*K.atk*mult) : 0,
     def: (K ? K.def : sp.def) ? Math.round(DEF[b]*(K ? K.def : sp.def)*mult) : 0, bon, kind: K ? K.n : null,
     set: ARMOR_SET_SLOTS.includes(it.slot) ? b : null,
-    price: Math.round((b+1)*(r+1)*12*(it.deep?2:1)),
+    price: Math.round((b+1)*(r+1)*12*(it.deep?2:1)*(it.t3?2:1)),
   };
 }
-const lvOk = info => info.reqJob ? isJob() && S.lv >= info.reqLv : (isJob() || S.lv >= info.reqLv);
+const lvOk = info => info.t3 ? S.third && S.lv >= info.reqLv : info.reqJob ? (S.third || isJob() && S.lv >= info.reqLv) : (isJob() || S.lv >= info.reqLv);
 const subOk = it => it.slot!=='sub' || subRule().kind === (it.kind||'shield');
 const canWear = (info, it) => lvOk(info) && (!it || subOk(it));
 const wearWhy = (info, it) => !lvOk(info) ? `${reqText(info)} 필요` : `지금 직업은 ${info.kind} 장착 불가`;
 function dropBadSub(){ const it = S.equip.sub; if (it && !subOk(it)){ S.equip.sub = null; if (S.bag.length < BAG_MAX) S.bag.push(it); } }
-const reqText = info => info.reqJob ? `전직 후 Lv.${info.reqLv}` : `Lv.${info.reqLv}`;
+const reqText = info => info.t3 ? `3차 Lv.${info.reqLv}` : info.reqJob ? `전직 후 Lv.${info.reqLv}` : `Lv.${info.reqLv}`;
 const equipped = () => [...SLOT_ORDER, ...RING_SLOTS].map(s=>S.equip[s]).filter(Boolean);
 const itemLabel = it => `<span class="rar${it.rar}">${RARITY[it.rar]} ${itemInfo(it).name}</span>`;
 
@@ -1588,7 +1698,7 @@ function autoHunt(g, deep){
 function autoCard(){
   const R = UI.auto; if (!R) return '';
   const G = GD[R.g];
-  return `<section class="card fade autores"><h2 class="row">자동 사냥 결과 <span class="aside">${R.deep?'심층 ':''}${G.ground} · ${R.n}전 ${R.wins}승</span></h2>
+  return `<section class="card fade autores"><h2 class="row">자동 사냥 결과 <span class="aside">${R.deep?(S.third?'초월 ':'심층 '):''}${G.ground} · ${R.n}전 ${R.wins}승</span></h2>
     <div class="rewards"><span style="color:var(--gold)">EXP +${fmt(R.exp)}</span><span>골드 +${fmt(R.gold)}</span>${Object.entries(R.mats).map(([k,v])=>`<span>${esc(k)} ×${v}</span>`).join('')}</div>
     ${R.ups?`<p style="margin-top:6px;font-weight:700;color:var(--accent)">레벨 업 +${R.ups}! ${lvTag()}</p>`:''}
     ${R.items.length?`<p class="small" style="margin-top:6px">전리품 · ${R.items.map(itemLabel).join(', ')}</p>`:''}${R.full?'<p class="xs muted">가방이 가득 차 놓친 전리품이 있다.</p>':''}
@@ -1737,6 +1847,14 @@ function jobChange(j){
   UI.jobPick = null; toast(`${job().name}(으)로 전직했다! Lv.1부터 · 노비스 스킬은 사라지고 직업 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
 }
 const canRoute = () => isJob() && !S.route && S.lv >= ROUTE_LV;
+const canThird = () => isJob() && S.route && !S.third && S.lv >= JOB_MAX;
+const THIRD = Object.fromEntries(Object.keys(ROUTE).map(r => [r, TREES['t3_'+r].name]));
+function thirdChange(){
+  if (!canThird()) return;
+  S.third = true; S.lv = 1; S.exp = 0; S.points += 5; S.sp += 1; UI.tree = null; UI.skSel = null;  // stats · gear · skills stay
+  S.hp = Math.min(S.hp, hpMax()); S.mp = Math.min(S.mp, mpMax()); S.titles.push(`${THIRD[S.route]} 전직`);
+  toast(`${THIRD[S.route]}(으)로 3차 전직! Lv.1부터 · 능력치·장비·스킬은 그대로, 3차 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
+}
 function chooseRoute(r){
   if (!canRoute() || !ROUTE[r] || ROUTE[r].job!==S.job) return;
   if (r==='dancer' && S.gender!=='f'){ toast('댄서는 여캐 전용이다.'); return; }
@@ -1784,7 +1902,7 @@ function sellMats(){
 /* ---------- render: shared ---------- */
 const goldPill = () => `<div class="gold"><span class="coin"></span><span class="num">${fmt(S.gold)}</span></div>`;
 const top = (title, sub, extra) => `<div class="top"><div class="grow"><h1>${title}</h1>${sub?`<div class="s">${sub}</div>`:''}</div><div class="right">${extra||''}${goldPill()}</div></div>`;
-const jobName = () => S.route ? ROUTE[S.route].name : job().name;
+const jobName = () => S.third ? THIRD[S.route] : S.route ? ROUTE[S.route].name : job().name;
 const lvTag = () => `${jobName()} Lv.${S.lv}`;
 function bars(){
   const pct = S.lv>=maxLv() ? 100 : S.exp/needExp(S.lv)*100;
@@ -1798,6 +1916,7 @@ function bars(){
 function todos(){
   const T = [];
   if (canJobChange()) T.push({ic:'⭐', t:'전직할 수 있어요!', d:'노비스 Lv.50 달성 · 캐릭터에서 직업 선택', go:'char', dot:true});
+  if (canThird()) T.push({ic:'👑', t:'3차 전직을 할 수 있어요!', d:`${ROUTE[S.route].name} Lv.${JOB_MAX} 달성 · 캐릭터에서 전직`, go:'char', dot:true});
   if (canRoute()) T.push({ic:'🧭', t:'루트를 고를 수 있어요', d:`${job().name} Lv.${ROUTE_LV} 달성`, go:'char', dot:true});
   if (promoReady()) T.push({ic:'🛡️', t:'승급 시험을 볼 수 있어요', d:`${FACTIONS[S.fac].name} → ${FACTIONS[S.fac+1].name} · 정예 3연전`, go:'char', dot:true});
   const dr = dailyReady();
@@ -1820,6 +1939,7 @@ const FACE = {cheer:0, happy:1, smile:2, reach:3, calm:4, surprised:5, blush:6, 
 function guideLine(){
   if (S.hp < hpMax()*.4) return {f:'panic', t:'어머, 많이 다치셨잖아요! 여관에서 푹 쉬고 가세요.'};
   if (canJobChange()) return {f:'surprised', t:'세상에, 노비스 졸업이에요! 캐릭터 화면에서 직업을 골라 주세요.'};
+  if (canThird()) return {f:'surprised', t:`Lv.99라니… 대단해요! 이제 ${THIRD[S.route]}(으)로 3차 전직하실 수 있어요.`};
   if (canRoute()) return {f:'joy', t:'드디어 루트를 고르실 때예요. 어떤 길로 가실지 기대돼요!'};
   if (S.sp) return {f:'wink', t:`스킬 포인트가 ${S.sp}개 남아 있어요. 스킬 탭에서 새 기술을 배워 보세요!`};
   if (promoReady()) return {f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`};
@@ -1921,8 +2041,8 @@ function missionCards(){
 function groundRow(g, deep, rec){
   const G = GD[g], [lo,hi] = groundLv(g, deep), open = groundOpen(g, deep);
   const mons = G.mons.map((m,k)=>`<img class="px" src="${SPR['m'+(g*2+k)]}" alt="">`).join('');
-  const reqTxt = deep ? `전직 후 Lv.${g*10+1}` : `Lv.${g===0?1:g*5}`;
-  return `<div class="gr ${rec?'rec':''} ${open?'':'lock'}"><div class="mons">${mons}</div><div class="grow"><b>${deep?'심층 ':''}${G.ground}</b>
+  const reqTxt = deep ? `${S.third?'3차':'전직'} 후 Lv.${g*10+1}` : `Lv.${g===0?1:g*5}`;
+  return `<div class="gr ${rec?'rec':''} ${open?'':'lock'}"><div class="mons">${mons}</div><div class="grow"><b>${deep?(S.third?'초월 ':'심층 '):''}${G.ground}</b>
     <span class="chip ${rec?'blue':''}">${open ? (rec?'추천 · ':'') + `Lv.${lo}–${hi}` : `잠김 · ${reqTxt}`}</span>
     <div class="xs muted">${G.mons.map(m=>m.name).join(' · ')} · 1마리 EXP ${fmt(mexp(lo))}~</div></div>
     ${open?`<div class="gbtns"><button class="btn sm soft" data-act="hunt" data-g="${g}" data-deep="${deep?1:0}">사냥</button>${autoBtn(g, deep)}</div>`:''}</div>`;
@@ -1933,7 +2053,7 @@ function huntView(){
     <div class="feat"><span class="fl">추천 사냥터</span>${groundRow(b.g, b.deep, true)}</div></section>`;
   h += autoCard();
   h += `<section class="card"><div class="btns" style="margin-top:0"><button class="btn" data-act="potion" data-k="hp" ${S.inv.hp?'':'disabled'}>체력 물약 ${S.inv.hp}</button><button class="btn" data-act="potion" data-k="mp" ${S.inv.mp?'':'disabled'}>마나 물약 ${S.inv.mp}</button><button class="btn soft" data-act="rest">여관 ${innCost()}G</button></div></section>`;
-  if (isJob()) h += `<section class="card"><h2 class="row">심층 사냥터 <span class="aside">전직 후 10레벨마다 개방</span></h2>${GD.map((G,g)=>groundRow(g,true,b.deep&&g===b.g)).join('')}</section>`;
+  if (isJob()) h += `<section class="card"><h2 class="row">${S.third?'초월':'심층'} 사냥터 <span class="aside">${S.third?'3차':'전직'} 후 10레벨마다 개방</span></h2>${GD.map((G,g)=>groundRow(g,true,b.deep&&g===b.g)).join('')}</section>`;
   h += `<section class="card"><h2 class="row">사냥터 <span class="aside">${isJob()?'모두 개방':'노비스 Lv.1~50'}</span></h2>${GD.map((G,g)=>groundRow(g,false,!b.deep&&g===b.g)).join('')}
     <p class="xs muted" style="margin-top:8px">내 레벨보다 5 이상 낮은 몬스터는 경험치 −50%, 10 이상 낮으면 −90%. 쓰러지면 골드와 경험치를 10% 잃는다.</p></section>`;
   return h;
@@ -2135,6 +2255,12 @@ function charView(){
         <span class="xs muted" style="display:block">${J.desc} · 핵심 ${J.key.slice(0,2).map(x=>SN[x]).join('·')}</span><span class="route">루트 · ${J.routes.map(r=>r[1]).join(' / ')}</span></span></button>`).join('')}
       <button class="cta" style="margin-top:12px" data-act="jobchange" ${p?'':'disabled'}>${p?`${JOBS[p].name}(으)로 전직하기`:'직업을 골라 주세요'}</button></section>`;
   }
+  if (canThird()){
+    const R = ROUTE[S.route];
+    h += `<section class="card"><h2>3차 전직</h2><p class="xs muted">${R.name} Lv.${JOB_MAX} 달성! 전직하면 <b>Lv.1부터 다시</b> 최대 Lv.${JOB_MAX}까지. 능력치·장비·배운 스킬은 그대로, 3차 스킬 트리가 더해지고 사냥터는 초월 단계로 바뀐다.</p>
+      <div class="jobcard" aria-pressed="true"><img class="px" src="${SPR['jf'+R.sprite]}" alt=""><span class="grow"><b>${THIRD[S.route]}</b><span class="xs muted" style="display:block">${TREES['t3_'+S.route].list.filter(s=>s.e.k!=='pas').slice(0,4).map(s=>s.n).join(' · ')}</span></span></div>
+      <button class="cta" style="margin-top:12px" data-act="third">${THIRD[S.route]}(으)로 전직하기</button></section>`;
+  }
   if (canRoute()){
     const p = UI.routePick;
     h += `<section class="card"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}><img class="px" src="${SPR['jf'+sp]}" alt=""><span class="grow"><b>${n}</b><span class="xs muted" style="display:block">${d}</span></span></button>`).join('')}
@@ -2266,7 +2392,7 @@ function render(){
   ensureDaily();
   if (B){ app.className = 'app notabs'; app.innerHTML = `<div class="bscene">${sceneSVG(B.g, -165)}<div class="bwrap">${battleView()}</div></div>`; if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
   const V = {home:homeView, hunt:huntView, char:charView, skill:skillView, bag:bagView, rec:recView}[UI.tab] || homeView;
-  const dots = {home:false, hunt:false, char:!!S.points || canJobChange() || canRoute() || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
+  const dots = {home:false, hunt:false, char:!!S.points || canJobChange() || canRoute() || canThird() || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
   setTimeout(runTyper, 0);
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
@@ -2320,6 +2446,7 @@ app.addEventListener('click', async e => {
   if (a==='jobchange'){ jobChange(UI.jobPick); return; }
   if (a==='routepick'){ UI.routePick = b.dataset.r; render(); return; }
   if (a==='route'){ chooseRoute(UI.routePick); return; }
+  if (a==='third'){ thirdChange(); return; }
   if (a==='claim'){ claimDaily(+b.dataset.i); return; }
   if (a==='title'){ S.title = S.title===b.dataset.t ? null : b.dataset.t; save(); render(); return; }
   if (a==='slot'){ UI.slotSel = b.dataset.s || null; render(); return; }
