@@ -236,7 +236,7 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .stree path{fill:none;stroke:#cfd6e6;stroke-width:3;stroke-dasharray:6 5;vector-effect:non-scaling-stroke}
 .stree path.on{stroke:#5b9bff;stroke-dasharray:none}
 .stree .rq{font-size:11px;fill:#e0566a;font-weight:700}
-.node{position:absolute;transform:translateX(-50%);width:76px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0}
+.node{position:absolute;transform:translateX(-50%);width:min(76px,var(--nw));display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0}
 .node .ico{position:relative;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:linear-gradient(180deg,#fff,#eef2fb);border:2px solid #d9dfee;box-shadow:0 2px 6px rgba(60,70,120,.10)}
 .node.got .ico{border-color:#5b9bff;background:linear-gradient(180deg,#f3f8ff,#dceaff)}
 .node.max .ico{border-color:#e9b64a;background:linear-gradient(180deg,#fffaf0,#ffefc6)}
@@ -249,6 +249,8 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .node.got .lvb{color:#2f6fe0;border-color:#bcd3ff}
 .node small{font-size:10.5px;line-height:1.2;color:var(--ink);text-align:center;max-width:76px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all}
 .node.locked small{color:var(--muted)}
+.stree.dense .node .ico{width:44px;height:44px;font-size:20px;border-radius:12px}
+.stree.dense .node small{font-size:9.5px}
 .skd{margin-top:10px;background:linear-gradient(180deg,#fbfaff,#f3f2fd);border:1px solid #e4e2f6;border-radius:16px;padding:12px 14px;display:grid;gap:6px}
 .skd .ico.big{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:#fff;border:1px solid #dde3f2;flex:none}
 .skd p{margin:0}
@@ -537,6 +539,10 @@ const TREES = {
     {id:'n_torch',n:'횃불 휘두르기',max:5,mp:[6,1],req:[['n_bash',3]],e:{k:'dmg',attr:'불',m:[1.1,.1]}},
     {id:'n_sweep',n:'휘두르기',max:5,mp:[9,1],req:[['n_bash',5]],e:{k:'dmg',attr:'타격',m:[.6,.08],all:1}},
     {id:'n_dead',n:'죽은 척',max:1,mp:[3,0],req:[['n_aid',3]],e:{k:'guard'}},
+    {id:'n_throw',n:'돌 던지기',max:5,mp:[3,1],e:{k:'dmg',attr:'관통',m:[.9,.1]}},
+    {id:'n_run',n:'빠른 걸음',max:5,e:{k:'pas',st:'spd',v:[.02,.01]}},
+    {id:'n_luck',n:'행운의 동전',max:5,req:[['n_scan',1]],e:{k:'pas',st:'crit',v:[1,1]}},
+    {id:'n_rest',n:'숨 고르기',max:5,req:[['n_body',3]],e:{k:'pas',st:'regen',v:[.005,.003]}},
   ]},
   warrior:{name:'소드맨', list:[
     {id:'s_bash',n:'배쉬',max:10,mp:[5,1],e:{k:'dmg',attr:'베기',m:[1.3,.12]}},
@@ -546,6 +552,11 @@ const TREES = {
     {id:'s_mag',n:'매그넘 브레이크',max:10,mp:[10,1],req:[['s_bash',5]],e:{k:'dmg',attr:'불',m:[.7,.06],all:1}},
     {id:'s_fury',n:'투지',max:5,req:[['s_hpr',1]],e:{k:'pas',st:'fury',v:[.02,.01]}},
     {id:'s_endure',n:'인듀어',max:1,mp:[6,0],req:[['s_prov',3]],e:{k:'guard'}},
+    {id:'s_thrust',n:'찌르기',max:10,mp:[5,1],e:{k:'dmg',attr:'관통',m:[1.1,.1]}},
+    {id:'s_crash',n:'어퍼 슬래시',max:10,mp:[9,1],req:[['s_thrust',3]],e:{k:'dmg',attr:'베기',m:[1.6,.12]}},
+    {id:'s_iron',n:'아이언 바디',max:5,req:[['s_hpr',3]],e:{k:'pas',st:'block',v:[.02,.01]}},
+    {id:'s_war',n:'워크라이',max:5,mp:[8,1],req:[['s_prov',1]],e:{k:'buff',st:'atk',v:[.12,.03],t:3}},
+    {id:'s_shout',n:'포효',max:5,mp:[10,1],req:[['s_war',3]],e:{k:'stun',v:[.25,.06]}},
   ]},
   greatsword:{name:'나이트', list:[
     {id:'k_aura',n:'오러 블레이드',max:10,e:{k:'pas',st:'atk',v:[.04,.02]}},
@@ -553,6 +564,10 @@ const TREES = {
     {id:'k_quick',n:'투핸드 퀴큰',max:10,mp:[10,1],e:{k:'buff',st:'spd',v:[.1,.03],t:3}},
     {id:'k_counter',n:'오토 카운터',max:5,mp:[6,0],req:[['k_quick',3]],e:{k:'guard'}},
     {id:'k_spiral',n:'스파이럴 피어스',max:10,mp:[18,1],req:[['k_aura',5]],e:{k:'dmg',attr:'관통',m:[2.0,.15]}},
+    {id:'k_parry',n:'패링',max:5,e:{k:'pas',st:'block',v:[.03,.015]}},
+    {id:'k_charge',n:'차지 어택',max:5,mp:[14,1],req:[['k_bowl',3]],e:{k:'dmg',attr:'관통',m:[1.8,.15]}},
+    {id:'k_conc',n:'컨센트레이션',max:5,mp:[10,1],req:[['k_quick',1]],e:{k:'buff',st:'crit',v:[10,3],t:3}},
+    {id:'k_cleave',n:'대검 일섬',max:5,mp:[24,2],req:[['k_spiral',3]],e:{k:'dmg',attr:'베기',m:[2.4,.2]}},
   ]},
   shield:{name:'크루세이더', list:[
     {id:'c_guard',n:'오토 가드',max:10,e:{k:'pas',st:'block',v:[.03,.02]}},
@@ -560,6 +575,11 @@ const TREES = {
     {id:'c_charge',n:'실드 차지',max:5,mp:[10,1],e:{k:'stun',v:[.3,.08]}},
     {id:'c_def',n:'디펜더',max:5,mp:[12,1],req:[['c_guard',3]],e:{k:'buff',st:'def',v:[.2,.06],t:3}},
     {id:'c_grand',n:'그랜드 크로스',max:10,mp:[20,1],req:[['c_holy',5]],e:{k:'dmg',attr:'빛',m:[1.1,.1],all:1}},
+    {id:'c_faith',n:'페이스',max:10,e:{k:'pas',st:'hp',v:[.03,.02]}},
+    {id:'c_reflect',n:'리플렉트 실드',max:5,req:[['c_guard',1]],e:{k:'pas',st:'block',v:[.02,.01]}},
+    {id:'c_boom',n:'실드 부메랑',max:5,mp:[10,1],req:[['c_charge',1]],e:{k:'dmg',attr:'타격',m:[1.3,.1]}},
+    {id:'c_devotion',n:'디보션',max:1,mp:[12,0],req:[['c_def',3]],e:{k:'guard'}},
+    {id:'c_heal',n:'힐',max:5,mp:[10,1],req:[['c_faith',3]],e:{k:'heal',p:[.15,.03]}},
   ]},
   rider:{name:'드래곤 나이트', list:[
     {id:'d_ride',n:'기승 수련',max:10,e:{k:'pas',st:'spd',v:[.04,.02]}},
@@ -567,6 +587,10 @@ const TREES = {
     {id:'d_stab',n:'스피어 스탭',max:10,mp:[12,1],e:{k:'dmg',attr:'관통',m:[.9,.08],all:1}},
     {id:'d_boom',n:'스피어 부메랑',max:5,mp:[10,1],req:[['d_pierce',3]],e:{k:'dmg',attr:'관통',m:[1.6,.12]}},
     {id:'d_breath',n:'드래곤 브레스',max:10,mp:[22,1],req:[['d_ride',5]],e:{k:'dmg',attr:'불',m:[1.4,.12],all:1}},
+    {id:'d_spear',n:'창 수련',max:5,e:{k:'pas',st:'atk',v:[.02,.01]}},
+    {id:'d_brand',n:'브랜디쉬 스피어',max:10,mp:[14,1],req:[['d_stab',3]],e:{k:'dmg',attr:'관통',m:[1.0,.1],all:1}},
+    {id:'d_roar',n:'드래곤 로어',max:5,mp:[12,1],req:[['d_breath',1]],e:{k:'stun',v:[.3,.06]}},
+    {id:'d_dive',n:'드래곤 다이브',max:5,mp:[24,2],req:[['d_breath',3]],e:{k:'dmg',attr:'불',m:[2.4,.2]}},
   ]},
   archer:{name:'아처', list:[
     {id:'a_double',n:'더블 스트레이핑',max:10,mp:[5,1],e:{k:'dmg',attr:'관통',m:[.8,.07],hits:2}},
@@ -576,6 +600,10 @@ const TREES = {
     {id:'a_focus',n:'집중력 향상',max:10,mp:[10,1],req:[['a_owl',3]],e:{k:'buff',st:'crit',v:[10,3],t:3}},
     {id:'a_aim',n:'조준',max:5,req:[['a_owl',1]],e:{k:'pas',st:'aim',v:[2,1]}},
     {id:'a_charge',n:'차지 애로우',max:1,mp:[12,0],req:[['a_vult',5]],e:{k:'stun',v:[.6,0]}},
+    {id:'a_arrow',n:'애로우 리펄스',max:5,mp:[8,1],req:[['a_double',3]],e:{k:'dmg',attr:'관통',m:[1.4,.1]}},
+    {id:'a_step',n:'바람의 보법',max:5,e:{k:'pas',st:'dodge',v:[.02,.01]}},
+    {id:'a_fire',n:'파이어 애로우',max:1,mp:[10,0],req:[['a_vult',3]],e:{k:'enchant',attr:'불'}},
+    {id:'a_ice',n:'아이스 애로우',max:5,mp:[9,1],req:[['a_fire',1]],e:{k:'dmg',attr:'얼음',m:[1.3,.1]}},
   ]},
   trapper:{name:'헌터', list:[
     {id:'h_ankle',n:'앵클 스네어',max:5,mp:[8,1],e:{k:'stun',v:[.35,.08]}},
@@ -583,6 +611,10 @@ const TREES = {
     {id:'h_blitz',n:'블리츠 비트',max:10,mp:[12,1],e:{k:'dmg',attr:'관통',m:[.6,.05],hits:3}},
     {id:'h_blast',n:'블래스트 마인',max:10,mp:[14,1],req:[['h_land',3]],e:{k:'dmg',attr:'번개',m:[1.0,.1],all:1}},
     {id:'h_clay',n:'클레이모어 트랩',max:10,mp:[18,1],req:[['h_blast',5]],e:{k:'dmg',attr:'불',m:[1.3,.12],all:1}},
+    {id:'h_study',n:'트랩 연구',max:5,e:{k:'pas',st:'skill',v:[.02,.01]}},
+    {id:'h_detect',n:'디텍팅',max:1,mp:[2,0],e:{k:'scan'}},
+    {id:'h_spark',n:'스파크 트랩',max:10,mp:[12,1],req:[['h_land',1]],e:{k:'dmg',attr:'번개',m:[1.5,.12]}},
+    {id:'h_freeze',n:'프리징 트랩',max:5,mp:[10,1],req:[['h_ankle',3]],e:{k:'stun',v:[.3,.07]}},
   ]},
   bowman:{name:'스나이퍼', list:[
     {id:'p_true',n:'트루 사이트',max:10,mp:[12,1],e:{k:'buff',st:'atk',v:[.15,.04],t:3}},
@@ -590,6 +622,10 @@ const TREES = {
     {id:'p_frost',n:'서리 화살',max:10,mp:[10,1],e:{k:'dmg',attr:'얼음',m:[1.6,.1]}},
     {id:'p_falcon',n:'팔콘 어썰트',max:5,mp:[16,2],req:[['p_wind',3]],e:{k:'dmg',attr:'관통',m:[1.8,.15]}},
     {id:'p_sharp',n:'샤프 슈팅',max:5,mp:[18,2],req:[['p_true',5]],e:{k:'dmg',attr:'관통',m:[2.2,.2]}},
+    {id:'p_eye',n:'매의 눈',max:5,e:{k:'pas',st:'crit',v:[2,1]}},
+    {id:'p_bane',n:'애로우 베인',max:10,mp:[12,1],req:[['p_frost',3]],e:{k:'dmg',attr:'관통',m:[.9,.08],hits:2}},
+    {id:'p_storm',n:'애로우 스톰',max:10,mp:[20,2],req:[['p_sharp',3]],e:{k:'dmg',attr:'관통',m:[1.2,.1],all:1}},
+    {id:'p_mark',n:'약점 표식',max:5,mp:[8,1],req:[['p_eye',1]],e:{k:'debuff',v:[.1,.04]}},
   ]},
   thief:{name:'시프', list:[
     {id:'t_double',n:'더블 어택',max:10,e:{k:'pas',st:'double',v:[.05,.03]}},
@@ -599,6 +635,10 @@ const TREES = {
     {id:'t_toxin',n:'독 숙련',max:5,req:[['t_venom',1]],e:{k:'pas',st:'toxin',v:[.02,.01]}},
     {id:'t_throw',n:'투척 단검',max:5,mp:[7,1],req:[['t_steal',3]],e:{k:'dmg',attr:'관통',m:[1.0,.1]}},
     {id:'t_hide',n:'하이딩',max:1,mp:[6,0],req:[['t_dodge',5]],e:{k:'guard'}},
+    {id:'t_detox',n:'해독',max:3,mp:[6,1],e:{k:'heal',p:[.12,.03]}},
+    {id:'t_haste',n:'헤이스트',max:5,mp:[8,1],req:[['t_dodge',3]],e:{k:'buff',st:'spd',v:[.12,.03],t:3}},
+    {id:'t_sand',n:'샌드 어택',max:5,mp:[7,1],req:[['t_throw',1]],e:{k:'stun',v:[.2,.05]}},
+    {id:'t_back',n:'백 스탭',max:5,mp:[12,1],req:[['t_hide',1]],e:{k:'dmg',attr:'베기',m:[2.0,.15]}},
   ]},
   dagger:{name:'어쌔신', list:[
     {id:'as_dual',n:'이도류 수련',max:10,e:{k:'pas',st:'atk',v:[.03,.02]}},
@@ -606,6 +646,10 @@ const TREES = {
     {id:'as_cloak',n:'클로킹',max:1,mp:[8,0],e:{k:'guard'}},
     {id:'as_splash',n:'베넘 스플래셔',max:10,mp:[14,1],req:[['as_sonic',3]],note:'독 중첩을 모두 터뜨림 · 중첩당 +40%',e:{k:'dmg',attr:'독',m:[1.1,.1],all:1}},
     {id:'as_grim',n:'그림 투스',max:5,mp:[12,1],req:[['as_cloak',1]],e:{k:'dmg',attr:'어둠',m:[.9,.08],all:1}},
+    {id:'as_katar',n:'카타르 수련',max:10,e:{k:'pas',st:'crit',v:[2,1]}},
+    {id:'as_edp',n:'인챈트 데들리 포이즌',max:1,mp:[14,0],req:[['as_dual',3]],e:{k:'enchant',attr:'독'}},
+    {id:'as_cross',n:'크로스 임팩트',max:10,mp:[18,1],req:[['as_sonic',5]],e:{k:'dmg',attr:'베기',m:[.9,.08],hits:3}},
+    {id:'as_soul',n:'소울 디스트로이어',max:5,mp:[22,2],req:[['as_katar',5]],e:{k:'dmg',attr:'어둠',m:[2.2,.2]}},
   ]},
   shuriken:{name:'닌자', list:[
     {id:'nj_star',n:'수리검 던지기',max:10,mp:[6,1],e:{k:'dmg',attr:'관통',m:[.7,.06],hits:2}},
@@ -613,6 +657,10 @@ const TREES = {
     {id:'nj_ice',n:'빙섬창',max:10,mp:[10,1],e:{k:'dmg',attr:'얼음',m:[1.6,.12]}},
     {id:'nj_clone',n:'분신',max:5,mp:[12,1],req:[['nj_star',3]],e:{k:'buff',st:'dodge',v:[.15,.03],t:3}},
     {id:'nj_thunder',n:'뇌격쇄',max:10,mp:[16,1],req:[['nj_fire',5]],e:{k:'dmg',attr:'번개',m:[1.1,.1],all:1}},
+    {id:'nj_mast',n:'수리검 수련',max:10,e:{k:'pas',st:'atk',v:[.02,.015]}},
+    {id:'nj_smoke',n:'연막',max:1,mp:[8,0],req:[['nj_clone',1]],e:{k:'guard'}},
+    {id:'nj_kunai',n:'쿠나이 폭발',max:5,mp:[14,1],req:[['nj_star',5]],e:{k:'dmg',attr:'불',m:[1.0,.1],all:1}},
+    {id:'nj_kage',n:'그림자 베기',max:5,mp:[16,1],req:[['nj_ice',3]],e:{k:'dmg',attr:'어둠',m:[2.0,.15]}},
   ]},
   dancer:{name:'댄서', list:[
     {id:'dn_wink',n:'매혹의 윙크',max:5,mp:[8,1],e:{k:'stun',v:[.3,.08]}},
@@ -620,6 +668,10 @@ const TREES = {
     {id:'dn_tempo',n:'템포 업',max:10,mp:[10,1],e:{k:'buff',st:'spd',v:[.15,.04],t:3}},
     {id:'dn_kiss',n:'집시의 키스',max:5,mp:[10,1],req:[['dn_tempo',3]],e:{k:'heal',p:[.15,.04]}},
     {id:'dn_fan',n:'바람의 부채춤',max:10,mp:[14,1],req:[['dn_spin',5]],e:{k:'dmg',attr:'번개',m:[1.6,.12]}},
+    {id:'dn_grace',n:'우아한 발놀림',max:5,e:{k:'pas',st:'dodge',v:[.02,.01]}},
+    {id:'dn_song',n:'응원의 노래',max:5,mp:[10,1],e:{k:'buff',st:'atk',v:[.12,.03],t:3}},
+    {id:'dn_lure',n:'유혹의 춤',max:5,mp:[9,1],req:[['dn_wink',3]],e:{k:'debuff',v:[.1,.04]}},
+    {id:'dn_finale',n:'피날레',max:5,mp:[22,2],req:[['dn_fan',3]],e:{k:'dmg',attr:'빛',m:[1.4,.12],all:1}},
   ]},
   healer:{name:'어콜라이트', list:[
     {id:'ac_heal',n:'힐',max:10,mp:[6,1],e:{k:'heal',p:[.2,.04]}},
@@ -628,6 +680,11 @@ const TREES = {
     {id:'ac_agi',n:'속도 증가',max:10,mp:[10,1],req:[['ac_heal',3]],e:{k:'buff',st:'spd',v:[.1,.03],t:3}},
     {id:'ac_light',n:'홀리 라이트',max:10,mp:[9,1],req:[['ac_bless',3]],e:{k:'dmg',attr:'빛',m:[1.5,.1]}},
     {id:'ac_ang',n:'엔젤러스',max:10,mp:[12,1],req:[['ac_agi',3]],e:{k:'buff',st:'def',v:[.15,.04],t:3}},
+    {id:'ac_divine',n:'디바인 프로텍션',max:10,e:{k:'pas',st:'block',v:[.02,.01]}},
+    {id:'ac_demon',n:'디몬 베인',max:10,e:{k:'pas',st:'atk',v:[.02,.01]}},
+    {id:'ac_pneuma',n:'뉴마',max:1,mp:[10,0],req:[['ac_ang',1]],e:{k:'guard'}},
+    {id:'ac_signum',n:'시그넘 크루시스',max:10,mp:[10,1],req:[['ac_demon',3]],e:{k:'debuff',v:[.1,.04]}},
+    {id:'ac_cure',n:'큐어',max:3,mp:[6,1],req:[['ac_heal',1]],e:{k:'heal',p:[.1,.03]}},
   ]},
   priest:{name:'프리스트', list:[
     {id:'pr_sanc',n:'생츄어리',max:10,mp:[16,2],e:{k:'heal',p:[.4,.05]}},
@@ -635,6 +692,11 @@ const TREES = {
     {id:'pr_asper',n:'아스페르시오',max:5,mp:[14,1],e:{k:'enchant',attr:'빛'}},
     {id:'pr_kyrie',n:'키리에 엘레이손',max:1,mp:[10,0],req:[['pr_impos',3]],e:{k:'guard'}},
     {id:'pr_magnus',n:'마그누스 엑소시즘',max:10,mp:[26,2],req:[['pr_sanc',3]],e:{k:'dmg',attr:'빛',m:[1.4,.12],all:1}},
+    {id:'pr_mace',n:'메이스 수련',max:10,e:{k:'pas',st:'atk',v:[.02,.01]}},
+    {id:'pr_gloria',n:'글로리아',max:5,mp:[12,1],e:{k:'buff',st:'crit',v:[10,3],t:3}},
+    {id:'pr_lex',n:'렉스 디비나',max:5,mp:[10,1],req:[['pr_impos',1]],e:{k:'stun',v:[.3,.07]}},
+    {id:'pr_turn',n:'턴 언데드',max:10,mp:[20,2],req:[['pr_asper',1]],e:{k:'dmg',attr:'빛',m:[2.0,.18]}},
+    {id:'pr_aeterna',n:'렉스 에테르나',max:5,mp:[12,1],req:[['pr_lex',3]],e:{k:'debuff',v:[.15,.05]}},
   ]},
   monk:{name:'몽크', list:[
     {id:'mk_triple',n:'삼단장',max:10,e:{k:'pas',st:'double',v:[.08,.03]}},
@@ -643,6 +705,10 @@ const TREES = {
     {id:'mk_steel',n:'금강',max:1,mp:[10,0],req:[['mk_chi',3]],e:{k:'guard'}},
     {id:'mk_sphere',n:'기공 수련',max:4,e:{k:'pas',st:'sphere',v:[2,1]}},
     {id:'mk_fist',n:'아수라 패황권',max:5,mp:[30,4],req:[['mk_combo',5]],note:'기 구슬을 모두 소모 · 구슬당 +35%',e:{k:'dmg',attr:'타격',m:[3.0,.3]}},
+    {id:'mk_iron',n:'철포삼',max:10,e:{k:'pas',st:'hp',v:[.03,.02]}},
+    {id:'mk_palm',n:'장권',max:10,mp:[14,1],req:[['mk_combo',3]],e:{k:'dmg',attr:'타격',m:[1.8,.14]}},
+    {id:'mk_finger',n:'지탄',max:5,mp:[10,1],req:[['mk_sphere',1]],e:{k:'dmg',attr:'타격',m:[.8,.07],hits:2}},
+    {id:'mk_calm',n:'청심',max:5,mp:[10,1],req:[['mk_steel',1]],e:{k:'heal',p:[.12,.03]}},
   ]},
   mage:{name:'매지션', list:[
     {id:'mg_fire',n:'파이어 볼트',max:10,mp:[6,1],e:{k:'dmg',attr:'불',m:[1.2,.12]}},
@@ -652,6 +718,11 @@ const TREES = {
     {id:'mg_soul',n:'소울 스트라이크',max:10,mp:[8,1],req:[['mg_sight',1]],e:{k:'dmg',attr:'어둠',m:[.8,.07],hits:2}},
     {id:'mg_napalm',n:'나팜 비트',max:10,mp:[10,1],req:[['mg_soul',3]],e:{k:'dmg',attr:'어둠',m:[.8,.07],all:1}},
     {id:'mg_safety',n:'세이프티 월',max:1,mp:[10,0],req:[['mg_napalm',3]],e:{k:'guard'}},
+    {id:'mg_amp',n:'마력 증폭',max:10,e:{k:'pas',st:'matk',v:[.02,.015]}},
+    {id:'mg_fwall',n:'파이어 월',max:10,mp:[12,1],req:[['mg_fire',5]],e:{k:'dmg',attr:'불',m:[.9,.08],all:1}},
+    {id:'mg_frost',n:'프로스트 다이버',max:10,mp:[10,1],req:[['mg_cold',5]],e:{k:'stun',v:[.3,.05]}},
+    {id:'mg_thunder',n:'썬더 스톰',max:10,mp:[12,1],req:[['mg_light',5]],e:{k:'dmg',attr:'번개',m:[.9,.08],all:1}},
+    {id:'mg_energy',n:'에너지 코트',max:5,mp:[12,1],req:[['mg_sight',1]],e:{k:'buff',st:'def',v:[.15,.04],t:3}},
   ]},
   wizard:{name:'위자드', list:[
     {id:'wz_jupitel',n:'유피텔 썬더',max:10,mp:[14,1],e:{k:'dmg',attr:'번개',m:[.6,.06],hits:3}},
@@ -660,6 +731,10 @@ const TREES = {
     {id:'wz_quag',n:'쿼그마이어',max:5,mp:[10,1],e:{k:'stun',v:[.25,.07]}},
     {id:'wz_over',n:'마력 과부하',max:5,e:{k:'pas',st:'over',v:[.02,.01]}},
     {id:'wz_lord',n:'로드 오브 버밀리언',max:10,mp:[26,2],req:[['wz_jupitel',5]],e:{k:'dmg',attr:'번개',m:[1.5,.12],all:1}},
+    {id:'wz_heaven',n:'헤븐즈 드라이브',max:5,mp:[18,1],e:{k:'dmg',attr:'타격',m:[1.1,.1],all:1}},
+    {id:'wz_wisdom',n:'대마법사의 지혜',max:10,e:{k:'pas',st:'matk',v:[.02,.015]}},
+    {id:'wz_sight',n:'사이트 래셔',max:10,mp:[18,1],req:[['wz_meteor',1]],e:{k:'dmg',attr:'불',m:[1.0,.1],all:1}},
+    {id:'wz_wall',n:'아이스 월',max:1,mp:[12,0],req:[['wz_storm',3]],e:{k:'guard'}},
   ]},
   elementalist:{name:'소서러', list:[
     {id:'so_summon',n:'정령 소환',max:10,e:{k:'pas',st:'spirit',v:[.2,.05]}},
@@ -667,6 +742,10 @@ const TREES = {
     {id:'so_grave',n:'어스 그레이브',max:10,mp:[18,1],e:{k:'dmg',attr:'타격',m:[1.3,.12],all:1}},
     {id:'so_poison',n:'포이즌 버스터',max:10,mp:[18,1],req:[['so_grave',3]],e:{k:'dmg',attr:'독',m:[1.4,.12],all:1}},
     {id:'so_psychic',n:'사이킥 웨이브',max:10,mp:[22,2],req:[['so_summon',5]],e:{k:'dmg',attr:'어둠',m:[1.2,.1],all:1}},
+    {id:'so_bond',n:'정령 교감',max:10,req:[['so_summon',1]],e:{k:'pas',st:'matk',v:[.02,.015]}},
+    {id:'so_wind',n:'바람 정령의 가호',max:5,mp:[12,1],req:[['so_bond',3]],e:{k:'buff',st:'spd',v:[.15,.04],t:3}},
+    {id:'so_spear',n:'바레티르 스피어',max:5,mp:[24,2],req:[['so_dust',3]],e:{k:'dmg',attr:'번개',m:[2.2,.2]}},
+    {id:'so_cloud',n:'클라우드 킬',max:5,mp:[14,1],req:[['so_poison',1]],e:{k:'debuff',v:[.12,.04]}},
   ]},
 };
 const MAGIC_TREES = ['mage','wizard','elementalist','healer','priest'];
@@ -1543,18 +1622,33 @@ function skillView(){
   return h;
 }
 function treeLayout(T){
-  // depth = longest prerequisite chain; a child sits under its first prerequisite when that cell is free
-  const depth = {}, pos = {};
+  // Each prerequisite chain (connected skills) gets its own columns, so lines never run through an unrelated skill.
+  // Inside a chain: row = prerequisite depth, a child takes its first prerequisite's column when free.
+  // Chains are packed left to right, at most 4 columns per block; a chain that doesn't fit starts a new block below.
+  const MAXC = 4, depth = {}, pos = {}, par = {};
   const d = sk => depth[sk.id] ?? (depth[sk.id] = (sk.req||[]).length ? 1 + Math.max(...sk.req.map(([id])=>d(SKILL[id]))) : 0);
   T.list.forEach(d);
-  const used = {}; let cols = 1;
-  for (const sk of [...T.list].sort((a,b)=>depth[a.id]-depth[b.id])){
-    const r = depth[sk.id]; used[r] = used[r] || new Set();
-    let c = (sk.req||[]).length ? pos[sk.req[0][0]].c : 0;
-    while (used[r].has(c)) c++;
-    used[r].add(c); pos[sk.id] = {r, c}; cols = Math.max(cols, c + 1);
+  const find = x => par[x] === x ? x : (par[x] = find(par[x]));
+  T.list.forEach(sk => par[sk.id] = sk.id);
+  T.list.forEach(sk => (sk.req||[]).forEach(([id]) => { par[find(sk.id)] = find(id); }));
+  const comps = [];
+  for (const sk of T.list){ const r = find(sk.id); let c = comps.find(x => x.root === r); if (!c) comps.push(c = {root:r, list:[]}); c.list.push(sk); }
+  for (const c of comps){
+    const used = {}; c.pos = {}; c.w = 1; c.h = 1;
+    for (const sk of [...c.list].sort((a,b)=>depth[a.id]-depth[b.id])){
+      const r = depth[sk.id]; used[r] = used[r] || new Set();
+      let col = (sk.req||[]).length ? c.pos[sk.req[0][0]].c : 0;
+      while (used[r].has(col)) col++;
+      used[r].add(col); c.pos[sk.id] = {r, c:col}; c.w = Math.max(c.w, col+1); c.h = Math.max(c.h, r+1);
+    }
   }
-  return {pos, cols, rows: Math.max(...Object.values(depth)) + 1};
+  let x = 0, y = 0, blockH = 0, cols = 1;
+  for (const c of comps){
+    if (x > 0 && x + c.w > MAXC){ y += blockH; x = 0; blockH = 0; }
+    for (const [id, q] of Object.entries(c.pos)) pos[id] = {r: y + q.r, c: x + q.c};
+    x += c.w; blockH = Math.max(blockH, c.h); cols = Math.max(cols, x);
+  }
+  return {pos, cols, rows: y + blockH};
 }
 const skIcon = sk => sk.e.k==='dmg' ? ATTR_ICON[sk.e.attr] : KIND_ICON[sk.e.k];
 function learnWhy(sk){
@@ -1570,14 +1664,14 @@ function skillTreeHTML(){
   let h = `<section class="card" id="skills"><h2 class="row">스킬 트리 <span class="aside" ${S.sp?'style="color:var(--accent);font-weight:700"':''}>남은 스킬 포인트 ${S.sp||0}</span></h2>`;
   if (trees.length > 1) h += seg('tree', trees.map(t=>[t, TREES[t].name]));
   const lines = T.list.flatMap(sk => (sk.req||[]).map(([id,l]) => {
-    const a = L.pos[id], b = L.pos[sk.id], x1 = a.c*100+50, y1 = a.r*RH+98, x2 = b.c*100+50, y2 = b.r*RH-2, ym = (y1+y2)/2, ok = skLv(id) >= l;
-    return `<path d="M${x1} ${y1} V${ym} H${x2} V${y2}" class="${ok?'on':''}"/>${!ok?`<text x="${x2 + 8}" y="${y2 - 6}" class="rq">Lv.${l}</text>`:''}`; })).join('');
+    const a = L.pos[id], b = L.pos[sk.id], x1 = a.c*100+50, y1 = a.r*RH+98, x2 = b.c*100+50, y2 = b.r*RH-2, ym = y2 - 10, ok = skLv(id) >= l;
+    return `<path d="M${x1} ${y1} V${ym} H${x2} V${y2}" class="${ok?'on':''}"/>${!ok?`<text x="${x2 + 6}" y="${ym - 4}" class="rq">Lv.${l}</text>`:''}`; })).join('');
   const nodes = T.list.map(sk => {
     const p = L.pos[sk.id], lv = skLv(sk.id), can = canLearn(sk), lock = !skReqOk(sk);
     const cls = [lv?'got':'', can?'can':'', lock?'locked':'', lv>=sk.max?'max':'', sk.e.k==='pas'?'pas':'', UI.skSel===sk.id?'sel':''].join(' ');
     return `<button class="node ${cls}" style="left:${(p.c+.5)/L.cols*100}%;top:${p.r*RH}px" data-act="sksel" data-id="${sk.id}" aria-label="${sk.n} ${lv}/${sk.max}${lock?' · 잠김':''}">
       <span class="ico">${skIcon(sk)}${lock?'<i class="lk">🔒</i>':''}${sk.e.k==='pas'?'<i class="pb">P</i>':''}</span><span class="lvb">${lv}/${sk.max}</span><small>${sk.n}</small></button>`; }).join('');
-  h += `<div class="stree" style="height:${H}px"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${nodes}</div>`;
+  h += `<div class="stree ${L.cols>4?'dense':''}" style="height:${H}px;--nw:${100/L.cols}%"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${nodes}</div>`;
   // detail of the selected skill
   const sk = SKILL[UI.skSel], lv = skLv(sk.id), o = skillAt(sk, Math.max(1, lv)), why = learnWhy(sk);
   const kids = T.list.filter(x => (x.req||[]).some(([id]) => id===sk.id));

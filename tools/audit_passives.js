@@ -31,3 +31,4 @@ window.__audit = () => {
   B = null;
   return {out, bad};
 };
+window.__trees = () => { const ids = {}, out = []; for (const [k,T] of Object.entries(TREES)){ for (const s of T.list){ if (ids[s.id]) out.push('DUP '+s.id); ids[s.id]=1; } const L = treeLayout(T); out.push(`${k}: ${T.list.length}개 · ${L.cols}열 ${L.rows}줄 · 총 ${T.list.reduce((a,s)=>a+s.max,0)}포인트`); } return out; };
