@@ -173,6 +173,16 @@ def drop_neighbor_bits(cell):
     return Image.fromarray(a)
 
 
+def fix_sheet_im(im, kind, rep, base):
+    """tools/fix_sheet.py로 시트를 다시 정렬. 고친 내용은 보고서에."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import fix_sheet
+    sheet, s, log, cell = fix_sheet.repack(im.convert('RGBA'), kind)
+    for l in log:
+        rep.setdefault('fixed', []).append(f'{base}: {l}')
+    return sheet
+
+
 def keep_main(im):
     """가장 큰 덩어리(아이콘 본체)와 이어지지 않은 조각을 모두 지운다."""
     try:
@@ -305,20 +315,25 @@ def handle(rel, im, names, out, rep):
         m = re.match(r'mon_m(\d+)$', base)
         if not m:
             return bad('몬스터 시트 이름은 mon_m0.png ~ mon_m19.png')
+        im = fix_sheet_im(im, 'mon', rep, base)  # 칸에 안 맞게 그려진 프레임 재정렬·잘림 처리 (tools/fix_sheet.py)
         e, issues = sheet_entry(im, 'mon')
+        e['s'] = round(im.size[0] / 4 / 96, 3)  # 칸이 원래(96px)보다 크면 그 비율 — 게임이 그만큼 확대해 화면 크기를 맞춤
         for x in issues:
-            bad(x)
+            if '줄 수' not in x: bad(x)
         out['mon/m' + m.group(1)] = e
     elif top == 'bosses':
         m = re.match(r'boss_b(\d+)$', base)
         if not m:
             return bad('보스 시트 이름은 boss_b0.png ~ boss_b9.png')
-        if im.size[0] == 640:  # 160px 칸 → 128px 칸 (화면 표시 크기에 충분, 용량 약 40%)
-            im = im.convert('RGBA').resize((512, round(im.size[1] * 512 / 640)), Image.LANCZOS)
+        im = fix_sheet_im(im, 'boss', rep, base)
+        sc = round(im.size[0] / 4 / 160, 3)
+        c8 = round(im.size[0] / 4 * .8)  # 칸 ×0.8 (용량), 칸 크기는 정수로
+        im = im.convert('RGBA').resize((c8 * 4, c8 * round(im.size[1] / (im.size[0] / 4))), Image.LANCZOS)
         e, issues = sheet_entry(im, 'boss')
+        e['s'] = sc
         e['src'] = to_data_url(im.convert('RGBA'), lossless=False, q=82, aq=70)
         for x in issues:
-            bad(x)
+            if '줄 수' not in x: bad(x)
         out['boss/b' + m.group(1)] = e
     elif top == 'cards':
         if not base.startswith('card_'):
@@ -371,6 +386,8 @@ def main():
         lines += ['[문제 — 고쳐서 다시 받기]'] + ['  ' + x for x in rep['bad']] + ['']
     if rep['unknown']:
         lines += ['[목록에 없는 파일 이름 — 넣지 않음]'] + ['  ' + x for x in rep['unknown']] + ['']
+    if rep.get('fixed'):
+        lines += ['[자동으로 고친 것 — 원본은 잘림·어긋남, 다시 받으면 더 좋음]'] + ['  ' + x for x in rep['fixed']] + ['']
     lines += ['[넣은 것]'] + ['  ' + x for x in rep['ok']]
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
     open(REPORT, 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
