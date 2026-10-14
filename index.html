@@ -215,6 +215,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .hav{width:92px;height:92px;flex:none;display:grid;place-items:center}
 .hav.ill{width:96px;height:132px;place-items:end center}
 img.illust{display:block;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(60,70,130,.18))}
+img.illust.eqill{width:92px;height:140px;max-width:none;max-height:none;object-fit:contain;object-position:center bottom}  /* 가방·캐릭터 장비창: 도트 SD 일러스트 */
 .hav.ill img.illust{width:96px;height:132px;max-width:none;max-height:none;object-fit:contain;object-position:center bottom}  /* 도트 SD 전신 일러스트 */
 .hname{font-size:18px}.hname small{font-size:12px;color:var(--muted);font-weight:500}
 .chipbtn{border:0;background:var(--surface-2);color:var(--sub);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700;flex:none}
@@ -3382,7 +3383,7 @@ const EQ_RIGHT = [['earring','귀걸이'],['cape','망토'],['sub','보조무기
 function equipWindow(fitItem){
   return `<div class="eqw"><div class="eqh"><b>장비</b><span>${lvTag()} · 전투력 ${cp()}</span></div>
     <div class="eqb"><div class="eqc">${EQ_LEFT.map(([k,n])=>eqRow(k,n,fitItem,'l')).join('')}</div>
-      <div class="eqm"><span class="eqfig">${dollHTML(lookFront(), 110)}</span><span class="eqp"></span></div>
+      <div class="eqm"><span class="eqfig">${figHTML(110, 'eqill')}</span><span class="eqp"></span></div>
       <div class="eqc">${EQ_RIGHT.map(([k,n])=>eqRow(k,n,fitItem,'r')).join('')}</div></div>
     <div class="eqa"><small>반지</small><div class="ringrow">${RING_SLOTS.map((k,i)=>pdSlot(k, `${i+1}`, '', fitItem)).join('')}</div></div></div>`;
 }
