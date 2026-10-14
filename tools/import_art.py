@@ -303,9 +303,13 @@ def handle(rel, im, names, out, rep):
         m = re.match(r'char_(.+)_(front|back)$', base)
         if not m:
             return bad('캐릭터 시트 이름은 char_<코드>_front.png / _back.png')
+        if not m.group(1).startswith('novice_') or m.group(1) == 'novice_f':
+            # 통짜 캐릭터 시트는 칸 밖으로 넘친 프레임을 다시 정렬 (노비스 부품은 겹쳐야 해서 그대로)
+            im = fix_sheet_im(im, m.group(2), rep, base)
         e, issues = sheet_entry(im, m.group(2))
+        if im.size[0] > 4 * 128: e['s'] = round(im.size[0] / 4 / 128, 3)
         for x in issues:
-            bad(x)
+            if '줄 수' not in x: bad(x)
         out[f'char/{m.group(1)}_{m.group(2)}'] = e
         if m.group(1) == 'novice_hair':  # 머리카락은 갈색 1장만 받고, 게임의 7가지 머리색은 여기서 칠해 만든다
             for i, col in enumerate(HAIR_COLS):

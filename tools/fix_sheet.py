@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """칸에 안 맞게 그려진 스프라이트 시트를 다시 정렬한다.
 
-쓰는 법:  python3 tools/fix_sheet.py 입력.png 출력.png mon|boss [--sheet 확인용.png]
+쓰는 법:  python3 tools/fix_sheet.py 입력.png 출력.png mon|boss|front|back [--sheet 확인용.png]
 
 하는 일
 1) 그림 덩어리(투명이 아닌 부분)를 찾아 원래 칸(왼→오, 위→아래)에 배정한다. 칸 경계를 넘어 그려진 부분도 그 프레임에 붙인다.
@@ -14,7 +14,8 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage
 
-SPEC = {'mon': (96, [4, 4, 2, 3]), 'boss': (160, [4, 4, 4, 2, 2, 4])}
+SPEC = {'mon': (96, [4, 4, 2, 3]), 'boss': (160, [4, 4, 4, 2, 2, 4]),
+        'front': (128, [4, 4, 3, 1, 2]), 'back': (128, [4, 4, 4, 2, 2, 2, 3, 3])}  # 캐릭터는 128px 칸 기준(96px로 와도 비율로 맞춤)
 COLS = 4
 
 
