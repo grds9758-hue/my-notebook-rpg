@@ -63,12 +63,12 @@ def recolor(im, hexcol):
     return out
 
 
-def to_data_url(im, lossless=True, q=80):
+def to_data_url(im, lossless=True, q=80, aq=100):
     b = io.BytesIO()
     if lossless:
         im.save(b, 'WEBP', lossless=True, quality=100, method=6)
     else:
-        im.save(b, 'WEBP', quality=q, method=6)
+        im.save(b, 'WEBP', quality=q, alpha_quality=aq, method=6)
     return 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
 
 
@@ -150,6 +150,29 @@ def sheet_entry(im, kind):
 UI_PREFIX = ('attr_', 'ui_', 'home_', 'talk_', 'todo_', 'mission_', 'kind_', 'tab_', 'fx_')
 
 
+def drop_neighbor_bits(cell):
+    """칸끼리 겹친 시트를 자르면 옆 칸 그림 조각(머리카락 끝 등)이 가장자리에 남는다.
+    몸(가장 큰 덩어리)과 이어지지 않고 왼쪽·오른쪽 가장자리에 닿은 조각은 지운다."""
+    try:
+        import numpy as np
+        from scipy import ndimage
+    except Exception:
+        return cell
+    a = np.array(cell)
+    mask = a[:, :, 3] > 10
+    lab, n = ndimage.label(mask, structure=np.ones((3, 3)))
+    if n < 2:
+        return cell
+    sizes = ndimage.sum(mask, lab, range(1, n + 1))
+    main = int(np.argmax(sizes)) + 1
+    w = a.shape[1]
+    edge = set(np.unique(lab[:, :2])) | set(np.unique(lab[:, w - 2:]))
+    for k in edge:
+        if k and k != main:
+            a[lab == k, 3] = 0
+    return Image.fromarray(a)
+
+
 def edge_touch(im):
     """가장자리 2px 안에 그림이 있는 비율 (아이콘은 8px 여백이라 0이어야 함)."""
     a = im.convert('RGBA').getchannel('A')
@@ -227,14 +250,15 @@ def handle(rel, im, names, out, rep):
         code = m.group(1)
         w, h = im.size
         A = im.convert('RGBA').getchannel('A')
-        has_alpha = A.getextrema()[0] < 10 and sum(1 for v in A.resize((64, 40)).getdata() if v < 10) > 64 * 40 * 0.1
+        has_alpha = A.histogram()[0] > A.width * A.height * 0.01  # 완전 투명 픽셀이 1% 넘으면 이미 배경이 지워진 시트
         for r in range(3):
             for c in range(6):  # 칸 크기가 나누어떨어지지 않아도 고르게 자름
                 cell = im.crop((round(c * w / 6), round(r * h / 3), round((c + 1) * w / 6), round((r + 1) * h / 3))).convert('RGBA')
                 if not has_alpha:  # 이미 투명 배경으로 온 시트는 배경 지우기를 하지 않음 (그림 훼손 방지)
                     cell = remove_flat_bg(cell)
+                cell = drop_neighbor_bits(cell)
                 cell.thumbnail(NPC_CELL, Image.LANCZOS)
-                out[f'npc/{code}_{r}_{c}'] = to_data_url(cell, lossless=False, q=82)
+                out[f'npc/{code}_{r}_{c}'] = to_data_url(cell, lossless=False, q=75, aq=60)  # 한 컷 약 23KB
     elif top == 'backgrounds' or (top == 'bosses' and base.endswith('_intro')):
         name = base[3:] if base.startswith('bg_') else ('boss_intro_' + base[5:-6] if base.startswith('boss_') else None)
         if not name:
