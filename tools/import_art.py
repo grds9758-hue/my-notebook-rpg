@@ -144,7 +144,7 @@ def sheet_entry(im, kind):
         issues.append(f'줄 수 {rows} (기대 {want})')
     if not corners_transparent(im):
         issues.append('배경이 투명하지 않음')
-    return {'src': to_data_url(im), 'cols': SHEET_COLS, 'rows': max(1, rows), 'n': FRAMES[kind][:max(1, rows)]}, issues
+    return {'src': to_data_url(im, lossless=False, q=88, aq=80), 'cols': SHEET_COLS, 'rows': max(1, rows), 'n': FRAMES[kind][:max(1, rows)]}, issues
 
 
 UI_PREFIX = ('attr_', 'ui_', 'home_', 'talk_', 'todo_', 'mission_', 'kind_', 'tab_', 'fx_')

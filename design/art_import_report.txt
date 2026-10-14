@@ -1,6 +1,24 @@
 그림 넣기 결과 (게임에 넣음)
-넣은 것 2개 · 문제 0건 · 목록에 없는 이름 0개
+넣은 것 20개 · 문제 0건 · 목록에 없는 이름 0개
 
 [넣은 것]
-  home_inn.png
-  kind_stun.png
+  mon_m0.png
+  mon_m1.png
+  mon_m10.png
+  mon_m11.png
+  mon_m12.png
+  mon_m13.png
+  mon_m14.png
+  mon_m15.png
+  mon_m16.png
+  mon_m17.png
+  mon_m18.png
+  mon_m19.png
+  mon_m2.png
+  mon_m3.png
+  mon_m4.png
+  mon_m5.png
+  mon_m6.png
+  mon_m7.png
+  mon_m8.png
+  mon_m9.png
