@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """받은 그림(zip 또는 폴더)을 검사해서 index.html의 `const ART = {...}; /*ART*/` 줄에 넣는다.
 
-폴더·파일 이름은 의뢰서(design/ALL_ART_REQUEST.txt PART 11) 그대로:
+파일 이름은 의뢰서(design/art_parts/*.txt) 그대로. 폴더 이름은 보지 않고 파일 이름으로 분류한다(한글 폴더 OK):
   icons/{equipment,set,material,consumable}/<이름>.png  -> icon/<이름>   (64px로 줄여 넣음, NEAREST)
   icons/ui/<이름>.png                                   -> ui/<이름>
   icons/skill/skill_<스킬코드>.png                       -> skill/<스킬코드>
@@ -46,6 +46,21 @@ def known_names():
         names.update(m[:-4] for m in re.findall(r'^  (\w+\.png)', t, re.M))
         names.update(re.findall(r'^    (skill_\w+)', t, re.M))
     return names
+
+
+HAIR_COLS = ['#5a302a', '#3a3646', '#deb460', '#be4634', '#c6c8d8', '#4c6ebe', '#dc7ca4']  # 게임 HAIRS 순서
+
+
+def recolor(im, hexcol):
+    """밝기는 그대로 두고 색만 바꾼다 (머리카락 색 만들기)."""
+    im = im.convert('RGBA')
+    t = [int(hexcol[k:k + 2], 16) for k in (1, 3, 5)]
+    px = [p for p in im.getdata() if p[3] > 100]
+    m = sum(0.299 * r + 0.587 * g + 0.114 * b for r, g, b, a in px) / max(1, len(px)) / 255 or 1
+    out = Image.new('RGBA', im.size)
+    out.putdata([(0, 0, 0, 0) if a == 0 else tuple(max(0, min(255, int(c * (0.299 * r + 0.587 * g + 0.114 * b) / 255 / m))) for c in t) + (a,)
+                 for r, g, b, a in im.getdata()])
+    return out
 
 
 def to_data_url(im, lossless=True, q=80):
@@ -132,13 +147,51 @@ def sheet_entry(im, kind):
     return {'src': to_data_url(im), 'cols': SHEET_COLS, 'rows': max(1, rows), 'n': FRAMES[kind][:max(1, rows)]}, issues
 
 
+UI_PREFIX = ('attr_', 'ui_', 'home_', 'talk_', 'todo_', 'mission_', 'kind_', 'tab_', 'fx_')
+
+
+def edge_touch(im):
+    """가장자리 2px 안에 그림이 있는 비율 (아이콘은 8px 여백이라 0이어야 함)."""
+    a = im.convert('RGBA').getchannel('A')
+    w, h = a.size
+    px = a.load()
+    pts = [(x, y) for x in range(w) for y in (0, 1, h - 2, h - 1)] + [(x, y) for y in range(h) for x in (0, 1, w - 2, w - 1)]
+    return sum(1 for p in pts if px[p] > 40) / len(pts)
+
+
+def classify(fname):
+    """파일 이름 → [위 폴더, (아이콘이면) 하위 폴더, 파일] (옛 폴더 구조와 같은 모양)."""
+    b = fname
+    if b.startswith('skill_'):
+        return ['icons', 'skill', b]
+    if b.startswith(UI_PREFIX):
+        return ['icons', 'ui', b]
+    if b.startswith(('nov_', 'job_', 'set_', 'mat_', 'potion_', 'item_')):
+        return ['icons', 'item', b]
+    if b.startswith('npc_'):
+        return ['npc', b]
+    if b.startswith('bg_'):
+        return ['backgrounds', b]
+    if b.startswith('char_'):
+        return ['characters', b]
+    if b.startswith('mon_'):
+        return ['monsters', b]
+    if b.startswith('boss_'):
+        return ['bosses', b]
+    if b.startswith('card_'):
+        return ['cards', b]
+    return None
+
+
 def handle(rel, im, names, out, rep):
     rel = rel.replace('\\', '/')
-    parts = rel.split('/')
-    # zip 안 맨 위 폴더(mnbrpg_art/ 등)는 무시
-    while parts and parts[0] not in ('icons', 'npc', 'backgrounds', 'characters', 'monsters', 'bosses', 'cards', 'preview'):
-        parts = parts[1:]
-    if not parts or parts[0] == 'preview':
+    fname = rel.split('/')[-1]
+    if fname.startswith('preview') or '/preview' in rel.lower():
+        return
+    # 폴더 이름은 보지 않고 파일 이름으로 분류한다 (작가가 한글 폴더 등으로 나눠 보내도 됨)
+    parts = classify(fname)
+    if not parts:
+        rep['unknown'].append(rel)
         return
     base = os.path.splitext(parts[-1])[0]
     top = parts[0]
@@ -157,10 +210,15 @@ def handle(rel, im, names, out, rep):
         if names and base not in names and not (sub == 'skill' and base in names):
             rep['unknown'].append(rel)
             return
+        want = 64 if sub in ('ui', 'skill') else 128
+        if im.size != (want, want) and not (base == 'fx_victory_frame' and im.size == (256, 32)):
+            return bad(f'크기 {im.size[0]}×{im.size[1]} (정해진 크기 {want}×{want}) — 반려')
         if looks_checker(im):
-            return bad('체크무늬 배경을 그림으로 그림 (진짜 투명이어야 함)')
-        if not corners_transparent(im):
-            bad('모서리가 투명하지 않음 (넣긴 했지만 확인 필요)')
+            return bad('체크무늬 배경을 그림으로 그림 (진짜 투명이어야 함) — 반려')
+        if sub != 'skill' and not corners_transparent(im):
+            return bad('모서리가 투명하지 않음 (흰 배경·옆 그림 조각) — 반려')
+        if sub != 'skill' and edge_touch(im) > 0.02:
+            return bad('그림이 가장자리에 닿음 (잘린 그림·옆 그림 조각, 여백 8px 필요) — 반려')
         out[key] = to_data_url(fit_icon(im, ICON_PX))
     elif top == 'npc':
         m = re.match(r'npc_(shop|smith|onsen|inn|training)_sheet$', base)
@@ -195,6 +253,10 @@ def handle(rel, im, names, out, rep):
         for x in issues:
             bad(x)
         out[f'char/{m.group(1)}_{m.group(2)}'] = e
+        if m.group(1) == 'novice_hair':  # 머리카락은 갈색 1장만 받고, 게임의 7가지 머리색은 여기서 칠해 만든다
+            for i, col in enumerate(HAIR_COLS):
+                e2, _ = sheet_entry(recolor(im, col), m.group(2))
+                out[f'char/novice_hair_hair{i}_{m.group(2)}'] = e2
     elif top == 'monsters':
         m = re.match(r'mon_m(\d+)$', base)
         if not m:
