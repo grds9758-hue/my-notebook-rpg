@@ -480,7 +480,7 @@ def handle(rel, im, names, out, rep):
         cw = im.size[0] / 4
         if cw > 160:  # 나노바나나처럼 크게 온 그림은 칸 128px 기준으로 줄임
             im = im.resize((512, round(im.size[1] * 512 / im.size[0])), Image.LANCZOS)
-        if not m.group(1).startswith('novice_') or m.group(1) == 'novice_f':
+        if not m.group(1).startswith('novice_') or m.group(1) in ('novice_f', 'novice_m'):
             # 통짜 캐릭터 시트는 칸 밖으로 넘친 프레임을 다시 정렬 (노비스 부품은 겹쳐야 해서 그대로)
             im = fix_sheet_im(im, m.group(2), rep, base)
         e, issues = sheet_entry(im, m.group(2))
