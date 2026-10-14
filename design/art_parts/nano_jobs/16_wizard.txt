@@ -1,0 +1,49 @@
+CHARACTER ART ORDER: Wizard (위자드)   file code: wizard
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_wizard_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_wizard_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Wizard from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: long silver hair, purple eyes.
+Outfit: tall dark indigo hat, long indigo robe with star patterns and a high collar, spellbook on the belt.
+Weapon: a big staff with a large red jewel on top.
+No pet, no mount, no companion.
+Color theme: indigo, silver and red.
+His basic attack: swing the staff.
+His skill motion: raise the staff high, the jewel blazes.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Style: classic Ragnarok Online in-game sprite. Chibi body about 2.5 heads tall, crisp pixels, 1-pixel dark outline, 2-3 shade cel shading. No blur, no glow, no 3D.
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (swing the staff: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (raise the staff high, the jewel blazes: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
