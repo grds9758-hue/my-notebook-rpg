@@ -17,7 +17,7 @@ mnbrpg_art/
 ├─ npc/                       ← NPC 안내원: 자세·표정 스프라이트 시트 한 장씩 (자르지 말고 시트 그대로)
 │   └─ npc_<코드>_sheet.png    코드: shop·smith·onsen·inn·training
 │                             6열(표정) × 3행(자세) = 18컷, 칸 크기 모두 같게(권장 512×640), 여백 0px
-├─ backgrounds/               ← 배경: 780×1120 (시설 위쪽 그림은 780×600), 배경 그대로(투명 아님)
+├─ backgrounds/               ← 배경: 전부 780×1120 하나로 통일, 배경 그대로(투명 아님)
 │   bg_ground_0~9 · bg_deep_0~9 · bg_boss_0~9 · bg_shop · bg_smith · bg_onsen · bg_inn ·
 │   bg_training · bg_jobchange · bg_promo · bg_title
 ├─ characters/                ← 캐릭터 스프라이트 시트 (자르지 말고 시트 한 장 그대로)
