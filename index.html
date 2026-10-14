@@ -151,8 +151,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .townhero .talk .nm{font-weight:700;color:#2f62c8;font-size:13px;margin-bottom:2px}
 .townhero .talk p{margin:0;min-height:1.5em}
 .townhero .talk .more{position:absolute;right:14px;bottom:6px;color:#3d5aa8;font-size:11px;animation:blink 1.2s infinite}
-.townhero .choices{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.townhero .choices button{border:1.5px solid #8fb2ee;background:#fff;color:#2c5bb8;border-radius:10px;padding:5px 11px;font-size:12.5px;font-weight:700}
+.talkmenu .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.townhero .talk .pick{display:block;margin-top:4px;color:#3d5aa8;font-size:11.5px;font-weight:700}
+.talkmenu .choices button{border:1.5px solid #8fb2ee;background:#fff;color:#2c5bb8;border-radius:12px;padding:10px 4px;font-size:13px;font-weight:700;min-width:0}
 @media (prefers-reduced-motion:reduce){.townhero .talk .more,.townhero .tapme{animation:none}.townhero .npcbtn.hop .npc{animation:none}}
 .tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 10px}
 .mi.tile{flex-direction:column;gap:6px;padding:4px 2px;border:0;border-radius:14px;text-align:center;align-items:center}
@@ -180,7 +181,6 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .townhero .npcbtn{left:auto;right:-26px;transform:none;bottom:40px;height:350px;z-index:1}
 .townhero .tapme{right:auto;left:16px;top:96px}
 .townhero .talk{left:14px;right:auto;width:64%;bottom:58px;min-height:0;border:2px solid #9cb8f0;border-radius:20px;padding:10px 14px 18px;font-size:13.5px;box-shadow:0 6px 16px rgba(40,60,140,.16)}
-.townhero .talk:has(.choices){width:auto;right:14px}
 .townhero + .card, .townhero + .autores{position:relative;z-index:2;margin-top:-34px}
 .tiles{border:1px solid #e6e9f7;box-shadow:0 6px 18px rgba(80,90,160,.08)}
 .tic{background:linear-gradient(180deg,#f1f7ff,#dceaff)!important;border:1px solid #d3e3ff}
@@ -2344,7 +2344,8 @@ function homeView(){
     <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[tl.f] ?? 2]}" alt="안내원 리나"></button>
     ${UI.talk ? '' : '<span class="tapme" aria-hidden="true">터치해서 대화</span>'}
     <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나 <span class="aff" title="호감도">${affHearts()} ${AFF[affLv()].n}</span></div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
-      ${UI.talk && UI.talk.menu ? `<div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">⭐ ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="shop">🛒 상점</button><button data-act="topic" data-v="craft">⚗️ 제작</button><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="gift">🎁 선물</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div>` : '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
+      ${UI.talk && UI.talk.menu ? '<span class="pick" aria-hidden="true">아래에서 골라 주세요 ▼</span>' :  '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
+  if (UI.talk && UI.talk.menu) h += `<section class="card talkmenu" aria-label="리나에게 할 말"><div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">⭐ ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="shop">🛒 상점</button><button data-act="topic" data-v="craft">⚗️ 제작</button><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="gift">🎁 선물</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div></section>`;
   h += autoCard();
   h += `<section class="card tiles">
       ${tile(`data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}" aria-label="사냥터로 보내 주세요 · ${G.ground}"`, '⚔️', '사냥터로<br>보내 주세요', 't-red')}
