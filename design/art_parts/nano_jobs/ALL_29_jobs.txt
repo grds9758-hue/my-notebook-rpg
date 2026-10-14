@@ -1,0 +1,1763 @@
+ALL CHARACTER ART ORDERS (29 jobs in one file)
+=====================================================
+HOW TO USE THIS FILE (for the image AI):
+- This file has 29 separate orders, one per job, numbered 01 to 29.
+- Work on ONLY the ONE job that I name in my message (for example "Do order 08 rider").
+- Ignore all other orders in this file. Never mix the looks of two jobs.
+- For that job, follow its order exactly: make IMAGE 1 first, then IMAGE 2 when I say "next".
+- Gender: only 13 dancer and 25 t3_dancer are FEMALE. All other jobs are MALE.
+- Pixel style of IMAGE 2: exactly like the monsters in the attached reference image 00_style_ref_monsters.png.
+
+사용법(사람용): 새 채팅에 이 파일 + 00_style_ref_monsters.png 첨부 →
+  "Do order 08 rider. Make IMAGE 1." → 일러스트 나오면 "next"
+  직업 하나 = 새 채팅 하나. 번호: 01_warrior · 02_archer · 03_thief · 04_healer · 05_mage · 06_greatsword · 07_shield · 08_rider · 09_trapper · 10_bowman · 11_dagger · 12_shuriken · 13_dancer · 14_priest · 15_monk · 16_wizard · 17_elementalist · 18_t3_greatsword · 19_t3_shield · 20_t3_rider · 21_t3_trapper · 22_t3_bowman · 23_t3_dagger · 24_t3_shuriken · 25_t3_dancer · 26_t3_priest · 27_t3_monk · 28_t3_wizard · 29_t3_elementalist
+=====================================================
+
+
+
+########## ORDER 01 — warrior ##########
+CHARACTER ART ORDER: Swordman (소드맨)   file code: warrior
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_warrior_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_warrior_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Swordman from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short spiky brown hair, brown eyes, a red cloth headband.
+Outfit: steel breastplate with one silver shoulder pauldron (left shoulder) over a navy blue tunic, brown leather belt, navy pants, brown leather boots, brown gloves.
+Weapon: a one-handed straight sword (silver blade, gold cross guard) in the right hand and a small round steel buckler on the left arm.
+No pet, no mount, no companion.
+Color theme: silver and navy blue.
+His basic attack: overhead sword slash downward.
+His skill motion: raise the sword, the blade glows orange.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (overhead sword slash downward: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (raise the sword, the blade glows orange: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 01 ##########
+
+
+########## ORDER 02 — archer ##########
+CHARACTER ART ORDER: Archer (아처)   file code: archer
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_archer_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_archer_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Archer from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short messy blond hair, green eyes, a green hood resting on the head.
+Outfit: green hooded short cape, brown leather vest over a white shirt, brown arm guard on the left forearm, beige pants, brown boots.
+Weapon: a short wooden bow in the left hand, a brown quiver full of white-feathered arrows on the back.
+No pet, no mount, no companion.
+Color theme: green and brown.
+His basic attack: draw the bow and shoot an arrow.
+His skill motion: draw the bow, the arrow glows yellow.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (draw the bow and shoot an arrow: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (draw the bow, the arrow glows yellow: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 02 ##########
+
+
+########## ORDER 03 — thief ##########
+CHARACTER ART ORDER: Thief (시프)   file code: thief
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_thief_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_thief_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Thief from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short dark purple hair, sharp purple eyes, a black hood pulled up.
+Outfit: black scarf covering the mouth and nose, sleeveless dark purple leather top, black pants with leg straps, black fingerless gloves, soft black boots.
+Weapon: one short curved dagger held in a reverse grip in the right hand.
+No pet, no mount, no companion.
+Color theme: purple and black.
+His basic attack: quick dagger stab forward.
+His skill motion: crouch low, the dagger drips green poison.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (quick dagger stab forward: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (crouch low, the dagger drips green poison: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 03 ##########
+
+
+########## ORDER 04 — healer ##########
+CHARACTER ART ORDER: Acolyte (어콜라이트)   file code: healer
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_healer_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_healer_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Acolyte from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: neat short light brown hair, gentle blue eyes.
+Outfit: long white robe, sky blue shoulder shawl with a small gold cross emblem, gold trim on the sleeves, brown sandals.
+Weapon: a short wooden staff topped with a small gold cross.
+No pet, no mount, no companion.
+Color theme: white, sky blue and gold.
+His basic attack: strike down with the staff.
+His skill motion: hands together in prayer, soft white light.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (strike down with the staff: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (hands together in prayer, soft white light: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 04 ##########
+
+
+########## ORDER 05 — mage ##########
+CHARACTER ART ORDER: Magician (매지션)   file code: mage
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_mage_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_mage_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Magician from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: messy black hair, dark blue eyes.
+Outfit: big pointed indigo wizard hat with a gold star, long indigo robe with small gold star patterns, brown belt with a pouch.
+Weapon: a short wooden wand with a blue gem tip.
+No pet, no mount, no companion.
+Color theme: indigo and gold.
+His basic attack: swing the wand forward.
+His skill motion: raise the wand and chant, the gem glows blue.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (swing the wand forward: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (raise the wand and chant, the gem glows blue: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 05 ##########
+
+
+########## ORDER 06 — greatsword ##########
+CHARACTER ART ORDER: Knight (나이트)   file code: greatsword
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_greatsword_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_greatsword_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Knight from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short dark navy hair, serious blue eyes, no helmet.
+Outfit: full silver plate armor with navy accents, big round pauldrons, long navy cape, steel gauntlets and greaves.
+Weapon: a huge two-handed greatsword, the blade as tall as his whole body, blue grip, held with both hands.
+No pet, no mount, no companion.
+Color theme: silver and navy blue.
+His basic attack: big horizontal sweeping slash with the greatsword (both hands).
+His skill motion: lift the greatsword high, the blade glows blue.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (big horizontal sweeping slash with the greatsword (both hands): wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (lift the greatsword high, the blade glows blue: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 06 ##########
+
+
+########## ORDER 07 — shield ##########
+CHARACTER ART ORDER: Crusader (크루세이더)   file code: shield
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_shield_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_shield_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Crusader from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short blond hair, calm golden eyes.
+Outfit: white and gold plate armor, white tabard with a red cross on the chest, white cape with gold edge.
+Weapon: a large white kite shield with a gold rim and a red cross in the left hand, a one-handed sword in the right hand.
+No pet, no mount, no companion.
+Color theme: white, gold and a little red.
+His basic attack: push the shield forward and thrust the sword.
+His skill motion: hold up the shield, a golden holy light.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (push the shield forward and thrust the sword: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (hold up the shield, a golden holy light: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 07 ##########
+
+
+########## ORDER 08 — rider ##########
+CHARACTER ART ORDER: Dragon Knight (드래곤 나이트)   file code: rider
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_rider_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_rider_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Dragon Knight from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short red hair, brave orange eyes.
+Outfit: silver and navy blue armor, navy cape.
+Weapon: a long silver lance with a small navy pennant.
+Always with him: he RIDES a small red dragon the size of a pony (folded wings, short yellow horns, brown saddle) in every image and every cell.
+Color theme: silver, navy blue and dragon red.
+His basic attack: charge forward together with the dragon and thrust the lance.
+His skill motion: the dragon breathes a small flame.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, dragon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The dragon is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (charge forward together with the dragon and thrust the lance: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the dragon breathes a small flame: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 08 ##########
+
+
+########## ORDER 09 — trapper ##########
+CHARACTER ART ORDER: Hunter (헌터)   file code: trapper
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_trapper_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_trapper_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Hunter from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: shaggy brown hair, sharp hazel eyes, a small feather in the hair.
+Outfit: brown fur collar cape, green tunic, leather bracers, brown pants, boots, a small metal trap hanging on the belt.
+Weapon: a wooden recurve bow, a quiver on the back.
+Always with him: a white and brown falcon perched on his left shoulder (always on him).
+Color theme: green and brown.
+His basic attack: shoot the bow.
+His skill motion: the falcon spreads its wings and dives a little forward.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, falcon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The falcon is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (shoot the bow: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the falcon spreads its wings and dives a little forward: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 09 ##########
+
+
+########## ORDER 10 — bowman ##########
+CHARACTER ART ORDER: Sniper (스나이퍼)   file code: bowman
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_bowman_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_bowman_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Sniper from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short gray hair, a green monocle scope over the right eye.
+Outfit: dark green long hooded cloak, dark leather armor, arm guard, dark pants, boots.
+Weapon: a tall longbow almost as tall as him.
+No pet, no mount, no companion.
+Color theme: dark green and dark brown.
+His basic attack: kneel and shoot the longbow.
+His skill motion: aim carefully, the scope lens glints.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (kneel and shoot the longbow: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (aim carefully, the scope lens glints: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 10 ##########
+
+
+########## ORDER 11 — dagger ##########
+CHARACTER ART ORDER: Assassin (어쌔신)   file code: dagger
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_dagger_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_dagger_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Assassin from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: spiky silver-white hair, narrow red eyes.
+Outfit: long purple scarf trailing behind, tight black-and-purple bodysuit with belts, black boots.
+Weapon: katars on BOTH hands (triangular punch blades sticking out from the back of each fist).
+No pet, no mount, no companion.
+Color theme: purple and black.
+His basic attack: X-shaped slash with both katars.
+His skill motion: cross both katars, purple afterimage.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (X-shaped slash with both katars: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (cross both katars, purple afterimage: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 11 ##########
+
+
+########## ORDER 12 — shuriken ##########
+CHARACTER ART ORDER: Ninja (닌자)   file code: shuriken
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_shuriken_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_shuriken_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Ninja from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: black hair tied back, dark eyes, red headband with long tails.
+Outfit: dark navy ninja outfit, black face mask over the mouth, arm wraps, tabi boots.
+Weapon: a large four-pointed steel shuriken.
+No pet, no mount, no companion.
+Color theme: dark navy, black and red.
+His basic attack: throw the shuriken (it stays inside the cell).
+His skill motion: hand seal pose, a small smoke puff.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (throw the shuriken (it stays inside the cell): wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (hand seal pose, a small smoke puff: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 12 ##########
+
+
+########## ORDER 13 — dancer ##########
+CHARACTER ART ORDER: Dancer (댄서)   file code: dancer
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_dancer_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_dancer_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Dancer from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: FEMALE. She is a young woman in EVERY image and EVERY cell.
+Hair and face: long pink hair in a high ponytail, big pink eyes, a sheer pink veil.
+Outfit: flashy pink and gold dancer outfit (crop top and long flowing skirt with slits), gold bangles and anklets.
+Weapon: a pink folding fan with gold patterns and a long pink ribbon.
+No pet, no mount, no companion.
+Color theme: pink and gold.
+Her basic attack: spin and swing the fan.
+Her skill motion: dance spin, the ribbon swirls with sparkles.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure green (#00FF00) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see her from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (spin and swing the fan: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (dance spin, the ribbon swirls with sparkles: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure green (#00FF00) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 13 ##########
+
+
+########## ORDER 14 — priest ##########
+CHARACTER ART ORDER: Priest (프리스트)   file code: priest
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_priest_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_priest_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Priest from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: neat black hair, kind dark eyes.
+Outfit: long white robe with gold trims, blue stole with gold crosses, white cap.
+Weapon: a thick holy book in the left hand and a gold mace in the right hand.
+No pet, no mount, no companion.
+Color theme: white, gold and blue.
+His basic attack: strike down with the mace.
+His skill motion: open the holy book, white light rises.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (strike down with the mace: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (open the holy book, white light rises: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 14 ##########
+
+
+########## ORDER 15 — monk ##########
+CHARACTER ART ORDER: Monk (몽크)   file code: monk
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_monk_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_monk_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Monk from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short black hair with a small topknot, strong eyes.
+Outfit: sleeveless brown and orange martial arts uniform, black belt, red prayer beads around the neck, metal knuckle gloves.
+Weapon: NO weapon: bare fists with knuckle gloves only (never a sword).
+No pet, no mount, no companion.
+Color theme: brown and orange.
+His basic attack: rapid straight punches.
+His skill motion: fighting stance, glowing chi orbs around the fists.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (rapid straight punches: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (fighting stance, glowing chi orbs around the fists: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 15 ##########
+
+
+########## ORDER 16 — wizard ##########
+CHARACTER ART ORDER: Wizard (위자드)   file code: wizard
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_wizard_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_wizard_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Wizard from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: long silver hair, purple eyes.
+Outfit: tall dark indigo hat, long indigo robe with star patterns and a high collar, spellbook on the belt.
+Weapon: a big staff with a large red jewel on top.
+No pet, no mount, no companion.
+Color theme: indigo, silver and red.
+His basic attack: swing the staff.
+His skill motion: raise the staff high, the jewel blazes.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (swing the staff: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (raise the staff high, the jewel blazes: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 16 ##########
+
+
+########## ORDER 17 — elementalist ##########
+CHARACTER ART ORDER: Sorcerer (소서러)   file code: elementalist
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_elementalist_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_elementalist_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Sorcerer from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short teal hair, teal eyes.
+Outfit: short indigo cape, light indigo robe with elemental symbols.
+Weapon: a short silver rod.
+Always with him: four small glowing orbs floating close around him: fire red, water blue, wind green, earth brown.
+Color theme: indigo and teal.
+His basic attack: point forward and shoot one orb.
+His skill motion: the four orbs spin around him.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, four orbs), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The four orbs is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (point forward and shoot one orb: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the four orbs spin around him: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 17 ##########
+
+
+########## ORDER 18 — t3_greatsword ##########
+CHARACTER ART ORDER: Lord Knight (로드 나이트)   file code: t3_greatsword
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_greatsword_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_greatsword_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Lord Knight from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: swept-back dark navy hair, fierce blue eyes.
+Outfit: black plate armor with gold ornaments, long red cape, gold-trimmed gauntlets.
+Weapon: a huge greatsword with red-orange flame patterns on the blade.
+No pet, no mount, no companion.
+Color theme: black, gold and red.
+His basic attack: big sweeping greatsword slash with a little flame.
+His skill motion: the blade bursts into flame.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (big sweeping greatsword slash with a little flame: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the blade bursts into flame: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 18 ##########
+
+
+########## ORDER 19 — t3_shield ##########
+CHARACTER ART ORDER: Paladin (팔라딘)   file code: t3_shield
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_shield_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_shield_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Paladin from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short blond hair, shining golden eyes.
+Outfit: shining platinum plate armor, helmet with silver wings on the sides (face visible), white cape.
+Weapon: a huge rectangular tower shield (half his height) and a holy sword.
+No pet, no mount, no companion.
+Color theme: platinum white and gold.
+His basic attack: bash forward with the tower shield and thrust.
+His skill motion: raise the shield, a big golden cross of light.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (bash forward with the tower shield and thrust: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (raise the shield, a big golden cross of light: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 19 ##########
+
+
+########## ORDER 20 — t3_rider ##########
+CHARACTER ART ORDER: Rune Knight (룬 나이트)   file code: t3_rider
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_rider_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_rider_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Rune Knight from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: dark blue hair, cyan eyes.
+Outfit: deep blue armor covered with glowing cyan rune letters, dark cape.
+Weapon: a rune lance glowing cyan.
+Always with him: he RIDES a small dark blue dragon the size of a pony in every image and every cell.
+Color theme: deep blue and glowing cyan.
+His basic attack: charge with the dragon and thrust the rune lance.
+His skill motion: runes glow and float around him.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, dragon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The dragon is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (charge with the dragon and thrust the rune lance: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (runes glow and float around him: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 20 ##########
+
+
+########## ORDER 21 — t3_trapper ##########
+CHARACTER ART ORDER: Ranger (레인저)   file code: t3_trapper
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_trapper_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_trapper_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Ranger from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: brown hair, sharp green eyes.
+Outfit: green and brown camouflage cloak with leaves, leather armor, boots.
+Weapon: a wooden composite bow.
+Always with him: a gray wolf companion standing beside him (always next to him).
+Color theme: forest green, brown and gray.
+His basic attack: shoot the bow while the wolf leaps forward a little.
+His skill motion: the wolf howls.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, wolf), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The wolf is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (shoot the bow while the wolf leaps forward a little: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the wolf howls: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 21 ##########
+
+
+########## ORDER 22 — t3_bowman ##########
+CHARACTER ART ORDER: Wind Hawk (윈드 호크)   file code: t3_bowman
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_bowman_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_bowman_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Wind Hawk from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: silver-white hair with small feathers, light green eyes.
+Outfit: white and green outfit, feather ornaments on the shoulders, short cape.
+Weapon: a silver bow with wind swirling around it.
+No pet, no mount, no companion.
+Color theme: white, silver and light green.
+His basic attack: draw and shoot the silver bow with a small wind swirl.
+His skill motion: green wind spirals around the bow.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (draw and shoot the silver bow with a small wind swirl: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (green wind spirals around the bow: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 22 ##########
+
+
+########## ORDER 23 — t3_dagger ##########
+CHARACTER ART ORDER: Guillotine Cross (길로틴 크로스)   file code: t3_dagger
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_dagger_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_dagger_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Guillotine Cross from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: silver hair, a black mask with glowing red eyes over the face.
+Outfit: dark purple and black tight suit, torn black scarf, green poison accents.
+Weapon: huge katars on both hands.
+No pet, no mount, no companion.
+Color theme: black, dark purple and poison green.
+His basic attack: fast X-shaped slash with both huge katars.
+His skill motion: green poison drips from the katars.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (fast X-shaped slash with both huge katars: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (green poison drips from the katars: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 23 ##########
+
+
+########## ORDER 24 — t3_shuriken ##########
+CHARACTER ART ORDER: Oboro (오보로)   file code: t3_shuriken
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_shuriken_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_shuriken_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Oboro from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: black hair, a white fox mask worn on the face.
+Outfit: black and white ninja outfit, long white scarf.
+Weapon: shurikens burning with blue flames.
+No pet, no mount, no companion.
+Color theme: black, white and blue flame.
+His basic attack: throw a blue-flame shuriken (it stays inside the cell).
+His skill motion: blue fox fire floats around him.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (throw a blue-flame shuriken (it stays inside the cell): wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (blue fox fire floats around him: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 24 ##########
+
+
+########## ORDER 25 — t3_dancer ##########
+CHARACTER ART ORDER: Wanderer (원더러)   file code: t3_dancer
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_dancer_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_dancer_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Wanderer from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: FEMALE. She is a young woman in EVERY image and EVERY cell.
+Hair and face: long pink-gold hair with a flower crown, pink eyes.
+Outfit: green wandering bard cape, pink and gold dancer outfit, flower ornaments.
+Weapon: a whip decorated with small flowers.
+No pet, no mount, no companion.
+Color theme: pink, gold and green.
+Her basic attack: swing the whip in a graceful spin.
+Her skill motion: flower petals swirl around her.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure green (#00FF00) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see her from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (swing the whip in a graceful spin: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (flower petals swirl around her: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure green (#00FF00) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 25 ##########
+
+
+########## ORDER 26 — t3_priest ##########
+CHARACTER ART ORDER: Arch Bishop (아크 비숍)   file code: t3_priest
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_priest_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_priest_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Arch Bishop from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: short white hair, calm gold eyes.
+Outfit: tall white and gold bishop mitre, layered white and gold robes, a ring of light (halo) behind the head.
+Weapon: a large golden staff with a ring on top.
+No pet, no mount, no companion.
+Color theme: white and gold.
+His basic attack: strike down with the golden staff.
+His skill motion: raise the staff, the halo shines brightly.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (strike down with the golden staff: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (raise the staff, the halo shines brightly: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 26 ##########
+
+
+########## ORDER 27 — t3_monk ##########
+CHARACTER ART ORDER: Sura (수라)   file code: t3_monk
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_monk_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_monk_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Sura from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: black hair with a topknot, fierce eyes.
+Outfit: shirtless muscular body, red-orange wide pants, black sash, giant prayer beads over one shoulder, bandaged fists.
+Weapon: NO weapon: bare bandaged fists only.
+Always with him: a faint red aura around the body.
+Color theme: red, orange and black.
+His basic attack: powerful straight punch with a red aura.
+His skill motion: red aura flares up.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, red aura), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The red aura is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (powerful straight punch with a red aura: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (red aura flares up: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 27 ##########
+
+
+########## ORDER 28 — t3_wizard ##########
+CHARACTER ART ORDER: Warlock (워록)   file code: t3_wizard
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_wizard_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_wizard_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Warlock from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: black hair, glowing red eyes.
+Outfit: dark crimson robe with black trim, high collar.
+Weapon: a staff topped with a skull.
+Always with him: a dark spellbook floating next to him.
+Color theme: dark crimson and black.
+His basic attack: swing the skull staff.
+His skill motion: the floating spellbook opens and glows red.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, floating spellbook), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The floating spellbook is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (swing the skull staff: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the floating spellbook opens and glows red: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 28 ##########
+
+
+########## ORDER 29 — t3_elementalist ##########
+CHARACTER ART ORDER: Elemental Master (엘리멘탈 마스터)   file code: t3_elementalist
+Read this whole file, then make TWO images of the SAME character.
+  IMAGE 1 = character illustration   -> I will save it as char_t3_elementalist_illust.png
+  IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_elementalist_back.png
+Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
+
+==================== THE CHARACTER (identical in both images) ====================
+Job: Elemental Master from a fantasy MMORPG in the style of Ragnarok Online.
+Gender: MALE. He is a boy / young man in EVERY image and EVERY cell. Not a girl, not feminine, no skirt, no long eyelashes.
+Hair and face: teal hair, glowing teal eyes.
+Outfit: indigo and teal robe with elemental symbols, short cape.
+Weapon: a silver rod.
+Always with him: four tiny spirit companions close around him: a tiny fire bird, a water droplet spirit, a wind fairy, a stone turtle.
+Color theme: indigo and teal.
+His basic attack: point forward while the spirits rush ahead a little.
+His skill motion: the four spirits circle him.
+
+==================== IMAGE 1: ILLUSTRATION ====================
+- Style: official Ragnarok Online job artwork style (Korean fantasy manhwa illustration): clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. NOT pixel art, NOT 3D, NOT photo.
+- Full body from head to toes, confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+- Portrait 3:4 image. Leave empty space on all four sides: head, feet, weapon tips and cape must NOT touch the image edges.
+- Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no shadow, no gradient, no checkerboard.
+- Only this one character. No text, no name, no logo, no signature, no frame.
+
+==================== IMAGE 2: BATTLE SPRITE SHEET ====================
+- Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon, four spirits), now as a pixel art game sprite.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
+- View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
+- Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
+- One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapon, cape, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- The four spirits is in every cell and must fit inside the cell too. Draw everything smaller if needed.
+- Cells marked (empty) stay completely empty: only background color.
+
+  Row 1: idle 1      | idle 2      | idle 3      | idle 4        (holding the weapon ready, breathing)
+  Row 2: attack 1    | attack 2    | attack 3    | attack 4      (point forward while the spirits rush ahead a little: wind-up, swing, hit, return)
+  Row 3: skill 1     | skill 2     | skill 3     | skill 4       (the four spirits circle him: gather, charge, release, return)
+  Row 4: hit 1       | hit 2       | (empty)     | (empty)       (knocked back, recover)
+  Row 5: guard 1     | guard 2     | (empty)     | (empty)       (block, hold the guard)
+  Row 6: potion 1    | potion 2    | (empty)     | (empty)       (take out a red potion, drink it)
+  Row 7: down 1      | down 2      | down 3      | (empty)       (stagger, kneel, lying down inside the cell)
+  Row 8: victory 1   | victory 2   | victory 3   | (empty)       (raise the weapon, hold, look back over the shoulder)
+
+- Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells.
+- The table above is only for you. Do NOT write any words, numbers, titles, file names or labels in the image. No grid lines, no borders.
+
+==================== NEVER ====================
+- Never change the character between cells or between the two images (gender, hair, outfit, colors, weapon must stay the same).
+- Never use a checkerboard or gray background. Never draw text.
+- Never let anything cross into the next cell.
+########## END OF ORDER 29 ##########
