@@ -40,6 +40,143 @@
    □ 프레임 수가 줄마다 맞고, 남는 칸은 완전히 투명한가
    □ 파일 이름이 목록 그대로인가 (char_warrior_back.png 처럼)
 
+
+7. 캐릭터·직업별 디자인 (생김새·옷·무기·공격 동작 — 이대로 그릴 것)
+   공통: 2.5~3등신 SD, 큰 머리·큰 눈, 라그나로크 직업 옷·무기 + 메이플식 밝은 채색, 진한 1px 외곽선, 빛은 왼쪽 위.
+   공격 동작은 직업 무기에 맞게(아래 "공격"). 직업마다 색 테마를 지켜서 한눈에 구분되게.
+   ※ 무기·망토·정령·탈것까지 전부 2번 규칙(자기 칸 안, 가장자리 10px 여백) 안에. 드래곤 나이트·엘리멘탈 마스터처럼 큰 캐릭터는 몸을 작게 그려서 맞출 것.
+
+----------------------------------------
+7-1. 노비스 (남캐) — 부품 겹치기 방식 유지
+----------------------------------------
+  남캐 노비스는 플레이어가 피부·머리색을 고르고, 무기 단계에 따라 무기 그림이 바뀝니다.
+  그래서 통짜가 아니라 "부품 시트"로 받아야 합니다. 모든 부품 시트는 위 4번과 칸 배치·프레임이 완전히 같아야 하고,
+  겹쳤을 때 딱 맞아야 합니다.
+
+  (a) 몸 시트: char_novice_body_front.png / char_novice_body_back.png
+      - 대머리 몸 + 옷(낡은 면 셔츠·반바지·천 신발). 머리카락 없음.
+      - 밝은 피부 1장만 (다른 피부색은 게임에서 바꿈)
+      - 무기 쥐는 손은 비워 두거나 주먹만 (무기는 따로 겹침)
+  (b) 머리카락 시트: char_novice_hair_front.png / _back.png
+      - 짧고 삐죽한 소년 머리 1종, 갈색 1장만 (다른 머리색은 게임에서 바꿈)
+  (c) 무기 시트: char_novice_weapon<0~6>_front.png / _back.png  (7단계)
+      - 무기만 그린 투명 레이어. 손 위치에 정확히 맞게. 동작마다 무기 각도가 손을 따라감.
+      - 0 우든 클럽(나무 몽둥이) / 1 클럽(두꺼운 몽둥이) / 2 스파이크 클럽(못 박힌 몽둥이) / 3 메이스(쇠 머리) /
+        4 스매셔(큰 쇠망치) / 5 플레일(사슬 철퇴) / 6 모닝스타(가시 쇠공 철퇴)
+  (d) 주먹(무기 쥔 손) 시트: 밝은 피부 1장, 무기 위에 덮이는 손가락 부분
+  ★ 이번 의뢰는 '줄인 안 20장'으로 확정: 몸 1(밝은 피부) · 머리 1(갈색) · 무기 7 · 주먹 1(밝은 피부), 각각 앞·뒤.
+     피부·머리 색별 시트는 그리지 말 것(색은 게임에서 바꿈). 파일 이름은 아래 7-4 목록의 '줄인 안' 그대로.
+
+----------------------------------------
+7-2. 여캐 노비스 — 통짜 시트 1종
+----------------------------------------
+  char_novice_f_front.png / char_novice_f_back.png
+  - 갈색 단발 또는 포니테일, 수수한 면 원피스 + 앞치마, 천 신발, 작은 나무 몽둥이.
+  - 지금 그림은 너무 단순해서 다시 그리는 대상. 남캐 노비스와 키·비율을 맞추기.
+
+----------------------------------------
+7-3. 직업 29종 + 여캐 시프 = 30종 — 통짜 시트 (앞 1장 + 뒤 1장씩)
+----------------------------------------
+  파일: char_<코드>_front.png / char_<코드>_back.png
+  모든 직업 새로 그림. ★ = 3차 직업 / ◎ = 예전 그림이 잘못돼 특히 주의(설명대로) / ○ = 1·2차 기본
+
+  [소드맨 계열]  색 테마: 은색 갑옷 + 남색
+  ○ warrior      소드맨        가죽+쇠 반갑옷, 한손검, 작은 버클러. 공격: 검 내려베기
+  ◎ greatsword   나이트        두꺼운 판금 갑옷, 남색 망토, 양손 대검(등보다 큼). 공격: 대검 크게 휘둘러 베기
+  ○ shield       크루세이더    흰색·금색 성기사 갑옷, 십자 문양 큰 방패 + 한손검. 공격: 방패 내밀고 찌르기
+  ◎ rider        드래곤 나이트 작은 용(말 크기)에 탄 기사, 긴 창. 지금 그림엔 용이 없음. 공격: 용과 함께 돌진 찌르기
+                               ※ 용까지 128px 칸 안(가장자리 10px 여백)에 들어가게 작게(말 크기). 칸 크기는 바꾸지 말 것
+  ★ t3_greatsword 로드 나이트  나이트 강화판: 금장식 검은 판금, 붉은 망토, 불꽃 무늬 대검
+  ★ t3_shield     팔라딘       크루세이더 강화판: 빛나는 백금 갑옷, 날개 장식 투구, 거대한 탑 실드
+  ★ t3_rider      룬 나이트    룬 문자가 빛나는 푸른 갑옷, 용 탑승, 룬 창
+
+  [아처 계열]  색 테마: 초록·갈색
+  ○ archer       아처          초록 후드 망토, 가죽 조끼, 짧은 활, 화살통. 공격: 활 당겨 쏘기
+  ◎ trapper      헌터          털 망토, 매(어깨 위), 석궁 또는 활 + 허리에 덫. 공격: 활 쏘기 + 매 날리기(선택)
+  ◎ bowman       스나이퍼      긴 장궁, 한쪽 눈 조준경, 어두운 초록 망토. 공격: 무릎 꿇고 장궁 쏘기
+  ★ t3_trapper    레인저       헌터 강화판: 늑대(워그) 동반, 위장 망토
+  ★ t3_bowman     윈드 호크    스나이퍼 강화판: 바람이 감도는 은빛 활, 깃털 장식
+
+  [시프 계열]  색 테마: 보라·검정
+  ◎ thief        시프          검은 두건·스카프로 입 가림, 가벼운 가죽옷, 단검 하나. 공격: 단검 빠르게 찌르기
+  ◎ dagger       어쌔신        양손 카타르(손등 칼) 이도류, 보라 스카프, 몸에 붙는 옷. 공격: 양손 X자 베기
+  ◎ shuriken     닌자          닌자복, 머리띠, 큰 표창. 공격: 표창 던지기
+  ★ t3_dagger     길로틴 크로스 어쌔신 강화판: 붉은 눈 가면, 거대한 카타르, 독 이펙트용 녹색 포인트
+  ★ t3_shuriken   오보로       닌자 강화판: 흰 여우 가면, 푸른 불꽃 표창
+  (여캐 전용)
+  ◎ thief_f      시프(여)      짧은 머리, 검은 두건, 가벼운 가죽옷, 단검. 남캐 시프와 같은 직업 느낌
+  ◎ dancer       댄서          화려한 무희 옷(분홍·금), 베일, 부채 또는 리본. 지금 뒷모습이 남캐+칼로 잘못 그려짐. 공격: 회전하며 부채 휘두르기
+  ★ t3_dancer     원더러       댄서 강화판: 방랑 시인풍 망토 + 하프 또는 채찍, 꽃 장식
+
+  [어콜라이트 계열]  색 테마: 흰색·하늘색·금
+  ○ healer       어콜라이트    흰 사제복, 하늘색 숄, 작은 지팡이(십자). 공격: 지팡이로 내려치기 / 스킬: 두 손 모아 기도
+  ◎ priest       프리스트      긴 흰 사제복, 금 장식, 성경 또는 메이스. 공격: 메이스 내려치기
+  ◎ monk         몽크          무도복, 너클(주먹 장갑), 염주. 무기 없음(맨주먹). 지금 뒷모습이 남캐+칼로 잘못 그려짐. 공격: 정권 지르기 연타
+  ★ t3_priest     아크 비숍    프리스트 강화판: 높은 주교관, 금빛 대형 지팡이, 빛 고리
+  ★ t3_monk       수라         몽크 강화판: 상의 없이 근육, 붉은 기운, 큰 염주
+
+  [매지션 계열]  색 테마: 남보라·별무늬
+  ○ mage         매지션        뾰족 마법사 모자, 긴 로브, 짧은 지팡이. 공격: 지팡이 휘두르기 / 스킬: 지팡이 들고 주문
+  ○ wizard       위자드        더 긴 로브, 보석 박힌 큰 지팡이, 마도서. 스킬: 지팡이 높이 들기
+  ○ elementalist 소서러        불·물·바람·땅 4색 구슬이 주위를 도는 마법사(구슬은 그림에 포함), 짧은 망토
+  ★ t3_wizard     워록         위자드 강화판: 검붉은 로브, 해골 장식 지팡이, 떠다니는 마도서
+  ★ t3_elementalist 엘리멘탈 마스터 소서러 강화판: 정령 4마리(작은 불새·물방울·바람 요정·돌거북)가 함께
+
+  합계: 직업 시트 30종 × (앞 + 뒤) = 60장
+  우선순위: ① 뒷모습(전투)부터 ② 지금 잘못된 것(◎) ③ 3차(★)
+
+----------------------------------------
+7-4. 시트 파일 목록 (이 이름 그대로) — 자세(동작)가 바뀌는 시트
+----------------------------------------
+  앞모습 시트 = 5줄(대기·걷기·기쁨·전직 포즈·온천), 뒷모습 시트 = 8줄(대기·공격·스킬·맞음·방어·아이템·쓰러짐·승리)
+
+  [1차 직업]
+    char_warrior_front.png  /  char_warrior_back.png   — 소드맨
+    char_archer_front.png  /  char_archer_back.png   — 아처
+    char_thief_front.png  /  char_thief_back.png   — 시프
+    char_healer_front.png  /  char_healer_back.png   — 어콜라이트
+    char_mage_front.png  /  char_mage_back.png   — 매지션
+
+  [2차 직업]
+    char_greatsword_front.png  /  char_greatsword_back.png   — 나이트
+    char_shield_front.png  /  char_shield_back.png   — 크루세이더
+    char_rider_front.png  /  char_rider_back.png   — 드래곤 나이트
+    char_trapper_front.png  /  char_trapper_back.png   — 헌터
+    char_bowman_front.png  /  char_bowman_back.png   — 스나이퍼
+    char_dagger_front.png  /  char_dagger_back.png   — 어쌔신
+    char_shuriken_front.png  /  char_shuriken_back.png   — 닌자
+    char_dancer_front.png  /  char_dancer_back.png   — 댄서(여)
+    char_priest_front.png  /  char_priest_back.png   — 프리스트
+    char_monk_front.png  /  char_monk_back.png   — 몽크
+    char_wizard_front.png  /  char_wizard_back.png   — 위자드
+    char_elementalist_front.png  /  char_elementalist_back.png   — 소서러
+
+  [3차 직업]
+    char_t3_greatsword_front.png  /  char_t3_greatsword_back.png   — 로드 나이트
+    char_t3_shield_front.png  /  char_t3_shield_back.png   — 팔라딘
+    char_t3_rider_front.png  /  char_t3_rider_back.png   — 룬 나이트
+    char_t3_trapper_front.png  /  char_t3_trapper_back.png   — 레인저
+    char_t3_bowman_front.png  /  char_t3_bowman_back.png   — 윈드 호크
+    char_t3_dagger_front.png  /  char_t3_dagger_back.png   — 길로틴 크로스
+    char_t3_shuriken_front.png  /  char_t3_shuriken_back.png   — 오보로
+    char_t3_dancer_front.png  /  char_t3_dancer_back.png   — 원더러(여)
+    char_t3_priest_front.png  /  char_t3_priest_back.png   — 아크 비숍
+    char_t3_monk_front.png  /  char_t3_monk_back.png   — 수라
+    char_t3_wizard_front.png  /  char_t3_wizard_back.png   — 워록
+    char_t3_elementalist_front.png  /  char_t3_elementalist_back.png   — 엘리멘탈 마스터
+
+  [여캐]
+    char_thief_f_front.png  /  char_thief_f_back.png   — 시프(여)
+
+  [노비스 — 여캐] char_novice_f_front.png / char_novice_f_back.png
+
+  [노비스 — 남캐 부품 20장 (색은 게임에서 바꿈)]
+    char_novice_body_front.png / char_novice_body_back.png          — 대머리 몸(밝은 피부) + 옷
+    char_novice_hair_front.png / char_novice_hair_back.png          — 머리카락(갈색 기준)
+    char_novice_weapon0_front.png ~ char_novice_weapon6_front.png   — 무기 7단계 (앞)
+    char_novice_weapon0_back.png  ~ char_novice_weapon6_back.png    — 무기 7단계 (뒤)
+    char_novice_fist_front.png / char_novice_fist_back.png          — 무기 쥔 주먹
+
 (────── 여기까지 복사 ──────)
 
 참고(게임 쪽): 받으면 tools/fix_sheet.py가 칸 밖으로 넘친 그림을 다시 정렬하지만, 원본에서 이미 잘린 부분은 되살릴 수 없음 → 그 프레임은 같은 동작의 다른 컷으로 바뀜. 그래서 2번 규칙이 가장 중요.
