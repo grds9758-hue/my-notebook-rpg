@@ -1,0 +1,133 @@
+제미나이 나노바나나(Gemini 이미지 생성)로 캐릭터 스프라이트 시트 만들기
+작성 2026-10-14 · 이대로 복사해서 쓰면 됩니다.
+
+────────────────────────────────────────
+[진행 순서] — 캐릭터(직업) 하나에 이미지 3장
+────────────────────────────────────────
+  ① 새 채팅을 열고, 기준 그림 02_몬스터_확정시안.png(도트 화풍)를 첨부한 뒤 [A. 처음 한 번 붙여 넣기]를 보냄
+  ② [B. 뒷모습 위쪽] 명령 → 이미지 1장 (대기·공격·스킬·맞음)
+  ③ 방금 나온 이미지를 그대로 둔 채 [C. 뒷모습 아래쪽] 명령 → 이미지 1장 (방어·아이템·쓰러짐·승리)
+  ④ [D. 앞모습] 명령 → 이미지 1장 (대기·걷기·기쁨·전직 포즈·온천)
+  ⑤ 저장할 때 파일 이름을 아래처럼 바꿔서 보내 주세요 (그것만 지키면 나머지는 제가 맞춥니다)
+       char_<코드>_back_a.png   (② 뒷모습 위쪽)
+       char_<코드>_back_b.png   (③ 뒷모습 아래쪽)
+       char_<코드>_front.png    (④ 앞모습)
+     예) 소드맨: char_warrior_back_a.png / char_warrior_back_b.png / char_warrior_front.png
+  ⑥ 다음 직업은 새 채팅에서 ①부터. (한 채팅에 여러 직업을 섞으면 생김새가 섞입니다)
+
+  ※ 결과가 이상하면(칸이 4개가 아님, 캐릭터가 바뀜, 배경이 분홍이 아님) 같은 채팅에서 "다시, 규칙 지켜서"라고만 보내고 다시 받기.
+  ※ 받는 쪽에서 자동으로 하는 것: 분홍 배경 지우기, 위·아래 이미지 붙이기, 칸 정렬·바닥선 맞추기, 크기 맞추기.
+     그래서 이미지 크기는 신경 쓰지 않아도 됩니다. 대신 "칸 수·순서·분홍 배경·자기 칸 안에만"은 꼭 지켜야 합니다.
+
+────────────────────────────────────────
+[A. 처음 한 번 붙여 넣기]  (기준 그림 02번 첨부와 함께)
+────────────────────────────────────────
+You are making game sprite sheets for a 2D fantasy RPG. Follow these rules for every image in this chat.
+
+STYLE
+- Classic Ragnarok Online style 2D pixel art sprite, same pixel density as the attached reference.
+- Chibi proportions (2.5 to 3 heads tall), big head and big eyes, cute.
+- Clean dark 1-pixel outline, light from the top-left, 2-3 shade cel shading, bright MapleStory-like colors.
+- Crisp pixels only. No blur, no anti-aliasing glow, no painterly or 3D rendering, no realistic style.
+
+SHEET LAYOUT (very important)
+- The image is ONE sprite sheet: a grid of equal square cells, 4 columns wide.
+- One character pose per cell. The same character, same outfit, same size, same colors in every cell.
+- Every pose must fit COMPLETELY inside its own cell with clear empty space on all four sides.
+  Nothing may touch or cross into a neighboring cell: weapons, capes, hair, effects, slashes, all inside.
+  If a weapon swing is big, draw the character smaller so everything still fits.
+- Same scale and same foot line in every cell: feet always on the same horizontal line near the bottom of the cell,
+  body centered horizontally in the cell. Only the weapon or arms move; the body stays in place.
+- Fill cells left to right. If a row needs fewer than 4 poses, leave the remaining cells completely empty.
+- No grid lines, no borders, no frame numbers, no labels, no text anywhere.
+
+BACKGROUND
+- Solid flat pure magenta background (#FF00FF) everywhere, including empty cells.
+- No gradient, no floor, no ground shadow, no glow on the background. Do not use magenta on the character.
+
+Reply "OK" and wait for my next instruction.
+
+────────────────────────────────────────
+[B. 뒷모습 위쪽 — 4×4칸, 정사각형]   (<직업 설명>에 아래 목록의 영어 한 줄을 넣기)
+────────────────────────────────────────
+Make the BACK VIEW sheet, part 1. Square image, 4 columns x 4 rows (16 equal cells).
+Character: <직업 설명>
+View: seen from behind at a 3/4 angle, facing toward the upper right (toward the enemy). We see the back and the back of the head, the face is barely visible.
+Row 1 (4 cells): battle idle, holding the weapon forward, breathing.
+Row 2 (4 cells): basic attack: 1 wind-up, 2 swing, 3 hit (most extended), 4 return.
+Row 3 (4 cells): skill cast: 1 gather power, 2 charged pose (only hands or weapon glow a little), 3 release, 4 return.
+Row 4 (2 cells, then 2 empty cells): hit: 1 body knocked back, 2 recover.
+Follow all rules: each pose fully inside its own cell with margin, same foot line, magenta background, no text.
+
+────────────────────────────────────────
+[C. 뒷모습 아래쪽 — 4×4칸, 정사각형]   (B 바로 다음, 같은 채팅에서)
+────────────────────────────────────────
+Same character, same back view, same size and same foot line as the previous image.
+Make the BACK VIEW sheet, part 2. Square image, 4 columns x 4 rows (16 equal cells).
+Row 1 (2 cells, then 2 empty): guard: 1 block with weapon or arm or shield, 2 hold the guard.
+Row 2 (2 cells, then 2 empty): use item: 1 take out a potion bottle, 2 drink it.
+Row 3 (3 cells, then 1 empty): defeated: 1 stagger, 2 kneel, 3 lying face down (keep it inside the cell, draw smaller if needed).
+Row 4 (3 cells, then 1 empty): victory: 1 raise weapon, 2 hold the pose, 3 glance back over the shoulder.
+Follow all rules: each pose fully inside its own cell with margin, same foot line, magenta background, no text.
+
+────────────────────────────────────────
+[D. 앞모습 — 4×5칸, 세로 4:5]   (같은 채팅에서)
+────────────────────────────────────────
+Same character, same size, same outfit. Now the FRONT VIEW sheet. Portrait image 4:5, 4 columns x 5 rows (20 equal cells).
+View: front 3/4 view, slightly turned to the right, weapon in the right hand (screen left).
+Row 1 (4 cells): idle, gentle breathing, hair and cape sway slightly.
+Row 2 (4 cells): walking in place.
+Row 3 (3 cells, then 1 empty): cheering: raise fist or weapon happily.
+Row 4 (1 cell, then 3 empty): the coolest heroic pose.
+Row 5 (2 cells, then 2 empty): relaxing in a hot spring: only the upper body above the water line (no water drawn, just cut off cleanly at chest level), a small towel on the head; cell 2 is a stretch.
+Follow all rules: each pose fully inside its own cell with margin, same foot line (for row 5 the chest line), magenta background, no text.
+
+────────────────────────────────────────
+[<직업 설명> 목록] — 코드 · 이름 · B/C/D에 넣을 영어 한 줄
+────────────────────────────────────────
+※ 노비스 남캐 부품(몸·머리·무기)은 겹쳐 써야 해서 나노바나나로는 맞추기 어려움 → 일단 직업 캐릭터부터.
+
+[1차 직업]
+warrior      소드맨       A young swordsman in a leather-and-steel half armor with a navy tunic, a one-handed sword and a small round buckler. Attack: overhead sword slash. Color theme silver and navy.
+archer       아처         A young archer in a green hooded cape and leather vest, short bow, quiver of arrows on the back. Attack: draw and shoot the bow. Color theme green and brown.
+thief        시프         A young thief with a black hood and a scarf covering the mouth, light leather clothes, one dagger. Attack: quick dagger stab. Color theme purple and black.
+healer       어콜라이트   A young acolyte in a white priest robe with a sky-blue shawl and a small cross staff. Attack: strike down with the staff; skill: hands together in prayer. Color theme white, sky blue, gold.
+mage         매지션       A young mage with a pointed wizard hat, long robe and a short wand. Attack: swing the wand; skill: raise the wand and chant. Color theme indigo with star patterns.
+
+[2차 직업]
+greatsword   나이트       A knight in heavy plate armor with a navy cape and a huge two-handed greatsword taller than his back. Attack: big sweeping greatsword slash. Silver and navy.
+shield       크루세이더   A crusader in white and gold holy armor with a large cross-emblem shield and a one-handed sword. Attack: push the shield forward and thrust. White and gold.
+rider        드래곤 나이트 A knight riding a small horse-sized dragon, holding a long lance. Attack: charge forward together with the dragon and thrust. Draw the whole dragon small enough to fit in the cell. Silver, navy, dragon red.
+trapper      헌터         A hunter with a fur cape, a falcon on the shoulder, a bow and a trap on the belt. Attack: shoot the bow (the falcon may fly out). Green and brown.
+bowman       스나이퍼     A sniper with a long longbow, a scope over one eye and a dark green cape. Attack: kneel and shoot the longbow. Dark green.
+dagger       어쌔신       An assassin with katars (blades on the back of both hands), a purple scarf and tight dark clothes. Attack: X-shaped slash with both blades. Purple and black.
+shuriken     닌자         A ninja in a ninja outfit with a headband and a large shuriken. Attack: throw the shuriken. Dark navy and black.
+dancer       댄서(여)     A girl dancer in a flashy dancer outfit in pink and gold with a veil and a fan or ribbon. Attack: spin and swing the fan. Female character. Pink and gold.
+priest       프리스트     A priest in a long white robe with gold trim, holding a holy book and a mace. Attack: strike down with the mace. White and gold.
+monk         몽크         A monk in a martial arts uniform with knuckle gloves and prayer beads, no weapon, bare fists. Attack: rapid straight punches. Brown and orange. (No sword!)
+wizard       위자드       A wizard in a longer robe with a big jeweled staff and a spellbook. Skill: raise the staff high. Indigo and star patterns.
+elementalist 소서러       A sorcerer in a short cape with four small orbs (fire red, water blue, wind green, earth brown) floating around them. Indigo.
+
+[3차 직업]
+t3_greatsword  로드 나이트   An upgraded knight: black plate armor with gold ornaments, a red cape, a greatsword with flame patterns.
+t3_shield      팔라딘        An upgraded crusader: shining platinum armor, a winged helmet, a huge tower shield.
+t3_rider       룬 나이트     A knight in blue armor with glowing rune letters, riding a small dragon, holding a rune lance. Keep the dragon small enough to fit.
+t3_trapper     레인저        An upgraded hunter: camouflage cape, a wolf companion beside them, a bow. Keep the wolf small enough to fit.
+t3_bowman      윈드 호크     An upgraded sniper: a silver bow with wind swirling around it, feather ornaments.
+t3_dagger      길로틴 크로스 An upgraded assassin: a mask with red eyes, huge katars, small green poison accents.
+t3_shuriken    오보로        An upgraded ninja: a white fox mask and blue flame shurikens.
+t3_dancer      원더러(여)    An upgraded dancer girl: a wandering bard style cape, a harp or a whip, flower ornaments. Female.
+t3_priest      아크 비숍     An upgraded priest: a tall bishop mitre, a large golden staff, a halo of light.
+t3_monk        수라          An upgraded monk: shirtless muscular body, red aura, large prayer beads, bare fists.
+t3_wizard      워록          An upgraded wizard: dark crimson robe, a skull-decorated staff, a floating spellbook.
+t3_elementalist 엘리멘탈 마스터 An upgraded sorcerer with four small spirit companions (a tiny fire bird, a water droplet spirit, a wind fairy, a stone turtle) close around them. Keep everything small enough to fit.
+
+[여캐]
+thief_f      시프(여)     A girl thief with short hair, a black hood, light leather clothes and one dagger. Same job feel as the male thief. Female. Purple and black.
+novice_f     여캐 노비스  A beginner girl with short brown hair or a ponytail, a plain cotton dress with an apron, cloth shoes and a small wooden club. Female.
+
+────────────────────────────────────────
+[받는 쪽 메모]
+- 파일: char_<코드>_back_a.png + char_<코드>_back_b.png (게임이 위아래로 붙여 8줄 뒷모습으로 씀), char_<코드>_front.png
+- 분홍(#FF00FF) 배경은 가장자리에서 이어진 부분만 지움(캐릭터 안의 분홍은 보존).
+- tools/fix_sheet.py가 칸 정렬·바닥선·잘림을 정리. 잘린 프레임은 같은 동작의 다른 컷으로 대체.

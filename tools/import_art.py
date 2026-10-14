@@ -183,6 +183,54 @@ def fix_sheet_im(im, kind, rep, base):
     return sheet
 
 
+def stitch_halves(items, rep):
+    """나노바나나 방식: char_<코드>_back_a.png(1~4줄) + _back_b.png(5~8줄) → char_<코드>_back.png 한 장."""
+    halves, rest = {}, []
+    for rel, im in items:
+        m = re.match(r'(char_.+_back)_([ab])$', os.path.splitext(rel.replace('\\', '/').split('/')[-1])[0])
+        if m:
+            halves.setdefault(m.group(1), {})[m.group(2)] = (rel, im)
+        else:
+            rest.append((rel, im))
+    for base, d in halves.items():
+        if set(d) != {'a', 'b'}:
+            rep['bad'].append(f'{base} — 뒷모습 위(_a)·아래(_b) 두 장이 다 있어야 함 (지금: {", ".join(sorted(d))})')
+            continue
+        a = key_bg(d['a'][1]); b = key_bg(d['b'][1])
+        w = 512
+        a = a.resize((w, round(a.size[1] * w / a.size[0])), Image.LANCZOS)
+        b = b.resize((w, round(b.size[1] * w / b.size[0])), Image.LANCZOS)
+        both = Image.new('RGBA', (w, a.size[1] + b.size[1]), (0, 0, 0, 0))
+        both.paste(a, (0, 0)); both.paste(b, (0, a.size[1]))
+        rest.append((base + '.png', both))
+        rep.setdefault('fixed', []).append(f'{base}: 위·아래 두 장을 이어 붙임')
+    return rest
+
+
+def key_bg(im):
+    """단색 배경(나노바나나 분홍 #FF00FF 등)을 가장자리에서 이어진 부분만 투명하게. 이미 투명하면 그대로."""
+    im = im.convert('RGBA')
+    if corners_transparent(im):
+        return im
+    import numpy as np
+    from scipy import ndimage
+    a = np.array(im).astype(np.int16)
+    corners = [a[0, 0, :3], a[0, -1, :3], a[-1, 0, :3], a[-1, -1, :3]]
+    bg = np.median(np.array(corners), axis=0)
+    d = np.abs(a[:, :, :3] - bg).sum(2)
+    near = d < 90
+    lab, n = ndimage.label(near)
+    edge = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
+    mask = np.isin(lab, list(edge)) | (d < 45)  # 가장자리와 이어진 배경 + 그림 틈에 갇힌 거의 같은 색(그림에는 그 색을 안 쓰게 요청함)
+    # 경계 1~2px 번짐(분홍 테두리)도 지움
+    fringe = ndimage.binary_dilation(mask, iterations=2) & (d < 200) & ~mask
+    out = a.copy()
+    out[mask, 3] = 0
+    out[fringe, 3] = (out[fringe, 3] * .35).astype(np.int16)
+    # 남은 분홍기 빼기 (가장자리 픽셀 색에서 배경색 섞임 줄이기)
+    return Image.fromarray(out.clip(0, 255).astype(np.uint8))
+
+
 def keep_main(im):
     """가장 큰 덩어리(아이콘 본체)와 이어지지 않은 조각을 모두 지운다."""
     try:
@@ -303,6 +351,10 @@ def handle(rel, im, names, out, rep):
         m = re.match(r'char_(.+)_(front|back)$', base)
         if not m:
             return bad('캐릭터 시트 이름은 char_<코드>_front.png / _back.png')
+        im = key_bg(im)
+        cw = im.size[0] / 4
+        if cw > 160:  # 나노바나나처럼 크게 온 그림은 칸 128px 기준으로 줄임
+            im = im.resize((512, round(im.size[1] * 512 / im.size[0])), Image.LANCZOS)
         if not m.group(1).startswith('novice_') or m.group(1) == 'novice_f':
             # 통짜 캐릭터 시트는 칸 밖으로 넘친 프레임을 다시 정렬 (노비스 부품은 겹쳐야 해서 그대로)
             im = fix_sheet_im(im, m.group(2), rep, base)
@@ -358,6 +410,7 @@ def main():
         return
     names = known_names()
     out, rep = {}, {'ok': [], 'bad': [], 'unknown': []}
+    items = []
     for a in args:
         if zipfile.is_zipfile(a):
             z = zipfile.ZipFile(a)
@@ -370,13 +423,15 @@ def main():
                 except Exception as ex:
                     rep['bad'].append(f'{info.filename} — 열 수 없음 ({ex})')
                     continue
-                handle(info.filename, im, names, out, rep)
+                items.append((info.filename, im))
         elif os.path.isdir(a):
             for dp, _, fs in os.walk(a):
                 for f in fs:
                     if f.lower().endswith('.png'):
                         p = os.path.join(dp, f)
-                        handle(os.path.relpath(p, a), Image.open(p), names, out, rep)
+                        items.append((os.path.relpath(p, a), Image.open(p)))
+    for rel, im in stitch_halves(items, rep):
+        handle(rel, im, names, out, rep)
     if not dry and out:
         s = open(INDEX, encoding='utf-8').read()
         m = re.search(r'const ART = (\{.*?\}); /\*ART\*/', s, re.S)
