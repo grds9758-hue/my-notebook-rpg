@@ -173,6 +173,24 @@ def drop_neighbor_bits(cell):
     return Image.fromarray(a)
 
 
+def keep_main(im):
+    """가장 큰 덩어리(아이콘 본체)와 이어지지 않은 조각을 모두 지운다."""
+    try:
+        import numpy as np
+        from scipy import ndimage
+    except Exception:
+        return im
+    a = np.array(im.convert('RGBA'))
+    mask = a[:, :, 3] > 10
+    lab, n = ndimage.label(mask, structure=np.ones((3, 3)))
+    if n < 2:
+        return im
+    sizes = ndimage.sum(mask, lab, range(1, n + 1))
+    main = int(np.argmax(sizes)) + 1
+    a[(lab != main) & (lab != 0), 3] = 0
+    return Image.fromarray(a)
+
+
 def edge_touch(im):
     """가장자리 2px 안에 그림이 있는 비율 (아이콘은 8px 여백이라 0이어야 함)."""
     a = im.convert('RGBA').getchannel('A')
@@ -236,13 +254,15 @@ def handle(rel, im, names, out, rep):
         want = 64 if sub in ('ui', 'skill') else 128
         if im.size != (want, want) and not (base == 'fx_victory_frame' and im.size == (256, 32)):
             return bad(f'크기 {im.size[0]}×{im.size[1]} (정해진 크기 {want}×{want}) — 반려')
-        if looks_checker(im):
+        if not corners_transparent(im) and looks_checker(im):  # 그려 넣은 체크무늬는 모서리까지 불투명
             return bad('체크무늬 배경을 그림으로 그림 (진짜 투명이어야 함) — 반려')
         if sub != 'skill' and not corners_transparent(im):
             return bad('모서리가 투명하지 않음 (흰 배경·옆 그림 조각) — 반려')
         if sub != 'skill' and edge_touch(im) > 0.02:
             return bad('그림이 가장자리에 닿음 (잘린 그림·옆 그림 조각, 여백 8px 필요) — 반려')
-        out[key] = to_data_url(fit_icon(im, ICON_PX))
+        if sub == 'skill':  # 스킬 아이콘은 테두리 사각형 한 덩어리 — 바깥에 떨어진 글씨·선 조각은 지움
+            im = keep_main(im)
+        out[key] = to_data_url(fit_icon(im, ICON_PX), lossless=(sub != 'skill'), q=88)  # 스킬은 그림풍이라 손실 압축이 훨씬 작음
     elif top == 'npc':
         m = re.match(r'npc_(shop|smith|onsen|inn|training)_sheet$', base)
         if not m:
