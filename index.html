@@ -155,8 +155,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .townhero .talk .pick{display:block;margin-top:4px;color:#3d5aa8;font-size:11.5px;font-weight:700}
 .talkmenu .choices button{border:1.5px solid #8fb2ee;background:#fff;color:#2c5bb8;border-radius:12px;padding:10px 4px;font-size:13px;font-weight:700;min-width:0}
 @media (prefers-reduced-motion:reduce){.townhero .talk .more,.townhero .tapme{animation:none}.townhero .npcbtn.hop .npc{animation:none}}
-.townhero.place .npcbtn{right:-14px;bottom:40px;height:340px;pointer-events:none}
-.townhero.place .talk{width:62%}
+.townhero.place{height:400px;margin-bottom:0}
+.townhero.place .npcbtn{right:-14px;bottom:0;height:350px;pointer-events:none}
+.placetalk{position:relative;z-index:3;margin:-14px 0 12px;background:#fff;border:2px solid #9cb8f0;border-radius:20px;padding:12px 16px 14px;font-size:14.5px;line-height:1.6;color:#262c38;box-shadow:0 6px 16px rgba(40,60,140,.14)}
+.placetalk .nm{font-weight:700;font-size:13px;margin-bottom:3px}
+.placetalk p{margin:0;min-height:3.2em}
 .townhero.noart:before{display:none}
 .pbig{position:absolute;left:18px;top:96px;font-size:64px;opacity:.35;z-index:0}.pbig .aico{width:96px;height:96px}
 .npcph{position:absolute;right:16px;bottom:56px;width:150px;height:250px;border-radius:80px 80px 24px 24px;background:rgba(255,255,255,.55);border:3px dashed currentColor;display:grid;place-content:center;text-align:center;z-index:1}
@@ -2544,8 +2547,8 @@ function placeHero(k){
     ${top(P.n, `${P.role} ${P.npc} · 노테라`, `<button class="btn ghost" style="padding:7px 10px" data-act="placeback">← 마을</button>`)}
     ${bg ? '' : `<span class="pbig" aria-hidden="true">${placeIco(k)}</span>`}
     ${face ? `<span class="npcbtn"><img class="npc" src="${face}" alt="${P.npc}"></span>` : `<span class="npcph" style="color:${P.name}" aria-hidden="true"><b>${P.npc}</b><small>그림 준비 중</small></span>`}
-    ${tub}
-    <div class="talk"><div class="nm" style="color:${P.name}">[${P.role}] ${P.npc} <span class="aff">${ico('ui_heart_full','♥').repeat(npcTier(k))}${(icoImg('ui/ui_heart_empty','hempty') || '♡').repeat(NPC_TIER.length-1-npcTier(k))} ${NPC_TIER[npcTier(k)].n}</span></div><p data-type="${esc(ln.t)}">${esc(ln.t)}</p></div></section>`;
+    ${tub}</section>
+    <div class="placetalk"><div class="nm" style="color:${P.name}">[${P.role}] ${P.npc} <span class="aff">${ico('ui_heart_full','♥').repeat(npcTier(k))}${(icoImg('ui/ui_heart_empty','hempty') || '♡').repeat(NPC_TIER.length-1-npcTier(k))} ${NPC_TIER[npcTier(k)].n}</span></div><p data-type="${esc(ln.t)}">${esc(ln.t)}</p></div>`;
 }
 function placeView(){
   const k = UI.place, P = PLACES[k];
@@ -2908,13 +2911,13 @@ function talkLine(){
 }
 let typer = null, typedKey = '';
 function runTyper(){
-  const p = document.querySelector('.townhero .talk p[data-type]'); if (!p) return;
+  const p = document.querySelector('.townhero .talk p[data-type], .placetalk p[data-type]'); if (!p) return;
   const full = p.dataset.type; clearInterval(typer); typer = null;
   if (full === typedKey || reduceMotion()){ p.textContent = full; typedKey = full; return; }
   typedKey = full; let n = 0; p.textContent = '';
   typer = setInterval(() => { n += 1; p.textContent = full.slice(0, n); if (n >= full.length){ clearInterval(typer); typer = null; } }, 28);
 }
-function typerSkip(){ if (!typer) return false; clearInterval(typer); typer = null; const p = document.querySelector('.townhero .talk p[data-type]'); if (p) p.textContent = p.dataset.type; return true; }
+function typerSkip(){ if (!typer) return false; clearInterval(typer); typer = null; const p = document.querySelector('.townhero .talk p[data-type], .placetalk p[data-type]'); if (p) p.textContent = p.dataset.type; return true; }
 function homeView(){
   const b = bestGround(), G = GD[b.g], T = todos();
   if (!UI.homeLine || !UI.homeLine.t) UI.homeLine = guideLine();
