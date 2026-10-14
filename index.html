@@ -2238,38 +2238,140 @@ const NPC_FACE = ["data:image/webp;base64,UklGRoR0AABXRUJQVlA4WAoAAAAQAAAAAwEAOA
 // faces (6x3 sheet): 0 cheer 1 laugh 2 smile 3 reach-smile 4 calm 5 surprised 6 blush 7 panic 8 cross 9 teary 10 wistful 11 joy 12 welcome 13 shy 14 tip 15 glance 16 book 17 wave
 const FACE = {cheer:0, happy:1, smile:2, reach:3, calm:4, surprised:5, blush:6, panic:7, cross:8, teary:9, think:10, joy:11, welcome:12, shy:13, tip:14, wink:14, glance:15, note:16, wave:17, gentle:2};
 function guideLine(){
-  if (S.hp < hpMax()*.4) return {f:'panic', t:'어머, 많이 다치셨잖아요! 여관에서 푹 쉬고 가세요.'};
+  if (S.hp < hpMax()*.4) return pickNR('lowhp', [{f:'panic', t:'어머, 많이 다치셨잖아요! 여관에서 푹 쉬고 가세요.'}, {f:'teary', t:'그 상처… 괜찮으신 거 맞아요? 물약부터 드세요, 얼른요!'}, {f:'cross', t:'또 무리하셨죠? 여관 가서 쉬기 전엔 못 보내 드려요!'}, {f:'panic', t:'세상에, 피가… 아니 땀이죠? 아무튼 쉬고 가세요!'}]);
   { const js = jqStage();
     if (js && jqDone()) return {f:'joy', t:`의뢰를 다 해내셨군요! 저를 눌러서 ${JQ_NAME[js]}을 하세요.`};
     if (js && !(S.jq && S.jq.st===js)) return {f:'surprised', t:`${JQ_NAME[js]}할 때가 됐어요! 저를 눌러서 전직 의뢰를 받아 주세요.`};
-    if (js) return {f:'tip', t:`전직 의뢰 진행 중이에요. ${jqText()}`}; }
-  if (S.sp) return {f:'wink', t:`스킬 포인트가 ${S.sp}개 남아 있어요. 스킬 탭에서 새 기술을 배워 보세요!`};
-  if (promoReady()) return {f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`};
-  if (S.points) return {f:'gentle', t:`능력치 포인트가 ${S.points}개 있어요. 훈련소에서 나눠 주세요.`};
-  return pick([{f:'welcome', t:'어서 오세요, 모험가님! 노테라의 안내원 리나예요. 무엇을 도와드릴까요?'}, {f:'smile', t:'오늘도 사냥 나가세요? 몸조심하세요!'},
-    {f:'happy', t:'자동 사냥도 맡겨 주세요. 열 번씩 다녀오지만, 직접 싸우는 것보다 벌이는 적어요.'}, {f:'think', t:'약점 속성을 노리면 한 번 더 움직일 수 있대요. 정보 버튼으로 살펴보세요.'},
-    {f:'calm', t:'장비는 가방에서 몸 위에 바로 끼울 수 있어요.'}, {f:'blush', t:'에헤헤… 오늘도 와 주셨네요.'}, {f:'glance', t:'일일 미션도 잊지 마세요!'}]);
+    if (js && Math.random() < .5) return pickNR('jqing', [{f:'tip', t:`전직 의뢰 진행 중이에요. ${jqText()}`}, {f:'cheer', t:`의뢰 힘내세요! ${jqText()}`}, {f:'note', t:`의뢰 수첩 확인! ${jqText()}`}]); }
+  const nag = Math.random() < .45;  // 알림은 가끔만: 같은 말만 반복되지 않게
+  if (nag && S.sp) return pickNR('sp', [{f:'wink', t:`스킬 포인트가 ${S.sp}개 남아 있어요. 스킬 탭에서 새 기술을 배워 보세요!`}, {f:'tip', t:`안 쓴 스킬 포인트가 ${S.sp}개! 아끼면 손해예요.`}, {f:'note', t:`스킬 탭에 새로 배울 수 있는 기술이 있어요. 포인트 ${S.sp}개!`}]);
+  if (nag && promoReady()) return pickNR('promo', [{f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`}, {f:'cheer', t:`${FACTIONS[S.fac+1].name}에서 모험가님을 기다린대요! 승급 시험, 도전해 보세요.`}]);
+  if (nag && S.points) return pickNR('pts', [{f:'gentle', t:`능력치 포인트가 ${S.points}개 있어요. 캐릭터 화면에서 나눠 주세요.`}, {f:'tip', t:`능력치 포인트 ${S.points}개가 놀고 있어요! 주 능력치에 찍어 보세요.`}]);
+  return rinaIdle();
 }
 const say = (f, t) => { UI.homeLine = {f, t}; UI.talk = null; };
 /* talking to Rina: tap her to open topics, tap the box to go to the next line */
 const L = (f, t) => ({f, t});
+/* ---------- 리나 대사 모음: 같은 말이 연달아 나오지 않게 최근 대사는 피해서 고른다 ---------- */
+const RECENT = {};
+function pickNR(key, arr){
+  const r = RECENT[key] = RECENT[key] || [], keep = Math.min(arr.length - 1, Math.max(1, Math.floor(arr.length/2)));
+  const pool = arr.map((x,i)=>i).filter(i=>!r.includes(i)), i = pool.length ? pool[rnd(0, pool.length-1)] : rnd(0, arr.length-1);
+  r.push(i); while (r.length > keep) r.shift();
+  return arr[i];
+}
+const nameCall = () => pick(['모험가님', `${S.name}님`, `${S.name}님`]);
+function rinaIdle(){
+  const h = new Date().getHours(), n = nameCall(), P = [];
+  // 시간대
+  if (h < 5) P.push({f:'surprised', t:`이 시간까지 모험이라니… ${n}, 잠은 언제 주무세요?`}, {f:'calm', t:'밤의 노테라는 조용하죠. 저도 사실 졸려요… 후아암.'});
+  else if (h < 11) P.push({f:'cheer', t:`좋은 아침이에요, ${n}! 아침 사냥은 몸이 가벼워서 좋대요.`}, {f:'smile', t:'아침 빵 드셨어요? 빈속에 사냥하면 금방 지쳐요.'});
+  else if (h < 14) P.push({f:'happy', t:'점심시간이네요! 여관 세라 언니네 수프가 정말 맛있어요.'}, {f:'glance', t:`${n}, 밥은 꼭 챙겨 드시고 다니세요!`});
+  else if (h < 18) P.push({f:'calm', t:'나른한 오후예요. 이럴 때 자동 사냥 맡겨 두면 딱이죠.'}, {f:'smile', t:'햇살 좋은 오후엔 들판 슬라임들도 기분이 좋아 보여요.'});
+  else if (h < 22) P.push({f:'gentle', t:`노을이 예쁘죠? 오늘 하루도 수고 많으셨어요, ${n}.`}, {f:'think', t:'해 지면 유령 폐허 쪽은 더 으스스해진대요…'});
+  else P.push({f:'calm', t:'밤이 깊었어요. 너무 무리하지 마세요.'}, {f:'shy', t:'늦게까지 와 주셔서… 사실 조금 기뻐요.'});
+  // 지금 상태
+  if (S.gold < potionPrice()*2) P.push({f:'think', t:'지갑이 좀 가벼워 보여요… 상점에서 재료를 팔아 보는 건 어때요?'});
+  if (S.bag.length >= BAG_MAX - 4) P.push({f:'surprised', t:`가방이 거의 꽉 찼어요! 안 쓰는 장비는 팔거나 정리해 주세요.`});
+  if (!S.inv.hp) P.push({f:'panic', t:'체력 물약이 하나도 없잖아요! 상점에서 몇 개 챙겨 가세요.'});
+  if ((S.streak||0) >= 5) P.push({f:'cheer', t:`${S.streak}연승 중이시죠? 그 기세 그대로 가요! 경험치도 +${Math.round(streakBonus()*100)}%예요!`});
+  if (isJob()) P.push({f:'happy', t:`${jobName()} 옷이 정말 잘 어울리세요. 처음 노비스 때가 엊그제 같은데…`});
+  else P.push({f:'smile', t:'노비스 시절이 제일 설레는 법이에요. 천천히, 꾸준히요!'});
+  if (S.lv >= maxLv()) P.push({f:'surprised', t:'벌써 최고 레벨이라니… 정말 대단하세요!'});
+  if (Object.keys(S.cards||{}).length && !(S.deck||[]).length) P.push({f:'tip', t:'카드를 모으셨네요! 기록 탭 도감에서 덱에 끼워야 효과가 나요.'});
+  if (S.protect) P.push({f:'wink', t:`보호 주문서가 ${S.protect}장 있으시네요. 강화할 때 든든하죠!`});
+  if (S.charm) P.push({f:'joy', t:`행운의 부적이 아직 ${S.charm}전 남았어요. 반짝이는 몬스터를 노려 보세요!`});
+  // 호감도
+  if (affLv() >= 1) P.push({f:'blush', t:'오늘도 와 주셨네요. 헤헤, 기다리고 있었어요.'});
+  if (affLv() >= 2) P.push({f:'shy', t:`${n} 오면 괜히 머리 한 번 더 만지게 돼요… 아, 아무것도 아니에요!`});
+  if (affLv() >= 3) P.push({f:'joy', t:'단짝이니까 비밀 하나 알려 드릴게요. 분수 동상은 밤에 살짝 웃는대요!'});
+  if (affLv() >= 4) P.push({f:'gentle', t:`${n}이 돌아오는 발소리, 이제 멀리서도 알아들을 수 있어요.`});
+  // 늘 나올 수 있는 말
+  P.push(
+    {f:'welcome', t:`어서 오세요, ${n}! 노테라의 안내원 리나예요. 무엇을 도와드릴까요?`},
+    {f:'smile', t:'오늘도 사냥 나가세요? 몸조심하세요!'},
+    {f:'happy', t:'자동 사냥도 맡겨 주세요. 열 번씩 다녀오지만, 직접 싸우는 것보다 벌이는 적어요.'},
+    {f:'think', t:'약점 속성을 노리면 한 번 더 움직일 수 있대요. 정보 버튼으로 살펴보세요.'},
+    {f:'calm', t:'장비는 가방에서 몸 위에 바로 끼울 수 있어요.'},
+    {f:'blush', t:'에헤헤… 오늘도 와 주셨네요.'},
+    {f:'glance', t:'일일 미션도 잊지 마세요! 소소하지만 물약을 받을 수 있어요.'},
+    {f:'tip', t:'강화는 +4까지 실패가 없어요. 그 위로는… 운을 믿으셔야 해요!'},
+    {f:'note', t:'몬스터를 많이 잡을수록 도감 점수가 올라요. 조금씩 강해지는 거예요.'},
+    {f:'wink', t:'반짝이는 몬스터를 보면 꼭 잡으세요! 보상이 세 배래요.'},
+    {f:'calm', t:'오늘 노테라 날씨는 맑음! 사냥하기 딱 좋은 날이에요.'},
+    {f:'happy', t:'상점에 새 물약이 들어왔대요. 아, 늘 같은 물약이긴 하지만요. 헤헤.'},
+    {f:'glance', t:'저기 기사단 아저씨, 오늘만 세 번째 지나가요. 길을 잃으셨나…?'},
+    {f:'think', t:'세트 장비는 정말 드물게 나온대요. 초록빛으로 빛나면 그거예요!'},
+    {f:'smile', t:'연속으로 이기면 경험치가 조금씩 더 붙어요. 자동 사냥을 맡기면 끊기니 조심!'},
+    {f:'shy', t:'저… 오늘 머리 리본 바꿨는데, 티 나요?'},
+    {f:'cheer', t:'자, 오늘의 목표를 정해 볼까요? 레벨 하나 올리기!'},
+    {f:'note', t:'재료는 버리지 마세요. 제작에도 쓰고, 저한테 선물로 주셔도… 아, 아니에요!'},
+  );
+  return pickNR('idle', P);
+}
+const MENU_HI = [L('reach','네, 모험가님! 무엇이 궁금하세요?'), L('smile','부르셨어요? 무엇을 도와드릴까요?'), L('happy','네네! 리나 여기 있어요!'), L('welcome','어떤 이야기를 해 드릴까요?'), L('glance','음? 저 부르셨죠? 헤헤.'), L('cheer','무엇이든 물어보세요! 노테라라면 제가 제일 잘 알아요.'), L('wink','오늘은 무슨 일로 오셨어요?'), L('gentle','천천히 골라 주세요. 기다릴게요.')];
+const MENU_AGAIN = [L('smile','또 궁금한 거 있으세요?'), L('happy','다른 얘기도 해 드릴까요?'), L('glance','더 필요한 거 있으세요?'), L('note','또 뭐든 물어보세요!'), L('gentle','다른 건 괜찮으세요?'), L('wink','이야기 더 할래요? 헤헤.')];
+const BYE = ['언제든 불러 주세요!', '조심히 다녀오세요!', '또 이야기해요!', '다치지 말고 돌아오세요!', '좋은 사냥 되세요!', '물약 챙기셨죠? 그럼 다녀오세요!', '기다리고 있을게요!', '전리품 자랑하러 와 주세요!'];
+const SHOP_HI = ['어서 오세요! 물약이랑 재료 거래는 저한테 맡겨 주세요.', '오늘은 뭐가 필요하세요? 물약? 아니면 재료 정리?', '상점 리나, 영업 시작합니다! 헤헤.', '재료 많이 모으셨어요? 좋은 값 쳐 드릴게요!'];
+const CRAFT_HI = ['재료만 있으면 뭐든 만들어 드릴게요!', '제작이요? 손재주라면 자신 있어요!', '보호 주문서랑 부적, 오늘도 정성껏 만들어 드릴게요.', '어떤 걸 만들어 볼까요? 재료부터 확인해 볼게요!'];
+const RINA_CHAT = () => [
+  [L('smile','저요? 노테라의 안내원 리나예요.'), L('shy','사실… 모험가님들 이야기 듣는 게 제일 좋아요.'), L('joy','다녀오시면 꼭 이야기해 주세요!')],
+  [L('glance','저기 분수 위에 있는 거요?'), L('happy','마을 사람들이 만든 말랑이 동상이에요.'), L('blush','귀엽죠? 헤헤… 저도 하나 갖고 싶어요.')],
+  [L('think','요즘 성 쪽에서 기사단이 자주 내려와요.'), L('surprised','승급 시험을 보는 모험가가 늘었대요!'), L('cheer','모험가님도 언젠가 꼭 붙으실 거예요!')],
+  [L('teary','어제는 사냥 나간 분이 엉엉 울면서 돌아왔어요…'), L('panic','물약도 없이 들어갔다지 뭐예요!'), L('tip','모험가님은 꼭 물약 챙기세요. 약속!')],
+  [L('note','노테라라는 이름이요?'), L('think','옛날 옛적 모험가들이 자기 모험을 공책(노트)에 적어 남긴 마을이라서래요.'), L('smile','모험가님 이야기도 언젠가 그 공책에 적히겠죠?')],
+  [L('happy','대장간 브리 언니 아세요?'), L('surprised','망치 한 번에 쇠를 반으로 접는대요!'), L('shy','근데 고양이 앞에서는 엄청 다정해져요. 비밀이에요!')],
+  [L('calm','마을 끝에 온천이 있다는 소문 들으셨어요?'), L('blush','유키 언니가 지키는데, 들어가면 피로가 싹 풀린대요.'), L('wink','언젠가 꼭 같이… 아, 아니에요! 소개해 드린다는 뜻이에요!')],
+  [L('glance','상점 미아는 저보다 어린데 장사 수완이 대단해요.'), L('think','지난번엔 저한테도 물약을 두 배 값에 팔려고 했어요…'), L('cross','물론 안 샀죠! 흥.')],
+  [L('cheer','훈련소 카린 교관님은 목소리가 엄청 커요!'), L('panic','아침마다 "하나! 둘!" 소리에 깨요.'), L('smile','그래도 덕분에 모험가님들이 튼튼해지니까요.')],
+  [L('gentle','여관 세라 언니는 다친 모험가를 그냥 못 지나쳐요.'), L('happy','수프 한 그릇이면 기운이 난대요.'), L('wink','숙박비 깎아 달라고 하면… 가끔 깎아 줘요. 쉿!')],
+  [L('think','슬라임은 왜 통통 튈까요?'), L('note','학자님 말로는 기분이 좋아서래요.'), L('blush','그럼 잡을 때 좀 미안해지잖아요…')],
+  [L('surprised','고룡의 둥지에 진짜 용이 산대요!'), L('panic','새끼 용만 봐도 무서운데, 엄마 용은 얼마나 클까요?'), L('cheer','모험가님이라면 언젠가 이길 거예요!')],
+  [L('note','저 사실 매일 일기를 써요.'), L('shy','오늘 누가 왔는지, 무슨 말을 했는지…'), L('blush','모험가님 얘기도 가끔 써요. 가끔요!')],
+  [L('think','반짝이는 몬스터 보셨어요?'), L('surprised','금빛으로 빛나는 애들이요. 보상이 세 배래요!'), L('wink','행운의 부적을 쓰면 더 잘 나온다니까, 제작에서 만들어 보세요.')],
+  [L('glance','카드 모으는 모험가가 요즘 많아요.'), L('note','같은 카드를 또 모으면 별이 올라서 더 세진대요.'), L('happy','저도 슬라임 카드는 하나 갖고 싶어요. 귀여우니까!')],
+  [L('calm','비 오는 날엔 사냥터 몬스터들도 조용해진대요.'), L('think','그래서 그런 날은 사냥이 잘 되는 거래요.'), L('smile','…오늘은 맑지만요. 헤헤.')],
+  [L('teary','처음 안내원 일을 시작했을 때, 길을 잘못 알려 드린 적이 있어요.'), L('panic','그 모험가님이 고블린 요새로 가 버렸지 뭐예요!'), L('joy','다행히 무사히 돌아오셨어요. 그 뒤로는 지도를 외웠답니다!')],
+  [L('happy','노테라 축제 얘기 들으셨어요?'), L('cheer','언젠가 열리면 꽃잎이 비처럼 내린대요!'), L('blush','그날은… 같이 구경해요.')],
+  [L('note','강화하다가 실패해도 너무 속상해하지 마세요.'), L('tip','+4까지는 실패가 없고, 보호 주문서가 있으면 단계가 안 내려가요.'), L('smile','차근차근 하면 꼭 +10 찍으실 거예요!')],
+  [L('think','전직하면 어떤 직업이 좋냐고요?'), L('smile','소드맨은 튼튼하고, 아처는 약점을 잘 노리고, 시프는 빠르고…'), L('wink','어콜라이트는 치유를, 매지션은 마법을! 마음 가는 대로가 정답이에요.')],
+];
+const RINA_CHAT_AFF = [
+  [2, [L('blush','모험가님이랑 이야기하는 시간이 하루 중 제일 좋아요.'), L('shy','…방금 건 못 들은 걸로 해 주세요!')]],
+  [2, [L('smile','요즘 모험가님 덕분에 일이 즐거워요.'), L('happy','다녀와서 "다녀왔어요" 해 주는 게 좋아요. 헤헤.')]],
+  [3, [L('think','사실 저도 어릴 땐 모험가가 되고 싶었어요.'), L('smile','지금은… 모험가님을 응원하는 게 제 모험이에요.')]],
+  [3, [L('glance','이건 단짝한테만 하는 얘긴데요…'), L('shy','저 사실 슬라임이 조금 무서워요. 말랑해서요!'), L('blush','웃지 마세요!')]],
+  [4, [L('teary','다치지 말고 꼭 돌아와 주세요. 약속이에요.'), L('joy','저는 언제나 여기서 기다릴게요!')]],
+  [4, [L('gentle','모험가님 공책에 제 이름도 적어 주실래요?'), L('blush','"노테라의 리나, 언제나 응원함" 이렇게요. 헤헤.')]],
+];
+const RINA_TIPS = [
+  L('smile','약점을 치면 행동이 반 칸 더 생겨요. 거꾸로 빗나가거나 내성이면 두 칸이 날아가니 조심!'),
+  L('tip','처음 보는 몬스터는 정보 버튼이나 살펴보기로 약점을 먼저 확인해 보세요.'),
+  L('note','치명타가 터져도 행동이 반 칸 더 생겨요. LUK을 올리면 치명타가 잘 나와요.'),
+  L('think','DEX를 올리면 빗나감이 줄어요. 레벨 높은 적일수록 잘 피하니까 조심하세요.'),
+  L('tip','HP가 30% 아래로 떨어지면 물약을 쓰거나 방어해서 한 번 버텨 보세요.'),
+  L('wink','직접 이기면 연속 사냥 보너스가 쌓여요. 20연승이면 경험치 +20%!'),
+  L('note','자동 사냥은 스킬을 못 써요. 대신 몬스터가 조금 약하게 나와요.'),
+  L('think','스킬 포인트는 레벨마다 1개예요. 선행 스킬을 먼저 배워야 하는 것도 있어요.'),
+  L('tip','같은 능력치 버프는 겹치지 않아요. 더 강한 효과만 남아요.'),
+  L('smile','레벨 업해도 HP가 다 차진 않아요. 늘어난 만큼만 더해져요.'),
+  L('note','세트 장비는 3부위, 5부위를 맞추면 효과가 생겨요. 한벌옷은 2칸으로 쳐요.'),
+  L('tip','희귀 몬스터는 HP가 많지만 장비를 꼭 떨어뜨려요.'),
+  L('wink','승급 시험은 정예 3연전이에요. 통과하면 경험치와 골드가 더 붙어요.'),
+  L('think','훈련소에서 골드로 능력치를 올릴 수도 있어요. 값은 점점 비싸져요.'),
+  L('note','몬스터 레벨이 너무 낮으면 경험치가 확 줄어요. 내 레벨에 맞는 사냥터로!'),
+];
+
+
 function talkTopics(){
   const b = bestGround(), G = GD[b.g];
-  const chat = [
-    [L('smile','저요? 노테라의 안내원 리나예요.'), L('shy','사실… 모험가님들 이야기 듣는 게 제일 좋아요.'), L('joy','다녀오시면 꼭 이야기해 주세요!')],
-    [L('glance','저기 분수 위에 있는 거요?'), L('happy','마을 사람들이 만든 말랑이 동상이에요.'), L('blush','귀엽죠? 헤헤… 저도 하나 갖고 싶어요.')],
-    [L('think','요즘 성 쪽에서 기사단이 자주 내려와요.'), L('surprised','승급 시험을 보는 모험가가 늘었대요!'), L('cheer','모험가님도 언젠가 꼭 붙으실 거예요!')],
-    [L('teary','어제는 사냥 나간 분이 엉엉 울면서 돌아왔어요…'), L('panic','물약도 없이 들어갔다지 뭐예요!'), L('tip','모험가님은 꼭 물약 챙기세요. 약속!')],
-  ];
+  const chat = [...RINA_CHAT(), ...RINA_CHAT_AFF.filter(([lv])=>affLv()>=lv).map(([,c])=>c)];
   const m = G.mons;
-  if (affLv() >= 2) chat.push([L('blush','모험가님이랑 이야기하는 시간이 하루 중 제일 좋아요.'), L('shy','…방금 건 못 들은 걸로 해 주세요!')]);
-  if (affLv() >= 3) chat.push([L('think','사실 저도 어릴 땐 모험가가 되고 싶었어요.'), L('smile','지금은… 모험가님을 응원하는 게 제 모험이에요.')]);
-  if (affLv() >= 4) chat.push([L('teary','다치지 말고 꼭 돌아와 주세요. 약속이에요.'), L('joy','저는 언제나 여기서 기다릴게요!')]);
   return {
-    chat: pick(chat),
-    tip: [L('tip', `${G.ground}의 ${m[0].name}은(는) ${m[0].weak.join('·') || '특별한 약점이 없'}에 약하대요.`),
-          L('note', `${m[1].name}은(는) ${m[1].weak.join('·') || '약점이 없'}${m[1].weak.length?'에 약하고':'고'}, ${m[1].resist.join('·') || '내성도 없'}${m[1].resist.length?'에는 잘 안 통해요.':'어요.'}`),
-          L('smile','약점을 치면 행동이 반 칸 더 생겨요. 거꾸로 빗나가거나 내성이면 두 칸이 날아가니 조심!')],
+    chat: pickNR('chat', chat),
+    tip: (() => { const g = [L('tip', `${G.ground}의 ${m[0].name}은(는) ${m[0].weak.join('·') || '특별한 약점이 없'}에 약하대요.`),
+          L('note', `${m[1].name}은(는) ${m[1].weak.join('·') || '약점이 없'}${m[1].weak.length?'에 약하고':'고'}, ${m[1].resist.join('·') || '내성도 없'}${m[1].resist.length?'에는 잘 안 통해요.':'어요.'}`)];
+      return [pickNR('tipg', g), pickNR('tip', RINA_TIPS), pickNR('tip', RINA_TIPS)]; })(),
     todo: (() => { const T = todos().slice(0,3); return T.length ? [L('note','잠깐만요, 수첩 좀 볼게요…'), ...T.map((x,i)=>L(i? 'smile':'tip', `${x.t}. ${x.d}`))] : [L('note','음… 지금은 급한 일이 없네요.'), L('wave','마음 편히 사냥 다녀오세요!')]; })(),
   };
 }
@@ -2294,14 +2396,14 @@ function giftTalk(){
   const up = affGain(pts); save();
   return {lines:[L('surprised', `어머, ${n}! 저 주시는 거예요?`), L(up ? 'joy' : 'blush', up ? `정말 고마워요… 이제 우리 ${AFF[affLv()].n}예요!` : `고마워요! 소중히 간직할게요. (호감도 +${pts})`)], i:0};
 }
-function talkOpen(){ UI.talk = {menu:true}; }
+function talkOpen(){ UI.talk = {menu:true, hi:pickNR('menu', MENU_HI)}; }
 function talkTopic(k){
-  if (k==='bye'){ UI.talk = null; UI.homeLine = L('wave', pick(['언제든 불러 주세요!', '조심히 다녀오세요!', '또 이야기해요!'])); return; }
+  if (k==='bye'){ UI.talk = null; UI.homeLine = L('wave', pickNR('bye', BYE)); return; }
   if (k==='job'){ UI.talk = jqTalk(); return; }
   if (k==='gift'){ UI.talk = giftTalk(); return; }
   if (k==='chat'){ const D = affDay(); if (D.talk < 3){ D.talk++; affGain(1); } }
-  if (k==='craft'){ UI.talk = null; UI.craft = true; UI.homeLine = L('note', '재료만 있으면 뭐든 만들어 드릴게요!'); return; }
-  if (k==='shop'){ UI.talk = null; UI.shop = true; UI.homeLine = L('welcome', '어서 오세요! 물약이랑 재료 거래는 저한테 맡겨 주세요.'); return; }
+  if (k==='craft'){ UI.talk = null; UI.craft = true; UI.homeLine = L('note', pickNR('crafthi', CRAFT_HI)); return; }
+  if (k==='shop'){ UI.talk = null; UI.shop = true; UI.homeLine = L('welcome', pickNR('shophi', SHOP_HI)); return; }
   UI.talk = {lines: talkTopics()[k], i:0};
 }
 function jqTalk(){
@@ -2316,12 +2418,12 @@ function jqTalk(){
 function talkNext(){
   const T = UI.talk; if (!T) { talkOpen(); return; }
   if (T.menu) return;
-  if (T.i < T.lines.length - 1) T.i++; else if (T.end==='job'){ UI.talk = null; UI.homeLine = L('reach', '어떤 길로 가실지 골라 주세요!'); UI.jobSheet = true; } else UI.talk = {menu:true, after:true};
+  if (T.i < T.lines.length - 1) T.i++; else if (T.end==='job'){ UI.talk = null; UI.homeLine = L('reach', '어떤 길로 가실지 골라 주세요!'); UI.jobSheet = true; } else UI.talk = {menu:true, after:true, hi:pickNR('again', MENU_AGAIN)};
 }
 function talkLine(){
   const T = UI.talk;
   if (!T) return UI.homeLine;
-  if (T.menu) return L(T.after ? 'smile' : 'reach', T.after ? '또 궁금한 거 있으세요?' : '네, 모험가님! 무엇이 궁금하세요?');
+  if (T.menu) return T.hi || L('reach', '네, 모험가님! 무엇이 궁금하세요?');
   return T.lines[T.i];
 }
 let typer = null, typedKey = '';
@@ -2747,7 +2849,7 @@ function renderView(){
   if (UI.statInfo) app.insertAdjacentHTML('beforeend', statSheet());
 }
 function go(dest){
-  const [tab, sub] = dest.split(':'); UI.tab = tab; UI.ringPick = false; UI.innAsk = false; UI.statInfo = false; UI.shop = false; UI.upId = null; UI.craft = false;
+  const [tab, sub] = dest.split(':'); if (tab==='home' && UI.tab!=='home'){ UI.homeLine = null; UI.talk = null; } UI.tab = tab; UI.ringPick = false; UI.innAsk = false; UI.statInfo = false; UI.shop = false; UI.upId = null; UI.craft = false;
   if (sub){ if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; }
   render(); window.scrollTo({top:0});
 }
