@@ -2662,10 +2662,14 @@ function guideLine(){
   { const js = jqStage();
     if (js && jqDone()) return {f:'joy', t:`의뢰를 다 해내셨군요! 저를 눌러서 ${JQ_NAME[js]}을 하세요.`};
     if (js && !(S.jq && S.jq.st===js)) return {f:'surprised', t:`${JQ_NAME[js]}할 때가 됐어요! 저를 눌러서 전직 의뢰를 받아 주세요.`};
+    if (js && Math.random() < .5 && !rtone()) return {f:'note', t:`전직 의뢰 진행 상황입니다. ${jqText()}`};
     if (js && Math.random() < .5) return pickNR('jqing', [{f:'tip', t:`전직 의뢰 진행 중이에요. ${jqText()}`}, {f:'cheer', t:`의뢰 힘내세요! ${jqText()}`}, {f:'note', t:`의뢰 수첩 확인! ${jqText()}`}]); }
   const nag = Math.random() < .45;  // 알림은 가끔만: 같은 말만 반복되지 않게
+  if (nag && S.sp && !rtone()) return {f:'note', t:`배우지 않은 스킬 포인트가 ${S.sp}개 있습니다. 스킬 탭에서 배우실 수 있어요.`};
   if (nag && S.sp) return pickNR('sp', [{f:'wink', t:`스킬 포인트가 ${S.sp}개 남아 있어요. 스킬 탭에서 새 기술을 배워 보세요!`}, {f:'tip', t:`안 쓴 스킬 포인트가 ${S.sp}개! 아끼면 손해예요.`}, {f:'note', t:`스킬 탭에 새로 배울 수 있는 기술이 있어요. 포인트 ${S.sp}개!`}]);
+  if (nag && promoReady() && !rtone()) return {f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험 응시 자격이 있으십니다. 캐릭터 화면에서 도전하실 수 있어요.`};
   if (nag && promoReady()) return pickNR('promo', [{f:'note', t:`${FACTIONS[S.fac+1].name} 승급 시험을 보실 수 있어요. 준비되셨나요?`}, {f:'cheer', t:`${FACTIONS[S.fac+1].name}에서 모험가님을 기다린대요! 승급 시험, 도전해 보세요.`}]);
+  if (nag && S.points && !rtone()) return {f:'note', t:`능력치 포인트 ${S.points}개가 남아 있습니다. 캐릭터 화면에서 분배해 주세요.`};
   if (nag && S.points) return pickNR('pts', [{f:'gentle', t:`능력치 포인트가 ${S.points}개 있어요. 캐릭터 화면에서 나눠 주세요.`}, {f:'tip', t:`능력치 포인트 ${S.points}개가 놀고 있어요! 주 능력치에 찍어 보세요.`}]);
   return rinaIdle();
 }
