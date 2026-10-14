@@ -1,24 +1,34 @@
 그림 넣기 결과 (게임에 넣음)
-넣은 것 20개 · 문제 0건 · 목록에 없는 이름 0개
+넣은 것 30개 · 문제 0건 · 목록에 없는 이름 0개
 
 [넣은 것]
-  mon_m0.png
-  mon_m1.png
-  mon_m10.png
-  mon_m11.png
-  mon_m12.png
-  mon_m13.png
-  mon_m14.png
-  mon_m15.png
-  mon_m16.png
-  mon_m17.png
-  mon_m18.png
-  mon_m19.png
-  mon_m2.png
-  mon_m3.png
-  mon_m4.png
-  mon_m5.png
-  mon_m6.png
-  mon_m7.png
-  mon_m8.png
-  mon_m9.png
+  bg_boss_0.png
+  bg_boss_1.png
+  bg_boss_2.png
+  bg_boss_3.png
+  bg_boss_4.png
+  bg_boss_5.png
+  bg_boss_6.png
+  bg_boss_7.png
+  bg_boss_8.png
+  bg_boss_9.png
+  boss_b0.png
+  boss_b0_intro.png
+  boss_b1.png
+  boss_b1_intro.png
+  boss_b2.png
+  boss_b2_intro.png
+  boss_b3.png
+  boss_b3_intro.png
+  boss_b4.png
+  boss_b4_intro.png
+  boss_b5.png
+  boss_b5_intro.png
+  boss_b6.png
+  boss_b6_intro.png
+  boss_b7.png
+  boss_b7_intro.png
+  boss_b8.png
+  boss_b8_intro.png
+  boss_b9.png
+  boss_b9_intro.png

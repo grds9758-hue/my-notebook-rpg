@@ -313,7 +313,10 @@ def handle(rel, im, names, out, rep):
         m = re.match(r'boss_b(\d+)$', base)
         if not m:
             return bad('보스 시트 이름은 boss_b0.png ~ boss_b9.png')
+        if im.size[0] == 640:  # 160px 칸 → 128px 칸 (화면 표시 크기에 충분, 용량 약 40%)
+            im = im.convert('RGBA').resize((512, round(im.size[1] * 512 / 640)), Image.LANCZOS)
         e, issues = sheet_entry(im, 'boss')
+        e['src'] = to_data_url(im.convert('RGBA'), lossless=False, q=82, aq=70)
         for x in issues:
             bad(x)
         out['boss/b' + m.group(1)] = e
