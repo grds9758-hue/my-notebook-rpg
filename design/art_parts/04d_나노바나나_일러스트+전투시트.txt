@@ -1,0 +1,1662 @@
+제미나이 나노바나나 — 직업 일러스트(홈) + 전투 스프라이트 시트
+작성 2026-10-14 · 직업 하나 = 새 채팅 하나. 아래 직업 칸의 ①을 붙여 넣고, 나온 그림 아래에 ②를 붙여 넣기.
+
+[쓰는 곳]
+  char_<코드>_illust.png  → 홈 캐릭터 카드·캐릭터 탭 장비창 (라그나로크 공식 일러스트풍)
+  char_<코드>_back.png    → 전투 (뒷모습 도트, 4칸×8줄)
+  char_<코드>_front.png   → (선택) 온천·작은 얼굴. 없으면 지금 도트 그대로
+[받는 쪽에서 자동으로]
+  배경 지우기(분홍·초록·회색 체크무늬), 위아래 글자 줄 잘라 냄, 빈 칸에 그려진 것 지움, 칸이 정사각형이 아니어도 맞춤, 칸 정렬·바닥선·잘림 처리.
+[이상하면] 같은 채팅에 '다시' 문구를 붙여 넣기.
+※ 남캐 노비스(머리색·피부 바꾸기)는 부품을 겹쳐 써야 해서 이번 목록에서 뺌.
+
+============================================================
+소드맨 (1차) — 코드 warrior
+============================================================
+파일 이름: char_warrior_illust.png / char_warrior_back.png / (선택) char_warrior_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A young swordsman (male) in a leather-and-steel half armor with a navy tunic, a one-handed sword and a small round buckler. Colors: silver and navy.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: overhead sword slash. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+아처 (1차) — 코드 archer
+============================================================
+파일 이름: char_archer_illust.png / char_archer_back.png / (선택) char_archer_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A young archer (male) in a green hooded cape and leather vest, a short bow and a quiver of arrows on the back. Colors: green and brown.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: draw the bow and shoot an arrow. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+시프 (1차) — 코드 thief
+============================================================
+파일 이름: char_thief_illust.png / char_thief_back.png / (선택) char_thief_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A young thief (male) with a black hood and a scarf covering the mouth, light leather clothes and one dagger. Colors: purple and black.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: quick dagger stab. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+어콜라이트 (1차) — 코드 healer
+============================================================
+파일 이름: char_healer_illust.png / char_healer_back.png / (선택) char_healer_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A young acolyte (male) in a white priest robe with a sky-blue shawl and a small cross staff. Colors: white, sky blue and gold.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: strike down with the staff (skill row: hands together in prayer). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+매지션 (1차) — 코드 mage
+============================================================
+파일 이름: char_mage_illust.png / char_mage_back.png / (선택) char_mage_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A young mage (male) with a pointed wizard hat, a long robe and a short wand. Colors: indigo with small star patterns.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: swing the wand (skill row: raise the wand and chant). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+나이트 (2차) — 코드 greatsword
+============================================================
+파일 이름: char_greatsword_illust.png / char_greatsword_back.png / (선택) char_greatsword_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A knight (male) in heavy silver plate armor with a navy cape and a huge two-handed greatsword taller than his back. Colors: silver and navy.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: big sweeping two-handed greatsword slash. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+크루세이더 (2차) — 코드 shield
+============================================================
+파일 이름: char_shield_illust.png / char_shield_back.png / (선택) char_shield_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A crusader (male) in white and gold holy armor with a large cross-emblem shield and a one-handed sword. Colors: white and gold.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: push the shield forward and thrust the sword. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+드래곤 나이트 (2차) — 코드 rider
+============================================================
+파일 이름: char_rider_illust.png / char_rider_back.png / (선택) char_rider_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A dragon knight (male) in silver and navy armor riding a small horse-sized red dragon, holding a long lance. Colors: silver, navy and dragon red.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: charge forward together with the dragon and thrust the lance. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+The knight rides the small dragon in EVERY cell, including the hit, guard, potion, defeated and victory rows (in the defeated row the knight and dragon fall together). Draw the dragon small enough that knight and dragon fit inside one cell.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+헌터 (2차) — 코드 trapper
+============================================================
+파일 이름: char_trapper_illust.png / char_trapper_back.png / (선택) char_trapper_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A hunter (male) with a fur cape, a falcon on the shoulder, a bow, and a small trap hanging on the belt. Colors: green and brown.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: shoot the bow (the falcon may fly out a little, staying inside the cell). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+The falcon stays with the hunter (on the shoulder) in every cell and never leaves the cell.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+스나이퍼 (2차) — 코드 bowman
+============================================================
+파일 이름: char_bowman_illust.png / char_bowman_back.png / (선택) char_bowman_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A sniper (male) with a long longbow, a scope over one eye and a dark green cape. Colors: dark green.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: kneel and shoot the longbow. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+어쌔신 (2차) — 코드 dagger
+============================================================
+파일 이름: char_dagger_illust.png / char_dagger_back.png / (선택) char_dagger_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: An assassin (male) with katars (blades on the back of both hands), a purple scarf and tight dark clothes. Colors: purple and black.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: X-shaped slash with both katars. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+닌자 (2차) — 코드 shuriken
+============================================================
+파일 이름: char_shuriken_illust.png / char_shuriken_back.png / (선택) char_shuriken_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A ninja (male) in a ninja outfit with a headband and a large shuriken. Colors: dark navy and black.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: throw the shuriken (it stays inside the cell). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+댄서 (2차) — 코드 dancer
+============================================================
+파일 이름: char_dancer_illust.png / char_dancer_back.png / (선택) char_dancer_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A dancer girl (female) in a flashy dancer outfit in pink and gold with a veil and a folding fan or a ribbon. Colors: pink and gold.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure green (#00FF00) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use green on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: spin and swing the fan. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure green (#00FF00) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use green on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure green (#00FF00) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat green (#00FF00) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat green (#00FF00) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+프리스트 (2차) — 코드 priest
+============================================================
+파일 이름: char_priest_illust.png / char_priest_back.png / (선택) char_priest_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A priest (male) in a long white robe with gold trim, holding a holy book and a mace. Colors: white and gold.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: strike down with the mace. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+몽크 (2차) — 코드 monk
+============================================================
+파일 이름: char_monk_illust.png / char_monk_back.png / (선택) char_monk_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A monk (male) in a martial arts uniform with knuckle gloves and prayer beads. No weapon, bare fists. Colors: brown and orange.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: rapid straight punches. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+No sword and no weapon in any cell: bare fists only.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+위자드 (2차) — 코드 wizard
+============================================================
+파일 이름: char_wizard_illust.png / char_wizard_back.png / (선택) char_wizard_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A wizard (male) in a long robe with a big jeweled staff and a spellbook. Colors: indigo with star patterns.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: swing the staff (skill row: raise the staff high). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+소서러 (2차) — 코드 elementalist
+============================================================
+파일 이름: char_elementalist_illust.png / char_elementalist_back.png / (선택) char_elementalist_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A sorcerer (male) in a short cape with four small orbs floating around him (fire red, water blue, wind green, earth brown). Colors: indigo.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: point forward and shoot one orb. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+The four small orbs stay close around the body in every cell, inside the cell.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+로드 나이트 (3차) — 코드 t3_greatsword
+============================================================
+파일 이름: char_t3_greatsword_illust.png / char_t3_greatsword_back.png / (선택) char_t3_greatsword_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A lord knight (male), an upgraded knight: black plate armor with gold ornaments, a red cape and a huge greatsword with flame patterns.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: big sweeping greatsword slash with a little flame. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+팔라딘 (3차) — 코드 t3_shield
+============================================================
+파일 이름: char_t3_shield_illust.png / char_t3_shield_back.png / (선택) char_t3_shield_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A paladin (male), an upgraded crusader: shining platinum armor, a winged helmet and a huge tower shield with a one-handed sword.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: bash forward with the tower shield and thrust. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+룬 나이트 (3차) — 코드 t3_rider
+============================================================
+파일 이름: char_t3_rider_illust.png / char_t3_rider_back.png / (선택) char_t3_rider_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A rune knight (male) in blue armor with glowing rune letters, riding a small dragon, holding a rune lance.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: charge with the dragon and thrust the rune lance. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+The knight rides the small dragon in EVERY cell, including the hit, guard, potion, defeated and victory rows. Draw the dragon small enough that knight and dragon fit inside one cell.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+레인저 (3차) — 코드 t3_trapper
+============================================================
+파일 이름: char_t3_trapper_illust.png / char_t3_trapper_back.png / (선택) char_t3_trapper_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A ranger (male), an upgraded hunter: a camouflage cape, a bow, and a wolf companion standing beside him.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: shoot the bow while the wolf leaps forward a little. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+The wolf stays beside the ranger in every cell, drawn small enough that both fit inside one cell.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+윈드 호크 (3차) — 코드 t3_bowman
+============================================================
+파일 이름: char_t3_bowman_illust.png / char_t3_bowman_back.png / (선택) char_t3_bowman_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A wind hawk (male), an upgraded sniper: a silver bow with wind swirling around it and feather ornaments.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: draw and shoot the silver bow with a small wind swirl. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+길로틴 크로스 (3차) — 코드 t3_dagger
+============================================================
+파일 이름: char_t3_dagger_illust.png / char_t3_dagger_back.png / (선택) char_t3_dagger_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A guillotine cross (male), an upgraded assassin: a mask with red eyes, huge katars and small green poison accents.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: fast X-shaped slash with both huge katars. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+오보로 (3차) — 코드 t3_shuriken
+============================================================
+파일 이름: char_t3_shuriken_illust.png / char_t3_shuriken_back.png / (선택) char_t3_shuriken_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: An oboro (male), an upgraded ninja: a white fox mask and shurikens with blue flames.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: throw a blue-flame shuriken (it stays inside the cell). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+원더러 (3차) — 코드 t3_dancer
+============================================================
+파일 이름: char_t3_dancer_illust.png / char_t3_dancer_back.png / (선택) char_t3_dancer_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A wanderer girl (female), an upgraded dancer: a wandering bard style cape, a harp or a whip, flower ornaments. Colors: pink, gold and green.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure green (#00FF00) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use green on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: swing the whip in a graceful spin. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure green (#00FF00) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use green on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure green (#00FF00) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat green (#00FF00) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat green (#00FF00) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+아크 비숍 (3차) — 코드 t3_priest
+============================================================
+파일 이름: char_t3_priest_illust.png / char_t3_priest_back.png / (선택) char_t3_priest_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: An arch bishop (male), an upgraded priest: a tall bishop mitre, a large golden staff and a halo of light.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: strike down with the golden staff (skill row: raise the staff, the halo shines). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+수라 (3차) — 코드 t3_monk
+============================================================
+파일 이름: char_t3_monk_illust.png / char_t3_monk_back.png / (선택) char_t3_monk_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A sura (male), an upgraded monk: shirtless muscular body, a red aura, large prayer beads, bare fists.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: powerful straight punch with a red aura. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+No weapon in any cell: bare fists only.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+워록 (3차) — 코드 t3_wizard
+============================================================
+파일 이름: char_t3_wizard_illust.png / char_t3_wizard_back.png / (선택) char_t3_wizard_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A warlock (male), an upgraded wizard: a dark crimson robe, a skull-decorated staff and a floating spellbook.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: swing the skull staff (skill row: the spellbook opens and glows). Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+엘리멘탈 마스터 (3차) — 코드 t3_elementalist
+============================================================
+파일 이름: char_t3_elementalist_illust.png / char_t3_elementalist_back.png / (선택) char_t3_elementalist_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: An elemental master (male), an upgraded sorcerer with four small spirit companions close around him: a tiny fire bird, a water droplet spirit, a wind fairy and a stone turtle.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: point forward while the spirits rush ahead a little. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+The four tiny spirits stay close around the body in every cell, inside the cell.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+시프(여) (여캐) — 코드 thief_f
+============================================================
+파일 이름: char_thief_f_illust.png / char_thief_f_back.png / (선택) char_thief_f_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A girl thief (female) with short hair, a black hood, light leather clothes and one dagger. Colors: purple and black.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: quick dagger stab. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+
+============================================================
+노비스(여) (여캐) — 코드 novice_f
+============================================================
+파일 이름: char_novice_f_illust.png / char_novice_f_back.png / (선택) char_novice_f_front.png
+
+① 일러스트 (새 채팅에 붙여 넣기)
+Draw ONE character illustration for a fantasy RPG.
+Character: A beginner adventurer girl (female) with short brown hair or a ponytail, a plain cotton dress with an apron, cloth shoes and a small wooden club.
+Style: official Ragnarok Online job class artwork style. Korean fantasy manhwa illustration, clean confident lineart, soft anime cel shading, bright clear colors, detailed costume. Not pixel art, not 3D, not photorealistic.
+Pose: full body from head to toes, a confident heroic standing pose holding the weapon, body turned slightly to the left (3/4 view), looking at the viewer.
+Framing: portrait 3:4 image. The whole character fits inside the image with empty space on all four sides. Head, feet, weapon tips and cape do not touch the edges.
+Background: solid flat pure magenta (#FF00FF) everywhere. No scenery, no floor, no ground shadow, no gradient, no glow, no checkerboard. Do not use magenta on the character.
+Only this one character. No text, no name, no logo, no signature, no frame, no border.
+
+② 전투 시트 (①에서 나온 그림 다음에, 같은 채팅)
+Now make the battle sprite sheet of THE SAME character from the illustration above: same face, hair, outfit, colors and weapon.
+Style: classic Ragnarok Online in-game pixel art sprite. Chibi body (about 2.5 heads tall), crisp pixels, 1-pixel dark outline, 2-3 shade cel shading, bright colors. No blur, no glow, no painterly or 3D look.
+View: BACK VIEW. Seen from behind at a 3/4 angle, facing the upper right (toward the enemy). The face is barely visible.
+
+Sheet layout (very important):
+- One image, a grid of equal square cells: exactly 4 columns and 8 rows (a tall portrait image).
+- One pose per cell. Same character size and same foot line in every cell: feet near the bottom of the cell, body centered.
+- Every pose stays COMPLETELY inside its own cell with empty space around it. Weapons, capes, hair and effects never touch or cross into another cell. If a pose is big, draw the character smaller.
+- Fill each row from the left. Cells marked empty stay completely empty.
+
+Rows:
+1. Battle idle, 4 cells: holding the weapon ready, breathing.
+2. Basic attack, 4 cells: swing the wooden club. Wind-up, swing, hit, return.
+3. Skill, 4 cells: gather power, charged pose (weapon or hands glow a little), release, return.
+4. Hit, 2 cells then 2 empty: knocked back, recover.
+5. Guard, 2 cells then 2 empty: block, hold the guard.
+6. Use item, 2 cells then 2 empty: take out a red potion bottle, drink it.
+7. Defeated, 3 cells then 1 empty: stagger, kneel, lying down (keep it inside the cell).
+8. Victory, 3 cells then 1 empty: raise the weapon, hold the pose, look back over the shoulder.
+
+Background: solid flat pure magenta (#FF00FF) in every cell, including the empty cells. No checkerboard, no gray, no gradient, no floor shadow. Do not use magenta on the character.
+No text anywhere: no title, no file name, no labels, no numbers, no grid lines, no borders.
+
+③ (선택) 앞모습 시트
+Now make one more sheet: the FRONT VIEW pixel sprite sheet of the same character, same pixel style and same size as the battle sheet.
+Front 3/4 view, slightly turned to the right, looking at the viewer.
+Layout: exactly 4 columns and 5 rows of equal square cells (portrait 4:5). Every pose completely inside its own cell, same foot line, empty cells completely empty.
+Rows:
+1. Idle, 4 cells: gentle breathing, hair and cape sway a little.
+2. Walking in place, 4 cells.
+3. Cheering, 3 cells then 1 empty: raise the fist or weapon happily.
+4. The coolest heroic pose, 1 cell then 3 empty.
+5. Relaxing in a hot spring, 2 cells then 2 empty: only the upper body, cut off cleanly at chest level (no water drawn), a small towel on the head; cell 2 is a stretch.
+Background: solid flat pure magenta (#FF00FF) everywhere. No checkerboard. No text, no labels, no grid lines.
+
+다시(일러스트): Redo the same image with the same character. Fix: the whole body inside the image with space around it, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.
+다시(시트): Redo the same image with the same character. Fix: exactly 4 columns x 8 rows, every pose inside its own cell, empty cells completely empty, solid flat magenta (#FF00FF) background only (no checkerboard, no gray), no text or title anywhere.

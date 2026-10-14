@@ -7,6 +7,7 @@
   icons/skill/skill_<스킬코드>.png                       -> skill/<스킬코드>
   npc/npc_<시설>_sheet.png (6열×3행)                     -> npc/<시설>_<줄>_<칸> 18장으로 잘라 넣음
   backgrounds/bg_<이름>.png                             -> bg/<이름>  (보스 등장 컷 bosses/boss_bN_intro.png -> bg/boss_intro_bN)
+  characters/char_<코드>_illust.png -> char/<코드>_illust (직업 일러스트, 홈·캐릭터 화면)
   characters/char_<코드>_<front|back>.png, characters/novice/char_novice_*.png -> char/<코드>_<면> (시트, 4열)
   monsters/mon_mN.png (4열×4행)                          -> mon/mN (시트)
   bosses/boss_bN.png (4열×6행)                           -> boss/bN (시트)
@@ -25,6 +26,7 @@ INDEX = os.path.join(ROOT, 'index.html')
 REPORT = os.path.join(ROOT, 'design', 'art_import_report.txt')
 
 ICON_PX = 64          # 아이콘은 64px로 (화면에서 40~56px)
+ILLUST_H = 560        # 직업 일러스트 세로 최대(px)
 BG_W = 585            # 배경 가로 (780의 3/4, 용량 절약)
 NPC_CELL = (512, 640)  # 더 크면 줄이고, 작으면 그대로 (흐려지지 않게)
 SHEET_COLS = 4
@@ -215,13 +217,25 @@ def key_bg(im):
     import numpy as np
     from scipy import ndimage
     a = np.array(im).astype(np.int16)
-    corners = [a[0, 0, :3], a[0, -1, :3], a[-1, 0, :3], a[-1, -1, :3]]
-    bg = np.median(np.array(corners), axis=0)
-    d = np.abs(a[:, :, :3] - bg).sum(2)
+    # 배경색: 테두리 3px에서 많이 나오는 색(최대 2개). 투명인 척 칠한 회색 체크무늬면 두 색을 다 배경으로 본다.
+    ring = np.concatenate([a[:3].reshape(-1, 4), a[-3:].reshape(-1, 4), a[:, :3].reshape(-1, 4), a[:, -3:].reshape(-1, 4)])[:, :3]
+    q, cnt = np.unique(ring // 16, axis=0, return_counts=True)
+    order = np.argsort(-cnt)
+    bgs = []
+    for k in order[:2]:
+        if cnt[k] > .15 * len(ring):
+            sel = np.all(ring // 16 == q[k], axis=1)
+            bgs.append(np.median(ring[sel], axis=0))
+    if not bgs:
+        bgs = [np.median(np.array([a[0, 0, :3], a[0, -1, :3], a[-1, 0, :3], a[-1, -1, :3]]), axis=0)]
+    gray = lambda c: c.max() - c.min() < 24 and c.min() > 120  # 밝은 무채색(흰·회색 체크무늬 칸)
+    if len(bgs) == 2 and not (gray(bgs[0]) and gray(bgs[1])) and np.abs(bgs[0] - bgs[1]).sum() > 120:
+        bgs = bgs[:1]  # 체크무늬가 아닌데 두 색이 많이 다르면 하나만(가장자리에 닿은 그림일 수 있음)
+    d = np.min([np.abs(a[:, :, :3] - bg).sum(2) for bg in bgs], axis=0)
     near = d < 90
     lab, n = ndimage.label(near)
     edge = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
-    mask = np.isin(lab, list(edge)) | (d < 45)  # 가장자리와 이어진 배경 + 그림 틈에 갇힌 거의 같은 색(그림에는 그 색을 안 쓰게 요청함)
+    mask = np.isin(lab, list(edge)) | ((d < 45) if len(bgs) == 1 else False)  # 체크무늬(흰·회색)면 갇힌 색은 안 지움(흰 옷 보호)  # 가장자리와 이어진 배경 + 그림 틈에 갇힌 거의 같은 색(그림에는 그 색을 안 쓰게 요청함)
     # 경계 1~2px 번짐(분홍 테두리)도 지움
     fringe = ndimage.binary_dilation(mask, iterations=2) & (d < 200) & ~mask
     out = a.copy()
@@ -229,6 +243,34 @@ def key_bg(im):
     out[fringe, 3] = (out[fringe, 3] * .35).astype(np.int16)
     # 남은 분홍기 빼기 (가장자리 픽셀 색에서 배경색 섞임 줄이기)
     return Image.fromarray(out.clip(0, 255).astype(np.uint8))
+
+
+def drop_text_bands(im, rows):
+    """나노바나나가 위·아래에 써 넣은 제목 글자 줄을 잘라 낸다(빈 띠로 떨어진 얇은 줄만). 잘라 낸 높이를 돌려줌."""
+    import numpy as np
+    a = np.array(im.convert('RGBA'))[:, :, 3] > 20
+    H = a.shape[0]
+    ch = H / rows
+    filled = a.any(1)
+    cut_top = cut_bot = 0
+    # 위: 맨 위 그림 덩어리가 얇고(칸의 30% 아래) 그 아래 빈 띠가 있으면 제목 글자로 봄
+    ys = np.nonzero(filled)[0]
+    if len(ys):
+        y = ys[0]; end = y
+        while end < H and filled[end]: end += 1
+        gap = end
+        while gap < H and not filled[gap]: gap += 1
+        if y < .12 * H and end - y < .3 * ch and gap - end >= 4 and gap < .5 * H:
+            cut_top = gap - 2
+        y = ys[-1]; st = y
+        while st > 0 and filled[st]: st -= 1
+        gap = st
+        while gap > 0 and not filled[gap]: gap -= 1
+        if y > .88 * H and y - st < .3 * ch and st - gap >= 4 and gap > .5 * H:
+            cut_bot = H - (gap + 2)
+    if cut_top or cut_bot:
+        im = im.crop((0, cut_top, im.size[0], H - cut_bot))
+    return im, cut_top + cut_bot
 
 
 def keep_main(im):
@@ -347,11 +389,30 @@ def handle(rel, im, names, out, rep):
         im = im.convert('RGB')
         im = im.resize((BG_W, round(BG_W * h / w)), Image.LANCZOS)
         out['bg/' + name] = to_data_url(im, lossless=False, q=74)
+    elif top == 'characters' and base.endswith('_illust'):
+        # 직업 일러스트(홈·캐릭터 화면용 전신 그림): 단색 배경 지우기 → 안 되면 rembg → 그림만 남게 자르고 줄임
+        code = base[5:-7]
+        im2 = key_bg(im)
+        if not corners_transparent(im2):
+            im2 = remove_flat_bg(im.convert('RGB'))
+        bb = im2.getchannel('A').point(lambda v: 255 if v > 24 else 0).getbbox()
+        if not bb:
+            return bad('일러스트에서 사람을 못 찾음(배경만 있음)')
+        im2 = im2.crop(bb)
+        w, h = im2.size
+        if bb[1] <= 1 or bb[3] >= im.size[1] - 1:
+            bad('일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요')
+        if h > ILLUST_H:
+            im2 = im2.resize((round(w * ILLUST_H / h), ILLUST_H), Image.LANCZOS)
+        out[f'char/{code}_illust'] = to_data_url(im2, lossless=False, q=80, aq=70)
     elif top == 'characters':
         m = re.match(r'char_(.+)_(front|back)$', base)
         if not m:
             return bad('캐릭터 시트 이름은 char_<코드>_front.png / _back.png')
         im = key_bg(im)
+        im, cutp = drop_text_bands(im, 8 if m.group(2) == 'back' else 5)
+        if cutp:
+            rep.setdefault('fixed', []).append(f'{base}: 위·아래 글자 줄 {cutp}px 잘라 냄')
         cw = im.size[0] / 4
         if cw > 160:  # 나노바나나처럼 크게 온 그림은 칸 128px 기준으로 줄임
             im = im.resize((512, round(im.size[1] * 512 / im.size[0])), Image.LANCZOS)
@@ -430,6 +491,8 @@ def main():
                     if f.lower().endswith('.png'):
                         p = os.path.join(dp, f)
                         items.append((os.path.relpath(p, a), Image.open(p)))
+        elif a.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')) and os.path.isfile(a):  # 그림 파일 하나씩도 받음
+            items.append((os.path.basename(a).rsplit('.', 1)[0] + '.png', Image.open(a)))
     for rel, im in stitch_halves(items, rep):
         handle(rel, im, names, out, rep)
     if not dry and out:

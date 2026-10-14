@@ -19,14 +19,16 @@ SPEC = {'mon': (96, [4, 4, 2, 3]), 'boss': (160, [4, 4, 4, 2, 2, 4]),
 COLS = 4
 
 
-def frames_of(im, cell, counts):
+def frames_of(im, cell, counts, ch=None, log=None):
+    """cell = 칸 가로, ch = 칸 세로(나노바나나처럼 9:16 등으로 와서 칸이 정사각형이 아닐 때). 없으면 정사각형."""
     a = np.array(im.convert('RGBA'))
     alpha = a[:, :, 3] > 20
     H, W = alpha.shape
+    cw = cell; ch = ch or cell
     lab, n = ndimage.label(alpha, structure=np.ones((3, 3)))
     objs = ndimage.find_objects(lab)
     areas = ndimage.sum(alpha, lab, range(1, n + 1))
-    body_min = 0.05 * cell * cell
+    body_min = 0.05 * cw * ch
     pieces = []  # (mask_sl, ys, xs) 몸통 조각들
     parts = []
     for k in range(1, n + 1):
@@ -36,21 +38,22 @@ def frames_of(im, cell, counts):
         if areas[k - 1] >= body_min:
             # 이웃 프레임과 붙어 버린 몸통은 칸 경계에서 나눔
             w = xs.max() - xs.min(); h = ys.max() - ys.min()
-            if w > 1.2 * cell or h > 1.25 * cell:
+            if w > 1.2 * cw or h > 1.25 * ch:
                 # 붙어 버린 이웃 프레임: 칸 경계 근처에서 그림이 가장 얇은 줄을 찾아 나눔(행이 어긋나 있어도 맞게)
-                def cuts(v, lo, hi, do):
+                def cuts(v, lo, hi, do, cell):
                     if not do:
                         return []
                     res = []
-                    for b0 in range(int(np.ceil(lo / cell)) * cell, int(hi) + 1, cell):
+                    for k in range(int(np.ceil(lo / cell)), int(hi / cell) + 1):
+                        b0 = int(round(k * cell))
                         if b0 <= lo or b0 >= hi:
                             continue
                         win = np.arange(max(lo + 1, b0 - int(.4 * cell)), min(hi, b0 + int(.4 * cell)))
                         cnt = np.bincount(v - lo, minlength=hi - lo + 1)[win - lo]
                         res.append(int(win[np.argmin(cnt)]))
                     return res
-                ycut = cuts(ys, ys.min(), ys.max(), h > 1.25 * cell)
-                xcut = cuts(xs, xs.min(), xs.max(), w > 1.2 * cell)
+                ycut = cuts(ys, ys.min(), ys.max(), h > 1.25 * ch, ch)
+                xcut = cuts(xs, xs.min(), xs.max(), w > 1.2 * cw, cw)
                 key = np.searchsorted(ycut, ys, side='right') * 100 + np.searchsorted(xcut, xs, side='right')
                 for v in np.unique(key):
                     m = key == v
@@ -65,8 +68,12 @@ def frames_of(im, cell, counts):
     slot_pts = {}
     boxes = {}
     for ys, xs in pieces:
-        r = min(int(ys.mean() // cell), len(counts) - 1)
-        c = min(int(xs.mean() // cell), COLS - 1, counts[r] - 1)
+        r = min(int(ys.mean() // ch), len(counts) - 1)
+        c = min(int(xs.mean() // cw), COLS - 1)
+        if c >= counts[r]:  # 비어 있어야 할 칸에 그려진 것(반짝이·글자 등)은 버림
+            if log is not None:
+                log.append(f'{r + 1}줄 {c + 1}번(빈 칸)에 그려진 그림 지움')
+            continue
         slot_pts.setdefault((r, c), []).append((ys, xs))
     for key, L in slot_pts.items():
         ys = np.concatenate([p[0] for p in L]); xs = np.concatenate([p[1] for p in L])
@@ -78,7 +85,7 @@ def frames_of(im, cell, counts):
             d = max(y0 - cy, 0, cy - y1) + max(x0 - cx, 0, cx - x1)
             if best is None or d < best[0]:
                 best = (d, key)
-        if best and best[0] < .3 * cell:
+        if best and best[0] < .3 * min(cw, ch):
             slot_pts[best[1]].append((ys, xs))
     out = {}
     for (r, c), L in slot_pts.items():
@@ -91,21 +98,27 @@ def frames_of(im, cell, counts):
         cut = []
         strong = a[:, :, 3] > 180
         own = np.zeros_like(alpha); own[ys, xs] = True; own &= strong
-        for b0 in range((y0 // cell + 1) * cell, y1 + 1, cell):
+        for k in range(int(y0 // ch) + 1, int(y1 // ch) + 2):
+            b0 = int(round(k * ch))
+            if b0 > y1:
+                break
             if 0 < b0 < H:
                 n_in = (own[b0 - 1] & ~alpha[b0]).sum(); n_out = (own[b0] & ~alpha[b0 - 1]).sum()
-                if n_in > .08 * cell: cut.append(('B', n_in))
-                if n_out > .08 * cell: cut.append(('T', n_out))
-            elif b0 == H and own[H - 1].sum() > .08 * cell:
+                if n_in > .08 * cw: cut.append(('B', n_in))
+                if n_out > .08 * cw: cut.append(('T', n_out))
+            elif b0 == H and own[H - 1].sum() > .08 * cw:
                 cut.append(('B', own[H - 1].sum()))
-        for b0 in range((x0 // cell + 1) * cell, x1 + 1, cell):
+        for k in range(int(x0 // cw) + 1, int(x1 // cw) + 2):
+            b0 = int(round(k * cw))
+            if b0 > x1:
+                break
             if 0 < b0 < W:
                 n1 = (own[:, b0 - 1] & ~alpha[:, b0]).sum(); n2 = (own[:, b0] & ~alpha[:, b0 - 1]).sum()
-                if n1 > .08 * cell: cut.append(('R', n1))
-                if n2 > .08 * cell: cut.append(('L', n2))
-        if y0 == 0 and own[0].sum() > .08 * cell: cut.append(('T', own[0].sum()))
-        if x0 == 0 and own[:, 0].sum() > .08 * cell: cut.append(('L', own[:, 0].sum()))
-        out[(r, c)] = {'px': px, 'x0': x0 - c * cell, 'y0': y0 - r * cell, 'w': x1 - x0, 'h': y1 - y0, 'cut': cut}
+                if n1 > .08 * ch: cut.append(('R', n1))
+                if n2 > .08 * ch: cut.append(('L', n2))
+        if y0 == 0 and own[0].sum() > .08 * cw: cut.append(('T', own[0].sum()))
+        if x0 == 0 and own[:, 0].sum() > .08 * ch: cut.append(('L', own[:, 0].sum()))
+        out[(r, c)] = {'px': px, 'x0': x0 - c * cw, 'y0': y0 - r * ch, 'w': x1 - x0, 'h': y1 - y0, 'cut': cut}
     return out
 
 
@@ -114,8 +127,11 @@ def repack(im, kind):
     sc = im.size[0] / (cell * COLS)  # 받은 시트가 다른 배율이면 맞춤
     if abs(sc - 1) > .01:
         cell = int(round(cell * sc))
-    F = frames_of(im, cell, counts)
+    ch = im.size[1] / len(counts)  # 칸 세로: 정사각형이 아니어도(9:16 등) 줄 수로 나눔
+    if abs(ch - cell) < 2:
+        ch = cell
     log = []
+    F = frames_of(im, cell, counts, ch, log)
     # 위아래로 많이 잘린 프레임(경계에 닿은 길이가 칸의 35% 넘음)은 같은 줄의 멀쩡한 프레임으로 바꾸고,
     # 조금 잘린 것(꼬리·빛 끝)은 잘린 가장자리를 부드럽게 흐려 일자로 썰린 티가 안 나게 한다.
     last = len(counts) - 1
@@ -157,7 +173,7 @@ def repack(im, kind):
             base_b, base_cx = b, cx
         shift[r] = (base_cx - cx, base_b - b)
     # 원래 칸(가운데·바닥선)이 새 칸 가운데에 오도록, 모두 들어가는 크기 계산
-    ctr_x, ctr_y = cell / 2, cell / 2  # 원래 칸 가운데
+    ctr_x, ctr_y = cell / 2, ch / 2  # 원래 칸 가운데
     need = 0
     for (r, c), f in F.items():
         dx, dy = shift.get(r, (0, 0))
@@ -167,11 +183,11 @@ def repack(im, kind):
     M += M % 2
     rows = len(counts)
     sheet = Image.new('RGBA', (M * COLS, M * rows), (0, 0, 0, 0))
-    off = M / 2 - cell / 2
+    offx, offy = M / 2 - cell / 2, M / 2 - ch / 2
     for (r, c), f in F.items():
         dx, dy = shift.get(r, (0, 0))
-        x = int(round(c * M + off + f['x0'] + dx))
-        y = int(round(r * M + off + f['y0'] + dy))
+        x = int(round(c * M + offx + f['x0'] + dx))
+        y = int(round(r * M + offy + f['y0'] + dy))
         sheet.alpha_composite(Image.fromarray(f['px']), (x, y))
     return sheet, M / cell, log, cell
 
