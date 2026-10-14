@@ -1340,7 +1340,7 @@ const LKEY = {inq:'mnbrpg-local-inq', grant:'mnbrpg-local-grants', ban:'mnbrpg-l
 const lget = k => store.get(LKEY[k]) || (k==='ban' ? {} : k==='notice' ? {text:''} : []);
 const lset = (k, v) => store.set(LKEY[k], v);
 const lnext = L => L.reduce((m, x) => Math.max(m, x.n || 0), 0) + 1;
-const isAdmin = () => !!(ACC.u && ACC.u.admin);
+const isAdmin = () => !!(ACC.u && (ACC.u.admin || (ACC.u.local && String(ACC.u.id).toLowerCase() === 'gm')));  // 이 기기 계정은 'gm'이면 언제 만들었든 운영자
 const LUSER = id => (store.get(LUSERS_KEY) || {})[id];
 function llog(act, target){ const L = lget('log'); L.unshift({by:ACC.u ? ACC.u.id : '?', act, target, at:Date.now()}); lset('log', L.slice(0, 100)); }
 const BK = {
