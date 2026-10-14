@@ -26,7 +26,7 @@ REPORT = os.path.join(ROOT, 'design', 'art_import_report.txt')
 
 ICON_PX = 64          # 아이콘은 64px로 (화면에서 40~56px)
 BG_W = 585            # 배경 가로 (780의 3/4, 용량 절약)
-NPC_CELL = (256, 320) # NPC 한 컷
+NPC_CELL = (512, 640)  # 더 크면 줄이고, 작으면 그대로 (흐려지지 않게)
 SHEET_COLS = 4
 ROWS = {'front': 5, 'back': 8, 'mon': 4, 'boss': 6}
 FRAMES = {'front': [4, 4, 3, 1, 2], 'back': [4, 4, 4, 2, 2, 2, 3, 3], 'mon': [4, 4, 2, 3], 'boss': [4, 4, 4, 2, 2, 4]}
@@ -226,13 +226,13 @@ def handle(rel, im, names, out, rep):
             return bad('NPC 파일 이름은 npc_<shop|smith|onsen|inn|training>_sheet.png')
         code = m.group(1)
         w, h = im.size
-        cw, ch = w // 6, h // 3
-        if w % 6 or h % 3:
-            bad('6열×3행으로 나누어떨어지지 않음 (넣긴 했지만 확인 필요)')
+        A = im.convert('RGBA').getchannel('A')
+        has_alpha = A.getextrema()[0] < 10 and sum(1 for v in A.resize((64, 40)).getdata() if v < 10) > 64 * 40 * 0.1
         for r in range(3):
-            for c in range(6):
-                cell = im.crop((c * cw, r * ch, (c + 1) * cw, (r + 1) * ch)).convert('RGBA')
-                cell = remove_flat_bg(cell)
+            for c in range(6):  # 칸 크기가 나누어떨어지지 않아도 고르게 자름
+                cell = im.crop((round(c * w / 6), round(r * h / 3), round((c + 1) * w / 6), round((r + 1) * h / 3))).convert('RGBA')
+                if not has_alpha:  # 이미 투명 배경으로 온 시트는 배경 지우기를 하지 않음 (그림 훼손 방지)
+                    cell = remove_flat_bg(cell)
                 cell.thumbnail(NPC_CELL, Image.LANCZOS)
                 out[f'npc/{code}_{r}_{c}'] = to_data_url(cell, lossless=False, q=82)
     elif top == 'backgrounds' or (top == 'bosses' and base.endswith('_intro')):
