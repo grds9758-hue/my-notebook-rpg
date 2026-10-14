@@ -157,6 +157,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media (prefers-reduced-motion:reduce){.townhero .talk .more,.townhero .tapme{animation:none}.townhero .npcbtn.hop .npc{animation:none}}
 .townhero.place{height:400px;margin-bottom:0}
 .townhero.place .npcbtn{right:-14px;bottom:0;height:350px;pointer-events:none}
+.townhero.place.bathing .npcbtn{height:300px;right:-20px}  /* 탕에 들어가 있으면 NPC를 조금 작게 → 왼쪽 탕과 안 겹침 */
 .placetalk{position:relative;z-index:3;margin:-14px 0 12px;background:#fff;border:2px solid #9cb8f0;border-radius:20px;padding:12px 16px 14px;font-size:14.5px;line-height:1.6;color:#262c38;box-shadow:0 6px 16px rgba(40,60,140,.14)}
 .placetalk .nm{font-weight:700;font-size:13px;margin-bottom:3px}
 .placetalk p{margin:0;min-height:3.2em}
@@ -164,7 +165,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .pbig{position:absolute;left:18px;top:96px;font-size:64px;opacity:.35;z-index:0}.pbig .aico{width:96px;height:96px}
 .npcph{position:absolute;right:16px;bottom:56px;width:150px;height:250px;border-radius:80px 80px 24px 24px;background:rgba(255,255,255,.55);border:3px dashed currentColor;display:grid;place-content:center;text-align:center;z-index:1}
 .npcph b{font-size:22px}.npcph small{display:block;font-size:11px;color:var(--muted)}
-.tub{position:absolute;left:92px;top:104px;z-index:1;width:96px;height:86px;display:grid;place-items:end center;overflow:hidden}
+.tub{position:absolute;left:14px;top:178px;z-index:1;width:96px;height:86px;display:grid;place-items:end center;overflow:hidden}
 .tub .water{position:absolute;z-index:2;left:0;right:0;bottom:0;height:44%;background:linear-gradient(180deg,rgba(170,220,255,.75),rgba(110,180,240,.85));border-radius:50% 50% 12px 12px/30% 30% 12px 12px;box-shadow:0 -4px 10px rgba(255,255,255,.6)}
 .pnav{display:flex;flex-wrap:wrap;gap:6px}.pnav .pi .aico{width:18px;height:18px}
 .item.lock{opacity:.55}
@@ -2543,7 +2544,7 @@ function placeHero(k){
   const P = PLACES[k], ln = UI.placeLine || pline(0, 0, pt(k, 'hi')), bg = artSrc('bg/'+k), face = npcArt(k, ln.r, ln.c);
   const bath = k==='onsen' && S.onsen;
   const tub = bath ? `<span class="tub">${(() => { const L = lookFront(4); return L.sheet ? sheetHTML(L.sheet, L.row) : dollHTML(L, 84); })()}<i class="water"></i></span>` : '';
-  return `<section class="townhero place ${bg?'':'noart'}" style="${bg ? `background-image:url(${bg})` : `background:linear-gradient(180deg,${P.col[0]},${P.col[1]})`}">
+  return `<section class="townhero place ${bg?'':'noart'} ${bath?'bathing':''}" style="${bg ? `background-image:url(${bg})` : `background:linear-gradient(180deg,${P.col[0]},${P.col[1]})`}">
     ${top(P.n, `${P.role} ${P.npc} · 노테라`, `<button class="btn ghost" style="padding:7px 10px" data-act="placeback">← 마을</button>`)}
     ${bg ? '' : `<span class="pbig" aria-hidden="true">${placeIco(k)}</span>`}
     ${face ? `<span class="npcbtn"><img class="npc" src="${face}" alt="${P.npc}"></span>` : `<span class="npcph" style="color:${P.name}" aria-hidden="true"><b>${P.npc}</b><small>그림 준비 중</small></span>`}
