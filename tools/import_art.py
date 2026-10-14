@@ -273,6 +273,66 @@ def drop_text_bands(im, rows):
     return im, cut_top + cut_bot
 
 
+def chroma_key(im, green=False):
+    """일러스트용 색 차이 키잉: 분홍(#FF00FF) 또는 초록(#00FF00) 기운이 얼마나 강한지로 투명도를 정한다.
+    그림 틈에 갇힌 배경·외곽선에 섞인 배경까지 지우고, 섞인 색은 배경 기운을 빼서 되살린다. 보라·분홍 옷(색이 한쪽으로 치우침)은 남김."""
+    import numpy as np
+    from scipy import ndimage
+    a = np.array(im.convert('RGBA')).astype(np.float32)
+    r, g, b = a[:, :, 0], a[:, :, 1], a[:, :, 2]
+    if green:
+        k = g - np.maximum(r, b)
+        hue_ok = np.ones_like(k, bool)
+    else:
+        k = np.minimum(r, b) - g
+        hue_ok = np.abs(r - b) < 45  # 분홍 배경은 R≈B. 보라(파랑 쪽)·핫핑크(빨강 쪽)는 남김
+    t0, t1 = 70.0, 170.0
+    alpha = np.where(hue_ok, 1 - np.clip((k - t0) / (t1 - t0), 0, 1), 1.0)
+    alpha = ndimage.grey_opening(alpha, size=(2, 2))  # 한 점짜리 구멍·점 정리
+    sp = np.where(hue_ok, np.clip(k - 20, 0, None), 0)
+    if green:
+        a[:, :, 1] = g - sp
+    else:
+        a[:, :, 0] = r - sp; a[:, :, 2] = b - sp
+    a[:, :, 3] = a[:, :, 3] * alpha
+    out = Image.fromarray(a.clip(0, 255).astype(np.uint8))
+    al = np.array(out)[:, :, 3] > 24
+    lab, n = ndimage.label(al)
+    if n:
+        sz = ndimage.sum(al, lab, range(1, n + 1))
+        arr = np.array(out); arr[np.isin(lab, np.nonzero(sz < 40)[0] + 1), 3] = 0
+        out = Image.fromarray(arr)
+    return out
+
+
+def despill_edge(im, bg=(255, 0, 255), band=4):
+    """분홍(또는 초록) 배경을 지운 뒤 테두리에 남는 배경색 번짐을 뺀다. 테두리 band px 안에서만(캐릭터 안의 분홍은 그대로)."""
+    import numpy as np
+    from scipy import ndimage
+    a = np.array(im.convert('RGBA')).astype(np.float32)
+    al = a[:, :, 3] > 8
+    edge = al & ndimage.binary_dilation(~al, iterations=band)
+    r, g, b = a[:, :, 0], a[:, :, 1], a[:, :, 2]
+    if bg[1] > 200:  # 초록 배경
+        spill = np.clip(g - np.maximum(r, b), 0, None)
+        a[:, :, 1] = np.where(edge, g - spill, g)
+    else:
+        spill = np.clip(np.minimum(r, b) - g, 0, None)
+        a[:, :, 0] = np.where(edge, r - spill * .85, r)
+        a[:, :, 2] = np.where(edge, b - spill * .85, b)
+        # 거의 배경색인 테두리 픽셀은 지움
+        d = np.abs(r - bg[0]) + np.abs(g - bg[1]) + np.abs(b - bg[2])
+        a[:, :, 3] = np.where(edge & (d < 150), 0, a[:, :, 3])
+    # 떨어진 작은 점(배경 찌꺼기) 지움
+    al2 = a[:, :, 3] > 24
+    lab, n = ndimage.label(al2)
+    if n:
+        sz = ndimage.sum(al2, lab, range(1, n + 1))
+        small = np.isin(lab, np.nonzero(sz < 40)[0] + 1)
+        a[small, 3] = 0
+    return Image.fromarray(a.clip(0, 255).astype(np.uint8))
+
+
 def keep_main(im):
     """가장 큰 덩어리(아이콘 본체)와 이어지지 않은 조각을 모두 지운다."""
     try:
@@ -392,8 +452,12 @@ def handle(rel, im, names, out, rep):
     elif top == 'characters' and base.endswith('_illust'):
         # 직업 일러스트(홈·캐릭터 화면용 전신 그림): 단색 배경 지우기 → 안 되면 rembg → 그림만 남게 자르고 줄임
         code = base[5:-7]
-        im2 = key_bg(im)
-        if not corners_transparent(im2):
+        c0 = im.convert('RGB').getpixel((0, 0))  # 배경색(위 모서리)
+        if (c0[0] > 180 and c0[2] > 180 and c0[1] < 90) or (c0[1] > 180 and max(c0[0], c0[2]) < 90):
+            im2 = chroma_key(im, green=c0[1] > 180)  # 분홍·초록 배경: 색 차이로 지움(틈·외곽선 섞임까지)
+        else:
+            im2 = key_bg(im)
+        if not corners_transparent(im2) and im2.getchannel('A').getextrema()[0] > 0:
             im2 = remove_flat_bg(im.convert('RGB'))
         bb = im2.getchannel('A').point(lambda v: 255 if v > 24 else 0).getbbox()
         if not bb:

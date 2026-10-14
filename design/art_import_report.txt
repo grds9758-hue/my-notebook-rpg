@@ -1,116 +1,61 @@
 그림 넣기 결과 (게임에 넣음)
-넣은 것 50개 · 문제 0건 · 목록에 없는 이름 0개
+넣은 것 29개 · 문제 26건 · 목록에 없는 이름 0개
 
-[자동으로 고친 것 — 원본은 잘림·어긋남, 다시 받으면 더 좋음]
-  boss_b0: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b0: 3줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b0: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b1: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b1: 3줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b1: 4줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b1: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b2: 4줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b2: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b3: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b3: 3줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b3: 4줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b3: 5줄 1번 조금 잘림(B) → 가장자리 부드럽게
-  boss_b3: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b4: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b4: 3줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b4: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b5: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b5: 3줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b5: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b6: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b7: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b7: 4줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b7: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b8: 3줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b8: 3줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  boss_b8: 4줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b8: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b9: 3줄 1번 조금 잘림(R) → 가장자리 부드럽게
-  boss_b9: 3줄 3번 조금 잘림(LR) → 가장자리 부드럽게
-  boss_b9: 5줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m1: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m10: 2줄 3번 조금 잘림(B) → 가장자리 부드럽게
-  mon_m10: 2줄 4번 조금 잘림(B) → 가장자리 부드럽게
-  mon_m12: 3줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m12: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m13: 2줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m13: 2줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  mon_m13: 2줄 4번 조금 잘림(B) → 가장자리 부드럽게
-  mon_m13: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m14: 2줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  mon_m14: 2줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  mon_m14: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m16: 2줄 4번 조금 잘림(B) → 가장자리 부드럽게
-  mon_m16: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m17: 2줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  mon_m17: 2줄 4번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  mon_m17: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m18: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m19: 1줄 1번 조금 잘림(B) → 가장자리 부드럽게
-  mon_m19: 3줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m19: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m2: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m6: 1줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m6: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m7: 3줄 2번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m7: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m8: 2줄 3번 많이 잘림(B) → 같은 줄 다른 프레임으로 대체
-  mon_m8: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
-  mon_m9: 4줄 3번 조금 잘림(R) → 가장자리 부드럽게
+[문제 — 고쳐서 다시 받기]
+  char_dagger_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_shield_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_monk_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_rider_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_wizard_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_thief_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_elementalist_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_dancer_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_healer_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_warrior_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_bowman_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_shuriken_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_mage_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_rider_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_shield_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_priest_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_trapper_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_wizard_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_elementalist_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_monk_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_shuriken_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_priest_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_greatsword_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_greatsword_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_bowman_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_archer_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
 
 [넣은 것]
-  bg_boss_0.png
-  bg_boss_1.png
-  bg_boss_2.png
-  bg_boss_3.png
-  bg_boss_4.png
-  bg_boss_5.png
-  bg_boss_6.png
-  bg_boss_7.png
-  bg_boss_8.png
-  bg_boss_9.png
-  boss_b0.png
-  boss_b0_intro.png
-  boss_b1.png
-  boss_b1_intro.png
-  boss_b2.png
-  boss_b2_intro.png
-  boss_b3.png
-  boss_b3_intro.png
-  boss_b4.png
-  boss_b4_intro.png
-  boss_b5.png
-  boss_b5_intro.png
-  boss_b6.png
-  boss_b6_intro.png
-  boss_b7.png
-  boss_b7_intro.png
-  boss_b8.png
-  boss_b8_intro.png
-  boss_b9.png
-  boss_b9_intro.png
-  mon_m0.png
-  mon_m1.png
-  mon_m10.png
-  mon_m11.png
-  mon_m12.png
-  mon_m13.png
-  mon_m14.png
-  mon_m15.png
-  mon_m16.png
-  mon_m17.png
-  mon_m18.png
-  mon_m19.png
-  mon_m2.png
-  mon_m3.png
-  mon_m4.png
-  mon_m5.png
-  mon_m6.png
-  mon_m7.png
-  mon_m8.png
-  mon_m9.png
+  char_dagger_illust.png
+  char_t3_shield_illust.png
+  char_t3_monk_illust.png
+  char_rider_illust.png
+  char_t3_dagger_illust.png
+  char_wizard_illust.png
+  char_thief_illust.png
+  char_t3_elementalist_illust.png
+  char_dancer_illust.png
+  char_healer_illust.png
+  char_warrior_illust.png
+  char_bowman_illust.png
+  char_t3_shuriken_illust.png
+  char_mage_illust.png
+  char_t3_rider_illust.png
+  char_shield_illust.png
+  char_t3_priest_illust.png
+  char_trapper_illust.png
+  char_t3_wizard_illust.png
+  char_elementalist_illust.png
+  char_t3_trapper_illust.png
+  char_monk_illust.png
+  char_t3_dancer_illust.png
+  char_shuriken_illust.png
+  char_priest_illust.png
+  char_greatsword_illust.png
+  char_t3_greatsword_illust.png
+  char_t3_bowman_illust.png
+  char_archer_illust.png
