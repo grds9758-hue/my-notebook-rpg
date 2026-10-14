@@ -3395,11 +3395,11 @@ app.addEventListener('click', async e => {
   if (a==='logout'){ accLogout(); return; }
   if (a==='start'){ newGame(); UI.tab = 'home'; render(); window.scrollTo({top:0}); return; }
   if (a==='hunt'){ startBattle(+b.dataset.g, b.dataset.deep==='1'); return; }
-  if (a==='target'){ if (B && !B.over){ B.target = +b.dataset.i; render(); } return; }
+  if (a==='target'){ if (B && !B.over){ B.target = +b.dataset.i; B.pops = {}; render(); } return; }  // 이미 보여 준 피해 숫자·맞는 동작이 다시 재생되지 않게
   if (a==='attack'){ playerAction('attack'); return; }
   if (a==='guard'){ playerAction('guard'); return; }
   if (a==='run'){ playerAction('run'); return; }
-  if (a==='sub'){ if (B){ B.sub = b.dataset.v || null; render(); } return; }
+  if (a==='sub'){ if (B){ B.sub = b.dataset.v || null; B.pops = {}; render(); } return; }
   if (a==='useskill'){ playerAction('skill', learnedActive().find(s=>s.id===b.dataset.id)); return; }
   if (a==='learn'){ learnSkill(b.dataset.id); return; }
   if (a==='sksel'){ UI.skSel = b.dataset.id; render(); return; }
