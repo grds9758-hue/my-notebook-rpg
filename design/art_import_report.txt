@@ -1,11 +1,13 @@
 그림 넣기 결과 (게임에 넣음)
-넣은 것 29개 · 문제 26건 · 목록에 없는 이름 0개
+넣은 것 31개 · 문제 31건 · 목록에 없는 이름 0개
 
 [문제 — 고쳐서 다시 받기]
   char_dagger_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_t3_shield_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_t3_monk_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_rider_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_dagger_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_novice_f_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_wizard_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_thief_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_t3_elementalist_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
@@ -19,9 +21,12 @@
   char_shield_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_t3_priest_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_trapper_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_novice_m_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_t3_wizard_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_elementalist_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_trapper_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_monk_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
+  char_t3_dancer_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_shuriken_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_priest_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
   char_greatsword_illust.png — 일러스트가 위나 아래 끝에 닿음(머리·발 잘림 의심) — 넣긴 했지만 확인 필요
@@ -35,6 +40,7 @@
   char_t3_monk_illust.png
   char_rider_illust.png
   char_t3_dagger_illust.png
+  char_novice_f_illust.png
   char_wizard_illust.png
   char_thief_illust.png
   char_t3_elementalist_illust.png
@@ -48,6 +54,7 @@
   char_shield_illust.png
   char_t3_priest_illust.png
   char_trapper_illust.png
+  char_novice_m_illust.png
   char_t3_wizard_illust.png
   char_elementalist_illust.png
   char_t3_trapper_illust.png
