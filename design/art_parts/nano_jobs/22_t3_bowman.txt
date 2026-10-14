@@ -3,6 +3,7 @@ Read this whole file, then make TWO images of the SAME character.
   IMAGE 1 = character illustration   -> I will save it as char_t3_bowman_illust.png
   IMAGE 2 = battle sprite sheet      -> I will save it as char_t3_bowman_back.png
 Make IMAGE 1 first. When I say "next", make IMAGE 2.
+Reference: the attached picture 00_style_ref_monsters.png shows the monsters already in the game. IMAGE 2 must use exactly their pixel art style.
 
 ==================== THE CHARACTER (identical in both images) ====================
 Job: Wind Hawk from a fantasy MMORPG in the style of Ragnarok Online.
@@ -24,7 +25,13 @@ His skill motion: green wind spirals around the bow.
 
 ==================== IMAGE 2: BATTLE SPRITE SHEET ====================
 - Same character as IMAGE 1 (same gender, hair, outfit, colors, weapon), now as a pixel art game sprite.
-- Style: classic Ragnarok Online in-game sprite. Chibi body about 2.5 heads tall, crisp pixels, 1-pixel dark outline, 2-3 shade cel shading. No blur, no glow, no 3D.
+- Pixel style: EXACTLY the same pixel art style as the monsters in the attached reference image (00_style_ref_monsters.png: slime, goblin, lizard knight, golem...). This character must look like part of the same game as those monsters:
+  * detailed hand-made pixel art like 16-bit / PS1-era fantasy RPG battle sprites, NOT tiny simple chibi, NOT flat vector
+  * proportions like the goblin and the lizard knight in the reference: about 3 heads tall, compact and sturdy, slightly stylized, big readable silhouette
+  * dark brown-black 1-pixel outline around the whole body
+  * 4-6 color shades per material with hard pixel edges (no smooth gradients, no blur), light from the top-left, small bright highlights on metal and eyes
+  * rich, slightly deep saturated colors with the same contrast and brightness as the monsters
+  * the same pixel size: the character in one cell should be about as big and as detailed as the goblin or lizard knight in the reference
 - View: BACK VIEW. We see him from behind at a 3/4 angle, facing the upper right (toward an enemy). The face is barely visible.
 - Grid: exactly 4 columns x 8 rows of equal square cells. The image is twice as tall as it is wide.
 - One pose per cell. Same character size and same foot line in every cell (feet near the bottom of the cell, body centered in the cell).

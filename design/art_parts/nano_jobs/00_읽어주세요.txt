@@ -2,7 +2,7 @@
 
 쓰는 법
 1. 제미나이에서 새 채팅을 연다 (직업 하나 = 새 채팅 하나).
-2. 그 직업 txt 파일을 첨부하고 이렇게 보낸다:
+2. 그 직업 txt 파일 + 그림체 기준 그림 00_style_ref_monsters.png(게임 몬스터 모음)를 같이 첨부하고 이렇게 보낸다:
    Read the attached file and make IMAGE 1.
 3. 일러스트가 나오면:  next
 4. 저장 이름: char_<코드>_illust.png (일러스트) / char_<코드>_back.png (전투 시트)
