@@ -81,6 +81,13 @@ details.inq .ans{margin-top:8px;padding:8px 10px;border-radius:10px;background:v
 .rv{font-size:12.5px;font-weight:800;flex:none}
 .gmarks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.gmarks button{border:2px solid transparent;background:var(--surface-2);border-radius:10px;font-size:20px;padding:4px 7px}.gmarks button.on{border-color:var(--accent)}
 .gm2{font-size:22px;flex:none}
+.gmimg{width:1.15em;height:1.15em;object-fit:cover;border-radius:22%;vertical-align:-.2em;display:inline-block}.gmimg.sm{width:16px;height:16px}
+.ghead .gmk .gmimg{width:48px;height:48px}.gm2 .gmimg{width:28px;height:28px}
+.gmarks .gmimg{width:26px;height:26px}
+.gmup{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:var(--surface-2);border:2px dashed var(--line);border-radius:10px;font-size:18px;padding:2px 8px;cursor:pointer}.gmup small{font-size:9.5px;color:var(--muted)}
+.gcropbox{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.gcropbox canvas{width:120px;height:120px;border-radius:22%;background:repeating-conic-gradient(var(--surface-2) 0 25%,var(--surface) 0 50%) 0/16px 16px;box-shadow:0 0 0 2px var(--accent)}
+.gcropctl{flex:1;min-width:160px;display:grid;gap:4px}.gcropctl input[type=range]{width:100%;accent-color:var(--accent)}
 .ghead .gmk{font-size:40px}.ghead .gname{font-size:19px;display:block}.ghead small{display:block;font-size:12px}
 .ghead .bar{height:8px;border-radius:99px;background:var(--surface-2);margin:6px 0 2px;overflow:hidden}.ghead .bar i{display:block;height:100%;background:var(--accent)}
 .gnotice{margin:10px 0 0;padding:8px 10px;border-radius:10px;background:var(--accent-soft);font-size:13px}
@@ -1533,7 +1540,7 @@ function socOff(){
 }
 function socView(){
   UI.soc = UI.soc || 'chat';
-  let h = top('함께하기', socOn() ? `접속 중 ${SOC.online}명${SOC.guild ? ` · ${esc(SOC.guild.mark)} ${esc(SOC.guild.name)}` : ''}` : '혼자 하기 모드');
+  let h = top('함께하기', socOn() ? `접속 중 ${SOC.online}명${SOC.guild ? ` · ${gMark(SOC.guild.mark, 'sm')} ${esc(SOC.guild.name)}` : ''}` : '혼자 하기 모드');
   if (!socOn()) return h + socOff();
   h += seg('soc', [['chat', `채팅${SOC.unread?` <i class="badge">${SOC.unread}</i>`:''}`], ['online','접속자'], ['friend', `친구${SOC.freq?` <i class="badge">${SOC.freq}</i>`:''}`], ['rank','랭킹'], ['guild','길드'], ['market','거래소']]);
   if (UI.soc === 'chat'){
@@ -1575,6 +1582,28 @@ function socView(){
   if (UI.soc === 'market') h += marketView();
   return h;
 }
+// 길드 마크: 이모지 또는 직접 올린 그림(data:image). 그림은 여기서 정사각형으로 잘라 96px WebP로 줄임
+const gMark = (m, cls='') => /^data:image\//.test(m||'') ? `<img class="gmimg ${cls}" src="${m}" alt="길드 마크">` : esc(m || '🛡️');
+const CROP = {img:null, z:1, x:.5, y:.5, url:''};
+function cropDraw(){
+  const cv = document.getElementById('gcrop'); if (!cv || !CROP.img) return;
+  const c = cv.getContext('2d'), I = CROP.img, side = Math.min(I.width, I.height) / CROP.z;
+  const sx = (I.width - side) * CROP.x, sy = (I.height - side) * CROP.y;
+  c.clearRect(0, 0, cv.width, cv.height); c.imageSmoothingEnabled = side > cv.width * 1.5; c.drawImage(I, sx, sy, side, side, 0, 0, cv.width, cv.height);
+}
+function cropOut(){
+  const o = document.createElement('canvas'); o.width = o.height = 96; const c = o.getContext('2d'), I = CROP.img, side = Math.min(I.width, I.height) / CROP.z;
+  c.imageSmoothingEnabled = side > 192; c.drawImage(I, (I.width - side) * CROP.x, (I.height - side) * CROP.y, side, side, 0, 0, 96, 96);
+  let u = o.toDataURL('image/webp', .85); if (!u.startsWith('data:image/webp')) u = o.toDataURL('image/png');
+  return u;
+}
+const cropUI = () => CROP.img ? `<div class="gcropbox"><canvas id="gcrop" width="160" height="160" aria-label="마크 미리보기"></canvas>
+  <div class="gcropctl"><label class="small">크게 <input type="range" id="crop-z" min="1" max="4" step=".05" value="${CROP.z}"></label>
+  <label class="small">좌우 <input type="range" id="crop-x" min="0" max="1" step=".01" value="${CROP.x}"></label>
+  <label class="small">위아래 <input type="range" id="crop-y" min="0" max="1" step=".01" value="${CROP.y}"></label>
+  <div class="btns"><button class="btn pri" data-act="cropok">이 마크로</button><button class="btn" data-act="cropno">취소</button></div></div></div>` : '';
+const markPicker = (cur, act) => `<div class="gmarks">${GMARKS.map(m=>`<button class="${cur===m?'on':''}" data-act="${act}" data-v="${m}">${m}</button>`).join('')}
+  ${/^data:image\//.test(cur||'') ? `<button class="on">${gMark(cur)}</button>` : ''}<label class="gmup" title="그림 올리기">📷<small>내 그림</small><input type="file" id="gmark-file" accept="image/*" data-act2="${act}" hidden></label></div>${UI.cropFor===act ? cropUI() : ''}`;
 const GMARKS = ['🛡️','⚔️','🐉','🌙','🔥','🌸','⭐','🍀','👑','🦊','🐺','💎'];
 const G_COST = 5000;
 function guildView(){
@@ -1585,16 +1614,16 @@ function guildView(){
     const q = UI.gq || '', lg = sGet('guilds:' + q, () => sapi('guilds?q=' + encodeURIComponent(q)), 30e3), L = (lg && lg.v && lg.v.list) || [];
     return `<section class="card"><h2>길드 만들기</h2><p class="small muted">${fmt(G_COST)}골드가 들어요. 길드 레벨이 오르면 길드원 모두 경험치·골드가 레벨만큼 % 늘어나요(최대 Lv.10 · +10%).</p>
       <label class="field">이름 <input id="soc-gname" class="inp" maxlength="12" placeholder="2~12자" value="${fv('soc-gname')}"></label>
-      <div class="gmarks">${GMARKS.map(m=>`<button class="${(UI.fv['soc-gmark']||'🛡️')===m?'on':''}" data-act="gmark" data-v="${m}">${m}</button>`).join('')}</div>
+      ${markPicker(UI.fv['soc-gmark']||'🛡️', 'gmark')}
       <label class="field">가입 방식 ${sel('soc-gjoin', [['open','누구나 바로'],['apply','신청 후 승인']], 'open')}</label>
       <div class="btns"><button class="btn pri" data-act="gact" data-x="create" ${S.gold<G_COST?'disabled':''}>만들기 (${fmt(G_COST)}골드)</button></div></section>
       ${(D.apps||[]).length ? `<section class="card"><h2>신청한 길드</h2>${D.apps.map(a=>`<div class="prow"><span class="grow"><b>${esc(a.name)}</b><small>승인을 기다리는 중</small></span><button class="btn" data-act="gact" data-x="cancelapp" data-v="${a.gid}">취소</button></div>`).join('')}</section>` : ''}
       <section class="card"><h2>길드 찾기</h2><div class="row" style="gap:8px"><input id="soc-gq" class="inp grow" placeholder="길드 이름" value="${fv('soc-gq', q)}"><button class="btn" data-act="gsearch">찾기</button></div>${sWait(lg)}
-      <div class="plist" style="margin-top:8px">${L.map(x=>`<div class="prow"><span class="gm2">${esc(x.mark||'🛡️')}</span><span class="grow"><b>${esc(x.name)} <small class="muted">Lv.${x.lv}</small></b><small>${x.n} / ${x.cap}명 · ${x.join_mode==='open'?'바로 가입':'신청 후 승인'}${x.notice?` · ${esc(x.notice.slice(0,30))}`:''}</small></span><button class="btn pri" data-act="gact" data-x="apply" data-v="${x.id}" ${x.n>=x.cap?'disabled':''}>${x.join_mode==='open'?'가입':'신청'}</button></div>`).join('') || (lg && !lg.err ? '<p class="small muted">길드가 없어요. 처음으로 만들어 보세요!</p>' : '')}</div></section>`;
+      <div class="plist" style="margin-top:8px">${L.map(x=>`<div class="prow"><span class="gm2">${gMark(x.mark)}</span><span class="grow"><b>${esc(x.name)} <small class="muted">Lv.${x.lv}</small></b><small>${x.n} / ${x.cap}명 · ${x.join_mode==='open'?'바로 가입':'신청 후 승인'}${x.notice?` · ${esc(x.notice.slice(0,30))}`:''}</small></span><button class="btn pri" data-act="gact" data-x="apply" data-v="${x.id}" ${x.n>=x.cap?'disabled':''}>${x.join_mode==='open'?'가입':'신청'}</button></div>`).join('') || (lg && !lg.err ? '<p class="small muted">길드가 없어요. 처음으로 만들어 보세요!</p>' : '')}</div></section>`;
   }
   const off = G.rank !== 'member', mst = G.rank === 'master', RK = {master:'길드장', officer:'부길드장', member:'길드원'};
   const M = D.members || [];
-  return `<section class="card ghead"><div class="row" style="gap:12px;align-items:center"><span class="gmk">${esc(G.mark||'🛡️')}</span><div class="grow"><b class="gname">${esc(G.name)}</b><small>Lv.${G.lv} · 길드원 ${M.length} / ${G.cap} · 내 등급 ${RK[G.rank]} · 기여 ${fmt(G.contrib)}</small>
+  return `<section class="card ghead"><div class="row" style="gap:12px;align-items:center"><span class="gmk">${gMark(G.mark)}</span><div class="grow"><b class="gname">${esc(G.name)}</b><small>Lv.${G.lv} · 길드원 ${M.length} / ${G.cap} · 내 등급 ${RK[G.rank]} · 기여 ${fmt(G.contrib)}</small>
       <div class="bar"><i style="width:${G.max?100:Math.min(100,G.exp/G.need*100)}%"></i></div><small class="muted">${G.max?'최대 레벨':`다음 레벨까지 ${fmt(G.need-G.exp)}`} · 길드 보너스 경험치·골드 +${G.bonus}%</small></div></div>
       ${G.notice ? `<p class="gnotice">📌 ${esc(G.notice)}</p>` : ''}
       <div class="btns"><button class="btn pri" data-act="gact" data-x="attend" ${G.attended?'disabled':''}>${G.attended?'오늘 출석함':'출석하기'}</button><button class="btn" data-act="chatf" data-v="guild" data-go2="chat">길드 채팅</button></div></section>
@@ -1607,7 +1636,7 @@ function guildView(){
         ${UI.gMem===x.pk ? `<div class="btns gmemact">${mst?`<button class="btn" data-act="gact" data-x="${x.rank==='officer'?'demote':'promote'}" data-v="${esc(x.pk)}">${x.rank==='officer'?'부길드장 해제':'부길드장으로'}</button><button class="btn" data-act="gact" data-x="master" data-v="${esc(x.pk)}">길드장 넘기기</button>`:''}<button class="btn" style="color:var(--red)" data-act="gact" data-x="kick" data-v="${esc(x.pk)}">내보내기</button></div>` : ''}`).join('')}</div></section>
     ${off ? `<section class="card"><h2>길드 관리</h2><label class="field">공지 <input id="soc-gnotice" class="inp" maxlength="120" value="${fv('soc-gnotice', G.notice)}"></label><div class="btns"><button class="btn" data-act="gact" data-x="notice">공지 바꾸기</button></div>
       ${mst ? `<label class="field">가입 방식 ${sel('soc-gjoin2', [['open','누구나 바로'],['apply','신청 후 승인']], G.join)}</label><div class="btns"><button class="btn" data-act="gact" data-x="joinmode">가입 방식 바꾸기</button></div>
-      <div class="gmarks">${GMARKS.map(m=>`<button class="${G.mark===m?'on':''}" data-act="gact" data-x="mark" data-v="${m}">${m}</button>`).join('')}</div>` : ''}</section>` : ''}
+      <h3 class="small muted" style="margin-top:8px">길드 마크</h3>${markPicker(G.mark, 'gmarkset')}` : ''}</section>` : ''}
     <section class="card"><div class="btns">${UI.gLeaveAsk ? `<span class="small">${mst && M.length===1 ? '길드가 없어져요. 정말 나갈까요?' : '정말 길드를 나갈까요?'}</span><button class="btn" style="color:var(--red)" data-act="gact" data-x="leave">나가기</button><button class="btn" data-act="gleave" data-v="no">취소</button>` : `<button class="btn link" style="color:var(--red)" data-act="gleave">길드 나가기</button>`}</div></section>`;
 }
 // ----- 거래소
@@ -1698,6 +1727,11 @@ function socAct(a, b){
   if (a==='report'){ UI.pSheet = null; UI.tab = 'set'; UI.inqForm = true; UI.fv['inq-cat'] = '신고'; UI.fv['inq-title'] = `${b.dataset.n} (${v}) 신고`; UI.fv['inq-body'] = '신고 이유: '; render(); window.scrollTo({top:document.body.scrollHeight}); return true; }
   if (a==='gmmute'){ BK.adm.user(v.split(':')[0], 'mute', {days:1, reason:'채팅 예절'}).then(() => toast('1일 채팅 금지했어요.')).catch(fail); return true; }
   if (a==='gmark'){ UI.fv['soc-gmark'] = v; render(); return true; }
+  if (a==='gmarkset'){ socAct('gact', {dataset:{x:'mark', v}}); return true; }
+  if (a==='cropno'){ CROP.img = null; UI.cropFor = null; render(); return true; }
+  if (a==='cropok'){ const u = cropOut(), f = UI.cropFor; CROP.img = null; UI.cropFor = null;
+    if (u.length > 30000){ toast('그림이 너무 복잡해요. 다른 그림으로 해 주세요.'); render(); return true; }
+    if (f==='gmark'){ UI.fv['soc-gmark'] = u; render(); } else socAct('gact', {dataset:{x:'mark', v:u}}); return true; }
   if (a==='gsearch'){ UI.gq = fvRaw('soc-gq').trim(); render(); return true; }
   if (a==='gmem'){ UI.gMem = UI.gMem === v ? null : v; render(); return true; }
   if (a==='gleave'){ UI.gLeaveAsk = v !== 'no'; render(); return true; }
@@ -4047,10 +4081,13 @@ function go(dest){
 /* ---------- events ---------- */
 app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.target.value;
   if (/^(gm-|inq-|soc-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value;
+  if (/^crop-[zxy]$/.test(e.target.id||'')){ CROP[e.target.id.slice(5)] = +e.target.value; cropDraw(); }
   const ak = {'a-id':'id','a-pw':'pw','a-pw2':'pw2','a-code':'code'}[e.target.id]; if (ak){ UI.authF = UI.authF || {}; UI.authF[ak] = e.target.value; } });
 app.addEventListener('toggle', e => { const d = e.target; if (d.matches && d.matches('details[data-k]')){ if (d.open) UI[d.dataset.k] = +d.dataset.n; else if (UI[d.dataset.k] === +d.dataset.n) UI[d.dataset.k] = null; } }, true);
 app.addEventListener('keydown', e => { if (e.key==='Enter' && e.target.id==='soc-msg'){ e.preventDefault(); socAct('chatsend', {dataset:{}}); return; } if (e.key==='Enter' && /^a-/.test(e.target.id||'')) accSubmit(UI.authMode||'login'); });
 app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value;
+  if (e.target.id==='gmark-file' && e.target.files[0]){ const f = e.target.files[0], act = e.target.dataset.act2, url = URL.createObjectURL(f), im = new Image();
+    im.onload = () => { CROP.img = im; CROP.z = 1; CROP.x = .5; CROP.y = .5; UI.cropFor = act; render(); setTimeout(cropDraw, 0); }; im.onerror = () => toast('그림을 열 수 없어요.'); im.src = url; }
   if (/^(gm-|inq-|soc-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value; if (e.target.id==='soc-rankjob'){ UI.rankJob = e.target.value; render(); }
   if (e.target.id==='opt-vol'){ setOpt('vol', +e.target.value); sfx('tap'); render(); } });
 app.addEventListener('click', async e => {

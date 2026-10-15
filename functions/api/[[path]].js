@@ -186,6 +186,8 @@ export async function onRequest({request, env, params}){
     await run('UPDATE guilds SET lv = ?, exp = ? WHERE id = ?', lv, exp, gid);
     if (lv > g.lv) await run('INSERT INTO chat (ch, pk, name, text, at) VALUES (?, ?, ?, ?, ?)', 'g:' + gid, '', '길드', `길드 레벨이 ${lv}이 되었어요! (경험치·골드 +${lv}%)`, now);
   }
+  // 길드 마크: 이모지(8자까지) 또는 직접 올린 그림(작은 정사각형 이미지, 30KB까지)
+  const markOk = v => { v = String(v || ''); return /^data:image\/(png|webp|jpeg);base64,[A-Za-z0-9+/=]+$/.test(v) ? v.length <= 30000 : v.length <= 8; };
   const gInfo = g => g && {id: g.id, name: g.name, lv: g.lv, exp: g.exp, need: G_NEED(g.lv), max: g.lv >= G_MAX, notice: g.notice || '', join: g.join_mode, mark: g.mark || '', rank: g.rank, contrib: g.contrib || 0, attended: g.att === day, cap: gCap(g.lv), bonus: g.lv};
 
   // 접속 신호 (1분마다): 내 캐릭터 카드 갱신 + 길드·안 읽은 귓속말 알림
@@ -290,7 +292,7 @@ export async function onRequest({request, env, params}){
       if (g) return json({error: '이미 길드에 있어요.'}, 400);
       const name = String(body.name || '').trim(); if (!/^[가-힣A-Za-z0-9 ]{2,12}$/.test(name)) return json({error: '길드 이름은 2~12자 한글·영문·숫자예요.'}, 400);
       if (await one('SELECT 1 FROM guilds WHERE name = ?', name)) return json({error: '이미 있는 길드 이름이에요.'}, 409);
-      await run('INSERT INTO guilds (name, master, notice, join_mode, mark, created) VALUES (?, ?, ?, ?, ?, ?)', name, me, '', body.join === 'apply' ? 'apply' : 'open', String(body.mark || '🛡️').slice(0, 4), now);
+      await run('INSERT INTO guilds (name, master, notice, join_mode, mark, created) VALUES (?, ?, ?, ?, ?, ?)', name, me, '', body.join === 'apply' ? 'apply' : 'open', markOk(body.mark) ? String(body.mark || '🛡️') : '🛡️', now);
       const ng = await one('SELECT id FROM guilds WHERE name = ?', name);
       await run("INSERT INTO gmembers (pk, gid, rank, joined) VALUES (?, ?, 'master', ?)", me, ng.id, now); await run('DELETE FROM gapps WHERE pk = ?', me);
       await gsys(ng.id, `${myName}님이 길드 [${name}]을(를) 만들었어요!`); return json({ok: true});
@@ -332,7 +334,7 @@ export async function onRequest({request, env, params}){
     }
     if (act === 'notice'){ if (!officer) return json({error: '길드장·부길드장만 할 수 있어요.'}, 403); await run('UPDATE guilds SET notice = ? WHERE id = ?', String(body.text || '').slice(0, 120), g.id); return json({ok: true}); }
     if (act === 'joinmode'){ if (!master) return json({error: '길드장만 할 수 있어요.'}, 403); await run('UPDATE guilds SET join_mode = ? WHERE id = ?', body.join === 'apply' ? 'apply' : 'open', g.id); return json({ok: true}); }
-    if (act === 'mark'){ if (!master) return json({error: '길드장만 할 수 있어요.'}, 403); await run('UPDATE guilds SET mark = ? WHERE id = ?', String(body.mark || '🛡️').slice(0, 4), g.id); return json({ok: true}); }
+    if (act === 'mark'){ if (!master) return json({error: '길드장만 할 수 있어요.'}, 403); if (!markOk(body.mark)) return json({error: '마크 그림이 너무 커요.'}, 400); await run('UPDATE guilds SET mark = ? WHERE id = ?', String(body.mark || '🛡️'), g.id); return json({ok: true}); }
     const tm = await one('SELECT rank FROM gmembers WHERE pk = ? AND gid = ?', tgt, g.id);
     if (!tm || tgt === me) return json({error: '길드원이 아니에요.'}, 404);
     if (act === 'kick'){ if (!officer || tm.rank === 'master' || (tm.rank === 'officer' && !master)) return json({error: '권한이 없어요.'}, 403); await run('DELETE FROM gmembers WHERE pk = ?', tgt); await gsys(g.id, `${await nameOf(tgt)}님이 길드에서 나갔어요.`); return json({ok: true}); }
