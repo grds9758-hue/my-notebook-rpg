@@ -471,6 +471,7 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 .jobcard img{width:72px;height:72px;flex:none}
 .jobcard img.jcill{width:72px;height:88px;object-fit:contain;object-position:center bottom;image-rendering:auto}
 .jobcard:disabled{opacity:.45}
+.fonly{font-size:.82em;font-weight:600;color:var(--muted);margin-left:2px}
 .route{font-size:12px;color:var(--accent);font-weight:500;margin-top:2px;display:block}
 /* equipment paper doll: faint body outline with slots on the body parts */
 .pd{position:relative;width:280px;height:350px;margin:0 auto}
@@ -2300,7 +2301,7 @@ function jobSheet(){
     const p = UI.jobPick;
     h += `<section class="card" style="box-shadow:none;margin:0"><h2>전직할 직업을 골라요</h2><p class="xs muted">전직하면 Lv.1부터 다시 시작하고 최대 Lv.99까지 오른다. 능력치와 장비는 그대로, <b>노비스 스킬은 사라지고</b> 직업 스킬 트리가 열린다(스킬 포인트도 직업 Lv마다 새로 1씩). 루트는 직업 Lv.${ROUTE_LV}에 고른다.${S.gender==='f'?' 여캐는 시프만 고를 수 있다.':''}</p>
       ${Object.entries(JOBS).filter(([j])=>j!=='novice').map(([j,J])=>`<button class="jobcard" data-act="jobpick" data-j="${j}" aria-pressed="${p===j}" ${S.gender==='f'&&j!=='thief'?'disabled':''}>${jcImg(S.gender==='f'&&j==='thief'?'thief_f':j, S.gender==='f'&&j==='thief'?SPR.fthief_front:SPR['jf'+J.sprite])}<span class="grow"><b>${J.name}</b>
-        <span class="xs muted" style="display:block">${J.desc} · 핵심 ${J.key.slice(0,2).map(x=>SN[x]).join('·')}</span><span class="route">루트 · ${J.routes.map(r=>r[1]).join(' / ')}</span></span></button>`).join('')}
+        <span class="xs muted" style="display:block">${J.desc} · 핵심 ${J.key.slice(0,2).map(x=>SN[x]).join('·')}</span><span class="route">루트 · ${J.routes.map(r=>r[0]==='dancer' ? `${r[1]}<small class="fonly">(여캐 전용)</small>` : r[1]).join(' / ')}</span></span></button>`).join('')}
       <button class="cta" style="margin-top:12px" data-act="jobchange" ${p?'':'disabled'}>${p?`${JOBS[p].name}(으)로 전직하기`:'직업을 골라 주세요'}</button></section>`;
   }
   if (canThird()){
@@ -2311,7 +2312,7 @@ function jobSheet(){
   }
   if (canRoute()){
     const p = UI.routePick;
-    h += `<section class="card" style="box-shadow:none;margin:0"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}>${jcImg(id, SPR['jf'+sp])}<span class="grow"><b>${n}</b><span class="xs muted" style="display:block">${d}</span></span></button>`).join('')}
+    h += `<section class="card" style="box-shadow:none;margin:0"><h2>루트를 골라요</h2>${job().routes.map(([id,n,sp,d])=>`<button class="jobcard" data-act="routepick" data-r="${id}" aria-pressed="${p===id}" ${id==='dancer'&&S.gender!=='f'?'disabled':''}>${jcImg(id, SPR['jf'+sp])}<span class="grow"><b>${n}${id==='dancer'?' <small class="fonly">(여캐 전용)</small>':''}</b><span class="xs muted" style="display:block">${id==='dancer'&&S.gender!=='f'?'여자 캐릭터만 고를 수 있어요.':d}</span></span></button>`).join('')}
       <button class="cta" style="margin-top:12px" data-act="route" ${p?'':'disabled'}>${p?`${ROUTE[p].name} 루트로`:'루트를 골라 주세요'}</button></section>`;
   }
   if (!h) return '';
