@@ -41,6 +41,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR','Apple SD 
 .subst{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-size:12.5px;color:var(--sub)}.subst b{color:var(--ink)}
 .calcbox{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--surface-2)}.calcbox table{width:100%;border-collapse:collapse;font-size:13px}.calcbox td{padding:3px 0}.calcbox td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .calcbox .sumrow td{border-top:1px solid var(--line);padding-top:5px}.calcbox .fin td{border-top:2px solid var(--ink);padding-top:5px;font-size:15px;font-weight:900;color:var(--accent)}
+.sdcalc{padding:8px 0;border-top:1px dashed var(--line);font-size:12.5px;line-height:1.6}.sdcalc:first-of-type{border-top:0}.sdcalc b{display:block;font-size:13.5px}
+.sdcalc i{font-style:normal;color:var(--sub)}.sdcalc em{font-style:normal;font-weight:800;color:var(--ink)}.sdcalc small{display:block;color:var(--muted);font-size:11.5px}
 .ptbox{margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--accent-soft)}
 .ptrow{display:flex;gap:6px;margin-top:8px;align-items:center}.ptrow .btn{flex:1;padding:8px 0;font-size:13px}
 .ptrow input{width:64px;flex:none;text-align:center;font:inherit;font-weight:800;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:7px 4px;background:var(--surface);color:var(--ink)}
@@ -676,8 +678,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
 /* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
-const BUILD = '2026-10-15.2'; /*BUILD*/
-const CHANGES = ["능력치를 +1·+10·숫자 입력으로 한 번에 올릴 수 있어요", "공격력·방어력·속도를 누르면 계산 과정이 보여요", "운영자 장비 만들기를 세세하게 정할 수 있어요", "출신에 따라 NPC들이 말을 걸어요"]; /*CHANGES*/
+const BUILD = '2026-10-15.3'; /*BUILD*/
+const CHANGES = ["능력치 찍기에서 빼기(−) 버튼을 없앴어요", "상세 능력치에 공격력·마법 공격력·방어력·속도 계산식이 보여요"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
@@ -2690,6 +2692,8 @@ function statSheet(){
       ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', '+'+Math.round((critDmg()-1)*100)+'%', '치명타 때 평소 피해에 더해짐'], ['명중률', pc(1-missRate()), '같은 레벨 적 기준 · 약점 공격은 빗나가지 않음 · 레벨 높은 적에겐 1레벨당 −1%'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
       ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
       ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
+      <div class="sdgroup"><h3>계산식 <small>전투 밖 기준 · 버프 제외</small></h3>${[['atk','공격력 ATK'],['matk','마법 공격력 MATK'],['def','방어력 DEF'],['spd','속도']].map(([k,n]) => { const R = calcRows(k), f = v => (Math.round(v*10)/10).toLocaleString('ko-KR');
+        return `<div class="sdcalc"><b>${n} = ${fmt(R.v)}</b><span>${R.parts.map(([a,v])=>`<i>${a}</i> <em>${f(v)}</em>`).join(' + ')} = ${f(R.sum)}${R.mul.map(([a,v])=>` × <i>${a}</i> <em>${f(v)}</em>`).join('')}</span>${R.note?`<small>${R.note}</small>`:''}</div>`; }).join('')}</div>
       <div class="btns"><button class="btn pri" data-act="statclose">닫기</button></div></div></div></div>`;
 }
 // 전직·루트 고르는 카드: 직업 일러스트(도트 SD)가 있으면 그것, 없으면 예전 도트
@@ -3875,7 +3879,7 @@ function charView(){
       return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n} <small>${STAT_KO[s]}</small></span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus ${UI.ptSel===s?'on':''}" data-act="ptsel" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
     ${S.points && UI.ptSel ? (() => { const s = UI.ptSel, nm = SN[s], q = Math.max(1, Math.min(S.points, +UI.ptN || 1));
       return `<div class="ptbox"><div class="row" style="justify-content:space-between"><b>${nm} <small class="muted">${STAT_KO[s]}</small> ${eff(s)} → <span style="color:var(--accent)">${eff(s)+q}</span></b><button class="chipbtn" data-act="ptsel" data-s="">닫기</button></div>
-        <div class="ptrow"><button class="btn" data-act="ptadd" data-v="-10">−10</button><button class="btn" data-act="ptadd" data-v="-1">−1</button>
+        <div class="ptrow"><button class="btn" data-act="ptadd" data-v="one">초기화</button>
           <input id="pt-n" type="number" inputmode="numeric" min="1" max="${S.points}" value="${q}" aria-label="올릴 포인트">
           <button class="btn" data-act="ptadd" data-v="1">+1</button><button class="btn" data-act="ptadd" data-v="10">+10</button><button class="btn" data-act="ptadd" data-v="all">전부</button></div>
         <button class="cta" style="margin-top:8px" data-act="ptgo">${nm}에 ${q}포인트 올리기</button></div>`; })() : ''}
@@ -4318,7 +4322,7 @@ app.addEventListener('click', async e => {
   if (a==='point'){ spendPoint(b.dataset.s); return; }
   if (a==='calc'){ UI.calc = UI.calc === b.dataset.v ? null : b.dataset.v; render(); return; }
   if (a==='ptsel'){ UI.ptSel = b.dataset.s || null; UI.ptN = 1; render(); return; }
-  if (a==='ptadd'){ const v = b.dataset.v; UI.ptN = v==='all' ? S.points : Math.max(1, Math.min(S.points, (+UI.ptN||1) + (+v))); render(); return; }
+  if (a==='ptadd'){ const v = b.dataset.v; UI.ptN = v==='all' ? S.points : v==='one' ? 1 : Math.max(1, Math.min(S.points, (+UI.ptN||1) + (+v))); render(); return; }
   if (a==='ptgo'){ const n = Math.max(1, Math.min(S.points, +UI.ptN || 1)); spendPoint(UI.ptSel, n); toast(`${SN[UI.ptSel]} +${n}`); UI.ptN = 1; if (!S.points) UI.ptSel = null; render(); return; }
   if (a==='statinfo'){ UI.statInfo = true; render(); return; }
   if (a==='statclose'){ UI.statInfo = false; render(); return; }
