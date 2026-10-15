@@ -1482,7 +1482,7 @@ const placeNow = () => B ? (B.mode==='auto' ? '자동 사냥' : '사냥 중') : 
 function myCard(){
   const eq = [...SLOT_ORDER, ...RING_SLOTS].map(k => S.equip[k] ? {s:SLOTN[k.startsWith('ring')?'ring':k], t:(RARITY[S.equip[k].rar]+' '+itemInfo(S.equip[k]).name+(S.equip[k].up?` +${S.equip[k].up}`:'')), r:S.equip[k].rar} : null).filter(Boolean);
   return {name:S.name, code:charCode() || (S.job==='novice' ? (S.gender==='f'?'novice_f':'novice_m') : ''), job:jobName(), lv:S.lv, elv:rankScore(), cp:cp(), dex:dexScore(), gender:S.gender, title:S.title||'',
-    fac:FACTIONS[S.fac].name, kills:S.tot.kills, wins:S.tot.wins, legend:S.tot.legend, equip:eq, stats:Object.fromEntries(STATS.map(([k])=>[k, S.stats[k]]))};
+    fac:FACTIONS[S.fac].name, origin:S.origin||'', kills:S.tot.kills, wins:S.tot.wins, legend:S.tot.legend, equip:eq, stats:Object.fromEntries(STATS.map(([k])=>[k, S.stats[k]]))};
 }
 async function socBeat(force){
   if (!socOn() || (!force && Date.now() - SOC.lastBeat < 55e3)) return;
@@ -1702,7 +1702,7 @@ function pSheet(){
   if (P){
     const c = P.card || {};
     body = `<div class="pcard">${miniFig(c.code)}<div class="grow"><b class="pn">${P.gm?'<span class="chip bad">GM</span> ':''}${esc(P.name)}${c.title?` <small>「${esc(c.title)}」</small>`:''}</b>
-      <small>${esc(c.job||'')} Lv.${c.lv||'?'} · 전투력 ${fmt(c.cp||0)} · ${esc(c.fac||'')}</small><small>${onlineDot(P.online)} ${P.online ? esc(P.place||'접속 중') : '마지막 접속 ' + ago(P.at)}${P.guild?` · 길드 ${esc(P.guild.name)}`:''}</small></div></div>
+      <small>${esc(c.job||'')} Lv.${c.lv||'?'} · 전투력 ${fmt(c.cp||0)} · ${esc(c.fac||'')}${c.origin?` · ${esc(c.origin)} 출신`:''}</small><small>${onlineDot(P.online)} ${P.online ? esc(P.place||'접속 중') : '마지막 접속 ' + ago(P.at)}${P.guild?` · 길드 ${esc(P.guild.name)}`:''}</small></div></div>
       <div class="pstat">${STATS.map(([k,n])=>`<span><small>${n}</small><b>${(c.stats||{})[k]??'-'}</b></span>`).join('')}</div>
       <p class="small muted">처치 ${fmt(c.kills||0)} · 승리 ${fmt(c.wins||0)} · 전설 장비 ${c.legend||0} · 도감 ${c.dex||0}</p>
       ${(c.equip||[]).length ? `<details class="peq"><summary>장비 보기 (${c.equip.length})</summary>${c.equip.map(e=>`<div class="small"><span class="muted">${esc(e.s)}</span> <span class="rar${e.r}">${esc(e.t)}</span></div>`).join('')}</details>` : ''}
@@ -3009,7 +3009,7 @@ function pt(k, evt, x){
 const npcArt = (code, r, c) => artSrc(`npc/${code}_${r}_${c}`) || artSrc(`npc/${code}_0_${c}`) || artSrc(`npc/${code}_0_0`);
 const placeIco = k => ico(k, PLACES[k].ic);
 const pline = (r, c, t) => ({r, c, t});
-function placeOpen(k, line){ onsenTick(); UI.place = k; npcGain(k, true); UI.placeLine = line || pline(0, 5, pt(k, 'hi')); UI.talk = null; UI.shop = false; UI.craft = false; UI.innAsk = false; }
+function placeOpen(k, line){ onsenTick(); UI.place = k; npcGain(k, true); const oh = originNpc(k); UI.placeLine = line || pline(0, 5, oh && Math.random() < .25 ? oh : pt(k, 'hi')); UI.talk = null; UI.shop = false; UI.craft = false; UI.innAsk = false; }
 function placeSay(r, c, t){ UI.placeLine = pline(r, c, t); }
 function placeLeave(){ const k = UI.place; UI.place = null; UI.homeLine = L('wave', byT('다녀오셨습니까? 다른 안내가 필요하시면 불러 주세요.', '다녀오셨어요? 또 필요하면 불러 주세요!', k ? `${PLACES[k].npc} 씨네 다녀왔어요? 어땠어요?` : '다녀오셨어요?', k ? `왔어요? ${PLACES[k].npc} 씨 잘 지내죠? 헤헤.` : '왔어요?')); }
 
@@ -3294,6 +3294,36 @@ function pickNR(key, arr){
 const rtone = () => Math.min(3, affLv());
 const byT = (...v) => v[Math.min(rtone(), v.length-1)];  // byT(처음, 아는, 친구, 단짝)
 const nameCall = () => byT('모험가님', pick(['모험가님', `${S.name}님`]), `${S.name}님`, pick([`${S.name}님`, S.name]));
+// 출신: 능력치 차이는 없고, NPC들이 가끔 출신 이야기를 한다 (사용자 요청: 모두 같은 조건)
+const ORIGIN_TALK = {
+  '북부 설원': {
+    rina:[[{f:'calm', t:'북부 설원 출신이시군요. 그곳의 겨울은 길다고 들었습니다.'}, {f:'note', t:'설원에서 오신 분들은 추위에 익숙하시다고요. 노테라의 겨울은 따뜻한 편입니다.'}],
+          [{f:'smile', t:'북부 설원은 눈이 1년 내내 쌓여 있다면서요? 노테라 눈은 금방 녹아서 아쉬우시겠어요.'}, {f:'think', t:'설원 사람들은 손이 차가워도 마음은 따뜻하대요. 맞죠?'}],
+          [{f:'joy', t:'설원 이야기 또 해 주세요! 오로라가 춤춘다는 거, 진짜예요?'}, {f:'blush', t:'언젠가 설원 구경 시켜 줄 거죠? 털모자 준비해 둘게요, 헤헤.'}]],
+    npc:{shop:'설원에서 오셨어요? 거기는 따뜻한 물약이 잘 팔린다던데!', smith:'북부 설원 출신이라고? 거기 얼음 광석은 강철보다 단단하지.', onsen:'설원 분이시면 온천 더 좋아하시겠네요. 몸 녹이고 가세요~', inn:'설원에서 오신 분은 방에 이불을 한 장 더 넣어 드려요. 습관이라서요.', training:'설원 출신은 버티는 힘이 좋다지! 오늘도 한번 버텨 봐!'}},
+  '동부 항구': {
+    rina:[[{f:'calm', t:'동부 항구 출신이시군요. 배가 많이 드나드는 곳이라고 들었습니다.'}, {f:'note', t:'항구에서 오신 분들은 장사 수완이 좋으시다고요. 상점 미아가 반가워할 거예요.'}],
+          [{f:'smile', t:'동부 항구는 생선구이가 맛있다면서요? 노테라엔 바다가 없어서 부러워요.'}, {f:'think', t:'항구 사람들은 바람만 보고 날씨를 맞힌대요. 내일 날씨 어때요?'}],
+          [{f:'joy', t:'항구 갈매기 흉내 내 주면 안 돼요? 헤헤, 농담이에요!'}, {f:'blush', t:'언젠가 항구에서 같이 노을 보고 싶어요… 아, 그냥 해 본 말이에요!'}]],
+    npc:{shop:'동부 항구 출신? 그럼 흥정은 봐주기 없기예요~', smith:'항구 쪽 닻은 내 할아버지가 만든 것도 있을걸. 녹 안 슬게 손봐야 해.', onsen:'바닷바람 맞던 분이네요. 소금기 싹 씻고 가세요~', inn:'항구 분이시면 아침에 생선 수프 드릴까요? 세라 특제예요.', training:'항구 출신은 균형 감각이 좋아. 흔들리는 배 위에서 컸으니까!'}},
+  '남부 사막': {
+    rina:[[{f:'calm', t:'남부 사막 출신이시군요. 더위에 강하시겠습니다.'}, {f:'note', t:'사막에서 오신 분들은 물을 아껴 쓰는 습관이 있다고 들었습니다. 물약도 아껴 쓰시나요?'}],
+          [{f:'smile', t:'남부 사막의 밤하늘은 별이 쏟아진다면서요? 노테라 별도 꽤 예뻐요.'}, {f:'think', t:'사막 모래바람 속에서도 길을 찾는다니, 사냥터 길 찾기는 식은 죽 먹기겠어요.'}],
+          [{f:'joy', t:'사막 여우 본 적 있어요? 귀가 엄청 크대요! 저도 보고 싶다~'}, {f:'blush', t:'더운 데서 오셔서 그런가, 웃는 얼굴이 햇살 같아요… 헤헤.'}]],
+    npc:{shop:'사막 분이세요? 물약 넉넉히 챙겨 가요. 거기 사람들 물 귀한 거 알잖아요~', smith:'남부 사막 출신이면 모래에 상한 칼날 많이 봤겠군. 날 세워 주지.', onsen:'사막에서 오셨으면 물에 몸 담그는 게 최고 사치죠? 실컷 즐기세요~', inn:'사막 분들은 밤에 춥다고 하시더라고요. 담요 하나 더 드릴게요.', training:'사막 출신은 발이 가볍지! 모래 위에서 뛰던 다리 좀 보자!'}},
+  '서부 숲': {
+    rina:[[{f:'calm', t:'서부 숲 출신이시군요. 숲의 사냥꾼들은 눈이 밝다고 들었습니다.'}, {f:'note', t:'숲에서 오신 분들은 몬스터의 발자국도 읽으신다고요. 사냥에 큰 도움이 되겠습니다.'}],
+          [{f:'smile', t:'서부 숲은 나무가 하늘까지 닿는다면서요? 노테라 나무는 아담하죠?'}, {f:'think', t:'숲 사람들은 새소리로 시간을 안대요. 지금 몇 시예요? 헤헤.'}],
+          [{f:'joy', t:'숲 열매 중에 제일 맛있는 거 하나만 알려 주세요! 몰래 따 먹으러 갈래요.'}, {f:'blush', t:'숲 냄새가 나요… 아, 좋은 뜻이에요! 상쾌한 냄새!'}]],
+    npc:{shop:'서부 숲 출신이면 약초 보는 눈 있겠네요? 좋은 거 있으면 가져와요!', smith:'숲 사람들은 활을 잘 다루지. 시위 걸 데 필요하면 말해.', onsen:'숲에서 오셨으면 나무 향 나는 탕 좋아하시겠다. 오늘 편백 넣었어요~', inn:'숲 분이시군요. 창문 열어 둘게요. 바람 소리 들으면서 주무시면 좋아요.', training:'숲 출신은 눈이 좋아! 과녁 한가운데 맞혀 봐!'}},
+  '중앙 왕도': {
+    rina:[[{f:'calm', t:'중앙 왕도 출신이시군요. 큰 도시에서 오셨으니 노테라는 조용하게 느끼시겠습니다.'}, {f:'note', t:'왕도에는 큰 도서관이 있다고 들었습니다. 공부를 많이 하셨겠어요.'}],
+          [{f:'smile', t:'왕도 축제는 엄청 화려하다면서요? 노테라 축제도 작지만 재밌어요!'}, {f:'think', t:'왕도 사람들은 말투가 세련됐대요. 그래서 그렇게 멋있게 말하시는구나…'}],
+          [{f:'joy', t:'왕도 성 꼭대기에서 보면 노테라까지 보인대요! 진짜예요?'}, {f:'blush', t:'왕도에서 오신 분이 노테라를 좋아해 주니까… 괜히 뿌듯해요, 헤헤.'}]],
+    npc:{shop:'왕도에서 오셨어요? 거기 물가에 비하면 여긴 거의 공짜죠~', smith:'왕도 대장장이들은 겉만 번지르르해. 진짜 솜씨는 여기 있지.', onsen:'왕도엔 이런 노천탕 없죠? 시골 온천의 맛, 느껴 보세요~', inn:'왕도 여관보다 좁아도 아늑하답니다. 편히 쉬세요.', training:'왕도 출신은 머리가 좋다던데, 오늘은 몸 좀 써 보자!'}},
+};
+const originRina = () => { const o = ORIGIN_TALK[S.origin]; if (!o) return []; return o.rina[Math.min(rtone(), 2)]; };
+const originNpc = k => { const o = ORIGIN_TALK[S.origin]; return o && o.npc[k] || ''; };
 function rinaIdle(){
   const h = new Date().getHours(), n = nameCall(), T = rtone(), P = [];
   // 시간대
@@ -3357,6 +3387,7 @@ function rinaIdle(){
     {f:'cheer', t:'자, 오늘의 목표를 정해 볼까요? 레벨 하나 올리기!'},
   );
   if (T >= 2) P.push({f:'blush', t:'에헤헤… 오늘도 와 주셨네요.'}, {f:'happy', t:'상점에 새 물약이 들어왔대요. 아, 늘 같은 물약이긴 하지만요. 헤헤.'}, {f:'glance', t:'저기 기사단 아저씨, 오늘만 세 번째 지나가요. 길을 잃으셨나…?'});
+  if (originRina().length && Math.random() < .15) return pickNR('origin'+T, originRina());  // 출신 이야기 (가끔)
   return pickNR('idle'+T, P);
 }
 const MENU_HI = () => byT(
@@ -3482,7 +3513,7 @@ function talkTopic(k){
   if (k==='craft'){ UI.smith = 'etc'; placeOpen('smith', pline(1, 1, pt('smith', 'rina'))); return; }
   if (k==='shop'){ placeOpen('shop'); return; }
   if (k==='town'){ UI.talk = {menu:true, town:true, hi:L('reach', '어디로 안내해 드릴까요? 다들 친절한 언니들이에요!')}; return; }
-  if (PLACES[k]){ placeOpen(k, pline(1, 5, pt(k, 'hi'))); return; }
+  if (PLACES[k]){ const oh = originNpc(k); placeOpen(k, pline(1, 5, oh && Math.random() < .25 ? oh : pt(k, 'hi'))); return; }
   UI.talk = {lines: talkTopics()[k], i:0};
 }
 function jqTalk(){
