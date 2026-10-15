@@ -1317,7 +1317,11 @@ async function api(path, opt={}){
 }
 async function accProbe(){  // is there an account server on this site?
   if (!/^https?:$/.test(location.protocol)) return false;
-  try { const c = new AbortController(); setTimeout(()=>c.abort(), 2500); const r = await fetch('/api/ping', {signal:c.signal}); const j = await r.json(); return !!(j && j.ok); } catch(e){ return false; }
+  const site = /mnbrpg\.(pages\.dev|kro\.kr)$/.test(location.hostname);  // 우리 사이트면 서버가 늦게 깨어나도 몇 번 더 기다림
+  for (let i = 0; i < (site ? 3 : 1); i++){
+    try { const c = new AbortController(); setTimeout(()=>c.abort(), site ? 6000 : 2500); const r = await fetch('/api/ping', {signal:c.signal, cache:'no-store'}); const j = await r.json(); if (j && j.ok) return true; } catch(e){}
+  }
+  return false;
 }
 let cloudTimer = null;
 const cloudPut = (n, d) => api('save', {method:'PUT', body:{slot:n, data:JSON.stringify(d), at:d.savedAt || Date.now(), name:d.name||'', lv:d.lv||1}});
