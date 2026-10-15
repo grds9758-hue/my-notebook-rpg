@@ -553,6 +553,7 @@ body{background:var(--bg) linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) n
 /* create */
 .cstage{height:220px}
 .cstage .doll{width:160px;height:160px}
+.cstage img.cill{height:190px;width:auto;max-width:90%;object-fit:contain;align-self:end;margin-bottom:6px;image-rendering:auto}
 .colors{display:flex;gap:10px;flex-wrap:wrap}
 .sw{width:40px;height:40px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);padding:0}
 .sw[aria-pressed="true"]{box-shadow:0 0 0 2.5px var(--accent)}
@@ -4020,14 +4021,14 @@ function createView(){
   const f = draft.gender==='f';
   const L = f ? {img:SPR.fnovice_front} : {skin:draft.skin, hair:draft.hair, weapon:0};
   return `<div class="top"><div><h1>새 모험가</h1><div class="s">노비스로 시작해 Lv.50에 전직해요</div></div><button class="chipbtn" data-act="charsel">← 캐릭터 선택</button></div>
-  <section class="card"><div class="stage cstage">${dollHTML(L)}</div>
+  <section class="card"><div class="stage cstage">${(() => { const a = art(`char/novice_${f?'f':'m'}_illust`); return a ? `<img class="illust cill" src="${a}" alt="${f?'여캐':'남캐'} 노비스">` : dollHTML(L); })()}</div>
     <div class="opts"><button class="opt" style="text-align:center" data-act="gender" data-v="m" aria-pressed="${!f}"><b>남캐</b><small>모든 직업</small></button><button class="opt" style="text-align:center" data-act="gender" data-v="f" aria-pressed="${f}"><b>여캐</b><small>시프(댄서) 전용</small></button></div></section>
-  <section class="card">
+  ${art('char/novice_m_illust') ? '' : `  <section class="card">
     <div class="label">머리 색${f?' · 여캐는 준비 중':''}</div>
     <div class="colors">${HAIRS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="hair" data-v="${i}" aria-pressed="${!f&&i===draft.hair}" aria-label="${n}" title="${n}" ${f?'disabled':''}></button>`).join('')}</div>
     <div class="label" style="margin-top:16px">피부 색${f?' · 여캐는 준비 중':''}</div>
     <div class="colors">${SKINS.map(([c,n],i)=>`<button class="sw" style="background:${c}" data-act="skin" data-v="${i}" aria-pressed="${!f&&i===draft.skin}" aria-label="${n}" title="${n}" ${f?'disabled':''}></button>`).join('')}</div>
-  </section>
+  </section>`}
   <section class="card">
     <label class="field">이름 <input id="f-name" maxlength="12" value="${esc(draft.name)}"></label>
     <label class="field" style="margin:0">출신 <select id="f-origin">${ORIGINS.map(o=>`<option ${o===draft.origin?'selected':''}>${o}</option>`).join('')}</select></label>
