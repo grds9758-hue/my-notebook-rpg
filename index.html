@@ -3169,13 +3169,7 @@ function homeView(){
     ? `<section class="card talkmenu" aria-label="마을 안내"><div class="choices">${PLACE_KEYS.map(k=>`<button data-act="topic" data-v="${k}">${placeIco(k)} ${PLACES[k].n}<small style="display:block;font-weight:500;color:var(--muted)">${PLACES[k].npc}</small></button>`).join('')}<button data-act="topic" data-v="back">← 돌아가기</button></div></section>`
     : `<section class="card talkmenu" aria-label="리나에게 할 말"><div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">${ico('talk_job','⭐')} ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="town">${ico('talk_town','🗺️')} 마을 안내</button><button data-act="topic" data-v="shop">${ico('talk_shop','🛒')} 상점</button><button data-act="topic" data-v="craft">${ico('talk_craft','⚗️')} 제작</button><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="gift">${ico('talk_gift','🎁')} 선물</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div></section>`;
   h += autoCard();
-  h += `<section class="card tiles">
-      ${tile(`data-act="hunt" data-g="${b.g}" data-deep="${b.deep?1:0}" aria-label="사냥터로 보내 주세요 · ${G.ground}"`, ico('home_hunt','⚔️'), '사냥터로<br>보내 주세요', 't-red')}
-      ${tile(`data-act="auto" data-g="${b.g}" data-deep="${b.deep?1:0}" data-autocd ${cd?'disabled':''} aria-label="자동 사냥 맡기기 · ${G.ground}에서 10번"`, ico('home_auto','🔁'), cd?`자동 사냥<br>${Math.ceil(cd/1000)}초`:'자동 사냥<br>맡기기', 't-gold')}
-      ${tile(`data-act="place" data-v="inn" aria-label="여관 · ${innCost()}골드"`, ico('home_inn','🛏️'), '여관에서<br>쉬기', 't-blue')}
-      ${tile(`data-act="place" data-v="training" aria-label="훈련소 · 스킬"`, ico('home_training','🏋️'), '훈련소<br>· 스킬', 't-purple')}
-      ${tile(`data-go="rec:daily" aria-label="오늘의 미션"`, ico('home_mission','🏆'), `오늘의 미션<br><small>${S.daily?`${S.daily.list.filter(m=>m.claimed).length}/3`:''}</small>`, 't-orange')}
-    </section>`;
+  // 홈 아이콘 메뉴(사냥·자동 사냥·여관·훈련소·미션)는 뺌: 리나 대화·사냥 탭·기록 탭에서 다 할 수 있음
   if (NOTICE.text) h += `<div class="noticebar" role="note">📢 <span>${esc(NOTICE.text)}</span></div>`;
   h += `<section class="card hcard"><div class="row hcard-top"><span class="hav ${illustArt()?'ill':''}">${figHTML(92)}</span>
       <div class="grow"><div class="row" style="justify-content:space-between;gap:8px"><b class="hname">${esc(S.name)}${S.title?` <small>「${esc(S.title)}」</small>`:''}</b><button class="chipbtn" data-go="char">상세 보기 ›</button></div>
