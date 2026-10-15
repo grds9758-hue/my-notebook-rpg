@@ -49,6 +49,49 @@ details.inq .ans{margin-top:8px;padding:8px 10px;border-radius:10px;background:v
 .gmchar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:var(--surface-2);font-size:13px;flex-wrap:wrap}
 .gmchar small{color:var(--muted);font-size:11.5px}
 .gmgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+/* ---------- 함께하기 (멀티) */
+.socbtn{position:relative;display:inline-flex;align-items:center;gap:2px;font-size:18px}.socbtn small{font-size:11px;font-weight:800;color:var(--accent)}
+.socbtn .dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+.badge{display:inline-block;min-width:16px;padding:0 4px;border-radius:99px;background:var(--red);color:#fff;font-size:10px;font-style:normal;line-height:16px;vertical-align:1px}
+.chatstrip{display:block;width:100%;text-align:left;border:0;padding:10px 14px;margin-top:10px;cursor:pointer}
+.chatstrip .cs-h{display:block;font-size:12px;font-weight:800;color:var(--sub)}.chatstrip .cs-h small{font-weight:600;color:var(--muted)}
+.chatstrip .sl{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.chatcard{padding:12px}.chf{margin-bottom:8px}
+.chatlog{height:min(52vh,420px);overflow-y:auto;background:var(--surface-2);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:3px;overscroll-behavior:contain}
+.cl{font-size:13.5px;line-height:1.45;word-break:break-word}.cl small{color:var(--muted);font-size:10.5px;margin-left:4px}
+.cl .cn,.cn{border:0;background:none;padding:0;font:inherit;font-weight:800;color:var(--accent);cursor:pointer;margin-right:4px;text-align:left}
+.cl.mine .cn{color:var(--sub)}.cl.gm .cn{color:var(--red)}.cl.w{color:#b0469a}.cl.guild{color:#2f8f5b}
+.cl.sys{background:linear-gradient(90deg,rgba(255,200,60,.22),transparent);border-radius:8px;padding:3px 6px;font-weight:700}
+.cl.gsys{color:#2f8f5b;font-size:12.5px}
+.ct{display:inline-block;font-size:10px;padding:0 5px;border-radius:6px;margin-right:4px;vertical-align:1px;font-weight:800}.ct.g{background:#dff3e6;color:#2f8f5b}.ct.w{background:#f7e1f2;color:#b0469a}
+.wto{font-size:12.5px;margin-top:8px;display:flex;align-items:center;gap:6px}
+.chatin{display:flex;gap:6px;margin-top:8px}.chatin select{flex:none;width:76px}.chatin .grow{min-width:0}
+.plist{display:grid;gap:6px;margin-top:6px}
+.prow{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:0;background:var(--surface-2);border-radius:12px;padding:8px 10px;font:inherit;color:var(--ink)}
+.prow .grow{min-width:0}.prow small{display:block;font-size:11.5px;color:var(--muted)}.prow b{display:block}
+.prow .pl{font-size:11.5px;color:var(--muted);flex:none;display:flex;align-items:center;gap:4px}
+.prow .btn{flex:none;padding:6px 10px;font-size:12.5px}
+.mfig{width:40px;height:48px;object-fit:contain;object-position:center bottom;flex:none}.mfig.ph{display:grid;place-items:center;font-size:22px}
+.odot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);flex:none}.odot.on{background:#2fbf71;box-shadow:0 0 0 2px rgba(47,191,113,.2)}
+.rlist{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.rlist li{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:var(--surface-2)}.rlist li.me{outline:2px solid var(--accent)}
+.rlist .grow{min-width:0}.rlist small{display:block;font-size:11px;color:var(--muted);font-weight:500}
+.rk{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;background:var(--line);flex:none}
+.rk.r1{background:#f5c518;color:#5a4300}.rk.r2{background:#cfd6e4}.rk.r3{background:#e0a46c;color:#4a2a10}
+.rv{font-size:12.5px;font-weight:800;flex:none}
+.gmarks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.gmarks button{border:2px solid transparent;background:var(--surface-2);border-radius:10px;font-size:20px;padding:4px 7px}.gmarks button.on{border-color:var(--accent)}
+.gm2{font-size:22px;flex:none}
+.ghead .gmk{font-size:40px}.ghead .gname{font-size:19px;display:block}.ghead small{display:block;font-size:12px}
+.ghead .bar{height:8px;border-radius:99px;background:var(--surface-2);margin:6px 0 2px;overflow:hidden}.ghead .bar i{display:block;height:100%;background:var(--accent)}
+.gnotice{margin:10px 0 0;padding:8px 10px;border-radius:10px;background:var(--accent-soft);font-size:13px}
+.gmemact{margin:-2px 0 4px 18px}
+.mkf{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.mkf select{width:100%}
+.prow.mk .mkp{flex:none;text-align:right;font-weight:900;font-size:14px;color:var(--gold)}.prow.mk .mkp small{display:block;font-size:10px;color:var(--muted);font-weight:600}
+.psheet .pcard{display:flex;gap:12px;align-items:center;margin-top:6px}.psheet .pcard .mfig{width:72px;height:90px}
+.psheet .pn{font-size:18px;display:block}.psheet .pcard small{display:block;font-size:12px;color:var(--muted)}
+.pstat{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:10px 0;text-align:center}.pstat span{background:var(--surface-2);border-radius:8px;padding:4px 0}.pstat small{display:block;font-size:10px;color:var(--muted)}
+.psheet .btns{flex-wrap:wrap}.psheet .btns .btn{white-space:nowrap;flex:1 1 auto}
+.peq{margin:6px 0;font-size:13px}.peq summary{cursor:pointer;color:var(--accent);font-weight:700}
 .optrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
 .optrow:first-of-type{border-top:0}
 .optrow .ol{display:flex;flex-direction:column;min-width:0}
@@ -1395,6 +1438,7 @@ function applyGrant(p){
   if (p.sp){ S.sp = Math.max(0, S.sp + (+p.sp)); got.push(`스킬 포인트 +${p.sp}`); }
   for (const [k, n] of Object.entries(p.pots || {})) if (POTIONS[k] && n){ S.inv[k] = (S.inv[k] || 0) + (+n); got.push(`${POTIONS[k].name} ${n}개`); }
   let lost = 0;
+  for (const it of p.raw || []){ if (!it.pot && !it.mat && S.bag.length >= BAG_MAX){ lost++; continue; } giveMarketItem(it, it.n || 1); got.push(mkItemName(it)); }
   for (const it of p.items || []) for (let i = 0; i < (+it.n || 1); i++){ if (S.bag.length >= BAG_MAX){ lost++; continue; } S.bag.push(makeItem(it.slot, +it.band, +it.rar)); got.push(itemLabel(S.bag[S.bag.length-1]).replace(/<[^>]+>/g, '')); }
   return {got, lost};
 }
@@ -1406,12 +1450,287 @@ async function pullGrants(){
     const msgs = [];
     for (const g of L){ const r = applyGrant(g.payload || {}); msgs.push((g.payload && g.payload.msg ? `「${g.payload.msg}」 ` : '') + r.got.join(', ') + (r.lost ? ` (가방이 가득 차 ${r.lost}개 못 받음)` : '')); }
     await BK.grantsAck(L.map(g => g.n)); save(); sfx('buy');
-    toast('📮 운영자 우편: ' + msgs.join(' / ')); render();
+    toast('📮 우편: ' + msgs.join(' / ')); render();
   } catch(e){} finally { grantBusy = false; }
 }
 let NOTICE = {text:''};
 async function pullNotice(){ try { NOTICE = (await BK.notice()) || {text:''}; } catch(e){} }
 setInterval(() => { if (S && UI.slot != null && !document.hidden){ pullGrants(); } }, 60000);
+
+/* ======================= 멀티: 접속자·채팅·친구·랭킹·길드·거래소 (사이트 서버에서만) =======================
+   캐릭터 키 pk = '아이디:칸'. 서버 시간 기준 3분 안에 신호가 온 캐릭터가 '접속 중'. */
+const SOC = {online:0, guild:null, freq:0, chat:[], since:0, unread:0, lastBeat:0, cache:{}};
+const socOn = () => cloudOn() && S && UI.slot != null;
+const myPk = () => ACC.u ? `${String(ACC.u.id).toLowerCase()}:${UI.slot||0}` : '';
+const sapi = (path, opt={}) => { const sep = path.includes('?') ? '&' : '?'; return opt.method && opt.method !== 'GET' ? api(path, {...opt, body:{slot:UI.slot||0, ...(opt.body||{})}}) : api(path + sep + 'slot=' + (UI.slot||0)); };
+const BLOCK_KEY = () => 'mnbrpg-block:' + (ACC.u ? ACC.u.id : '');
+const blocked = () => store.get(BLOCK_KEY()) || [];
+const rankScore = () => S.third ? 300 + S.lv : isJob() ? 100 + S.lv : S.lv;
+const placeNow = () => B ? (B.mode==='auto' ? '자동 사냥' : '사냥 중') : S.onsen ? '온천' : UI.place ? (PLACES[UI.place] ? PLACES[UI.place].n : '마을') : '노테라';
+function myCard(){
+  const eq = [...SLOT_ORDER, ...RING_SLOTS].map(k => S.equip[k] ? {s:SLOTN[k.startsWith('ring')?'ring':k], t:(RARITY[S.equip[k].rar]+' '+itemInfo(S.equip[k]).name+(S.equip[k].up?` +${S.equip[k].up}`:'')), r:S.equip[k].rar} : null).filter(Boolean);
+  return {name:S.name, code:charCode() || (S.job==='novice' ? (S.gender==='f'?'novice_f':'novice_m') : ''), job:jobName(), lv:S.lv, elv:rankScore(), cp:cp(), dex:dexScore(), gender:S.gender, title:S.title||'',
+    fac:FACTIONS[S.fac].name, kills:S.tot.kills, wins:S.tot.wins, legend:S.tot.legend, equip:eq, stats:Object.fromEntries(STATS.map(([k])=>[k, S.stats[k]]))};
+}
+async function socBeat(force){
+  if (!socOn() || (!force && Date.now() - SOC.lastBeat < 55e3)) return;
+  SOC.lastBeat = Date.now();
+  try { const r = await sapi('beat', {method:'POST', body:{card:myCard(), place:placeNow()}});
+    const changed = r.online !== SOC.online || JSON.stringify(r.guild) !== JSON.stringify(SOC.guild) || r.freq !== SOC.freq;
+    SOC.online = r.online; SOC.guild = r.guild; SOC.freq = r.freq; S.guildBonus = r.guild ? r.guild.bonus : 0;
+    if (changed && !B && !typing()) render();
+  } catch(e){}
+}
+const typing = () => { const a = document.activeElement; return a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); };
+let chatBusy = false;
+async function socChat(){
+  if (!socOn() || chatBusy) return; chatBusy = true;
+  try {
+    const r = await sapi('chat?since=' + SOC.since); const L = r.list || [];
+    if (L.length){ SOC.chat = SOC.chat.concat(L).slice(-150); SOC.since = L[L.length-1].n;
+      const me = myPk(), seen = UI.tab==='soc' && UI.soc==='chat';
+      if (!seen) SOC.unread += L.filter(x => x.pk !== me && (x.ch==='w' || x.ch==='guild')).length;
+      paintChat(); }
+  } catch(e){} finally { chatBusy = false; }
+}
+setInterval(() => { if (document.hidden) return; socBeat(); const live = UI.tab==='soc' || (UI.tab==='home' && !UI.place); if (live || SOC.cache.tick++ % 6 === 0) socChat(); }, 5000);
+SOC.cache.tick = 0;
+function bcast(kind, extra){ if (socOn()) sapi('chat', {method:'POST', body:{ch:'sys', kind, ...extra}}).catch(()=>{}); }
+
+const CH_NAME = {all:'전체', guild:'길드', w:'귓속말', sys:'알림'};
+function chatLine(x){
+  const me = myPk();
+  if (blocked().includes(x.pk)) return '';
+  const t = new Date(x.at).toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'});
+  if (x.ch === 'sys') return `<div class="cl sys"><span>${esc(x.text)}</span><small>${t}</small></div>`;
+  if (x.ch === 'guild' && !x.pk) return `<div class="cl gsys"><span>[길드] ${esc(x.text)}</span><small>${t}</small></div>`;
+  const tag = x.ch==='guild' ? '<b class="ct g">길드</b>' : x.ch==='w' ? `<b class="ct w">${x.pk===me ? '→ ' + esc(nameCache(x.to)) : '귓속말'}</b>` : '';
+  return `<div class="cl ${x.ch} ${x.gm?'gm':''} ${x.pk===me?'mine':''}">${tag}<button class="cn" data-act="psheet" data-v="${esc(x.pk)}">${x.gm?'[GM] ':''}${esc(x.name)}</button><span>${esc(x.text)}</span><small>${t}</small></div>`;
+}
+const PNAMES = {};
+const nameCache = pk => PNAMES[pk] || String(pk||'').split(':')[0];
+function paintChat(){
+  for (const x of SOC.chat) if (x.pk && x.name) PNAMES[x.pk] = x.name;
+  const box = document.getElementById('chatlog');
+  if (box){ const f = UI.chatF || 'all', L = SOC.chat.filter(x => f==='all' ? true : f==='guild' ? x.ch==='guild' : f==='w' ? x.ch==='w' : true);
+    const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
+    box.innerHTML = L.map(chatLine).join('') || '<p class="small muted" style="text-align:center;margin:20px 0">아직 대화가 없어요. 먼저 인사해 보세요!</p>';
+    if (atBottom || !box.dataset.init){ box.scrollTop = box.scrollHeight; box.dataset.init = 1; } }
+  const strip = document.getElementById('chatstrip');
+  if (strip){ const L = SOC.chat.filter(x => !blocked().includes(x.pk)).slice(-2); strip.innerHTML = L.length ? L.map(x => `<div class="sl">${x.ch==='sys'?'📢 ':x.ch==='guild'?'<b class="ct g">길드</b> ':x.ch==='w'?'<b class="ct w">귓</b> ':''}${x.pk && x.ch!=='sys' ? `<b>${esc(x.name)}</b> ` : ''}${esc(x.text)}</div>`).join('') : '<div class="sl muted">채팅 · 눌러서 다른 모험가와 이야기해요</div>'; }
+}
+// 서버 목록 불러오기 (화면마다 캐시, '새로고침'으로 다시)
+const SD = {};
+async function sLoad(key, fn){ SD[key] = {loading:true}; try { SD[key] = {v: await fn(), at: Date.now()}; } catch(e){ SD[key] = {err:e.message}; } if (!typing()) render(); }
+const sGet = (key, fn, maxAge=30e3) => { const g = SD[key]; if (!g || (!g.loading && g.at && Date.now() - g.at > maxAge)) sLoad(key, fn); return g && !g.loading ? g : null; };
+const sWait = g => !g ? '<p class="small muted">불러오는 중…</p>' : g.err ? `<p class="small" style="color:var(--red)">${esc(g.err)}</p>` : '';
+const sDrop = (...keys) => { for (const k of Object.keys(SD)) if (keys.some(p => k.startsWith(p))) delete SD[k]; };
+const onlineDot = on => `<i class="odot ${on?'on':''}" aria-label="${on?'접속 중':'오프라인'}"></i>`;
+const ago = t => { const m = Math.floor((Date.now() - t) / 60e3); return m < 1 ? '방금' : m < 60 ? `${m}분 전` : m < 1440 ? `${Math.floor(m/60)}시간 전` : `${Math.floor(m/1440)}일 전`; };
+const miniFig = code => { const a = code && art(`char/${code}_illust`); return a ? `<img class="mfig" src="${a}" alt="">` : '<span class="mfig ph">👤</span>'; };
+function socOff(){
+  return `<section class="card"><h2>함께하기</h2><p class="small muted">${!cloudOn() ? '접속자·채팅·친구·랭킹·길드·거래소는 사이트(game.mnbrpg.kro.kr)에서 계정으로 로그인하면 쓸 수 있어요. 지금 화면은 이 기기 혼자 하기 모드예요.' : '캐릭터를 골라 들어가면 쓸 수 있어요.'}</p></section>`;
+}
+function socView(){
+  UI.soc = UI.soc || 'chat';
+  let h = top('함께하기', socOn() ? `접속 중 ${SOC.online}명${SOC.guild ? ` · ${esc(SOC.guild.mark)} ${esc(SOC.guild.name)}` : ''}` : '혼자 하기 모드');
+  if (!socOn()) return h + socOff();
+  h += seg('soc', [['chat', `채팅${SOC.unread?` <i class="badge">${SOC.unread}</i>`:''}`], ['online','접속자'], ['friend', `친구${SOC.freq?` <i class="badge">${SOC.freq}</i>`:''}`], ['rank','랭킹'], ['guild','길드'], ['market','거래소']]);
+  if (UI.soc === 'chat'){
+    SOC.unread = 0; const f = UI.chatF || 'all', w = UI.chatTo;
+    h += `<section class="card chatcard"><div class="seg sm chf">${[['all','전체'],['guild','길드'],['w','귓속말']].map(([v,n])=>`<button class="${f===v?'on':''}" data-act="chatf" data-v="${v}">${n}</button>`).join('')}</div>
+      <div id="chatlog" class="chatlog" aria-live="polite"></div>
+      ${w ? `<div class="wto">귓속말 → <b>${esc(nameCache(w))}</b> <button class="chipbtn" data-act="chatto" data-v="">✕</button></div>` : ''}
+      <div class="chatin"><select id="soc-ch" class="inp" aria-label="채널">${[['all','전체'],...(SOC.guild?[['guild','길드']]:[]),...(w?[['w','귓속말']]:[])].map(([v,n])=>`<option value="${v}" ${(UI.fv['soc-ch']||(w?'w':'all'))===v?'selected':''}>${n}</option>`).join('')}</select>
+        <input id="soc-msg" class="inp grow" maxlength="120" placeholder="모두에게 인사해 보세요" value="${fv('soc-msg')}" autocomplete="off"><button class="btn pri" data-act="chatsend">보내기</button></div>
+      <p class="xs muted" style="margin-top:6px">이름을 누르면 정보 보기·친구 추가·귓속말·차단을 할 수 있어요. 욕설·도배는 운영자가 채팅을 막을 수 있어요.</p></section>`;
+    setTimeout(paintChat, 0); socChat();
+  }
+  if (UI.soc === 'online'){
+    const g = sGet('online', () => sapi('online'), 20e3), L = (g && g.v && g.v.list) || [];
+    h += `<section class="card"><h2 class="row">지금 접속 중 <span class="aside">${L.length}명 <button class="chipbtn" data-act="sreload" data-v="online">새로고침</button></span></h2>${sWait(g)}
+      <div class="plist">${L.map(p => `<button class="prow" data-act="psheet" data-v="${esc(p.pk)}">${miniFig(p.code)}<span class="grow"><b>${p.gm?'<span class="chip bad">GM</span> ':''}${esc(p.name)}${p.pk===myPk()?' <small class="muted">(나)</small>':''}</b><small>${esc(p.job)} Lv.${p.lv}${p.guild?` · 길드 ${esc(p.guild)}`:''}</small></span><span class="pl">${onlineDot(true)} ${esc(p.place||'')}</span></button>`).join('')}</div></section>`;
+  }
+  if (UI.soc === 'friend'){
+    const g = sGet('friends', () => sapi('friends'), 20e3), L = (g && g.v && g.v.list) || [];
+    const got = L.filter(x=>x.st==='got'), ok = L.filter(x=>x.st==='ok'), sent = L.filter(x=>x.st==='sent');
+    if (got.length) h += `<section class="card"><h2>받은 친구 신청 ${got.length}</h2><div class="plist">${got.map(f=>`<div class="prow"><span class="grow"><button class="cn" data-act="psheet" data-v="${esc(f.pk)}"><b>${esc(f.name)}</b></button><small>${esc(f.job)} Lv.${f.lv}</small></span><button class="btn pri" data-act="friend" data-x="accept" data-v="${esc(f.pk)}">받기</button><button class="btn" data-act="friend" data-x="del" data-v="${esc(f.pk)}">거절</button></div>`).join('')}</div></section>`;
+    h += `<section class="card"><h2 class="row">친구 <span class="aside">${ok.length} / 50 <button class="chipbtn" data-act="sreload" data-v="friends">새로고침</button></span></h2>${sWait(g)}
+      <p class="xs muted">하루 한 번 응원하면 친구는 100골드, 나는 50골드를 우편으로 받아요.</p>
+      <div class="plist">${ok.map(f=>`<div class="prow">${onlineDot(f.online)}<span class="grow"><button class="cn" data-act="psheet" data-v="${esc(f.pk)}"><b>${esc(f.name)}</b></button><small>${esc(f.job)} Lv.${f.lv} · ${f.online ? esc(f.place||'접속 중') : ago(f.at)}</small></span>
+        <button class="btn" data-act="chatto" data-v="${esc(f.pk)}" data-n="${esc(f.name)}">💬</button><button class="btn ${f.cheered?'':'pri'}" data-act="friend" data-x="cheer" data-v="${esc(f.pk)}" ${f.cheered?'disabled':''}>${f.cheered?'응원함':'응원'}</button></div>`).join('') || (g && !g.err ? '<p class="small muted">아직 친구가 없어요. 접속자나 채팅에서 이름을 눌러 친구 신청을 해 보세요.</p>' : '')}</div>
+      ${sent.length ? `<h3 class="small muted" style="margin-top:10px">보낸 신청</h3><div class="plist">${sent.map(f=>`<div class="prow"><span class="grow"><b>${esc(f.name)}</b><small>답을 기다리는 중</small></span><button class="btn" data-act="friend" data-x="del" data-v="${esc(f.pk)}">취소</button></div>`).join('')}</div>` : ''}</section>`;
+  }
+  if (UI.soc === 'rank'){
+    const by = UI.rankBy || 'lv', jf = UI.rankJob || '';
+    const g = sGet(`rank:${by}:${jf}`, () => sapi(`rank?by=${by}&job=${encodeURIComponent(jf)}`), 60e3), R = (g && g.v) || {};
+    const jobs = ['', ...new Set([...Object.values(JOBS).map(j=>j.name), ...Object.values(ROUTE).map(r=>r.name), ...Object.values(THIRD)])];
+    h += `<section class="card"><div class="seg sm">${[['lv','레벨'],['cp','전투력'],['dex','도감']].map(([v,n])=>`<button class="${by===v?'on':''}" data-act="rankby" data-v="${v}">${n}</button>`).join('')}</div>
+      <label class="field">직업 <select id="soc-rankjob" class="inp">${jobs.map(j=>`<option value="${esc(j)}" ${j===jf?'selected':''}>${j||'전체'}</option>`).join('')}</select></label>
+      ${R.myRank ? `<p class="small" style="margin:6px 0"><b>내 순위 ${R.myRank}위</b></p>` : ''}${sWait(g)}
+      <ol class="rlist">${(R.list||[]).map((p,i)=>`<li class="${p.pk===myPk()?'me':''}"><span class="rk r${i<3?i+1:0}">${i+1}</span><button class="cn grow" data-act="psheet" data-v="${esc(p.pk)}"><b>${esc(p.name)}</b><small>${esc(p.job)} Lv.${p.lv}${p.guild?` · ${esc(p.guild)}`:''}</small></button><span class="rv">${by==='cp'?`전투력 ${fmt(p.cp)}`:by==='dex'?`도감 ${p.dex}`:`Lv.${p.lv}`}</span>${onlineDot(p.online)}</li>`).join('')}</ol></section>
+      <section class="card"><h2>길드 순위</h2><ol class="rlist">${(R.guilds||[]).map((x,i)=>`<li><span class="rk r${i<3?i+1:0}">${i+1}</span><span class="grow"><b>${esc(x.name)}</b><small>길드원 ${x.n}명</small></span><span class="rv">Lv.${x.lv}</span></li>`).join('') || '<p class="small muted">아직 길드가 없어요.</p>'}</ol></section>`;
+  }
+  if (UI.soc === 'guild') h += guildView();
+  if (UI.soc === 'market') h += marketView();
+  return h;
+}
+const GMARKS = ['🛡️','⚔️','🐉','🌙','🔥','🌸','⭐','🍀','👑','🦊','🐺','💎'];
+const G_COST = 5000;
+function guildView(){
+  const g = sGet('guild', () => sapi('guild'), 30e3), D = (g && g.v) || {}, G = D.guild;
+  if (!g) return sWait(g);
+  if (g.err) return `<section class="card">${sWait(g)}</section>`;
+  if (!G){
+    const q = UI.gq || '', lg = sGet('guilds:' + q, () => sapi('guilds?q=' + encodeURIComponent(q)), 30e3), L = (lg && lg.v && lg.v.list) || [];
+    return `<section class="card"><h2>길드 만들기</h2><p class="small muted">${fmt(G_COST)}골드가 들어요. 길드 레벨이 오르면 길드원 모두 경험치·골드가 레벨만큼 % 늘어나요(최대 Lv.10 · +10%).</p>
+      <label class="field">이름 <input id="soc-gname" class="inp" maxlength="12" placeholder="2~12자" value="${fv('soc-gname')}"></label>
+      <div class="gmarks">${GMARKS.map(m=>`<button class="${(UI.fv['soc-gmark']||'🛡️')===m?'on':''}" data-act="gmark" data-v="${m}">${m}</button>`).join('')}</div>
+      <label class="field">가입 방식 ${sel('soc-gjoin', [['open','누구나 바로'],['apply','신청 후 승인']], 'open')}</label>
+      <div class="btns"><button class="btn pri" data-act="gact" data-x="create" ${S.gold<G_COST?'disabled':''}>만들기 (${fmt(G_COST)}골드)</button></div></section>
+      ${(D.apps||[]).length ? `<section class="card"><h2>신청한 길드</h2>${D.apps.map(a=>`<div class="prow"><span class="grow"><b>${esc(a.name)}</b><small>승인을 기다리는 중</small></span><button class="btn" data-act="gact" data-x="cancelapp" data-v="${a.gid}">취소</button></div>`).join('')}</section>` : ''}
+      <section class="card"><h2>길드 찾기</h2><div class="row" style="gap:8px"><input id="soc-gq" class="inp grow" placeholder="길드 이름" value="${fv('soc-gq', q)}"><button class="btn" data-act="gsearch">찾기</button></div>${sWait(lg)}
+      <div class="plist" style="margin-top:8px">${L.map(x=>`<div class="prow"><span class="gm2">${esc(x.mark||'🛡️')}</span><span class="grow"><b>${esc(x.name)} <small class="muted">Lv.${x.lv}</small></b><small>${x.n} / ${x.cap}명 · ${x.join_mode==='open'?'바로 가입':'신청 후 승인'}${x.notice?` · ${esc(x.notice.slice(0,30))}`:''}</small></span><button class="btn pri" data-act="gact" data-x="apply" data-v="${x.id}" ${x.n>=x.cap?'disabled':''}>${x.join_mode==='open'?'가입':'신청'}</button></div>`).join('') || (lg && !lg.err ? '<p class="small muted">길드가 없어요. 처음으로 만들어 보세요!</p>' : '')}</div></section>`;
+  }
+  const off = G.rank !== 'member', mst = G.rank === 'master', RK = {master:'길드장', officer:'부길드장', member:'길드원'};
+  const M = D.members || [];
+  return `<section class="card ghead"><div class="row" style="gap:12px;align-items:center"><span class="gmk">${esc(G.mark||'🛡️')}</span><div class="grow"><b class="gname">${esc(G.name)}</b><small>Lv.${G.lv} · 길드원 ${M.length} / ${G.cap} · 내 등급 ${RK[G.rank]} · 기여 ${fmt(G.contrib)}</small>
+      <div class="bar"><i style="width:${G.max?100:Math.min(100,G.exp/G.need*100)}%"></i></div><small class="muted">${G.max?'최대 레벨':`다음 레벨까지 ${fmt(G.need-G.exp)}`} · 길드 보너스 경험치·골드 +${G.bonus}%</small></div></div>
+      ${G.notice ? `<p class="gnotice">📌 ${esc(G.notice)}</p>` : ''}
+      <div class="btns"><button class="btn pri" data-act="gact" data-x="attend" ${G.attended?'disabled':''}>${G.attended?'오늘 출석함':'출석하기'}</button><button class="btn" data-act="chatf" data-v="guild" data-go2="chat">길드 채팅</button></div></section>
+    <section class="card"><h2>기부</h2><p class="small muted">100골드마다 길드 경험치 +1 · 내 기여도도 올라가요.</p>
+      <div class="row" style="gap:8px"><input id="soc-gold" type="number" min="100" step="100" class="inp grow" placeholder="골드" value="${fv('soc-gold')}"><button class="btn" data-act="gact" data-x="donate">기부하기</button></div></section>
+    ${off && (D.apps||[]).length ? `<section class="card"><h2>가입 신청 ${D.apps.length}</h2>${D.apps.map(a=>`<div class="prow"><span class="grow"><button class="cn" data-act="psheet" data-v="${esc(a.pk)}"><b>${esc(a.name||a.pk)}</b></button><small>${esc(a.job||'')} Lv.${a.lv||'?'}</small></span><button class="btn pri" data-act="gact" data-x="accept" data-v="${esc(a.pk)}">받기</button><button class="btn" data-act="gact" data-x="reject" data-v="${esc(a.pk)}">거절</button></div>`).join('')}</section>` : ''}
+    <section class="card"><h2 class="row">길드원 <span class="aside">접속 ${M.filter(x=>x.online).length}명 <button class="chipbtn" data-act="sreload" data-v="guild">새로고침</button></span></h2>
+      <div class="plist">${M.map(x=>`<div class="prow">${onlineDot(x.online)}<span class="grow"><button class="cn" data-act="psheet" data-v="${esc(x.pk)}"><b>${esc(x.name||x.pk)}</b></button><small><span class="chip ${x.rank==='master'?'bad':x.rank==='officer'?'ok':''}">${RK[x.rank]}</span> ${esc(x.job||'')} Lv.${x.lv||'?'} · 기여 ${fmt(x.contrib)}${x.attended?' · ✔출석':''}</small></span>
+        ${x.pk!==myPk() && off && x.rank!=='master' && (mst || x.rank==='member') ? `<button class="chipbtn" data-act="gmem" data-v="${esc(x.pk)}" data-r="${x.rank}">관리</button>` : ''}</div>
+        ${UI.gMem===x.pk ? `<div class="btns gmemact">${mst?`<button class="btn" data-act="gact" data-x="${x.rank==='officer'?'demote':'promote'}" data-v="${esc(x.pk)}">${x.rank==='officer'?'부길드장 해제':'부길드장으로'}</button><button class="btn" data-act="gact" data-x="master" data-v="${esc(x.pk)}">길드장 넘기기</button>`:''}<button class="btn" style="color:var(--red)" data-act="gact" data-x="kick" data-v="${esc(x.pk)}">내보내기</button></div>` : ''}`).join('')}</div></section>
+    ${off ? `<section class="card"><h2>길드 관리</h2><label class="field">공지 <input id="soc-gnotice" class="inp" maxlength="120" value="${fv('soc-gnotice', G.notice)}"></label><div class="btns"><button class="btn" data-act="gact" data-x="notice">공지 바꾸기</button></div>
+      ${mst ? `<label class="field">가입 방식 ${sel('soc-gjoin2', [['open','누구나 바로'],['apply','신청 후 승인']], G.join)}</label><div class="btns"><button class="btn" data-act="gact" data-x="joinmode">가입 방식 바꾸기</button></div>
+      <div class="gmarks">${GMARKS.map(m=>`<button class="${G.mark===m?'on':''}" data-act="gact" data-x="mark" data-v="${m}">${m}</button>`).join('')}</div>` : ''}</section>` : ''}
+    <section class="card"><div class="btns">${UI.gLeaveAsk ? `<span class="small">${mst && M.length===1 ? '길드가 없어져요. 정말 나갈까요?' : '정말 길드를 나갈까요?'}</span><button class="btn" style="color:var(--red)" data-act="gact" data-x="leave">나가기</button><button class="btn" data-act="gleave" data-v="no">취소</button>` : `<button class="btn link" style="color:var(--red)" data-act="gleave">길드 나가기</button>`}</div></section>`;
+}
+// ----- 거래소
+const MK_SLOTS = [['','전체'], ...[...SLOT_ORDER, 'ring'].map(k=>[k, SLOTN[k]||k])];
+const mkName = x => x.kind==='equip' ? `${RARITY[x.rar]} ${x.name.replace(/^(일반|고급|희귀|영웅|전설) /,'')}` : x.name;
+const mkItemName = it => it.pot ? POTIONS[it.pot].name : it.mat ? it.mat : itemInfo(it).name;
+function sellables(){
+  const L = [];
+  S.bag.forEach(it => L.push({key:'e:'+it.id, kind:'equip', name:`${RARITY[it.rar]} ${itemInfo(it).name}${it.up?` +${it.up}`:''}`, rar:it.rar, max:1, it}));
+  for (const [k,n] of Object.entries(S.inv||{})) if (POTIONS[k] && n > 0) L.push({key:'p:'+k, kind:'pot', name:POTIONS[k].name, max:n, it:{pot:k}});
+  for (const [k,n] of Object.entries(S.mats||{})) if (n > 0 && !matKeep(k)) L.push({key:'m:'+k, kind:'mat', name:k, max:n, it:{mat:k}});
+  return L;
+}
+function giveMarketItem(it, qty=1){
+  if (it.pot){ S.inv[it.pot] = (S.inv[it.pot]||0) + qty; return true; }
+  if (it.mat){ S.mats[it.mat] = (S.mats[it.mat]||0) + qty; return true; }
+  if (S.bag.length >= BAG_MAX) return false;
+  const x = {...it, id:uid(), isNew:true}; S.bag.push(x); return true;
+}
+function marketView(){
+  const tab = UI.mkTab || 'buy';
+  let h = `<section class="card"><div class="seg sm">${[['buy','사기'],['sell','팔기'],['mine','내 거래']].map(([v,n])=>`<button class="${tab===v?'on':''}" data-act="mktab" data-v="${v}">${n}</button>`).join('')}</div>
+    <p class="xs muted">올린 물건은 3일 동안 팔려요. 팔리면 판매 금액에서 수수료 5%를 뺀 골드가 우편으로 와요. 안 팔리면 우편으로 돌려받아요.</p></section>`;
+  if (tab === 'buy'){
+    const F = UI.mkF || {q:'', kind:'', slotf:'', rar:'', sort:'new'};
+    const qs = `market?q=${encodeURIComponent(F.q)}&kind=${F.kind}&slotf=${F.slotf}&rar=${F.rar}&sort=${F.sort}`;
+    const g = sGet('mk:' + qs, () => sapi(qs), 20e3), L = (g && g.v && g.v.list) || [];
+    h += `<section class="card"><div class="row" style="gap:6px"><input id="soc-mq" class="inp grow" placeholder="이름으로 찾기" value="${fv('soc-mq', F.q)}"><button class="btn pri" data-act="mksearch">찾기</button></div>
+      <div class="mkf">${sel('soc-mkind', [['','모든 종류'],['equip','장비'],['pot','물약'],['mat','재료']], F.kind)}${sel('soc-mslot', MK_SLOTS, F.slotf)}${sel('soc-mrar', [['','모든 희귀도'], ...RARITY.map((r,i)=>[i,r])], F.rar)}${sel('soc-msort', [['new','최신순'],['low','싼 순'],['high','비싼 순']], F.sort)}</div>
+      <p class="small" style="margin-top:6px">내 골드 <b>${fmt(S.gold)}</b> · 가방 ${S.bag.length}/${BAG_MAX}</p>${sWait(g)}
+      <div class="plist">${L.map(x=>`<div class="prow mk"><span class="grow"><b class="rar${x.rar||0}">${esc(mkName(x))}${x.qty>1?` ×${x.qty}`:''}</b><small>${x.kind==='equip'?`Lv.${BANDS[x.band]||1} ${esc(SLOTN[x.slot]||'')}${x.item.up?` · 강화 +${x.item.up}`:''} · `:''}<button class="cn" data-act="psheet" data-v="${esc(x.seller)}">${esc(x.sname)}</button> · ${Math.ceil(x.left/36e5)}시간 남음</small></span>
+        <span class="mkp">${fmt(x.price)}<small>골드</small></span>${x.mine ? '<span class="chip">내 물건</span>' : `<button class="btn pri" data-act="mkbuy" data-v="${x.n}" data-p="${x.price}" data-k="${x.kind}" ${S.gold<x.price?'disabled':''}>사기</button>`}</div>`).join('') || (g && !g.err ? '<p class="small muted">조건에 맞는 물건이 없어요.</p>' : '')}</div></section>`;
+  }
+  if (tab === 'sell'){
+    const L = sellables(), pick = L.find(x=>x.key===UI.mkPick);
+    if (pick && !SD['price:' + pick.name]) sLoad('price:' + pick.name, () => sapi('market/price?name=' + encodeURIComponent(pick.name)));
+    const pr = pick && SD['price:' + pick.name] && SD['price:' + pick.name].v;
+    h += pick ? `<section class="card"><h2>${esc(pick.name)}</h2>
+      ${pr ? `<p class="small">최근 7일 거래 ${pr.sold}번${pr.avg?` · 평균 <b>${fmt(pr.avg)}</b> (${fmt(pr.lo)}~${fmt(pr.hi)})`:''}${pr.onLow?` · 지금 최저가 ${fmt(pr.onLow)}`:''}${pr.avg||pr.onLow?' (1개당)':''}</p>` : '<p class="small muted">시세를 불러오는 중…</p>'}
+      ${pick.max>1 ? `<label class="field">개수 (최대 ${pick.max})<input id="soc-mqty" type="number" min="1" max="${pick.max}" class="inp" value="${fv('soc-mqty', 1)}"></label>` : ''}
+      <label class="field">가격 (전체)<input id="soc-mprice" type="number" min="1" class="inp" placeholder="골드" value="${fv('soc-mprice')}"></label>
+      <p class="xs muted">팔리면 받는 골드: 가격의 95%</p>
+      <div class="btns"><button class="btn pri" data-act="mksell">올리기</button><button class="btn" data-act="mkpick" data-v="">취소</button></div></section>` :
+      `<section class="card"><h2>올릴 물건 고르기</h2><p class="xs muted">입고 있는 장비와 전직 의뢰 재료는 올릴 수 없어요.</p><div class="plist">${L.map(x=>`<button class="prow" data-act="mkpick" data-v="${esc(x.key)}"><span class="grow"><b class="rar${x.rar||0}">${esc(x.name)}</b><small>${x.kind==='equip'?'장비':x.kind==='pot'?'물약':'재료'}${x.max>1?` · ${x.max}개 있음`:''}</small></span><span>›</span></button>`).join('') || '<p class="small muted">팔 물건이 없어요.</p>'}</div></section>`;
+  }
+  if (tab === 'mine'){
+    const g = sGet('mkmine', () => sapi('market/mine'), 20e3), D = (g && g.v) || {}, ST = {on:'판매 중', sold:'팔림', cancel:'내림', expired:'기간 끝'};
+    h += `<section class="card"><h2 class="row">내가 올린 물건 <button class="chipbtn" data-act="sreload" data-v="mkmine">새로고침</button></h2>${sWait(g)}<div class="plist">${(D.list||[]).map(x=>`<div class="prow"><span class="grow"><b class="rar${x.rar||0}">${esc(x.name)}${x.qty>1?` ×${x.qty}`:''}</b><small><span class="chip ${x.st==='sold'?'ok':''}">${ST[x.st]}</span> ${fmt(x.price)}골드${x.st==='on'?` · ${Math.ceil(x.left/36e5)}시간 남음`:x.done_at?` · ${ago(x.done_at)}`:''}</small></span>${x.st==='on'?`<button class="btn" data-act="mkcancel" data-v="${x.n}" data-q="${x.qty}">내리기</button>`:''}</div>`).join('') || (g && !g.err ? '<p class="small muted">올린 물건이 없어요.</p>' : '')}</div></section>
+      <section class="card"><h2>산 물건</h2><div class="plist">${(D.bought||[]).map(x=>`<div class="prow"><span class="grow"><b class="rar${x.rar||0}">${esc(x.name)}${x.qty>1?` ×${x.qty}`:''}</b><small>${fmt(x.price)}골드 · ${ago(x.done_at)}</small></span></div>`).join('') || '<p class="small muted">산 물건이 없어요.</p>'}</div></section>`;
+  }
+  return h;
+}
+// ----- 다른 플레이어 정보 창
+function pSheet(){
+  const pk = UI.pSheet, g = sGet('player:' + pk, () => sapi('player?pk=' + encodeURIComponent(pk)), 30e3), P = g && g.v;
+  const blk = blocked().includes(pk);
+  let body = sWait(g);
+  if (P){
+    const c = P.card || {};
+    body = `<div class="pcard">${miniFig(c.code)}<div class="grow"><b class="pn">${P.gm?'<span class="chip bad">GM</span> ':''}${esc(P.name)}${c.title?` <small>「${esc(c.title)}」</small>`:''}</b>
+      <small>${esc(c.job||'')} Lv.${c.lv||'?'} · 전투력 ${fmt(c.cp||0)} · ${esc(c.fac||'')}</small><small>${onlineDot(P.online)} ${P.online ? esc(P.place||'접속 중') : '마지막 접속 ' + ago(P.at)}${P.guild?` · 길드 ${esc(P.guild.name)}`:''}</small></div></div>
+      <div class="pstat">${STATS.map(([k,n])=>`<span><small>${n}</small><b>${(c.stats||{})[k]??'-'}</b></span>`).join('')}</div>
+      <p class="small muted">처치 ${fmt(c.kills||0)} · 승리 ${fmt(c.wins||0)} · 전설 장비 ${c.legend||0} · 도감 ${c.dex||0}</p>
+      ${(c.equip||[]).length ? `<details class="peq"><summary>장비 보기 (${c.equip.length})</summary>${c.equip.map(e=>`<div class="small"><span class="muted">${esc(e.s)}</span> <span class="rar${e.r}">${esc(e.t)}</span></div>`).join('')}</details>` : ''}
+      ${P.me ? '<p class="small muted" style="margin-top:8px">내 캐릭터예요.</p>' : `<div class="btns">
+        ${P.sameUser ? '' : P.friend==='ok' ? `<button class="btn" data-act="friend" data-x="del" data-v="${esc(pk)}">친구 끊기</button>` : P.friend==='got' ? `<button class="btn pri" data-act="friend" data-x="accept" data-v="${esc(pk)}">친구 받기</button>` : P.friend==='sent' ? '<button class="btn" disabled>신청함</button>' : `<button class="btn pri" data-act="friend" data-x="req" data-v="${esc(pk)}">친구 신청</button>`}
+        <button class="btn" data-act="chatto" data-v="${esc(pk)}" data-n="${esc(P.name)}">귓속말</button>
+        <button class="btn" data-act="block" data-v="${esc(pk)}">${blk?'차단 풀기':'차단'}</button>
+        <button class="btn" data-act="report" data-v="${esc(pk)}" data-n="${esc(P.name)}">신고</button>
+        ${isAdmin() ? `<button class="btn" style="color:var(--red)" data-act="gmmute" data-v="${esc(pk)}">채팅 금지 1일</button><button class="btn" data-act="gmgoacct" data-v="${esc(pk.split(':')[0])}">계정 관리</button>` : ''}</div>`}`;
+  }
+  return `<div class="sheetwrap"><button class="sheetbg" data-act="pclose" aria-label="닫기"></button><div class="sheet fade psheet" role="dialog" aria-label="플레이어 정보"><div class="sbody"><div class="row" style="justify-content:space-between"><h2>플레이어 정보</h2><button class="chipbtn" data-act="pclose">닫기</button></div>${body}</div></div></div>`;
+}
+function socAct(a, b){
+  const v = b.dataset.v;
+  const done = (msg, ...drop) => { if (msg) toast(msg); sDrop(...drop); render(); };
+  const fail = e => toast(e.message);
+  if (a==='psheet'){ if (!socOn() || !v) return true; UI.pSheet = v; delete SD['player:' + v]; render(); return true; }
+  if (a==='pclose'){ UI.pSheet = null; render(); return true; }
+  if (a==='chatf'){ UI.chatF = v; if (b.dataset.go2){ UI.soc = 'chat'; UI.fv['soc-ch'] = v; } render(); return true; }
+  if (a==='chatto'){ UI.chatTo = v || null; if (v){ PNAMES[v] = b.dataset.n || PNAMES[v]; UI.fv['soc-ch'] = 'w'; UI.chatF = 'w'; UI.pSheet = null; UI.tab = 'soc'; UI.soc = 'chat'; } else UI.fv['soc-ch'] = 'all'; render(); setTimeout(()=>{ const i = document.getElementById('soc-msg'); if (i) i.focus(); }, 50); return true; }
+  if (a==='chatsend'){ const t = fvRaw('soc-msg').trim(), ch = fvRaw('soc-ch', UI.chatTo ? 'w' : 'all'); if (!t) return true;
+    sapi('chat', {method:'POST', body:{ch, text:t, to:UI.chatTo}}).then(() => { UI.fv['soc-msg'] = ''; const i = document.getElementById('soc-msg'); if (i){ i.value = ''; i.focus(); } socChat(); }).catch(fail); return true; }
+  if (a==='sreload'){ sDrop(v); render(); return true; }
+  if (a==='rankby'){ UI.rankBy = v; render(); return true; }
+  if (a==='friend'){ const x = b.dataset.x; sapi('friend', {method:'POST', body:{act:x, to:v}}).then(() => { done({req:'친구 신청을 보냈어요.', accept:'친구가 되었어요!', del:'정리했어요.', cheer:'응원했어요! 우편을 확인해 보세요.'}[x], 'friends', 'player:'); if (x==='cheer') pullGrants(); socBeat(true); }).catch(fail); return true; }
+  if (a==='block'){ const L = blocked(); const i = L.indexOf(v); if (i>=0) L.splice(i,1); else L.push(v); store.set(BLOCK_KEY(), L); toast(i>=0 ? '차단을 풀었어요.' : '차단했어요. 이 사람의 채팅이 안 보여요.'); paintChat(); render(); return true; }
+  if (a==='report'){ UI.pSheet = null; UI.tab = 'set'; UI.inqForm = true; UI.fv['inq-cat'] = '신고'; UI.fv['inq-title'] = `${b.dataset.n} (${v}) 신고`; UI.fv['inq-body'] = '신고 이유: '; render(); window.scrollTo({top:document.body.scrollHeight}); return true; }
+  if (a==='gmmute'){ BK.adm.user(v.split(':')[0], 'mute', {days:1, reason:'채팅 예절'}).then(() => toast('1일 채팅 금지했어요.')).catch(fail); return true; }
+  if (a==='gmark'){ UI.fv['soc-gmark'] = v; render(); return true; }
+  if (a==='gsearch'){ UI.gq = fvRaw('soc-gq').trim(); render(); return true; }
+  if (a==='gmem'){ UI.gMem = UI.gMem === v ? null : v; render(); return true; }
+  if (a==='gleave'){ UI.gLeaveAsk = v !== 'no'; render(); return true; }
+  if (a==='gact'){
+    const x = b.dataset.x, body = {act:x, pk:v, gid:+v};
+    if (x==='create'){ if (S.gold < G_COST){ toast('골드가 모자라요.'); return true; } body.name = fvRaw('soc-gname').trim(); body.mark = UI.fv['soc-gmark'] || '🛡️'; body.join = fvRaw('soc-gjoin', 'open'); }
+    if (x==='donate'){ body.gold = Math.floor(+fvRaw('soc-gold') || 0); if (body.gold < 100){ toast('100골드 이상 넣어 주세요.'); return true; } if (S.gold < body.gold){ toast('골드가 모자라요.'); return true; } }
+    if (x==='notice') body.text = fvRaw('soc-gnotice').trim();
+    if (x==='joinmode') body.join = fvRaw('soc-gjoin2', 'open');
+    if (x==='mark') body.mark = v;
+    sapi('guild', {method:'POST', body}).then(r => {
+      if (x==='create'){ S.gold -= G_COST; save(); } if (x==='donate'){ S.gold -= body.gold; save(); UI.fv['soc-gold'] = ''; }
+      if (x==='attend') pullGrants(); UI.gMem = null; UI.gLeaveAsk = false;
+      done({create:'길드를 만들었어요!', apply:r.joined===false?'가입을 신청했어요.':'길드에 들어왔어요!', attend:'출석했어요! 우편으로 보상이 와요.', donate:'기부했어요. 고마워요!', leave:r.disbanded?'길드가 없어졌어요.':'길드를 나왔어요.', accept:'받았어요.', reject:'거절했어요.', kick:'내보냈어요.', promote:'부길드장이 되었어요.', demote:'길드원으로 바꿨어요.', master:'길드장을 넘겼어요.', notice:'공지를 바꿨어요.', joinmode:'가입 방식을 바꿨어요.', mark:'길드 마크를 바꿨어요.', cancelapp:'신청을 취소했어요.'}[x], 'guild');
+      socBeat(true); }).catch(fail); return true; }
+  if (a==='mktab'){ UI.mkTab = v; UI.mkPick = null; render(); return true; }
+  if (a==='mksearch'){ UI.mkF = {q:fvRaw('soc-mq').trim(), kind:fvRaw('soc-mkind',''), slotf:fvRaw('soc-mslot',''), rar:fvRaw('soc-mrar',''), sort:fvRaw('soc-msort','new')}; render(); return true; }
+  if (a==='mkpick'){ UI.mkPick = v || null; UI.fv['soc-mprice'] = ''; UI.fv['soc-mqty'] = 1; render(); return true; }
+  if (a==='mksell'){
+    const x = sellables().find(y=>y.key===UI.mkPick); if (!x){ toast('물건이 없어요.'); return true; }
+    const price = Math.floor(+fvRaw('soc-mprice') || 0), qty = Math.max(1, Math.min(x.max, Math.floor(+fvRaw('soc-mqty', 1) || 1)));
+    if (price < 1){ toast('가격을 넣어 주세요.'); return true; }
+    const it = x.kind==='equip' ? (({isNew, ...r}) => r)(x.it) : x.it;
+    sapi('market', {method:'POST', body:{act:'sell', item:it, kind:x.kind, name:x.name, price, qty}}).then(() => {
+      if (x.kind==='equip') S.bag = S.bag.filter(y => y.id !== x.it.id); else if (x.kind==='pot') S.inv[x.it.pot] -= qty; else S.mats[x.it.mat] -= qty;
+      save(); UI.mkPick = null; done('거래소에 올렸어요.', 'mk'); }).catch(fail); return true; }
+  if (a==='mkbuy'){
+    const price = +b.dataset.p; if (S.gold < price){ toast('골드가 모자라요.'); return true; }
+    if (b.dataset.k==='equip' && S.bag.length >= BAG_MAX){ toast('가방이 가득 찼어요.'); return true; }
+    sapi('market', {method:'POST', body:{act:'buy', n:+v}}).then(r => { S.gold -= r.price; giveMarketItem(r.item, r.qty || 1); save(); sfx('buy'); done('샀어요! 가방을 확인해 보세요.', 'mk'); }).catch(e => { toast(e.message); sDrop('mk'); render(); }); return true; }
+  if (a==='mkcancel'){ sapi('market', {method:'POST', body:{act:'cancel', n:+v}}).then(r => { giveMarketItem(r.item, r.qty || +b.dataset.q || 1); save(); done('내려서 돌려받았어요.', 'mk'); }).catch(fail); return true; }
+  return false;
+}
 
 function toCharSelect(){ if (S) save(); if (cloudTimer) cloudSave(); S = null; B = null; UI.slot = null; UI.place = null; UI.delAsk = false; UI.tab = 'home'; render(); window.scrollTo({top:0}); }
 function slotCard(n){
@@ -1529,13 +1848,13 @@ function gainExp(n){
   if (S.lv >= maxLv()){ S.exp = 0; return 0; }
   S.exp += n; const hp0 = hpMax(), mp0 = mpMax();
   while (S.lv < maxLv() && S.exp >= needExp(S.lv)){ S.exp -= needExp(S.lv); S.lv++; S.points += 2; S.sp = (S.sp||0) + 1; ups++; }
-  if (S.lv >= maxLv()) S.exp = 0;
+  if (S.lv >= maxLv()){ if (ups && isJob()) bcast('lvmax', {lv:S.lv}); S.exp = 0; }
   if (ups){ S.hp = Math.min(hpMax(), S.hp + hpMax() - hp0); S.mp = Math.min(mpMax(), S.mp + mpMax() - mp0); }
   return ups;
 }
 function gainItem(it){
   if (S.bag.length >= BAG_MAX) return false;
-  S.bag.push(it); S.tot.items++; if (it.rar===4) S.tot.legend++;
+  S.bag.push(it); S.tot.items++; if (it.rar===4){ S.tot.legend++; bcast('legend', {item:itemInfo(it).name}); }
   return true;
 }
 
@@ -2115,10 +2434,12 @@ function win(){
   }
   if (S.charm) S.charm--;
   const rareWin = B.foes.some(f=>f.rare);
+  if (rareWin && B.mode!=='auto') bcast('rare', {mon:(B.foes.find(f=>f.rare)||{}).name||''});
   const am = B.mode==='auto' ? AUTO_REWARD : 1;  // auto hunt pays less than fighting yourself
   if (B.mode!=='auto'){ S.streak = Math.min(STREAK_MAX, (S.streak||0) + 1); }
   const sb = B.mode==='auto' ? 0 : streakBonus();
-  exp = Math.round(exp * (1 + facBonus() + sb) * am); gold = Math.round(gold * (1 + facBonus()) * am);
+  const gb = (S.guildBonus||0) / 100;  // 길드 레벨 보너스 (서버에서 받아 옴)
+  exp = Math.round(exp * (1 + facBonus() + sb + gb) * am); gold = Math.round(gold * (1 + facBonus() + gb) * am);
   const ups = gainExp(exp);
   S.gold += gold; for (const k in mats) S.mats[k] = (S.mats[k]||0) + mats[k];
   Object.assign(mats, smithDrops(B.g, B.deep, rareWin, B.mode==='promo', B.mode==='auto'));  // 강화석·세트 조각 (S.items에 들어감, 패널에는 같이 보임)
@@ -2446,7 +2767,7 @@ function jobChange(j){
   for (const id of Object.keys(S.sk||{})) if (SKILL[id] && SKILL[id].tree==='novice') delete S.sk[id];  // novice skills are gone
   S.job = j; S.route = null; S.lv = 1; S.exp = 0; S.points += 5; S.sp = 1; UI.tree = null; UI.skSel = null;
   dropBadSub(); S.hp = hpMax(); S.mp = mpMax(); S.titles.push(`${job().name} 전직`);
-  UI.jobPick = null; toast(`${job().name}(으)로 전직했다! Lv.1부터 · 노비스 스킬은 사라지고 직업 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
+  bcast('job', {job:job().name}); UI.jobPick = null; toast(`${job().name}(으)로 전직했다! Lv.1부터 · 노비스 스킬은 사라지고 직업 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
 }
 const canRoute = () => isJob() && !S.route && S.lv >= ROUTE_LV && jqDone();
 const canThird = () => isJob() && S.route && !S.third && S.lv >= JOB_MAX && jqDone();
@@ -2456,13 +2777,13 @@ function thirdChange(){
   jqPay(); UI.jobSheet = false;
   S.third = true; S.lv = 1; S.exp = 0; S.points += 5; S.sp += 1; UI.tree = null; UI.skSel = null;  // stats · gear · skills stay
   S.hp = Math.min(S.hp, hpMax()); S.mp = Math.min(S.mp, mpMax()); S.titles.push(`${THIRD[S.route]} 전직`);
-  toast(`${THIRD[S.route]}(으)로 3차 전직! Lv.1부터 · 능력치·장비·스킬은 그대로, 3차 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
+  bcast('job', {job:THIRD[S.route]}); toast(`${THIRD[S.route]}(으)로 3차 전직! Lv.1부터 · 능력치·장비·스킬은 그대로, 3차 스킬이 열린다`); save(); render(); window.scrollTo({top:0});
 }
 function chooseRoute(r){
   if (!canRoute() || !ROUTE[r] || ROUTE[r].job!==S.job) return;
   if (r==='dancer' && S.gender!=='f'){ toast('댄서는 여캐 전용이다.'); return; }
   jqPay(); UI.jobSheet = false;
-  S.route = r; dropBadSub(); S.titles.push(ROUTE[r].name); UI.routePick = null; toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
+  S.route = r; dropBadSub(); S.titles.push(ROUTE[r].name); UI.routePick = null; bcast('job', {job:ROUTE[r].name}); toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
 }
 function equipItem(id, ringSlot){
   const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
@@ -3161,7 +3482,7 @@ function homeView(){
   const pct = S.lv>=maxLv() ? 100 : S.exp/needExp(S.lv)*100;
   const tile = (attrs, ic, label, cls='') => `<button class="mi tile ${cls}" ${attrs}><span class="tic">${ic}</span><b>${label}</b></button>`;
   let h = `<section class="townhero" style="background-image:url(${NPC_FACE[NPC_FACE.length-1]})">
-    ${top('노테라', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `<button class="btn ghost" style="padding:7px" data-go="set" aria-label="환경 설정">${icoImg('ui/ui_gear') || svg('gear',20)}</button>`)}
+    ${top('노테라', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `${socOn() ? `<button class="btn ghost socbtn" style="padding:7px" data-go="soc" aria-label="함께하기 · 접속 ${SOC.online}명">👥<small>${SOC.online||''}</small>${SOC.unread||SOC.freq?'<i class="dot"></i>':''}</button>` : ''}<button class="btn ghost" style="padding:7px" data-go="set" aria-label="환경 설정">${icoImg('ui/ui_gear') || svg('gear',20)}</button>`)}
     <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[tl.f] ?? 2]}" alt="안내원 리나"></button>
     ${UI.talk ? '' : '<span class="tapme" aria-hidden="true">터치해서 대화</span>'}
     <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나 <span class="aff" title="호감도">${affHearts()} ${AFF[affLv()].n}</span></div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
@@ -3171,6 +3492,7 @@ function homeView(){
     : `<section class="card talkmenu" aria-label="리나에게 할 말"><div class="choices">${jqStage()?`<button data-act="topic" data-v="job" class="jq">${ico('talk_job','⭐')} ${JQ_NAME[jqStage()]} 의뢰${jqDone()?' (완료)':''}</button>`:''}<button data-act="topic" data-v="town">${ico('talk_town','🗺️')} 마을 안내</button><button data-act="topic" data-v="shop">${ico('talk_shop','🛒')} 상점</button><button data-act="topic" data-v="craft">${ico('talk_craft','⚗️')} 제작</button><button data-act="topic" data-v="chat">잡담하기</button><button data-act="topic" data-v="gift">${ico('talk_gift','🎁')} 선물</button><button data-act="topic" data-v="tip">사냥 팁</button><button data-act="topic" data-v="todo">할 일 알려줘</button><button data-act="topic" data-v="bye">됐어요</button></div></section>`;
   h += autoCard();
   // 홈 아이콘 메뉴(사냥·자동 사냥·여관·훈련소·미션)는 뺌: 리나 대화·사냥 탭·기록 탭에서 다 할 수 있음
+  if (socOn()){ h += `<button class="card chatstrip" data-go="soc:chat" aria-label="채팅 열기"><span class="cs-h">💬 채팅 <small>접속 ${SOC.online}명</small></span><div id="chatstrip"></div></button>`; setTimeout(paintChat, 0); }
   if (NOTICE.text) h += `<div class="noticebar" role="note">📢 <span>${esc(NOTICE.text)}</span></div>`;
   h += `<section class="card hcard"><div class="row hcard-top"><span class="hav ${illustArt()?'ill':''}">${figHTML(92)}</span>
       <div class="grow"><div class="row" style="justify-content:space-between;gap:8px"><b class="hname">${esc(S.name)}${S.title?` <small>「${esc(S.title)}」</small>`:''}</b><button class="chipbtn" data-go="char">상세 보기 ›</button></div>
@@ -3704,7 +4026,7 @@ function renderView(){
   ensureDaily();
   if (B){ app.className = 'app notabs'; app.innerHTML = `<div class="bscene">${sceneArt(B.g, B.deep, -165)}<div class="bwrap">${battleView()}</div></div>`; if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
   if (S.onsen) onsenTick();
-  const V = {home:UI.place ? placeView : homeView, hunt:huntView, char:charView, skill:skillView, bag:bagView, rec:recView, set:settingsView, gm:gmView}[UI.tab] || homeView;
+  const V = {home:UI.place ? placeView : homeView, hunt:huntView, char:charView, skill:skillView, bag:bagView, rec:recView, set:settingsView, gm:gmView, soc:socView}[UI.tab] || homeView;
   const dots = {home:!!jqStage() && (jqDone() || !(S.jq && S.jq.st===jqStage())), hunt:false, char:!!S.points || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
   setTimeout(runTyper, 0);
@@ -3713,21 +4035,24 @@ function renderView(){
   if (UI.upId) app.insertAdjacentHTML('beforeend', upSheet());
   if (UI.jobSheet && UI.tab==='home') app.insertAdjacentHTML('beforeend', jobSheet());
   if (UI.statInfo) app.insertAdjacentHTML('beforeend', statSheet());
+  if (UI.pSheet) app.insertAdjacentHTML('beforeend', pSheet());
 }
 function go(dest){
   const [tab, sub] = dest.split(':'); if (tab==='home' && UI.tab!=='home'){ UI.homeLine = null; UI.talk = null; } UI.tab = tab; UI.ringPick = false; UI.innAsk = false; UI.statInfo = false; UI.shop = false; UI.upId = null; UI.craft = false; UI.place = null;
-  if (sub){ if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; }
+  if (sub){ if (tab==='bag') UI.bag = sub; if (tab==='rec') UI.rec = sub; if (tab==='soc') UI.soc = sub; }
+  if (tab==='soc') socChat();
   render(); window.scrollTo({top:0});
 }
 
 /* ---------- events ---------- */
 app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.target.value;
-  if (/^(gm-|inq-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value;
+  if (/^(gm-|inq-|soc-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value;
   const ak = {'a-id':'id','a-pw':'pw','a-pw2':'pw2','a-code':'code'}[e.target.id]; if (ak){ UI.authF = UI.authF || {}; UI.authF[ak] = e.target.value; } });
 app.addEventListener('toggle', e => { const d = e.target; if (d.matches && d.matches('details[data-k]')){ if (d.open) UI[d.dataset.k] = +d.dataset.n; else if (UI[d.dataset.k] === +d.dataset.n) UI[d.dataset.k] = null; } }, true);
-app.addEventListener('keydown', e => { if (e.key==='Enter' && /^a-/.test(e.target.id||'')) accSubmit(UI.authMode||'login'); });
+app.addEventListener('keydown', e => { if (e.key==='Enter' && e.target.id==='soc-msg'){ e.preventDefault(); socAct('chatsend', {dataset:{}}); return; } if (e.key==='Enter' && /^a-/.test(e.target.id||'')) accSubmit(UI.authMode||'login'); });
 app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value;
-  if (/^(gm-|inq-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value; if (e.target.id==='opt-vol'){ setOpt('vol', +e.target.value); sfx('tap'); render(); } });
+  if (/^(gm-|inq-|soc-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value; if (e.target.id==='soc-rankjob'){ UI.rankJob = e.target.value; render(); }
+  if (e.target.id==='opt-vol'){ setOpt('vol', +e.target.value); sfx('tap'); render(); } });
 app.addEventListener('click', async e => {
   const o = e.target.closest('[data-opt]'); if (o){ setOpt(o.dataset.opt, JSON.parse(o.dataset.v)); if (o.dataset.opt==='sfx' || o.dataset.opt==='vol') sfx('tap'); render(); return; }
   const g = e.target.closest('[data-go]'); if (g){ go(g.dataset.go); return; }
@@ -3742,7 +4067,7 @@ app.addEventListener('click', async e => {
   if (a==='authgo'){ accSubmit(UI.authMode||'login'); return; }
   if (a==='guest'){ UI.guest = true; S = null; B = null; UI.slot = null; UI.slotSel = 0; render(); return; }
   if (a==='slotpick'){ UI.slotSel = +b.dataset.v; UI.delAsk = false; render(); return; }
-  if (a==='slotplay'){ UI.slot = UI.slotSel ?? 0; S = migrate(store.get(saveKey())); B = null; UI.tab = 'home'; UI.place = null; UI.homeLine = null; render(); window.scrollTo({top:0}); pullGrants(); pullNotice().then(render); return; }
+  if (a==='slotplay'){ UI.slot = UI.slotSel ?? 0; S = migrate(store.get(saveKey())); B = null; UI.tab = 'home'; UI.place = null; UI.homeLine = null; render(); window.scrollTo({top:0}); pullGrants(); pullNotice().then(render); SOC.chat = []; SOC.since = 0; SOC.guild = null; socBeat(true); socChat(); return; }
   if (a==='slotnew'){ UI.slot = UI.slotSel ?? 0; S = null; B = null; draft = newDraft(); render(); window.scrollTo({top:0}); return; }
   if (a==='slotdel'){
     if (b.dataset.v==='no'){ UI.delAsk = false; render(); return; }
@@ -3758,7 +4083,7 @@ app.addEventListener('click', async e => {
   if (a==='gmnotice'){ const t = fvRaw('gm-notice', NOTICE.text||'').trim(); BK.adm.notice(t).then(() => { NOTICE = {text:t, at:Date.now()}; toast(t ? '공지를 올렸어요.' : '공지를 내렸어요.'); render(); }).catch(err => toast(err.message)); return; }
   if (a==='gmanswer'){ const n = +b.dataset.v, t = fvRaw('gm-ans-'+n).trim(); if (!t){ toast('답변을 적어 주세요.'); return; }
     BK.adm.answer(n, t).then(() => { toast('답변을 보냈어요.'); delete GMD.inqtrue; delete GMD.inqfalse; delete GMD.stats; render(); }).catch(err => toast(err.message)); return; }
-  if (a==='gmgoacct'){ UI.gm = 'acct'; UI.gmQ = b.dataset.v; UI.fv['gm-q'] = b.dataset.v; UI.gmUser = b.dataset.v; render(); return; }
+  if (a==='gmgoacct'){ UI.tab = 'gm'; UI.pSheet = null; UI.gm = 'acct'; UI.gmQ = b.dataset.v; UI.fv['gm-q'] = b.dataset.v; UI.gmUser = b.dataset.v; render(); return; }
   if (a==='gmsearch'){ UI.gmQ = fvRaw('gm-q').trim(); delete GMD['users:' + UI.gmQ]; UI.gmUser = null; render(); return; }
   if (a==='gmuser'){ UI.gmUser = UI.gmUser === b.dataset.v ? null : b.dataset.v; UI.gmDelAsk = false; delete GMD['chars:' + b.dataset.v]; render(); return; }
   if (a==='gmdelask'){ UI.gmDelAsk = true; render(); return; }
@@ -3779,6 +4104,7 @@ app.addEventListener('click', async e => {
     if (Object.keys(p).length <= 1){ toast('보낼 것을 하나 이상 넣어 주세요.'); return; }
     BK.adm.grant(to, +fvRaw('gm-slot', 0), p).then(() => { toast(`${to}에게 보냈어요.`); for (const k of ['gm-gold','gm-lv','gm-points','gm-sp','gm-potn','gm-in','gm-msg']) UI.fv[k] = ''; delete GMD.logs;
       if (ACC.u && to.toLowerCase() === ACC.u.id.toLowerCase()) pullGrants(); render(); }).catch(err => toast(err.message)); return; }
+  if (socAct(a, b)) return;
   if (a==='charsel'){ toCharSelect(); return; }
   if (a==='optreset'){ OPT = {...OPT_DEF}; store.set(OPT_KEY, OPT); applyOpt(); toast('설정을 처음대로 돌렸어요.'); render(); return; }
   if (a==='logout'){ accLogout(); return; }
