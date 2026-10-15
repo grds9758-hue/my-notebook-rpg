@@ -694,8 +694,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
 /* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
-const BUILD = '2026-10-15.6'; /*BUILD*/
-const CHANGES = ["사냥터 배경 4곳 새 그림(초보자의 들판·늑대 숲·버려진 광산·고볼린 요새)", "배경마다 몬스터·캐릭터가 땅 위에 서도록 위치 맞춤"]; /*CHANGES*/
+const BUILD = '2026-10-15.7'; /*BUILD*/
+const CHANGES = ["NPC 표정이 대사 내용에 맞게 바뀜(리나·상점·대장간·온천·여관·훈련소)", "명중률: DEX를 올릴수록 덜 오르고 100%는 안 됨(최대 98% 미만)"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
@@ -2073,7 +2073,8 @@ const hpMax = () => Math.round((80 + PL()*12 + eff('vit')*2) * (1 + pas('hp')));
 const mpMax = () => Math.round(30 + PL()*4 + eff('int')*2);
 const critDmg = () => 1.25 + eff('luk')/400 + setPas('critDmg') + cardPas('critDmg');  // LUK 40 → 135%
 // DEX 40 → 90% hit, more DEX → up to 97%; a foe above your level is harder to hit (+1% miss per level)
-const missRate = f => clamp(.15 - eff('dex')/800 + (f ? Math.max(0, f.m - effLv())*.01 : 0), .03, .4);
+// 빗나감: DEX를 올릴수록 줄지만 갈수록 덜 줄어 100% 명중은 없음(DEX40 90% · 100 93% · 200 95% · 끝없이 올려도 98% 아래)
+const missRate = f => clamp(.02 + .13*60/(60 + Math.max(0, eff('dex'))) + (f ? Math.max(0, f.m - effLv())*.01 : 0), .02, .4);
 const regenRate = () => Math.min(.1, pas('regen'));
 const dodgeRate = () => Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
 const cp = () => Math.round(job().key.reduce((s,k)=>s+eff(k),0)/3 + PL()*.6);
@@ -2880,7 +2881,7 @@ function statSheet(){
     <div class="sheet fade" role="dialog" aria-label="상세 능력치"><div class="sbody sd">
       <div class="row" style="justify-content:space-between"><h2>상세 능력치</h2><span class="xs muted">${lvTag()}</span></div>
       ${rows('기본 능력치 <small>기본 + 장비</small>', statRows)}
-      ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', '+'+Math.round((critDmg()-1)*100)+'%', '치명타 때 평소 피해에 더해짐'], ['명중률', pc(1-missRate()), '같은 레벨 적 기준 · 약점 공격은 빗나가지 않음 · 레벨 높은 적에겐 1레벨당 −1%'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
+      ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', '+'+Math.round((critDmg()-1)*100)+'%', '치명타 때 평소 피해에 더해짐'], ['명중률', pc(1-missRate()), '같은 레벨 적 기준 · DEX가 높을수록 덜 오름(최대 98% 미만) · 약점 공격은 빗나가지 않음 · 레벨 높은 적에겐 1레벨당 −1%'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
       ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
       ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
       <div class="sdgroup"><h3>계산식 <small>전투 밖 기준 · 버프 제외</small></h3>${[['atk','공격력 ATK'],['matk','마법 공격력 MATK'],['def','방어력 DEF'],['spd','속도']].map(([k,n]) => { const R = calcRows(k), f = v => (Math.round(v*10)/10).toLocaleString('ko-KR');
@@ -3396,7 +3397,7 @@ setInterval(() => { if (S && S.onsen && !B && UI.tab==='home' && UI.place==='ons
 
 /* 시설 화면 */
 function placeHero(k){
-  const P = PLACES[k], ln = UI.placeLine || pline(0, 0, pt(k, 'hi')), bg = artSrc('bg/'+k), face = npcArt(k, ln.r, ln.c);
+  const P = PLACES[k], ln = UI.placeLine || pline(0, 0, pt(k, 'hi')), bg = artSrc('bg/'+k), nfc = npcFace(ln), face = npcArt(k, nfc.r, nfc.c);
   const bath = k==='onsen' && S.onsen;
   const tub = bath ? `<span class="tub">${(() => { const L = lookFront(4); return L.sheet ? sheetHTML(L.sheet, L.row) : dollHTML(L, 84); })()}<i class="water"></i></span>` : '';
   return `<section class="townhero place ${bg?'':'noart'} ${bath?'bathing':''}" style="${bg ? `background-image:url(${bg})` : `background:linear-gradient(180deg,${P.col[0]},${P.col[1]})`}">
@@ -3537,6 +3538,40 @@ function guideLine(){
   if (nag && S.points && !rtone()) return {f:'note', t:`능력치 포인트 ${S.points}개가 남아 있습니다. 캐릭터 화면에서 분배해 주세요.`};
   if (nag && S.points) return pickNR('pts', [{f:'gentle', t:`능력치 포인트가 ${S.points}개 있어요. 캐릭터 화면에서 나눠 주세요.`}, {f:'tip', t:`능력치 포인트 ${S.points}개가 놀고 있어요! 주 능력치에 찍어 보세요.`}]);
   return rinaIdle();
+}
+/* 대사 → 표정: 문구를 보고 감정을 골라 리나(18컷)·시설 NPC(열=표정 0 미소·1 웃음·2 놀람·3 곤란·4 윙크·5 신남, 줄=자세 0 기본·1 손 내밂·2 물건)에 맞춤. 못 고르면 원래 정한 표정 */
+const MOOD_RULES = [
+  ['angry', /화낼|화났|화 ?나|혼날|혼나|혼낼|용서 못|그만 좀|못 보내|쳇|흥[!.,~]|버럭|이른다/],
+  ['panic', /큰일|위험|다쳤|다쳐서|다치셨|부상|피가|쓰러졌|쓰러질|살려|어떡해|어쩌죠|어쩌지|으악|급해|얼른 앉|물약부터/],
+  ['sad', /슬프|슬퍼|아쉽|아쉬워|미안|죄송|외로|그리워|눈물|흑흑|ㅠ|실패|깨졌|날아갔|모자라|부족|가볍네|못 하|없어요…|시간이 끝났/],
+  ['laugh', /하하|아하하|헤헤|후후|ㅎㅎ|ㅋㅋ|웃겨|농담|키득|히히|땡큐|원샷/],
+  ['surprised', /어머|세상에|깜짝|정말요\?|진짜요\?|설마|우와|와아|엥|(^|[\s…,.])어[?!]|어라|오~|헉/],
+  ['shy', /부끄|쑥스|얼굴이 빨|좋아해|비밀인데|비밀이에요|두근|에헤|그, 그|흠흠|딴 데|모른 척/],
+  ['joy', /축하|해냈|성공|대단|멋져|멋지|최고|고마워|고맙|기뻐|기쁘|잘됐|만세|완성|봤지|그렇지|역시|잘했|나았네|좋아 보여|반질|올랐/],
+  ['cheer', /힘내|파이팅|화이팅|응원|도전|할 수 있|믿어요|믿어|기대|간다[!?]|가 보자|시작하자|땀 흘려|준비됐/],
+  ['tip', /팁|요령|비결|꿀팁|추천|하면 좋|잊지 마|기억해|알아 두|아끼면|비밀 하나|살짝 알려/],
+  ['think', /음…|음\.\.|글쎄|그러고 보니|생각해 보|고민|궁금해|궁금하네|궁금했|어디 보자|흠[,.…]|그런데 말이/],
+  ['worry', /걱정|괜찮(으세요|아요\?|으신|은 거)|무리하지|조심하|조심해|피곤|지쳐|배고|감기|다치지 말|다치면/],
+  ['wave', /안녕히|다녀오|또 오세요|또 와|잘 가|다음에 봐|안녕[!~ ,]|반가워[요!~.]|반갑(습|네|다)|또 이용|조심히 가/],
+  ['welcome', /좋은 (아침|오후|저녁)|어서 오|어서 와|환영|오셨|왔구나|왔어\?|왔어요\?|왔네|기다렸|맡아 뒀|준비되어/],
+  ['explain', /습니다|입니다|있습니다|할 수 있어요|하시면|눌러|탭에서|화면에서|1분마다|분 동안|골드|개예요|개 있|남아 있/],
+];
+const moodOf = t => { if (!t) return null; t = String(t); for (const [m, re] of MOOD_RULES) if (re.test(t)) return m; return null; };
+// 리나: 감정마다 어울리는 얼굴들(앞이 기본). 원래 정한 얼굴이 이 안에 있으면 그대로 둬서 같은 감정 안에서도 다양하게
+const RINA_MOOD = {angry:['cross'], panic:['panic','surprised'], sad:['teary','think'], surprised:['surprised','panic'], shy:['blush','shy','glance'],
+  laugh:['happy','joy'], joy:['joy','happy','cheer','surprised'], cheer:['cheer','joy'], tip:['tip','wink','note'], think:['think','glance'], worry:['think','teary'],
+  wave:['wave','welcome'], welcome:['welcome','reach','wave'], explain:['note','tip','calm','reach','smile','gentle','welcome','wink','glance','think']};
+const rinaFace = l => { const m = moodOf(l && l.t), ok = m && RINA_MOOD[m]; return ok ? (ok.includes(l.f) ? l.f : ok[0]) : (l && l.f) || 'smile'; };
+// 시설 NPC: 감정 → 표정 열, 자세 줄은 상황(원래 줄)을 따르되 인사는 손 흔들기(0줄 5칸), 설명·환영은 손 내밂(1줄)
+const NPC_MOOD = {angry:[3], panic:[2], sad:[3], surprised:[2], shy:[3], laugh:[1], joy:[1,5], cheer:[5,1], tip:[4], think:[3,0], worry:[3], wave:[5], welcome:[0,5], explain:[0]};
+function npcFace(ln){
+  const m = moodOf(ln.t); let r = ln.r || 0, c = ln.c || 0;
+  if (!m) return {r, c: [0,1,4].includes(c) ? c : 0};          // 감정이 안 보이면 곤란·놀란 얼굴은 쓰지 않음
+  const ok = NPC_MOOD[m]; c = ok.includes(c) ? c : ok[0];
+  if (m==='wave') { r = 0; c = 5; }
+  else if (m==='welcome' || m==='explain') { if (r===0) r = 1; if (c===5 && r!==2) r = 1; }
+  else if (c===5 && r===0) r = 1;                                  // 0줄 5칸은 손 흔들기라 인사 때만
+  return {r, c};
 }
 const SAY_COL = {happy:1, joy:1, cheer:1, smile:1, shy:3, sad:3, worry:3, surprised:2, wave:5, tip:4, wink:4};
 const say = (f, t) => { if (UI.place){ UI.placeLine = pline(0, SAY_COL[f] ?? 0, t); return; } UI.homeLine = {f, t}; UI.talk = null; };
@@ -3815,7 +3850,7 @@ function homeView(){
   const tile = (attrs, ic, label, cls='') => `<button class="mi tile ${cls}" ${attrs}><span class="tic">${ic}</span><b>${label}</b></button>`;
   let h = `<section class="townhero" style="background-image:url(${NPC_FACE[NPC_FACE.length-1]})">
     ${top('노테라', `${esc(S.name)} · ${lvTag()} · ${FACTIONS[S.fac].name}`, `${socOn() ? `<button class="btn ghost socbtn" style="padding:7px" data-go="soc" aria-label="함께하기 · 접속 ${SOC.online}명">👥<small>${SOC.online||''}</small>${SOC.unread||SOC.freq?'<i class="dot"></i>':''}</button>` : ''}<button class="btn ghost" style="padding:7px" data-go="set" aria-label="환경 설정">${icoImg('ui/ui_gear') || svg('gear',20)}</button>`)}
-    <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[tl.f] ?? 2]}" alt="안내원 리나"></button>
+    <button class="npcbtn ${UI.talk?'hop':''}" data-act="talk" aria-label="리나에게 말 걸기"><img class="npc" src="${NPC_FACE[FACE[rinaFace(tl)] ?? 2]}" alt="안내원 리나"></button>
     ${UI.talk ? '' : '<span class="tapme" aria-hidden="true">터치해서 대화</span>'}
     <div class="talk" data-act="talknext" role="button" tabindex="0"><div class="nm">[안내원] 리나 <span class="aff" title="호감도">${affHearts()} ${AFF[affLv()].n}</span></div><p data-type="${esc(tl.t)}">${esc(tl.t)}</p>
       ${UI.talk && UI.talk.menu ? '<span class="pick" aria-hidden="true">아래에서 골라 주세요 ▼</span>' :  '<span class="more" aria-hidden="true">▼</span>'}</div></section>`;
