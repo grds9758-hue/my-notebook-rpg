@@ -65,6 +65,6 @@ for n,code in CODES.items():
                 al=np.where(keep, 255, 0)
                 rgba=np.dstack([a[wy0:wy1,wx0:wx1],al]).astype(np.uint8)
                 im=Image.fromarray(rgba,'RGBA'); bb=im.getchannel('A').getbbox()
-                OUT[(code,side,r,c)]=im.crop(bb) if bb else None
+                OUT[(code,side,r,c)]=(im.crop(bb), wx0+bb[0]-X0, wy0+bb[3]-Y0, X1-X0) if bb else None  # 그림, 칸 안 왼쪽 위치, 칸 안 발 위치, 칸 폭
     print(n,code,'ok')
 pickle.dump(OUT,open('cells.pkl','wb'))
