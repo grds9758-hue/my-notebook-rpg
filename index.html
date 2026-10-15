@@ -33,6 +33,18 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR','Apple SD 
 .field .inp{background:none;border:0;padding:7px 8px}
 .field:has(textarea){flex-direction:column;align-items:stretch;padding:10px 12px;gap:4px}
 .field textarea{font:inherit;color:var(--ink);background:none;border:0;resize:vertical;min-width:0;width:100%;padding:4px 0}
+.updbar{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + env(safe-area-inset-top,0px));z-index:200;width:min(440px,calc(100% - 24px));background:var(--surface);border:2px solid var(--accent);border-radius:16px;padding:12px 14px;box-shadow:0 10px 30px rgba(30,40,90,.25);font-size:13.5px}
+.updbar b{display:block;font-size:15px}.updbar ul{margin:6px 0;padding-left:18px}.updbar span{display:block;color:var(--muted);font-size:12.5px}.updbar .btns{margin-top:8px}
+.calcgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.cbox{border:2px solid transparent;background:var(--surface-2);border-radius:12px;padding:8px 4px;text-align:center;font:inherit;color:var(--ink);cursor:pointer;min-width:0}
+.cbox.on{border-color:var(--accent);background:var(--accent-soft)}.cbox .k{display:block;font-size:11.5px;color:var(--sub);font-weight:700}.cbox .v{display:block;font-size:19px;font-weight:900}.cbox small{display:block;font-size:10px;color:var(--muted);line-height:1.3}
+.subst{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-size:12.5px;color:var(--sub)}.subst b{color:var(--ink)}
+.calcbox{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--surface-2)}.calcbox table{width:100%;border-collapse:collapse;font-size:13px}.calcbox td{padding:3px 0}.calcbox td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.calcbox .sumrow td{border-top:1px solid var(--line);padding-top:5px}.calcbox .fin td{border-top:2px solid var(--ink);padding-top:5px;font-size:15px;font-weight:900;color:var(--accent)}
+.ptbox{margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--accent-soft)}
+.ptrow{display:flex;gap:6px;margin-top:8px;align-items:center}.ptrow .btn{flex:1;padding:8px 0;font-size:13px}
+.ptrow input{width:64px;flex:none;text-align:center;font:inherit;font-weight:800;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:7px 4px;background:var(--surface);color:var(--ink)}
+.plus.on{background:var(--accent);color:#fff}
 .gmgrid>*{min-width:0}
 .gmprev{margin:4px 0 8px;padding:8px 10px;border-radius:10px;background:var(--surface-2)}.gmprev b,.gmprev small{display:block}.gmprev small{font-size:11.5px;margin-top:2px}.gmgrid .field{padding-left:10px;font-size:12.5px;gap:4px}.gmgrid .field input{width:100%}
 .inqlist{margin-top:10px;display:grid;gap:8px}
@@ -663,6 +675,9 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 <script>
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
+/* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
+const BUILD = '2026-10-15.2'; /*BUILD*/
+const CHANGES = ["능력치를 +1·+10·숫자 입력으로 한 번에 올릴 수 있어요", "공격력·방어력·속도를 누르면 계산 과정이 보여요", "운영자 장비 만들기를 세세하게 정할 수 있어요", "출신에 따라 NPC들이 말을 걸어요"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
@@ -1772,6 +1787,29 @@ function socAct(a, b){
   return false;
 }
 
+let UPD = null;
+async function checkUpdate(){
+  if (!/^https?:$/.test(location.protocol) || UPD) return;
+  try {
+    const t = await (await fetch(location.pathname + '?v=' + Date.now(), {cache:'no-store'})).text();
+    const b = (t.match(/const BUILD = '([^']+)'; \/\*BUILD\*\//) || [])[1];
+    if (b && b !== BUILD){ let ch = []; try { ch = JSON.parse((t.match(/const CHANGES = (\[[^\n]*?\]); \/\*CHANGES\*\//) || [])[1] || '[]'); } catch(e){}
+      UPD = {b, ch}; showUpdate(); }
+  } catch(e){}
+}
+function showUpdate(){
+  if (!UPD || document.getElementById('updbar')) return;
+  const d = document.createElement('div'); d.id = 'updbar'; d.className = 'updbar'; d.setAttribute('role', 'status');
+  d.innerHTML = `<b>🔔 게임이 업데이트됐어요</b>${UPD.ch.length ? `<ul>${UPD.ch.slice(0, 4).map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}<span>새로고침하면 적용돼요. 진행은 저장되어 있어요.</span><div class="btns"><button class="btn pri" id="updgo">지금 새로고침</button><button class="btn" id="updlater">나중에</button></div>`;
+  document.body.appendChild(d);
+  d.querySelector('#updgo').onclick = () => { try { if (S) save(); if (cloudTimer) cloudSave(); } catch(e){} setTimeout(() => location.reload(), 300); };
+  d.querySelector('#updlater').onclick = () => d.remove();
+}
+setInterval(() => { if (!document.hidden) checkUpdate(); }, 5 * 60e3);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkUpdate(); });
+// 새로고침 뒤 한 번: 무엇이 바뀌었는지
+setTimeout(() => { const seen = store.get('mnbrpg-build'); if (seen && seen !== BUILD && CHANGES.length) toast('✨ 업데이트 완료: ' + CHANGES.join(' · ')); store.set('mnbrpg-build', BUILD); }, 1500);
+
 function toCharSelect(){ if (S) save(); if (cloudTimer) cloudSave(); S = null; B = null; UI.slot = null; UI.place = null; UI.delAsk = false; UI.tab = 'home'; render(); window.scrollTo({top:0}); }
 function slotCard(n){
   const d = store.get(slotKey(n)), on = (UI.slotSel ?? 0) === n;
@@ -2780,7 +2818,32 @@ function skillTreeHTML(){
   h += `<p class="xs muted" style="margin-top:8px">칸을 눌러 자세히 보기 · 선으로 이어진 위 스킬을 먼저 올려야 아래 스킬이 열린다 · P = 패시브</p></section>`;
   return h;
 }
-function spendPoint(k){ if (!S.points) return; S.stats[k]++; S.points--; clampVitals(); save(); render(); }
+// 공격력·방어력·속도 계산 과정 (전투 밖 기준: 버프·중첩 없음)
+function calcRows(k){
+  const f = (v, d=1) => (Math.round(v * 10**d) / 10**d).toLocaleString('ko-KR');
+  const m = job().main, sub = m==='dex' ? 'str' : 'dex', cp = classPw(), lv = PL();
+  if (k==='atk'){ const parts = [['기본', 5], [`${SN[m]} ${eff(m)} × 1.1`, eff(m)*1.1], [`${SN[sub]} ${eff(sub)} × 0.15`, eff(sub)*.15], [`LUK ${eff('luk')} × 0.1`, eff('luk')*.1], ['장비 공격력', gearAtk()], [`레벨 보정 ${lv} × 2`, lv*2]];
+    const sum = parts.reduce((a,x)=>a+x[1],0), p = pas('atk');
+    return {v:atk(), parts, sum, mul:[[`직업 배율 (${jobName()})`, cp], ...(p?[[`패시브·도감·카드 +${f(p*100)}%`, 1+p]]:[])]}; }
+  if (k==='matk'){ const parts = [['기본', 5], [`INT ${eff('int')} × 1.2`, eff('int')*1.2], [`DEX ${eff('dex')} × 0.1`, eff('dex')*.1], [`장비 공격력 ${gearAtk()} × 0.6`, gearAtk()*.6], [`레벨 보정 ${lv} × 2`, lv*2]];
+    const sum = parts.reduce((a,x)=>a+x[1],0), p = pas('matk');
+    return {v:matk(), parts, sum, mul:[[`직업 배율 (${jobName()})`, cp], ...(p?[[`패시브·도감·카드 +${f(p*100)}%`, 1+p]]:[])]}; }
+  if (k==='def'){ const parts = [[`VIT ${eff('vit')} ÷ 2`, eff('vit')/2], ['장비 방어력', gearDef()], [`레벨 보정 ${lv}`, lv]];
+    return {v:def(), parts, sum:parts.reduce((a,x)=>a+x[1],0), mul:[], note:`받는 피해 = 적 공격 × 70 ÷ (70 + ${def()}) → ${Math.round(70/(70+def())*100)}%만 받아요`}; }
+  if (k==='spd'){ const parts = [['기본', 10], [`AGI ${eff('agi')} ÷ 2`, eff('agi')/2], [`레벨 보정 ${lv} × 0.3`, lv*.3]], p = pas('spd');
+    return {v:spd(), parts, sum:parts.reduce((a,x)=>a+x[1],0), mul:p?[[`패시브 +${f(p*100)}%`, 1+p]]:[], note:'속도가 빠를수록 턴 순서에서 먼저 행동해요'}; }
+}
+function calcPanel(){
+  const box = (k, n, sub) => `<button class="cbox ${UI.calc===k?'on':''}" data-act="calc" data-v="${k}"><span class="k">${n}</span><b class="v num">${fmt(calcRows(k).v)}</b>${sub?`<small>${sub}</small>`:''}</button>`;
+  let h = `<div class="calcgrid">${box('atk','공격력', `물리 · ${SN[job().main]} 중심`)}${box('matk','마법 공격력','INT 중심')}${box('def','방어력', `받는 피해 ${Math.round(70/(70+def())*100)}%`)}${box('spd','속도','턴 순서')}</div>
+    <div class="subst"><span>HP <b>${fmt(hpMax())}</b></span><span>MP <b>${fmt(mpMax())}</b></span><span>치명타 <b>${crit()}%</b></span><span>치명 피해 <b>${Math.round(critDmg()*100)}%</b></span><span>전투력 <b>${fmt(cp())}</b></span></div>`;
+  if (UI.calc){ const R = calcRows(UI.calc), f = v => (Math.round(v*10)/10).toLocaleString('ko-KR');
+    h += `<div class="calcbox"><table>${R.parts.map(([n,v])=>`<tr><td>${n}</td><td>${v?'+ '+f(v):'0'}</td></tr>`).join('')}
+      <tr class="sumrow"><td>합계</td><td>${f(R.sum)}</td></tr>${R.mul.map(([n,v])=>`<tr><td>${n}</td><td>× ${f(v)}</td></tr>`).join('')}
+      <tr class="fin"><td>최종</td><td>${fmt(R.v)}</td></tr></table>${R.note?`<p class="xs muted">${R.note}</p>`:''}</div>`; }
+  return h;
+}
+function spendPoint(k, n=1){ n = Math.max(0, Math.min(S.points||0, Math.floor(n))); if (!n) return; S.stats[k] += n; S.points -= n; clampVitals(); save(); render(); }
 function promoReady(){
   const F = FACTIONS[S.fac+1]; if (!F) return false;
   if (F.req.job) return isJob() && S.lv >= F.req.job;
@@ -3809,9 +3872,15 @@ function charView(){
   h += `</section>`;
   h += `<section class="card"><h2 class="row">능력치 <span class="row" style="gap:8px">${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:''}<button class="chipbtn" data-act="statinfo">상세 보기 ›</button></span></h2>
     <div class="statgrid">${STATS.map(([s,n])=>{ const b = bonus(s);
-      return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n} <small>${STAT_KO[s]}</small></span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus" data-act="point" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
-    <div class="stats3"><div><div class="k">공격력</div><div class="v num">${atk()}</div></div><div><div class="k">방어력</div><div class="v num">${def()}</div></div><div><div class="k">속도</div><div class="v num">${spd()}</div></div></div>
-    <p class="xs muted" style="margin-top:10px">마법 공격력 ${matk()} · 치명타 ${crit()}% · 굵은 글씨가 ${job().name}의 핵심 능력 · 자세한 수치는 상세 보기</p></section>`;
+      return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n} <small>${STAT_KO[s]}</small></span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus ${UI.ptSel===s?'on':''}" data-act="ptsel" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
+    ${S.points && UI.ptSel ? (() => { const s = UI.ptSel, nm = SN[s], q = Math.max(1, Math.min(S.points, +UI.ptN || 1));
+      return `<div class="ptbox"><div class="row" style="justify-content:space-between"><b>${nm} <small class="muted">${STAT_KO[s]}</small> ${eff(s)} → <span style="color:var(--accent)">${eff(s)+q}</span></b><button class="chipbtn" data-act="ptsel" data-s="">닫기</button></div>
+        <div class="ptrow"><button class="btn" data-act="ptadd" data-v="-10">−10</button><button class="btn" data-act="ptadd" data-v="-1">−1</button>
+          <input id="pt-n" type="number" inputmode="numeric" min="1" max="${S.points}" value="${q}" aria-label="올릴 포인트">
+          <button class="btn" data-act="ptadd" data-v="1">+1</button><button class="btn" data-act="ptadd" data-v="10">+10</button><button class="btn" data-act="ptadd" data-v="all">전부</button></div>
+        <button class="cta" style="margin-top:8px" data-act="ptgo">${nm}에 ${q}포인트 올리기</button></div>`; })() : ''}
+    ${calcPanel()}
+    <p class="xs muted" style="margin-top:10px">칸을 누르면 계산 과정이 보여요 · 굵은 글씨가 ${job().name}의 핵심 능력 · 전부 보기는 상세 보기</p></section>`;
   const nf = FACTIONS[S.fac+1];
   h += `<section class="card"><h2>소속 · ${FACTIONS[S.fac].name}</h2><p class="xs muted">소속이 오를수록 EXP·골드 +4%씩 (지금 +${Math.round(facBonus()*100)}%)</p>
     ${nf?`<div class="item" style="padding-bottom:0"><span class="ic blue">🛡️</span><span class="grow"><span class="t">${nf.name} 승급 시험</span><span class="d">조건 ${promoReqText(nf)} · 정예 몬스터 3연전(도망 불가)</span></span>
@@ -4148,6 +4217,7 @@ app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.
 app.addEventListener('toggle', e => { const d = e.target; if (d.matches && d.matches('details[data-k]')){ if (d.open) UI[d.dataset.k] = +d.dataset.n; else if (UI[d.dataset.k] === +d.dataset.n) UI[d.dataset.k] = null; } }, true);
 app.addEventListener('keydown', e => { if (e.key==='Enter' && e.target.id==='soc-msg'){ e.preventDefault(); socAct('chatsend', {dataset:{}}); return; } if (e.key==='Enter' && /^a-/.test(e.target.id||'')) accSubmit(UI.authMode||'login'); });
 app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value;
+  if (e.target.id==='pt-n'){ UI.ptN = Math.max(1, Math.min(S.points, Math.floor(+e.target.value || 1))); render(); }
   if (/^gm-i/.test(e.target.id||'') && e.target.tagName==='SELECT'){ UI.fv[e.target.id] = e.target.value; if (e.target.id==='gm-iser') UI.fv['gm-iband'] = 0; render(); return; }
   if (e.target.id==='gmark-file' && e.target.files[0]){ const f = e.target.files[0], act = e.target.dataset.act2, url = URL.createObjectURL(f), im = new Image();
     im.onload = () => { CROP.img = im; CROP.z = 1; CROP.x = .5; CROP.y = .5; UI.cropFor = act; render(); setTimeout(cropDraw, 0); }; im.onerror = () => toast('그림을 열 수 없어요.'); im.src = url; }
@@ -4246,6 +4316,10 @@ app.addEventListener('click', async e => {
   if (a==='promo'){ startPromo(); return; }
   if (a==='train'){ doTrain(b.dataset.s); return; }
   if (a==='point'){ spendPoint(b.dataset.s); return; }
+  if (a==='calc'){ UI.calc = UI.calc === b.dataset.v ? null : b.dataset.v; render(); return; }
+  if (a==='ptsel'){ UI.ptSel = b.dataset.s || null; UI.ptN = 1; render(); return; }
+  if (a==='ptadd'){ const v = b.dataset.v; UI.ptN = v==='all' ? S.points : Math.max(1, Math.min(S.points, (+UI.ptN||1) + (+v))); render(); return; }
+  if (a==='ptgo'){ const n = Math.max(1, Math.min(S.points, +UI.ptN || 1)); spendPoint(UI.ptSel, n); toast(`${SN[UI.ptSel]} +${n}`); UI.ptN = 1; if (!S.points) UI.ptSel = null; render(); return; }
   if (a==='statinfo'){ UI.statInfo = true; render(); return; }
   if (a==='statclose'){ UI.statInfo = false; render(); return; }
   if (a==='jobpick'){ UI.jobPick = b.dataset.j; render(); return; }
