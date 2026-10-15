@@ -28,6 +28,10 @@ const SCHEMA = [
   'CREATE TABLE IF NOT EXISTS gapps (pk TEXT NOT NULL, gid INTEGER NOT NULL, at INTEGER NOT NULL, PRIMARY KEY (pk, gid))',
   'CREATE TABLE IF NOT EXISTS market (n INTEGER PRIMARY KEY AUTOINCREMENT, seller TEXT NOT NULL, sname TEXT, item TEXT NOT NULL, kind TEXT, name TEXT, slot TEXT, rar INTEGER, band INTEGER, qty INTEGER DEFAULT 1, price INTEGER NOT NULL, at INTEGER NOT NULL, st TEXT NOT NULL DEFAULT \'on\', buyer TEXT, done_at INTEGER)',
   'CREATE INDEX IF NOT EXISTS market_st ON market (st, at)',
+  'CREATE TABLE IF NOT EXISTS coupons (code TEXT PRIMARY KEY, payload TEXT NOT NULL, max_uses INTEGER DEFAULT 0, uses INTEGER DEFAULT 0, until INTEGER DEFAULT 0, created INTEGER NOT NULL, by TEXT)',
+  'CREATE TABLE IF NOT EXISTS coupon_used (code TEXT NOT NULL, uid TEXT NOT NULL, at INTEGER NOT NULL, PRIMARY KEY (code, uid))',
+  'CREATE TABLE IF NOT EXISTS storage (uid TEXT PRIMARY KEY, data TEXT NOT NULL, at INTEGER NOT NULL)',
+  'CREATE TABLE IF NOT EXISTS gmails (n INTEGER PRIMARY KEY AUTOINCREMENT, payload TEXT NOT NULL, at INTEGER NOT NULL, until INTEGER NOT NULL, by TEXT)',
 ];
 const ITER = 20000;               // 무료 요금제 CPU 한도 안에서 돌도록
 const SESSION_MS = 30 * 864e5;    // 30일
@@ -111,7 +115,8 @@ export async function onRequest({request, env, params}){
     await db.prepare('DELETE FROM sessions WHERE id = ? AND exp < ?').bind(id, Date.now()).run();
     return json({id, token: await newSession(db, id), admin: isAdmin(id)});
   }
-  if (path === 'notice' && m === 'GET'){ const r = await db.prepare("SELECT text, at FROM notice WHERE k = 'main'").first(); return json(r || {text: ''}); }
+  if (path === 'notice' && m === 'GET'){ const r = await db.prepare("SELECT text, at FROM notice WHERE k = 'main'").first(); const ev = await db.prepare("SELECT text FROM notice WHERE k = 'event'").first();
+    let event = null; try { event = ev && JSON.parse(ev.text); } catch(e){} if (event && event.until && event.until < Date.now()) event = null; return json({...(r || {text: ''}), event}); }
 
   const s = await session(db, request);
   if (!s) return json({error: '다시 로그인해 주세요.'}, 401);
@@ -159,7 +164,7 @@ export async function onRequest({request, env, params}){
   }
   // ----- 운영자 우편(지급·조정): 캐릭터가 접속하면 받아서 적용하고 ack
   if (path === 'grants' && m === 'GET'){
-    const r = await db.prepare('SELECT n, slot, payload, at FROM grants WHERE uid = ? AND slot = ? AND done = 0 ORDER BY n').bind(s.id, slot).all();
+    const r = await db.prepare('SELECT n, slot, payload, at, by FROM grants WHERE uid = ? AND slot = ? AND done = 0 AND at > ? ORDER BY n').bind(s.id, slot, Date.now() - 14 * 864e5).all();
     return json({list: r.results || []});
   }
   if (path === 'grants/ack' && m === 'POST'){
@@ -401,6 +406,29 @@ export async function onRequest({request, env, params}){
     return json({error: '모르는 작업이에요.'}, 400);
   }
 
+
+  // ----- 전체 우편(운영자가 모든 캐릭터에게): 받은 건 캐릭터 저장에 기록
+  if (path === 'gmails' && m === 'GET'){ const r = await db.prepare('SELECT n, payload, at, until, by FROM gmails WHERE until > ? ORDER BY n DESC LIMIT 30').bind(Date.now()).all(); return json({list: r.results || []}); }
+  // ----- 쿠폰: 계정마다 한 번
+  if (path === 'coupon' && m === 'POST'){
+    const code = String(body.code || '').trim().toUpperCase();
+    if (!/^[A-Z0-9_-]{3,24}$/.test(code)) return json({error: '쿠폰 코드를 확인해 주세요.'}, 400);
+    const ip = 'coupon|' + (request.headers.get('CF-Connecting-IP') || '?');
+    if (await tooMany(db, ip)) return json({error: '너무 많이 틀렸어요. 10분 뒤에 다시 해 주세요.'}, 429);
+    const c = await db.prepare('SELECT * FROM coupons WHERE code = ?').bind(code).first();
+    if (!c){ await failed(db, ip); return json({error: '없는 쿠폰이에요.'}, 404); }
+    if (c.until && c.until < Date.now()) return json({error: '기간이 끝난 쿠폰이에요.'}, 400);
+    if (c.max_uses && c.uses >= c.max_uses) return json({error: '선착순이 끝났어요.'}, 400);
+    try { await db.prepare('INSERT INTO coupon_used (code, uid, at) VALUES (?, ?, ?)').bind(code, s.id, Date.now()).run(); } catch(e){ return json({error: '이미 받은 쿠폰이에요. (계정마다 한 번)'}, 400); }
+    await db.prepare('UPDATE coupons SET uses = uses + 1 WHERE code = ?').bind(code).run();
+    const pl = JSON.parse(c.payload); pl.msg = pl.msg || `쿠폰 ${code} 보상`;
+    await db.prepare('INSERT INTO grants (uid, slot, payload, at, by) VALUES (?, ?, ?, ?, ?)').bind(s.id, slotOf(body.slot), JSON.stringify(pl), Date.now(), 'coupon').run();
+    return json({ok: true});
+  }
+  // ----- 계정 창고 (캐릭터 4명이 함께 씀)
+  if (path === 'storage' && m === 'GET'){ const r = await db.prepare('SELECT data, at FROM storage WHERE uid = ?').bind(s.id).first(); return json(r ? {data: JSON.parse(r.data), at: r.at} : {data: null}); }
+  if (path === 'storage' && m === 'PUT'){ const d = JSON.stringify(body.data || {}); if (d.length > 300000) return json({error: '창고가 너무 커요.'}, 413);
+    await db.prepare('INSERT INTO storage (uid, data, at) VALUES (?, ?, ?) ON CONFLICT(uid) DO UPDATE SET data = excluded.data, at = excluded.at').bind(s.id, d, Date.now()).run(); return json({ok: true}); }
   // ----- 운영자 전용
   if (path.startsWith('admin/')){
     if (!isAdmin(s.id)) return json({error: '운영자만 쓸 수 있어요.'}, 403);
@@ -468,6 +496,26 @@ export async function onRequest({request, env, params}){
       await log('notice', text.slice(0, 60)); return json({ok: true});
     }
     if (sub === 'chatdel' && m === 'POST'){ await db.prepare('DELETE FROM chat WHERE n = ?').bind(+body.n).run(); await log('chatdel', '#' + body.n); return json({ok: true}); }
+    if (sub === 'event' && m === 'POST'){
+      const ev = body.off ? null : {title: String(body.title || '').slice(0, 40), exp: Math.max(1, Math.min(5, +body.exp || 1)), gold: Math.max(1, Math.min(5, +body.gold || 1)), drop: Math.max(1, Math.min(5, +body.drop || 1)), until: Date.now() + Math.max(1, Math.min(24 * 30, +body.hours || 24)) * 36e5};
+      await db.prepare("INSERT INTO notice (k, text, at) VALUES ('event', ?, ?) ON CONFLICT(k) DO UPDATE SET text = excluded.text, at = excluded.at").bind(JSON.stringify(ev), Date.now()).run();
+      await log('event', ev ? `${ev.title} 경험치×${ev.exp} 골드×${ev.gold} 드롭×${ev.drop}` : '끔'); return json({ok: true});
+    }
+    if (sub === 'coupons'){ const r = await db.prepare('SELECT code, payload, max_uses, uses, until, created, by FROM coupons ORDER BY created DESC LIMIT 50').all(); return json({list: r.results || []}); }
+    if (sub === 'coupon' && m === 'POST'){
+      const code = String(body.code || '').trim().toUpperCase();
+      if (body.del){ await db.prepare('DELETE FROM coupons WHERE code = ?').bind(code).run(); await log('coupon', '삭제 ' + code); return json({ok: true}); }
+      if (!/^[A-Z0-9_-]{3,24}$/.test(code)) return json({error: '코드는 영문 대문자·숫자·_·- 3~24자예요.'}, 400);
+      if (await db.prepare('SELECT 1 FROM coupons WHERE code = ?').bind(code).first()) return json({error: '이미 있는 코드예요.'}, 409);
+      const pl = JSON.stringify(body.payload || {}); if (pl.length > 4000) return json({error: '너무 많아요.'}, 400);
+      await db.prepare('INSERT INTO coupons (code, payload, max_uses, uses, until, created, by) VALUES (?, ?, ?, 0, ?, ?, ?)').bind(code, pl, Math.max(0, +body.max || 0), body.days ? Date.now() + +body.days * 864e5 : 0, Date.now(), s.id).run();
+      await log('coupon', code); return json({ok: true});
+    }
+    if (sub === 'gmail' && m === 'POST'){
+      const pl = JSON.stringify(body.payload || {}); if (pl.length > 4000) return json({error: '너무 많아요.'}, 400);
+      await db.prepare('INSERT INTO gmails (payload, at, until, by) VALUES (?, ?, ?, ?)').bind(pl, Date.now(), Date.now() + Math.max(1, Math.min(30, +body.days || 7)) * 864e5, s.id).run();
+      await log('gmail', pl.slice(0, 120)); return json({ok: true});
+    }
     if (sub === 'logs'){ const r = await db.prepare('SELECT by, act, target, at FROM gmlog ORDER BY n DESC LIMIT 50').all(); return json({list: r.results || []}); }
   }
   return json({error: '없는 주소예요.'}, 404);
