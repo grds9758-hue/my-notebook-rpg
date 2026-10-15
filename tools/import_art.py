@@ -175,6 +175,19 @@ def drop_neighbor_bits(cell):
     return Image.fromarray(a)
 
 
+def clean_cells(im):
+    """128px 칸 경계선 위에 그림이 하나도 없으면(이미 칸 안에 정리됨) True."""
+    import numpy as np
+    a = np.array(im.convert('RGBA'))[:, :, 3] > 20
+    H, W = a.shape
+    if W != 512 or H % 128: return False
+    for x in range(0, W, 128):
+        if a[:, x].any() or a[:, min(W - 1, x + 127)].any(): return False
+    for y in range(0, H, 128):
+        if a[y].any() or a[min(H - 1, y + 127)].any(): return False
+    return True
+
+
 def fix_sheet_im(im, kind, rep, base):
     """tools/fix_sheet.py로 시트를 다시 정렬. 고친 내용은 보고서에."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -482,7 +495,8 @@ def handle(rel, im, names, out, rep):
             im = im.resize((512, round(im.size[1] * 512 / im.size[0])), Image.LANCZOS)
         if not m.group(1).startswith('novice_') or m.group(1) in ('novice_f', 'novice_m'):
             # 통짜 캐릭터 시트는 칸 밖으로 넘친 프레임을 다시 정렬 (노비스 부품은 겹쳐야 해서 그대로)
-            im = fix_sheet_im(im, m.group(2), rep, base)
+            if not clean_cells(im):  # 이미 칸에 맞춰 정리된 시트(발·가운데 맞춤 끝)는 그대로 둠
+                im = fix_sheet_im(im, m.group(2), rep, base)
         e, issues = sheet_entry(im, m.group(2))
         if im.size[0] > 4 * 128: e['s'] = round(im.size[0] / 4 / 128, 3)
         for x in issues:

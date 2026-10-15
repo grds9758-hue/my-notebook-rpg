@@ -1,8 +1,42 @@
 그림 넣기 결과 (게임에 넣음)
-넣은 것 4개 · 문제 0건 · 목록에 없는 이름 0개
+넣은 것 38개 · 문제 0건 · 목록에 없는 이름 0개
 
 [넣은 것]
+  char_elementalist_back.png
+  char_shield_back.png
+  char_greatsword_front.png
+  char_mage_back.png
+  char_dancer_front.png
   char_novice_f_front.png
+  char_trapper_front.png
+  char_rider_back.png
+  char_priest_front.png
+  char_elementalist_front.png
+  char_mage_front.png
+  char_healer_back.png
+  char_monk_back.png
+  char_bowman_front.png
+  char_thief_back.png
+  char_wizard_back.png
+  char_shuriken_front.png
+  char_monk_front.png
   char_novice_m_back.png
+  char_archer_front.png
+  char_trapper_back.png
+  char_rider_front.png
+  char_shuriken_back.png
   char_novice_m_front.png
+  char_shield_front.png
+  char_healer_front.png
+  char_warrior_front.png
+  char_priest_back.png
+  char_thief_front.png
+  char_bowman_back.png
+  char_greatsword_back.png
+  char_archer_back.png
   char_novice_f_back.png
+  char_dagger_front.png
+  char_dagger_back.png
+  char_wizard_front.png
+  char_warrior_back.png
+  char_dancer_back.png
