@@ -33,7 +33,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR','Apple SD 
 .field .inp{background:none;border:0;padding:7px 8px}
 .field:has(textarea){flex-direction:column;align-items:stretch;padding:10px 12px;gap:4px}
 .field textarea{font:inherit;color:var(--ink);background:none;border:0;resize:vertical;min-width:0;width:100%;padding:4px 0}
-.gmgrid>*{min-width:0}.gmgrid .field{padding-left:10px;font-size:12.5px;gap:4px}.gmgrid .field input{width:100%}
+.gmgrid>*{min-width:0}
+.gmprev{margin:4px 0 8px;padding:8px 10px;border-radius:10px;background:var(--surface-2)}.gmprev b,.gmprev small{display:block}.gmprev small{font-size:11.5px;margin-top:2px}.gmgrid .field{padding-left:10px;font-size:12.5px;gap:4px}.gmgrid .field input{width:100%}
 .inqlist{margin-top:10px;display:grid;gap:8px}
 details.inq{background:var(--surface-2);border-radius:12px;padding:10px 12px}
 details.inq summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;list-style:none}
@@ -1451,7 +1452,7 @@ function applyGrant(p){
   for (const [k, n] of Object.entries(p.pots || {})) if (POTIONS[k] && n){ S.inv[k] = (S.inv[k] || 0) + (+n); got.push(`${POTIONS[k].name} ${n}개`); }
   let lost = 0;
   for (const it of p.raw || []){ if (!it.pot && !it.mat && S.bag.length >= BAG_MAX){ lost++; continue; } giveMarketItem(it, it.n || 1); got.push(mkItemName(it)); }
-  for (const it of p.items || []) for (let i = 0; i < (+it.n || 1); i++){ if (S.bag.length >= BAG_MAX){ lost++; continue; } S.bag.push(makeItem(it.slot, +it.band, +it.rar)); got.push(itemLabel(S.bag[S.bag.length-1]).replace(/<[^>]+>/g, '')); }
+  for (const it of p.items || []) for (let i = 0; i < (+it.n || 1); i++){ if (S.bag.length >= BAG_MAX){ lost++; continue; } S.bag.push(Object.assign(makeItem(it.slot, +it.band, +it.rar, !!it.deep), {t3:!!it.t3}, it.st?{st:it.st}:{}, it.kind?{kind:it.kind}:{}, it.up?{up:clamp(+it.up,0,10)}:{}, it.sb&&SETS[it.sb]?{sb:it.sb}:{})); if (!S.bag[S.bag.length-1].t3) delete S.bag[S.bag.length-1].t3; got.push(itemLabel(S.bag[S.bag.length-1]).replace(/<[^>]+>/g, '')); }
   return {got, lost};
 }
 let grantBusy = false;
@@ -3941,6 +3942,36 @@ function charSummary(d){
   try { S = migrate(JSON.parse(JSON.stringify(d))); tag = lvTag(); } catch(e){ tag = `Lv.${d.lv||1}`; }
   S = keep; return `${esc(d.name||'이름 없음')} · ${tag} · 골드 ${fmt(d.gold||0)}`;
 }
+// 운영자 장비 만들기: 종류·계열·단계·희귀도·강화·반지 능력치·보조무기 종류·세트·개수를 다 정할 수 있게
+const GMI_SERIES = [['n','노비스·공용'],['d','전직 장비'],['t','초월(3차)']];
+function gmItemSpec(){
+  const slot = fvRaw('gm-islot','weapon'), ser = fvRaw('gm-iser','n');
+  const it = {id:'preview', slot, band:+fvRaw('gm-iband',0), rar:+fvRaw('gm-irar',0), isNew:true};
+  if (ser !== 'n') it.deep = true; if (ser === 't') it.t3 = true;
+  const up = +fvRaw('gm-iup',0); if (up) it.up = up;
+  if (slot === 'ring') it.st = fvRaw('gm-ist','str');
+  if (slot === 'sub') it.kind = fvRaw('gm-ikind','shield');
+  const sb = fvRaw('gm-iset',''); if (sb && ARMOR_SET_SLOTS.includes(slot)) it.sb = sb;
+  return it;
+}
+function gmItemForm(){
+  const slot = fvRaw('gm-islot','weapon'), ser = fvRaw('gm-iser','n'), it = gmItemSpec();
+  const bands = (ser==='n' ? BANDS : JOB_TIERS).map((b,i)=>[i, `${ser==='n'?'':ser==='t'?'3차 ':'전직 '}Lv.${b}`]);
+  const sets = [['','세트 없음'], ...Object.entries(SETS).filter(([k,v]) => !!v.deep === (ser!=='n')).map(([k,v]) => [k, v.name || `직업세트${k.slice(1)}`])];
+  let pv = '';
+  try { const I = itemInfo(it); pv = `<div class="gmprev"><b class="rar${it.rar}">${RARITY[it.rar]} ${esc(I.name)}</b><small>${reqText(I)} 필요${I.atk?` · 공격 ${I.atk}`:''}${I.def?` · 방어 ${I.def}`:''}${Object.entries(I.bon).map(([k,v])=>` · ${SN[k]||k} +${v}`).join('')}${I.setName?` · 세트 ${esc(I.setName)}`:''}</small><small class="muted">이름은 받는 캐릭터의 직업에 따라 달라질 수 있어요.</small></div>`; } catch(e){ pv = ''; }
+  return `<div class="gmgrid">
+    <label class="field">종류 ${sel('gm-islot', [...SLOT_ORDER, 'ring'].map(k => [k, SLOTN[k] || k]), 'weapon')}</label>
+    <label class="field">계열 ${sel('gm-iser', GMI_SERIES, 'n')}</label>
+    <label class="field">단계 ${sel('gm-iband', bands, 0)}</label>
+    <label class="field">희귀도 ${sel('gm-irar', RARITY.map((r,i)=>[i,r]), 0)}</label>
+    <label class="field">강화 ${sel('gm-iup', [...Array(11).keys()].map(n=>[n, n?`+${n}`:'없음']), 0)}</label>
+    <label class="field">개수<input id="gm-in" type="number" min="0" max="10" value="${fv('gm-in')}" placeholder="0"></label>
+    ${slot==='ring' ? `<label class="field">반지 능력치 ${sel('gm-ist', STATS.map(([k,n])=>[k,n]), 'str')}</label>` : ''}
+    ${slot==='sub' ? `<label class="field">보조무기 ${sel('gm-ikind', Object.entries(SUB_KINDS).map(([k,v])=>[k,v.n]), 'shield')}</label>` : ''}
+    ${ARMOR_SET_SLOTS.includes(slot) ? `<label class="field">세트 ${sel('gm-iset', sets, '')}</label>` : ''}
+  </div>${pv}`;
+}
 function gmView(){
   if (!isAdmin()){ UI.tab = 'set'; return settingsView(); }
   UI.gm = UI.gm || 'home';
@@ -3995,12 +4026,7 @@ function gmView(){
         <label class="field">물약 개수<input id="gm-potn" type="number" min="0" value="${fv('gm-potn')}" placeholder="0"></label>
       </div>
       <h3 class="small muted" style="margin-top:8px">장비 만들어 주기</h3>
-      <div class="gmgrid">
-        <label class="field">종류 ${sel('gm-islot', itemSlots, 'weapon')}</label>
-        <label class="field">단계 ${sel('gm-iband', BANDS.map((b,i)=>[i, `Lv.${b}`]), 0)}</label>
-        <label class="field">희귀도 ${sel('gm-irar', RARITY.map((r,i)=>[i,r]), 0)}</label>
-        <label class="field">개수<input id="gm-in" type="number" min="0" max="10" value="${fv('gm-in')}" placeholder="0"></label>
-      </div>
+      ${gmItemForm()}
       <label class="field">우편 메시지<input id="gm-msg" maxlength="60" value="${fv('gm-msg')}" placeholder="예) 점검 보상이에요!"></label>
       <div class="btns"><button class="btn pri" data-act="gmgrant">보내기</button></div></section>`;
   }
@@ -4122,6 +4148,7 @@ app.addEventListener('input', e => { if (e.target.id==='f-name') draft.name = e.
 app.addEventListener('toggle', e => { const d = e.target; if (d.matches && d.matches('details[data-k]')){ if (d.open) UI[d.dataset.k] = +d.dataset.n; else if (UI[d.dataset.k] === +d.dataset.n) UI[d.dataset.k] = null; } }, true);
 app.addEventListener('keydown', e => { if (e.key==='Enter' && e.target.id==='soc-msg'){ e.preventDefault(); socAct('chatsend', {dataset:{}}); return; } if (e.key==='Enter' && /^a-/.test(e.target.id||'')) accSubmit(UI.authMode||'login'); });
 app.addEventListener('change', e => { if (e.target.id==='f-origin') draft.origin = e.target.value;
+  if (/^gm-i/.test(e.target.id||'') && e.target.tagName==='SELECT'){ UI.fv[e.target.id] = e.target.value; if (e.target.id==='gm-iser') UI.fv['gm-iband'] = 0; render(); return; }
   if (e.target.id==='gmark-file' && e.target.files[0]){ const f = e.target.files[0], act = e.target.dataset.act2, url = URL.createObjectURL(f), im = new Image();
     im.onload = () => { CROP.img = im; CROP.z = 1; CROP.x = .5; CROP.y = .5; UI.cropFor = act; render(); setTimeout(cropDraw, 0); }; im.onerror = () => toast('그림을 열 수 없어요.'); im.src = url; }
   if (/^(gm-|inq-|soc-)/.test(e.target.id||'')) UI.fv[e.target.id] = e.target.value; if (e.target.id==='soc-rankjob'){ UI.rankJob = e.target.value; render(); }
@@ -4173,7 +4200,7 @@ app.addEventListener('click', async e => {
     const p = {msg:fvRaw('gm-msg').trim().slice(0, 60)};
     if (num('gm-gold')) p.gold = num('gm-gold'); if (num('gm-lv') > 0) p.lv = Math.min(99, num('gm-lv')); if (num('gm-points')) p.points = num('gm-points'); if (num('gm-sp')) p.sp = num('gm-sp');
     if (num('gm-potn') > 0) p.pots = {[fvRaw('gm-pot','hp')]: Math.min(999, num('gm-potn'))};
-    if (num('gm-in') > 0) p.items = [{slot:fvRaw('gm-islot','weapon'), band:+fvRaw('gm-iband',0), rar:+fvRaw('gm-irar',0), n:Math.min(10, num('gm-in'))}];
+    if (num('gm-in') > 0){ const it = gmItemSpec(); delete it.id; delete it.isNew; p.items = [{...it, n:Math.min(10, num('gm-in'))}]; }
     if (Object.keys(p).length <= 1){ toast('보낼 것을 하나 이상 넣어 주세요.'); return; }
     BK.adm.grant(to, +fvRaw('gm-slot', 0), p).then(() => { toast(`${to}에게 보냈어요.`); for (const k of ['gm-gold','gm-lv','gm-points','gm-sp','gm-potn','gm-in','gm-msg']) UI.fv[k] = ''; delete GMD.logs;
       if (ACC.u && to.toLowerCase() === ACC.u.id.toLowerCase()) pullGrants(); render(); }).catch(err => toast(err.message)); return; }
