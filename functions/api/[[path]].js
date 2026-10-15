@@ -87,8 +87,11 @@ export async function onRequest({request, env, params}){
   const isAdmin = id => ADMINS.includes(id);
   if (path === 'signup' && m === 'POST'){
     const id = String(body.id || '').toLowerCase(), pw = String(body.pw || '');
+    if ((isAdmin(id) || /^(admin|gm)/.test(id)) && await tooMany(db, 'admincode|' + (request.headers.get('CF-Connecting-IP') || '?'))) return json({error: '운영자 코드를 너무 많이 틀렸어요. 10분 뒤에 다시 해 주세요.'}, 429);
     if (isAdmin(id) || /^(admin|gm|operator|master|root|운영자)[0-9_-]*$/.test(id)){
-      if (!isAdmin(id) || !env.ADMIN_CODE || String(body.code || '') !== String(env.ADMIN_CODE)) return json({error: '쓸 수 없는 아이디예요.'}, 400);
+      if (!isAdmin(id)) return json({error: '쓸 수 없는 아이디예요.'}, 400);
+      if (!String(env.ADMIN_CODE || '').trim()) return json({error: '서버에 운영자 코드(ADMIN_CODE)가 아직 없어요. Cloudflare 설정을 확인해 주세요.'}, 400);
+      if (String(body.code || '').trim() !== String(env.ADMIN_CODE).trim()){ await failed(db, 'admincode|' + (request.headers.get('CF-Connecting-IP') || '?')); return json({error: '운영자 코드가 맞지 않아요.'}, 400); }
     } else if (!ID_RE.test(id)) return json({error: '아이디는 5~20자의 영문 소문자, 숫자, 특수기호(_, -)만 쓸 수 있어요.'}, 400);
     if (!pwOk(pw)) return json({error: '비밀번호는 8~16자로, 영문·숫자·특수문자 중 2가지 이상을 섞어 주세요.'}, 400);
     const key = id.toLowerCase();
