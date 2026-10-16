@@ -119,6 +119,66 @@ details.inq .ans{margin-top:8px;padding:8px 10px;border-radius:10px;background:v
 @keyframes lvpop{0%{transform:scale(.3)}100%{transform:scale(1)}}
 @keyframes lvspin{to{transform:rotate(60deg)}}
 @media (prefers-reduced-motion:reduce){.lvfx,.lvfx b,.lvfx .lvray{animation-duration:.01s}.lvfx{animation:lvfx 2.3s linear forwards}}
+/* 전투: 치명타·연타·콤보·정예 체력바 */
+.pop.crit{font-size:27px;color:#fff6c2;-webkit-text-stroke:2px #e0561b;text-shadow:0 3px 0 #b23c08,0 0 14px rgba(255,170,40,.75)}
+.pop.critl{top:-26px;font-size:11px;font-weight:900;letter-spacing:.06em;color:#ffcf3a;-webkit-text-stroke:0;text-shadow:0 1px 0 #7a3a00,0 0 6px rgba(255,160,0,.8)}
+.pop.hitn{top:22px;font-size:12px;-webkit-text-stroke:0;color:#fff;background:linear-gradient(90deg,#ff7a45,#ff3d6e);padding:0 7px;border-radius:7px;text-shadow:none}
+.combo{position:absolute;left:12px;top:8px;z-index:5;display:grid;justify-items:start;line-height:1;pointer-events:none;animation:cpop .35s ease-out}
+.combo b{font-size:30px;font-weight:900;font-style:italic;color:#fff;-webkit-text-stroke:2px #ff6a2b;text-shadow:0 3px 0 #b8400f}
+.combo small{font-size:10px;font-weight:900;letter-spacing:.12em;color:#ffb35a;text-shadow:0 1px 0 #6a2a00}
+@keyframes cpop{0%{transform:scale(1.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.bossbar{position:relative;z-index:3;margin:8px 2px 0;padding:6px 10px 8px;border-radius:14px;background:rgba(24,20,36,.82);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.bossbar.rare{box-shadow:0 0 0 1.5px #ffd45a,0 4px 14px rgba(255,190,40,.35)}
+.bbh{display:flex;align-items:baseline;gap:6px;font-size:13px}.bbh small{font-size:11px;opacity:.8}.bbh em{margin-left:auto;font-style:normal;font-weight:900;color:#ffd45a}
+.bbar{position:relative;height:12px;margin-top:4px;border-radius:6px;overflow:hidden;background:#3a1622}
+.bbar i{position:absolute;left:0;top:0;bottom:0}.bbar .next{right:0;background:#7a2b3c}.bbar .cur{background:linear-gradient(90deg,#ff4d5e,#ff9a5a);transition:width .35s}
+.bbar span{position:absolute;inset:0;display:grid;place-items:center;font-size:9.5px;font-weight:800;text-shadow:0 1px 1px #000}
+/* 가방: 정렬·거르기, 희귀도 빛 */
+.bagtool{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 10px}
+.bagtool .chips{display:flex;gap:6px;flex-wrap:wrap}.bagtool select{width:auto;padding:6px 8px;font-size:12.5px}
+.chipbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.inv .cell.rb2{box-shadow:inset 0 0 10px color-mix(in srgb,var(--r2) 35%,transparent)}
+.inv .cell.rb3{box-shadow:inset 0 0 12px color-mix(in srgb,var(--r3) 45%,transparent),0 0 6px color-mix(in srgb,var(--r3) 40%,transparent)}
+.inv .cell.rb4{box-shadow:inset 0 0 14px color-mix(in srgb,var(--r4) 55%,transparent),0 0 10px color-mix(in srgb,var(--r4) 55%,transparent);animation:legglow 2.4s ease-in-out infinite}
+@keyframes legglow{50%{box-shadow:inset 0 0 18px color-mix(in srgb,var(--r4) 70%,transparent),0 0 16px color-mix(in srgb,var(--r4) 75%,transparent)}}
+.cpfx{position:fixed;left:50%;top:22%;transform:translateX(-50%);z-index:95;display:grid;justify-items:center;gap:1px;padding:10px 22px;border-radius:16px;background:rgba(20,22,40,.86);color:#fff;pointer-events:none;animation:cpfx 1.9s ease-out forwards;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.cpfx small{font-size:11px;opacity:.8}.cpfx b{font-size:24px;font-weight:900;color:#ffe08a}.cpfx em{font-style:normal;font-weight:900;font-size:14px}
+.cpfx.up em{color:#5ff0a0}.cpfx.down em{color:#ff7a8a}
+@keyframes cpfx{0%{opacity:0;transform:translate(-50%,12px)}12%{opacity:1;transform:translate(-50%,0)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-10px)}}
+/* 오늘의 할 일 */
+.dboard h2 .dring{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:conic-gradient(var(--accent) var(--p),var(--surface-2) 0);position:relative}
+.dboard h2 .dring::before{content:'';position:absolute;inset:5px;border-radius:50%;background:var(--surface)}
+.dboard h2 .dring>span{position:relative;z-index:1;font-size:11px}.dboard h2 .dring b{font-size:15px;color:var(--text)}
+.dlist{display:grid;gap:6px}
+.dl{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;background:var(--surface-2);cursor:pointer}
+.dl .dic{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:var(--surface);font-size:16px}
+.dl .grow{display:grid;gap:1px;min-width:0}.dl b{font-size:13.5px}.dl small{font-size:11.5px;color:var(--muted)}
+.dl .dpb{display:block;height:4px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:3px}.dl .dpb em{display:block;height:100%;background:var(--accent)}
+.dl .dck{font-weight:900;color:var(--muted)}
+.dl.ok{opacity:.6}.dl.ok b{text-decoration:line-through}.dl.ok .dck{color:#fff;background:var(--green,#20a464);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px}
+.dl[disabled]{cursor:default}
+.dsub{font-size:13px;margin:14px 0 6px;color:var(--sub)}
+/* 스킬 툴팁(메이플식) */
+.sktip{background:linear-gradient(180deg,#232a44,#1a1f33)!important;color:#e9ecf7;border-radius:16px;padding:14px!important;border:1px solid #3a4468}
+.sktip .muted,.sktip .xs{color:#a9b1cc!important}
+.sktip .skn{font-size:17px;color:#fff}
+.sktags{display:flex;gap:6px;margin-top:3px;font-size:11px}.sktags span{padding:1px 8px;border-radius:99px;background:#33406a}.sktip.pas .skk{background:#5b3a7a}
+.sktags .sklv b{color:#ffd45a}
+.skpips{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px}.skpips i{width:8px;height:5px;border-radius:2px;background:#3a4468}.skpips i.on{background:linear-gradient(90deg,#ffd45a,#ff9a3a)}
+.skinfo{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}.skinfo span{font-size:11.5px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.07);display:inline-flex;align-items:center;gap:3px}
+.sktip .tag.now{background:#2e7d5b;color:#fff}.sktip .tag.nx{background:#c77a17;color:#fff}
+.sktip p.small{background:rgba(255,255,255,.05);padding:8px 10px;border-radius:10px;margin-top:6px}
+.sktip .rqi{color:#ff9aa8}.sktip .rqi.ok{color:#7ff0b0}
+/* 획득 로그 · 업적 */
+#lootfeed{position:fixed;right:10px;top:150px;z-index:85;display:grid;gap:5px;justify-items:end;pointer-events:none}
+.lf{max-width:240px;padding:6px 12px;border-radius:10px;background:rgba(20,22,40,.82);color:#fff;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--r0);animation:lfin .3s ease-out;transition:opacity .4s,transform .4s}
+.lf small{opacity:.7;font-size:10.5px;margin-right:2px}.lf.r1{border-color:var(--r1)}.lf.r2{border-color:var(--r2)}.lf.r3{border-color:var(--r3)}.lf.r4{border-color:var(--r4);box-shadow:0 0 12px color-mix(in srgb,var(--r4) 60%,transparent)}.lf.card{border-color:#ffd45a}
+.lf.out{opacity:0;transform:translateX(20px)}
+@keyframes lfin{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.achfx{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:96;display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border-radius:16px;background:linear-gradient(135deg,#3b2a08,#7a5512);color:#fff;border:1.5px solid #ffd45a;box-shadow:0 8px 26px rgba(120,80,0,.4);animation:achin 4.2s ease-out forwards;width:max-content;max-width:calc(100% - 24px)}
+.achfx .ai{font-size:28px}.achfx span{display:grid}.achfx small{font-size:10.5px;color:#ffd45a;font-weight:800;letter-spacing:.05em}.achfx b{font-size:16px}.achfx em{font-style:normal;font-size:11.5px;opacity:.85}
+@keyframes achin{0%{opacity:0;transform:translate(-50%,-30px)}8%{opacity:1;transform:translate(-50%,0)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-20px)}}
+@media (prefers-reduced-motion:reduce){.inv .cell.rb4,.combo,.lf,.achfx,.cpfx{animation-duration:.01s}.achfx{animation:achin 4.2s linear forwards}.cpfx{animation:cpfx 1.9s linear forwards}}
 .minichat{position:fixed;left:50%;transform:translateX(-50%);width:min(560px,calc(100% - 24px));z-index:40;background:rgba(24,28,44,.78);color:#fff;border-radius:14px;padding:4px 10px 6px;box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(4px);opacity:.82;transition:opacity .3s}
 .minichat.fresh{opacity:1}.minichat.min{width:auto;left:auto;right:12px;transform:none;padding:4px 10px}
 .minichat button{all:unset;display:block;cursor:pointer;width:100%}
@@ -741,8 +801,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
 /* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
-const BUILD = '2026-10-16.2'; /*BUILD*/
-const CHANGES = ["캐릭터 정보 새 단장: 프로필 배너(일러스트·전투력·EXP/HP/MP)와 장비·능력치·성장 탭", "아이템 정보 창 희귀도 색, 레벨 업 연출, 다른 플레이어 정보도 새 배너"]; /*CHANGES*/
+const BUILD = '2026-10-16.3'; /*BUILD*/
+const CHANGES = ["전투: 치명타 큰 숫자·연타 HIT·콤보·정예/희귀 몬스터 체력바", "가방: 종류 거르기·정렬·희귀 장비 빛·장착 때 전투력 변화", "홈 '오늘의 할 일'·스킬 툴팁·획득 로그·업적 달성 배너"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
@@ -2167,7 +2227,12 @@ function gainExp(n){
   if (ups){ lvFx(S.lv); S.hp = Math.min(hpMax(), S.hp + hpMax() - hp0); S.mp = Math.min(mpMax(), S.mp + mpMax() - mp0); }
   return ups;
 }
+// 획득 로그(마비노기식): 오른쪽에 '획득' 줄이 잠깐 쌓였다 사라짐
+function feed(html, cls=''){ let box = document.getElementById('lootfeed'); if (!box){ box = document.createElement('div'); box.id = 'lootfeed'; box.setAttribute('aria-live', 'polite'); document.body.appendChild(box); }
+  const el = document.createElement('div'); el.className = 'lf ' + cls; el.innerHTML = html; box.appendChild(el);
+  while (box.children.length > 5) box.firstChild.remove(); setTimeout(()=>el.classList.add('out'), 3200); setTimeout(()=>el.remove(), 3700); }
 function gainItem(it){
+  setTimeout(() => { if (S && it && it.slot) feed(`<small>획득</small> <b class="rar${it.rar}">${esc(itemInfo(it).name)}</b>`, 'r'+it.rar); }, 600);
   if (S.bag.length >= BAG_MAX) return false;
   S.bag.push(it); S.tot.items++; if (it.rar===4){ S.tot.legend++; bcast('legend', {item:itemInfo(it).name}); }
   return true;
@@ -2488,9 +2553,10 @@ function playerAction(kind, arg){
         const m2 = mult * (1 + .4*(popped[t]||0)) * (1 + .35*spheres);
         const r = hitFoe(B.foes[t], sk.attr, m2, magic);
         if (r.rel==='weak' || r.crit) anyWeak = true; if (r.miss || r.rel==='resist') anyMiss = true;
-        agg[t] = agg[t] || {dmg:0, rel:r.rel, crit:false, miss:r.miss}; agg[t].dmg += r.dmg; agg[t].crit = agg[t].crit || r.crit; agg[t].miss = agg[t].miss && r.miss;
+        agg[t] = agg[t] || {dmg:0, rel:r.rel, crit:false, miss:r.miss, n:0}; agg[t].dmg += r.dmg; agg[t].crit = agg[t].crit || r.crit; agg[t].miss = agg[t].miss && r.miss; if (!r.miss) agg[t].n++;
       }
       for (const t in agg) B.pops[t] = agg[t];
+      { const landed = Object.values(agg).reduce((a,x)=>a+x.n,0); B.combo = landed ? (B.combo||0) + landed : 0; }  // 연타(콤보): 맞힐 때마다 쌓이고 빗나가면 0
       sfx(Object.values(agg).some(x => x && x.crit) ? 'crit' : 'hit');
       const one = agg[targets[0]], what = kind==='skill' ? sk.n : '공격';
       B.log = targets.length>1 ? `${what}! 적 전체에 ${Object.values(agg).reduce((s,a)=>s+a.dmg,0)} 피해` :
@@ -2833,7 +2899,7 @@ const CARD_STAT = ['str','agi','vit','int','dex','luk'];
 function cardPas(st){ let v = 0; for (const id of (S.deck||[])){ const f = cardFx(id); if (f && f[st] != null && !CARD_STAT.includes(st)) v += f[st]*cardStar(id); } return v; }
 function cardStat(st){ let v = 0; for (const id of (S.deck||[])){ const f = cardFx(id); if (f && f[st]) v += f[st]*cardStar(id); } return v; }
 const cardFxText = (f, star=1) => Object.entries(f).map(([k,v])=>CARD_STAT.includes(k) ? `${SN[k]} +${v*star}` : `${SETK[k]} +${k==='crit'?v*star+'%':Math.round(v*star*1000)/10+'%'}`).join(' · ');
-function cardGet(id){ S.cards = S.cards || {}; S.cards[id] = (S.cards[id]||0) + 1; const sp = SPECIES().find(x=>x.id===id); return sp ? sp.name : id; }
+function cardGet(id){ S.cards = S.cards || {}; S.cards[id] = (S.cards[id]||0) + 1; const sp = SPECIES().find(x=>x.id===id); setTimeout(()=>feed(`<small>카드</small> <b>🃏 ${esc(sp ? sp.name : id)} 카드</b>`, 'card'), 700); return sp ? sp.name : id; }
 // 제작 (리나): 재료로 물약·강화 보호 주문서·행운의 부적·카드
 const RECIPES = [
   {id:'hp', n:'체력 물약 ×3', mats:4, gold:0, d:'HP 25% 회복 물약 3개', give:()=>{ S.inv.hp += 3; }},
@@ -3089,7 +3155,11 @@ function skillTreeHTML(){
   // detail of the selected skill
   const sk = SKILL[UI.skSel], lv = skLv(sk.id), o = skillAt(sk, Math.max(1, lv)), why = learnWhy(sk);
   const kids = T.list.filter(x => (x.req||[]).some(([id]) => id===sk.id));
-  h += `<div class="skd"><div class="row" style="gap:10px;flex-wrap:nowrap"><span class="ico big">${skIcon(sk)}</span><div class="grow"><b>${sk.n}</b> <span class="xs muted">${sk.e.k==='pas'?'패시브':'액티브'} · Lv.${lv}/${sk.max}${o.mp&&sk.e.k!=='pas'?` · MP ${o.mp}`:''}</span></div></div>
+  const on = skillAt(sk, Math.min(sk.max, lv+1)), info = [o.attr && sk.e.k==='dmg' ? `${attrIco(o.attr)} ${o.attr} 속성` : '', sk.e.k==='dmg' ? (o.all ? '적 전체' : '적 하나') : '', o.hits>1 ? `${o.hits}회 공격` : '', sk.e.k!=='pas' && (o.mp || on.mp) ? `MP ${lv ? o.mp : on.mp}${lv && lv<sk.max && on.mp!==o.mp ? ` → ${on.mp}` : ''}` : ''].filter(Boolean);
+  h += `<div class="skd sktip ${sk.e.k==='pas'?'pas':''}"><div class="row skh" style="gap:10px;flex-wrap:nowrap"><span class="ico big">${skIcon(sk)}</span><div class="grow"><b class="skn">${sk.n}</b>
+      <div class="sktags"><span class="skk">${sk.e.k==='pas'?'패시브':'액티브'}</span><span class="sklv">Lv.<b>${lv}</b> / ${sk.max}</span></div>
+      <div class="skpips" aria-hidden="true">${Array.from({length:sk.max},(_,i)=>`<i class="${i<lv?'on':''}"></i>`).join('')}</div></div></div>
+    ${info.length ? `<div class="skinfo">${info.map(x=>`<span>${x}</span>`).join('')}</div>` : ''}
     ${lv?`<p class="small"><span class="tag now">지금</span> ${skDesc(sk, lv)}</p>`:''}${lv<sk.max?`<p class="small"><span class="tag nx">다음</span> ${skDesc(sk, lv+1)}</p>`:'<p class="small muted">최고 레벨</p>'}
     ${(sk.req||[]).length?`<p class="small">선행: ${sk.req.map(([id,l])=>`<span class="rqi ${skLv(id)>=l?'ok':''}">${skLv(id)>=l?ico('ui_check','✓'):ico('ui_cross','✗')} ${SKILL[id].n} Lv.${l}</span>`).join(' ')}</p>`:''}
     ${kids.length?`<p class="xs muted">이 스킬로 열리는 스킬: ${kids.map(x=>x.n).join(', ')}</p>`:''}
@@ -3168,7 +3238,15 @@ function chooseRoute(r){
   jqPay(); UI.jobSheet = false;
   S.route = r; dropBadSub(); S.titles.push(ROUTE[r].name); UI.routePick = null; bcast('job', {job:ROUTE[r].name}); toast(`${ROUTE[r].name} 루트를 골랐다`); save(); render(); window.scrollTo({top:0});
 }
+document.addEventListener('change', e => { if (e.target && e.target.id==='bag-sort'){ UI.bagSort = e.target.value; render(); } });
+// 전투력 변화 팝업(로아·메이플식): 장비를 끼거나 벗으면 '전투력 +N'
+function cpFx(d){ if (!d) return; document.querySelectorAll('.cpfx').forEach(e=>e.remove());
+  const el = document.createElement('div'); el.className = 'cpfx ' + (d > 0 ? 'up' : 'down'); el.setAttribute('role', 'status');
+  el.innerHTML = `<small>전투력</small><b>${fmt(cp())}</b><em>${d > 0 ? '▲ +' : '▼ '}${fmt(d)}</em>`; document.body.appendChild(el); setTimeout(()=>el.remove(), 1900); }
 function equipItem(id, ringSlot){
+  const cp0 = cp(); equipItem0(id, ringSlot); if (S) setTimeout(() => cpFx(cp() - cp0), 30);
+}
+function equipItem0(id, ringSlot){
   const i = S.bag.findIndex(x=>x.id===id); if (i<0) return;
   const it = S.bag[i], info = itemInfo(it);
   if (!canWear(info, it)){ toast(wearWhy(info, it)); return; }
@@ -3185,7 +3263,8 @@ function equipItem(id, ringSlot){
   S.equip[target] = it; back.forEach(x=>S.bag.push(x));
   UI.sel = null; UI.ringPick = false; clampVitals(); toast(`${info.name} 장착`); save(); render();
 }
-function unequip(slot){
+function unequip(slot){ const cp0 = cp(); unequip0(slot); setTimeout(() => cpFx(cp() - cp0), 30); }
+function unequip0(slot){
   const it = S.equip[slot]; if (!it) return;
   if (S.bag.length >= BAG_MAX){ toast('가방이 가득 찼다.'); return; }
   S.equip[slot] = null; S.bag.push(it); clampVitals(); save(); render();
@@ -3956,8 +4035,25 @@ function homeView(){
         </div></div></div></section>`;
   h += missionCards();
   const T2 = T.filter(x => x.go !== 'rec:daily');
-  if (T2.length) h += `<section class="card"><h2>확인할 일</h2>${todoList(T2)}</section>`;
+  h += dailyBoard(T2);
   return h;
+}
+// 오늘의 할 일(로스트아크식): 매일 하는 것 체크 + 지금 확인할 일
+function dailyBoard(T2){
+  const ad = affDay(), d = todayKey(), dl = S.daily ? S.daily.list : [], dDone = dl.filter(m=>m.claimed).length, ofl = onsenFreeLeft();
+  const R = [
+    {ic:'📅', t:'출석 체크', d:S.att && S.att.days.includes(d) ? `이번 달 ${S.att.days.length}일째` : '접속하면 자동', ok:!!(S.att && S.att.days.includes(d))},
+    {ic:'📜', t:'오늘의 미션', d:`${dDone} / ${dl.length} 받음`, ok:dl.length && dDone>=dl.length, go:'rec:daily', p:dl.length ? dDone/dl.length : 0},
+    {ic:'💬', t:'리나와 잡담', d:`호감도 ${Math.min(3, ad.talk||0)} / 3`, ok:(ad.talk||0)>=3, act:'talk', p:Math.min(1,(ad.talk||0)/3)},
+    {ic:'🎁', t:'리나에게 선물', d:`${ad.gift||0} / 5`, ok:(ad.gift||0)>=5, act:'talk', p:Math.min(1,(ad.gift||0)/5)},
+    {ic:'♨️', t:'온천 무료 시간', d:ofl ? `${ofl}분 남음` : '오늘 다 씀', ok:!ofl, place:'onsen', p:1 - ofl/ONSEN_FREE},
+  ];
+  if (MAIL.length) R.push({ic:'📮', t:'우편함', d:`${MAIL.length}통 · 받기`, ok:false, act:'talk'});
+  const done = R.filter(r=>r.ok).length, tot = R.length;
+  const btn = r => r.go ? `data-go="${r.go}"` : r.place ? `data-act="place" data-v="${r.place}"` : r.act ? `data-act="dtalk"` : 'disabled';
+  return `<section class="card dboard"><h2 class="row">오늘의 할 일 <span class="dring" style="--p:${done/tot*100}%"><span><b>${done}</b>/${tot}</span></span></h2>
+    <div class="dlist">${R.map(r=>`<button class="dl ${r.ok?'ok':''}" ${btn(r)}><span class="dic">${r.ic}</span><span class="grow"><b>${r.t}</b><small>${r.d}</small>${r.p!=null && !r.ok ? `<i class="dpb"><em style="width:${Math.round(r.p*100)}%"></em></i>` : ''}</span><span class="dck">${r.ok?'✓':'›'}</span></button>`).join('')}</div>
+    ${T2.length ? `<h3 class="dsub">확인할 일</h3>${todoList(T2)}` : ''}</section>`;
 }
 const MISSION_IC = {kill:'⚔️', win:'🏆', weak:'🎯', skill:'✨', nohit:'💀'};
 function missionCards(){
@@ -4042,7 +4138,7 @@ function popHTML(p){
   const d = B && B.fxd ? ` style="animation-delay:${B.fxd}ms"` : '';
   if (typeof p !== 'object') return `<span class="pop">${p}</span>`;
   if (p.miss) return `<span class="pop miss"${d}>MISS</span>`;
-  return `${p.rel==='weak'?`<span class="pop weakp"${d}>약점!</span>`:''}<span class="pop ${p.rel==='resist'?'miss':''}"${d}>${p.dmg}${p.crit?'!':''}</span>`;
+  return `${p.rel==='weak'?`<span class="pop weakp"${d}>약점!</span>`:''}${p.crit?`<span class="pop critl"${d}>CRITICAL</span>`:''}<span class="pop ${p.rel==='resist'?'miss':''} ${p.crit?'crit':''}"${d}>${fmt(p.dmg)}</span>${p.n>1?`<span class="pop hitn"${d}>${p.n} HIT</span>`:''}`;
 }
 const knownWeak = f => (S.seen[f.id+':all'] ? f.weak : f.weak.filter(a=>(S.seen[f.id]||[]).includes(a)));
 function overHTML(O){
@@ -4073,8 +4169,14 @@ function battleView(){
       ${popHTML(B.pops[i])}${f.mi!=null && art('mon/m'+f.mi) ? `<span class="spr sprart">${monArt(f.mi, false, foeRow(f, i))}</span>` : `<img class="spr px" src="${f.spr}" alt="">`}<span class="nm">${esc(f.name)} · Lv.${f.m}</span>
       <span class="hpb"><i style="width:${f.hp/f.max*100}%"></i></span>${f.poison && f.hp>0 ? `<span class="psn" aria-label="독 ${f.poison}중첩">${ico('ui_poison_stack','☠️')}${f.poison}</span>` : ''}${weakChips(f)}</button>`).join('');
   const meHit = typeof B.pops.me === 'number';
+  const bf = B.foes[tgt], boss = bf && (bf.rare || B.mode==='promo') ? bf : null;
+  const bossBar = boss ? (() => { const segN = 10, per = boss.max/segN, lines = Math.max(0, Math.ceil(boss.hp/per)), cur = boss.hp - (lines-1)*per;
+    return `<div class="bossbar ${boss.rare?'rare':''}"><div class="bbh"><b>${boss.rare?'✨ ':''}${esc(boss.name)}</b><small>Lv.${boss.m}${B.mode==='promo'?' · 정예':''}</small><em>×${lines}</em></div>
+      <div class="bbar"><i class="next" style="opacity:${lines>1?1:0}"></i><i class="cur" style="width:${lines ? Math.max(0, cur/per*100) : 0}%"></i><span>${fmt(Math.max(0,boss.hp))} / ${fmt(boss.max)}</span></div></div>`; })() : '';
+  const combo = (B.combo||0) >= 3 && !B.over ? `<div class="combo" aria-label="${B.combo}연타"><b>${B.combo}</b><small>COMBO</small></div>` : '';
   let h = `<div class="turnbar"><div class="hd"><span>턴 순서 · <b>${B.round}라운드</b>${B.mode==='promo'?` · 승급 시험 ${B.stage}/3`:''}</span><span class="press" aria-label="남은 행동"><span style="margin-right:4px">내 행동</span>${icons}</span></div><div class="order">${order}</div></div>
-  <div class="field2 g${B.g}">
+  ${bossBar}
+  <div class="field2 g${B.g}">${combo}
     <div class="foes">${foes}</div>
     <div class="plat foe"></div><div class="plat me"></div><div class="me-on ${meHit?'hit':''} ${B.meAnim && Date.now()-B.meAnim.t<ME_MS && (B.meAnim.row===1||B.meAnim.row===2) ? 'lunge' : ''}">${(() => { const r = meRow(), L = lookBack(r.row); return dollHTML(L.sheet ? {...L, once:r.once, since:r.since} : lookBack()); })()}${B.pops.me!=null && OPT.dmg?`<span class="pop" style="top:40px;left:60%">${B.pops.me}</span>`:''}</div>
     <canvas class="fxc" aria-hidden="true"></canvas>
@@ -4253,11 +4355,16 @@ function bagView(){
     return h + `<section class="card"><h2>재료</h2>${M.length ? `<div class="list">${M.map(([n,c])=>`<div class="item"><span class="grow"><span class="t">${matIco(n)}${esc(n)}</span><span class="d">몬스터 재료 · 상점에서 팔기 · 대장간 제작</span></span><b>${c}개</b></div>`).join('')}</div>
       <p class="xs muted" style="margin-top:8px">재료는 노테라 상점(미아)에서 팔 수 있어요.</p>` : '<p class="small muted">사냥을 하면 재료가 쌓인다.</p>'}</section>` + (smithMatRows() ? `<section class="card"><h2>대장간 재료</h2><div class="list">${smithMatRows()}</div></section>` : '');
   }
-  const items = S.bag.slice().sort((a,b)=>(b.deep?1:0)-(a.deep?1:0) || b.rar-a.rar || b.band-a.band);
+  // 정렬·거르기(메이플·로아식): 종류(전체·무기·방어구·장신구) · 희귀도순/레벨순/최근 얻은 순
+  const BF = {all:()=>true, weapon:it=>['weapon','sub'].includes(it.slot), armor:it=>['helm','top','bottom','suit','shoes','cape'].includes(it.slot), acc:it=>['necklace','earring','ring'].includes(it.slot)};
+  const bf = UI.bagF || 'all', bs = UI.bagSort || 'rar', order = new Map(S.bag.map((x,i)=>[x.id,i]));
+  const items = S.bag.filter(BF[bf] || BF.all).sort(bs==='new' ? (a,b)=>order.get(b.id)-order.get(a.id) : bs==='lv' ? (a,b)=>(b.deep?1:0)-(a.deep?1:0) || b.band-a.band || b.rar-a.rar : (a,b)=>(b.deep?1:0)-(a.deep?1:0) || b.rar-a.rar || b.band-a.band);
   const cells = items.map(it=>`<button class="cell rb${it.rar} ${it.sb?'setit':''} ${UI.sel===it.id?'sel':''}" data-act="sel" data-id="${it.id}" aria-label="${RARITY[it.rar]} ${itemInfo(it).name}">${itemIcon(it)}${it.isNew?'<span class="new"></span>':''}${it.lock?'<span class="lk">🔒</span>':''}</button>`);
   const blanks = Math.max(0, Math.ceil((items.length+1)/5)*5 - items.length);
   const selIt = S.bag.find(x=>x.id===UI.sel);
   h += `<section class="card"><h2 class="row">착용 중 <span class="aside">${selIt?'파란 칸에 장착돼요':'칸을 누르면 정보'}</span></h2>${equipWindow(selIt)}${slotDetail()}</section>`;
+  h += `<div class="bagtool"><div class="chips">${[['all','전체'],['weapon','무기'],['armor','방어구'],['acc','장신구']].map(([v,n])=>`<button class="chipbtn ${bf===v?'on':''}" data-act="bagf" data-v="${v}">${n}</button>`).join('')}</div>
+    <select class="inp sm" id="bag-sort" aria-label="정렬">${[['rar','희귀도순'],['lv','레벨순'],['new','최근 얻은 순']].map(([v,n])=>`<option value="${v}" ${bs===v?'selected':''}>${n}</option>`).join('')}</select></div>`;
   h += `<section class="card">${items.length ? `<div class="inv">${cells.join('')}${'<span class="cell blank"></span>'.repeat(blanks)}</div>` : '<p class="small muted">사냥에서 전리품을 얻으면 여기에 쌓인다.</p>'}</section>`;
   const it = S.bag.find(x=>x.id===UI.sel);
   if (it){
@@ -4305,6 +4412,15 @@ function bossView(){
   h += `<div class="bossrows">${BOSS_ROWS.map((n,i)=>`<button class="btn sm ${!intro&&i===row?'pri':'soft'}" data-act="bossrow" data-v="${i}">${n}</button>`).join('')}<button class="btn sm ${intro?'pri':'soft'}" data-act="bossintro">등장 컷</button></div>
     <p class="xs muted" style="margin-top:6px">공격·특수기·맞음·쓰러짐은 한 번 재생 후 멈춰요(다시 누르면 다시 재생). 대기·분노는 반복.</p></section>`;
   return h;
+}
+// 업적 달성 배너: 새로 달성한 업적이 있으면 위에 금빛 띠(처음 켤 땐 지금 것을 기억만)
+function checkAch(){
+  if (!S) return; const got = achievements().filter(a=>a[1]>=a[2]).map(a=>a[0]);
+  if (!S.achSeen){ S.achSeen = got; return; }
+  const nw = got.filter(x=>!S.achSeen.includes(x)); if (!nw.length) return;
+  S.achSeen = got; save(); const A = achievements().find(a=>a[0]===nw[0]);
+  setTimeout(() => { document.querySelectorAll('.achfx').forEach(e=>e.remove()); const el = document.createElement('div'); el.className = 'achfx'; el.setAttribute('role', 'status');
+    el.innerHTML = `<span class="ai">🏆</span><span><small>업적 달성</small><b>${esc(A[0])}</b><em>칭호 「${esc(A[3])}」 획득 · 기록 탭에서 달기</em></span>`; document.body.appendChild(el); sfx('lvup'); setTimeout(()=>el.remove(), 4200); }, 900);
 }
 function recView(){
   const A = achievements();
@@ -4563,7 +4679,7 @@ function renderView(){
   const V = {home:UI.place ? placeView : homeView, hunt:huntView, char:charView, skill:skillView, bag:bagView, rec:recView, set:settingsView, gm:gmView, soc:socView}[UI.tab] || homeView;
   const dots = {home:!!jqStage() && (jqDone() || !(S.jq && S.jq.st===jqStage())), hunt:false, char:!!S.points || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
-  setTimeout(runTyper, 0); setTimeout(paintMini, 0);
+  setTimeout(runTyper, 0); setTimeout(paintMini, 0); checkAch();
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${icoImg('ui/tab_'+k, 'tabi') || svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
   if (UI.innAsk) app.insertAdjacentHTML('beforeend', innSheet());
   if (UI.upId) app.insertAdjacentHTML('beforeend', upSheet());
@@ -4695,6 +4811,7 @@ app.addEventListener('click', async e => {
   if (a==='jobclose'){ UI.jobSheet = false; say('wave', '준비되시면 언제든 다시 불러 주세요!'); render(); return; }
   if (a==='auto'){ autoHunt(+b.dataset.g, b.dataset.deep==='1'); return; }
   if (a==='autoclose'){ UI.auto = null; render(); return; }
+  if (a==='dtalk'){ if (!UI.talk) talkNext(); render(); window.scrollTo({top:0, behavior:'smooth'}); return; }
   if (a==='talk' || a==='talknext'){ if (typerSkip()) return; talkNext(); render(); return; }
   if (a==='topic'){ talkTopic(b.dataset.v); render(); return; }
   if (a==='promo'){ startPromo(); return; }
@@ -4715,6 +4832,7 @@ app.addEventListener('click', async e => {
   if (a==='title'){ S.title = S.title===b.dataset.t ? null : b.dataset.t; save(); render(); return; }
   if (a==='slot'){ UI.slotSel = b.dataset.s || null; render(); return; }
   if (a==='unequip'){ unequip(b.dataset.s); UI.slotSel = null; render(); return; }
+  if (a==='bagf'){ UI.bagF = b.dataset.v; render(); return; }
   if (a==='sel'){ UI.sel = UI.sel===b.dataset.id ? null : b.dataset.id; UI.ringPick = false; const it = S.bag.find(x=>x.id===b.dataset.id); if (it && it.isNew){ it.isNew = false; save(); } render(); return; }
   if (a==='equip'){ equipItem(b.dataset.id, b.dataset.ring); return; }
   if (a==='sell'){ if (b.dataset.confirm){ sellItem(b.dataset.id); return; } b.dataset.confirm = '1'; b.textContent = '정말 판다'; return; }
