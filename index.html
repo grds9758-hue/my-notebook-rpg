@@ -719,7 +719,7 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 .tk.now .face{width:52px;height:52px;box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--accent)}
 .tk.now.foe .face{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--red)}
 .tk.now span{color:var(--ink);font-weight:700}
-.field2{position:relative;border-radius:20px;overflow:hidden;height:300px;background:linear-gradient(180deg,#bfe3c6 0%,#9fd3ab 55%,#6fae78 56%,#5c9a66 100%)}
+.field2{position:relative;border-radius:20px;overflow:hidden;height:320px;background:linear-gradient(180deg,#bfe3c6 0%,#9fd3ab 55%,#6fae78 56%,#5c9a66 100%)}
 .field2:before{content:"";position:absolute;left:0;right:0;top:0;height:150px;background:repeating-linear-gradient(90deg,transparent 0 34px,rgba(40,90,50,.18) 34px 62px)}
 .field2.g1{background:linear-gradient(180deg,#a9cfa3 0%,#7fb07a 55%,#4f7f4c 56%,#3f6b3d 100%)}
 .field2.g2,.field2.g5{background:linear-gradient(180deg,#6b6f80 0%,#575b6a 55%,#444652 56%,#36373f 100%)}
@@ -754,8 +754,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 .plat{position:absolute;border-radius:50%;background:rgba(20,40,25,.25)}
 .plat.me{left:4px;bottom:-26px;width:170px;height:46px}
 /* Pokémon-style depth: foes stand back on the upper right, my character close on the lower left */
-.plat.foe{left:40%;right:2%;top:78px;height:34px;background:radial-gradient(ellipse at 50% 50%,rgba(20,40,25,.28),rgba(20,40,25,.10) 70%,transparent 72%)}
-.foes{left:38%!important;right:0!important;top:12px!important;justify-content:space-evenly!important;padding:0!important;z-index:2}
+.plat.foe{left:40%;right:2%;top:106px;height:34px;background:radial-gradient(ellipse at 50% 50%,rgba(20,40,25,.28),rgba(20,40,25,.10) 70%,transparent 72%)}
+.foes{left:38%!important;right:0!important;top:40px!important;justify-content:space-evenly!important;padding:0!important;z-index:2}
 .foes .foe{width:auto;flex:1;min-width:0}
 .foes .foe .nm{font-size:10.5px;max-width:110px}
 .foes .foe .hpb{width:100%;max-width:96px}
@@ -801,8 +801,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
 /* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
-const BUILD = '2026-10-16.3'; /*BUILD*/
-const CHANGES = ["전투: 치명타 큰 숫자·연타 HIT·콤보·정예/희귀 몬스터 체력바", "가방: 종류 거르기·정렬·희귀 장비 빛·장착 때 전투력 변화", "홈 '오늘의 할 일'·스킬 툴팁·획득 로그·업적 달성 배너"]; /*CHANGES*/
+const BUILD = '2026-10-16.4'; /*BUILD*/
+const CHANGES = ["전투: 몬스터가 턴 순서 표시에 가려지지 않게 조금 아래로"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
