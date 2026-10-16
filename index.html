@@ -80,6 +80,45 @@ details.inq .ans{margin-top:8px;padding:8px 10px;border-radius:10px;background:v
 .socbtn{position:relative;display:inline-flex;align-items:center;gap:2px;font-size:18px}.socbtn small{font-size:11px;font-weight:800;color:var(--accent)}
 .socbtn .dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--red)}
 .badge{display:inline-block;min-width:16px;padding:0 4px;border-radius:99px;background:var(--red);color:#fff;font-size:10px;font-style:normal;line-height:16px;vertical-align:1px}
+/* 캐릭터 정보 프로필 배너 */
+.profcard{padding:0!important;overflow:hidden}
+.prof{position:relative;display:flex;gap:10px;align-items:flex-end;min-height:200px;padding:16px 16px 14px 6px;color:#fff;background:linear-gradient(135deg,var(--p1),var(--p2));border-radius:inherit;overflow:hidden}
+.prof-glow{position:absolute;inset:0;background:radial-gradient(circle at 22% 70%,rgba(255,255,255,.35),transparent 55%),repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 2px,transparent 2px 14px);pointer-events:none}
+.prof-ill{position:relative;flex:0 0 132px;height:180px;display:grid;place-items:end center}
+.prof-ill img,.prof-ill .doll{max-width:132px;max-height:180px;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.prof-ill .mfig.ph{font-size:64px}
+.prof-info{position:relative;flex:1;min-width:0;display:grid;gap:5px}
+.prof-job{font-size:11.5px;font-weight:700;opacity:.9;letter-spacing:.02em}
+.prof-name{font-size:22px;line-height:1.15;font-weight:900;text-shadow:0 2px 6px rgba(0,0,0,.3);word-break:keep-all}
+.prof-title{font-size:12px;font-weight:700;color:#ffe9a8}
+.prof-lv{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;margin-top:2px}
+.prof-lv .lvb{font-size:13px;font-weight:700}.prof-lv .lvb b{font-size:24px;font-weight:900;margin-left:1px}
+.prof-cp{display:grid;text-align:right;line-height:1.1}.prof-cp small{font-size:10px;opacity:.85}.prof-cp b{font-size:20px;font-weight:900;color:#ffe08a;text-shadow:0 1px 0 rgba(0,0,0,.35),0 0 12px rgba(255,210,90,.5)}
+.pbar{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:6px;font-size:10.5px;font-weight:800}
+.pbar i{height:7px;border-radius:9px;background:rgba(0,0,0,.28);overflow:hidden;display:block}.pbar em{display:block;height:100%;border-radius:9px}
+.pbar.exp em{background:linear-gradient(90deg,#ffe58a,#ffbf3a)}.pbar.hp em{background:linear-gradient(90deg,#ff8a8a,#ff4d5e)}.pbar.mp em{background:linear-gradient(90deg,#8ac4ff,#3d7dff)}
+.pbar small{font-size:10px;font-weight:700;opacity:.9;min-width:52px;text-align:right}
+.prof-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}.prof-tags span{font-size:10.5px;font-weight:700;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:99px;padding:2px 8px;display:inline-flex;align-items:center;gap:3px}
+.prof-on{font-size:11px;font-weight:600;opacity:.95}
+.psheet .prof{border-radius:16px;margin:8px 0 10px}
+.ctabs{position:sticky;top:0;z-index:5}
+.ctabs .dotn{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);vertical-align:top;margin-left:2px}
+/* 아이템 정보 창(던파·로아식): 희귀도 색 머리띠 */
+.itip{border-top:4px solid var(--rc)!important;--rc:var(--r0)}
+.itip.ir1{--rc:var(--r1)}.itip.ir2{--rc:var(--r2)}.itip.ir3{--rc:var(--r3)}.itip.ir4{--rc:var(--r4)}
+.itip .ith{margin:-4px -4px 0;padding:10px;border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--rc) 22%,transparent),transparent 80%)}
+.itip.ir4 .ith{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rc) 50%,transparent)}
+.itip .eff{border-top:1px dashed var(--line);padding-top:8px}
+.slotip{margin-top:14px;padding:12px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--rc) 12%,transparent),transparent 60%)}
+/* 레벨 업 */
+.lvfx{position:fixed;inset:0;z-index:90;display:grid;place-content:center;justify-items:center;pointer-events:none;animation:lvfx 2.3s ease-out forwards}
+.lvfx b{font-size:44px;font-weight:900;letter-spacing:.03em;color:#ffe066;-webkit-text-stroke:2px #b85c00;text-shadow:0 4px 0 #8a3c00,0 0 24px rgba(255,200,60,.8);animation:lvpop .6s cubic-bezier(.2,1.6,.4,1)}
+.lvfx small{margin-top:4px;font-size:15px;font-weight:800;color:#fff;background:rgba(40,30,10,.6);padding:4px 12px;border-radius:99px}
+.lvfx .lvray{position:absolute;left:50%;top:50%;width:420px;height:420px;margin:-210px 0 0 -210px;background:repeating-conic-gradient(rgba(255,220,100,.28) 0 8deg,transparent 8deg 22deg);border-radius:50%;-webkit-mask-image:radial-gradient(circle,#000 20%,transparent 68%);mask-image:radial-gradient(circle,#000 20%,transparent 68%);animation:lvspin 2.3s linear}
+@keyframes lvfx{0%{opacity:0}8%{opacity:1}75%{opacity:1}100%{opacity:0}}
+@keyframes lvpop{0%{transform:scale(.3)}100%{transform:scale(1)}}
+@keyframes lvspin{to{transform:rotate(60deg)}}
+@media (prefers-reduced-motion:reduce){.lvfx,.lvfx b,.lvfx .lvray{animation-duration:.01s}.lvfx{animation:lvfx 2.3s linear forwards}}
 .minichat{position:fixed;left:50%;transform:translateX(-50%);width:min(560px,calc(100% - 24px));z-index:40;background:rgba(24,28,44,.78);color:#fff;border-radius:14px;padding:4px 10px 6px;box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(4px);opacity:.82;transition:opacity .3s}
 .minichat.fresh{opacity:1}.minichat.min{width:auto;left:auto;right:12px;transform:none;padding:4px 10px}
 .minichat button{all:unset;display:block;cursor:pointer;width:100%}
@@ -702,8 +741,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
 /* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
-const BUILD = '2026-10-16.1'; /*BUILD*/
-const CHANGES = ["채팅 로그: 화면 아래에 최근 채팅 3줄, 귓속말은 분홍·알림음(설정에서 끄기 가능)", "다시 접속하면 이전 채팅은 안 보이고 새로 시작"]; /*CHANGES*/
+const BUILD = '2026-10-16.2'; /*BUILD*/
+const CHANGES = ["캐릭터 정보 새 단장: 프로필 배너(일러스트·전투력·EXP/HP/MP)와 장비·능력치·성장 탭", "아이템 정보 창 희귀도 색, 레벨 업 연출, 다른 플레이어 정보도 새 배너"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
@@ -1531,7 +1570,7 @@ const rankScore = () => S.third ? 300 + S.lv : isJob() ? 100 + S.lv : S.lv;
 const placeNow = () => B ? (B.mode==='auto' ? '자동 사냥' : '사냥 중') : S.onsen ? '온천' : UI.place ? (PLACES[UI.place] ? PLACES[UI.place].n : '마을') : '노테라';
 function myCard(){
   const eq = [...SLOT_ORDER, ...RING_SLOTS].map(k => S.equip[k] ? {s:SLOTN[k.startsWith('ring')?'ring':k], t:(RARITY[S.equip[k].rar]+' '+itemInfo(S.equip[k]).name+(S.equip[k].up?` +${S.equip[k].up}`:'')), r:S.equip[k].rar} : null).filter(Boolean);
-  return {name:S.name, code:charCode() || (S.job==='novice' ? (S.gender==='f'?'novice_f':'novice_m') : ''), job:jobName(), lv:S.lv, elv:rankScore(), cp:cp(), dex:dexScore(), gender:S.gender, title:S.title||'',
+  return {name:S.name, code:charCode() || (S.job==='novice' ? (S.gender==='f'?'novice_f':'novice_m') : ''), job:jobName(), lv:S.lv, elv:rankScore(), cp:cp(), dex:dexScore(), gender:S.gender, jk:S.job, title:S.title||'',
     fac:FACTIONS[S.fac].name, origin:S.origin||'', kills:S.tot.kills, wins:S.tot.wins, legend:S.tot.legend, equip:eq, stats:Object.fromEntries(STATS.map(([k])=>[k, S.stats[k]]))};
 }
 async function socBeat(force){
@@ -1776,8 +1815,11 @@ function pSheet(){
   let body = sWait(g);
   if (P){
     const c = P.card || {};
-    body = `<div class="pcard">${miniFig(c.code)}<div class="grow"><b class="pn">${P.gm?'<span class="chip bad">GM</span> ':''}${esc(P.name)}${c.title?` <small>「${esc(c.title)}」</small>`:''}</b>
-      <small>${esc(c.job||'')} Lv.${c.lv||'?'} · 전투력 ${fmt(c.cp||0)} · ${esc(c.fac||'')}${c.origin?` · ${esc(c.origin)} 출신`:''}</small><small>${onlineDot(P.online)} ${P.online ? esc(P.place||'접속 중') : '마지막 접속 ' + ago(P.at)}${P.guild?` · 길드 ${esc(P.guild.name)}`:''}</small></div></div>
+    const pill = c.code && art(`char/${c.code}_illust`);
+    body = profileHTML({name:`${P.gm?'<span class="chip bad">GM</span> ':''}${esc(P.name)}`, title:c.title ? esc(c.title) : '', job:esc(c.job||''), lv:c.lv||'?', cp:c.cp||0, tint:JOB_TINT[c.jk],
+        ill: pill ? `<img class="illust profill" src="${pill}" alt="">` : '<span class="mfig ph">👤</span>',
+        tags:[esc(c.fac||''), P.guild ? `길드 ${esc(P.guild.name)}` : '', c.origin ? `${esc(c.origin)} 출신` : ''].filter(Boolean),
+        bars:`<div class="prof-on">${onlineDot(P.online)} ${P.online ? esc(P.place||'접속 중') : '마지막 접속 ' + ago(P.at)}</div>`}) + `
       <div class="pstat">${STATS.map(([k,n])=>`<span><small>${n}</small><b>${(c.stats||{})[k]??'-'}</b></span>`).join('')}</div>
       <p class="small muted">처치 ${fmt(c.kills||0)} · 승리 ${fmt(c.wins||0)} · 전설 장비 ${c.legend||0} · 도감 ${c.dex||0}</p>
       ${(c.equip||[]).length ? `<details class="peq"><summary>장비 보기 (${c.equip.length})</summary>${c.equip.map(e=>`<div class="small"><span class="muted">${esc(e.s)}</span> <span class="rar${e.r}">${esc(e.t)}</span></div>`).join('')}</details>` : ''}
@@ -2112,13 +2154,17 @@ const regenRate = () => Math.min(.1, pas('regen'));
 const dodgeRate = () => Math.min(.4, eff('agi')/600 + (S.job==='thief'?.06:0) + pas('dodge') + bf('dodge'));
 const cp = () => Math.round(job().key.reduce((s,k)=>s+eff(k),0)/3 + PL()*.6);
 function clampVitals(){ S.hp = clamp(S.hp ?? hpMax(), 0, hpMax()); S.mp = clamp(S.mp ?? mpMax(), 0, mpMax()); }
+// 레벨 업 연출(메이플식 큰 글씨): 화면 가운데 'LEVEL UP!' 잠깐
+function lvFx(lv){ setTimeout(() => { document.querySelectorAll('.lvfx').forEach(e=>e.remove());
+  const d = document.createElement('div'); d.className = 'lvfx'; d.setAttribute('aria-hidden', 'true');
+  d.innerHTML = `<i class="lvray"></i><b>LEVEL UP!</b><small>${jobName()} Lv.${lv}</small>`; document.body.appendChild(d); setTimeout(()=>d.remove(), 2300); }, 350); }
 function gainExp(n){
   n = Math.max(0, Math.round(n)); let ups = 0;
   if (S.lv >= maxLv()){ S.exp = 0; return 0; }
   S.exp += n; const hp0 = hpMax(), mp0 = mpMax();
   while (S.lv < maxLv() && S.exp >= needExp(S.lv)){ S.exp -= needExp(S.lv); S.lv++; S.points += 2; S.sp = (S.sp||0) + 1; ups++; }
   if (S.lv >= maxLv()){ if (ups && isJob()) bcast('lvmax', {lv:S.lv}); S.exp = 0; }
-  if (ups){ S.hp = Math.min(hpMax(), S.hp + hpMax() - hp0); S.mp = Math.min(mpMax(), S.mp + mpMax() - mp0); }
+  if (ups){ lvFx(S.lv); S.hp = Math.min(hpMax(), S.hp + hpMax() - hp0); S.mp = Math.min(mpMax(), S.mp + mpMax() - mp0); }
   return ups;
 }
 function gainItem(it){
@@ -2905,6 +2951,13 @@ setInterval(() => {
 
 /* ---------- town actions ---------- */
 const innCost = () => Math.round((30 + effLv()*8) * (1 - affDisc()));  // Lv1 38G · Lv50 430G
+const sdRows = (title, list) => `<div class="sdgroup"><h3>${title}</h3>${list.map(([k,v,d])=>`<div class="sdrow"><span>${k}${d?`<small>${d}</small>`:''}</span><b class="num">${v}</b></div>`).join('')}</div>`;
+function combatGroups(){  // 공격·방어·기타 능력 (상세 보기·캐릭터 능력치 탭 공통)
+  const pc = v => (Math.round(v*1000)/10) + '%', rows = sdRows, reduce = 1 - 70/(70 + def());
+  return `${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', '+'+Math.round((critDmg()-1)*100)+'%', '치명타 때 평소 피해에 더해짐'], ['명중률', pc(1-missRate()), '같은 레벨 적 기준 · DEX가 높을수록 덜 오름(최대 98% 미만) · 약점 공격은 빗나가지 않음 · 레벨 높은 적에겐 1레벨당 −1%'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
+  ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
+  ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}`;
+}
 function statSheet(){
   const pc = v => (Math.round(v*1000)/10) + '%';
   const rows = (title, list) => `<div class="sdgroup"><h3>${title}</h3>${list.map(([k,v,d])=>`<div class="sdrow"><span>${k}${d?`<small>${d}</small>`:''}</span><b class="num">${v}</b></div>`).join('')}</div>`;
@@ -2914,9 +2967,7 @@ function statSheet(){
     <div class="sheet fade" role="dialog" aria-label="상세 능력치"><div class="sbody sd">
       <div class="row" style="justify-content:space-between"><h2>상세 능력치</h2><span class="xs muted">${lvTag()}</span></div>
       ${rows('기본 능력치 <small>기본 + 장비</small>', statRows)}
-      ${rows('공격', [['공격력 ATK', fmt(atk()), `${job().attr} 속성 일반 공격`], ['마법 공격력 MATK', fmt(matk()), '마법 스킬'], ['치명타 확률', crit()+'%'], ['치명타 피해', '+'+Math.round((critDmg()-1)*100)+'%', '치명타 때 평소 피해에 더해짐'], ['명중률', pc(1-missRate()), '같은 레벨 적 기준 · DEX가 높을수록 덜 오름(최대 98% 미만) · 약점 공격은 빗나가지 않음 · 레벨 높은 적에겐 1레벨당 −1%'], ['공격 2회 확률', pc(Math.min(1,pas('double')))], ['스킬 위력', '+'+pc(pas('skill'))], ['정령 추가 공격', pc(Math.min(1,pas('spirit')))]])}
-      ${rows('방어', [['최대 HP', fmt(hpMax())], ['최대 MP', fmt(mpMax())], ['방어력 DEF', fmt(def()), `같은 레벨 몬스터 공격을 약 ${Math.round(reduce*100)}% 줄임`], ['회피율', pc(dodgeRate())], ['받는 피해 감소', pc(Math.min(.5,pas('block')))], ['턴마다 HP 회복', pc(regenRate())]])}
-      ${rows('기타', [['속도', fmt(spd()), '턴 순서'], ['전투력', fmt(cp())], ['장비 공격력 · 방어력', `${fmt(gearAtk())} · ${fmt(gearDef())}`]])}
+      ${combatGroups()}
       <div class="sdgroup"><h3>계산식 <small>전투 밖 기준 · 버프 제외</small></h3>${[['atk','공격력 ATK'],['matk','마법 공격력 MATK'],['def','방어력 DEF'],['spd','속도']].map(([k,n]) => { const R = calcRows(k), f = v => (Math.round(v*10)/10).toLocaleString('ko-KR');
         return `<div class="sdcalc"><b>${n} = ${fmt(R.v)}</b><span>${R.parts.map(([a,v])=>`<i>${a}</i> <em>${f(v)}</em>`).join(' + ')} = ${f(R.sum)}${R.mul.map(([a,v])=>` × <i>${a}</i> <em>${f(v)}</em>`).join('')}</span>${R.note?`<small>${R.note}</small>`:''}</div>`; }).join('')}</div>
       <div class="btns"><button class="btn pri" data-act="statclose">닫기</button></div></div></div></div>`;
@@ -4118,7 +4169,7 @@ function slotDetail(){
   const info = itemInfo(sel), p = [];
   if (info.atk) p.push(`공격력 <b>+${info.atk}</b>`); if (info.def) p.push(`방어력 <b>+${info.def}</b>`);
   for (const x in info.bon) p.push(`${SN[x]} <b>+${info.bon[x]}</b>`);
-  return `<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px"><b>${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${info.setName} 세트`:''}</span>
+  return `<div class="itip ir${sel.rar} slotip"><b class="rar${sel.rar}" style="font-size:16px">${info.name}</b> <span class="xs muted">${SLOTN[sel.slot]} · <span class="rar${sel.rar}">${RARITY[sel.rar]}</span> · ${reqText(info)}${info.set!=null?` · ${info.setName} 세트`:''}</span>
     <p class="eff">${p.join(' · ')}</p><div class="btns"><button class="btn" data-act="unequip" data-s="${UI.slotSel}">벗기</button><button class="btn soft" data-act="up" data-id="${sel.id}">⚒️ 강화</button><button class="btn" data-act="slot" data-s="">닫기</button></div></div>`;
 }
 function slotCell(slotKey, it, label){
@@ -4131,13 +4182,39 @@ function setSummary(){
     T = setDef(k); return `<span class="setrow"><b class="setnm">${T.name} 세트</b> ${Math.min(c,5)}/5<br><span class="${c>=3?'on':'off'}">3세트 · ${setEffText(T.b3)}</span><br><span class="${c>=5?'on':'off'}">5세트 · ${setEffText(T.b5)}</span></span>`; });
   return rows.length ? rows.join('') : '세트 장비를 입지 않았다';
 }
+// 캐릭터 정보(마비노기·로스트아크식): 위에 프로필 배너(일러스트·이름·칭호·직업·레벨·경험치·HP/MP·전투력·소속/길드/출신), 아래는 탭(장비·능력치·성장)
+const JOB_TINT = {novice:['#6b4f35','#c9a273'], warrior:['#7a2230','#e0715f'], archer:['#25563a','#7fc48a'], thief:['#3d2560','#ad86d6'], healer:['#7a5a14','#ecc76e'], mage:['#1c3670','#73a6ee']};
+function profileHTML(o){  // o: {name,title,job,sub,lv,cp,tags:[],ill,tint,bars}
+  const [c1, c2] = o.tint || JOB_TINT.novice;
+  return `<div class="prof" style="--p1:${c1};--p2:${c2}"><i class="prof-glow" aria-hidden="true"></i>
+    <span class="prof-ill">${o.ill || ''}</span>
+    <div class="prof-info"><small class="prof-job">${o.job}${o.sub ? ` · ${o.sub}` : ''}</small>
+      <b class="prof-name">${o.name}</b>${o.title ? `<span class="prof-title">「${o.title}」</span>` : ''}
+      <div class="prof-lv"><span class="lvb">Lv.<b>${o.lv}</b></span><span class="prof-cp"><small>전투력</small><b>${fmt(o.cp)}</b></span></div>
+      ${o.bars || ''}
+      ${o.tags && o.tags.length ? `<div class="prof-tags">${o.tags.map(t=>`<span>${t}</span>`).join('')}</div>` : ''}</div></div>`;
+}
+const pbar = (cls, label, v, max, txt) => `<div class="pbar ${cls}"><span>${label}</span><i><em style="width:${max ? Math.max(0, Math.min(100, v/max*100)) : 0}%"></em></i><small>${txt}</small></div>`;
+function myProfile(){
+  const pct = S.lv >= maxLv() ? 100 : S.exp / needExp(S.lv) * 100;
+  const tags = [FACTIONS[S.fac].name, SOC.guild ? `${gMark(SOC.guild.mark, 'sm')} ${esc(SOC.guild.name)}` : '', S.origin ? `${esc(S.origin)} 출신` : ''].filter(Boolean);
+  return profileHTML({name:esc(S.name), title:S.title ? esc(S.title) : '', job:jobName(), sub:S.third ? '3차' : S.route ? '2차' : isJob() ? '1차' : '', lv:S.lv, cp:cp(), tags,
+    ill:figHTML(150, 'profill'), tint:JOB_TINT[S.job],
+    bars: pbar('exp', 'EXP', pct, 100, S.lv >= maxLv() ? 'MAX' : pct.toFixed(1) + '%') + pbar('hp', 'HP', S.hp, hpMax(), `${fmt(S.hp)}/${fmt(hpMax())}`) + pbar('mp', 'MP', S.mp, mpMax(), `${fmt(S.mp)}/${fmt(mpMax())}`)});
+}
 function charView(){
-  const k = job().key, sel = UI.slotSel ? S.equip[UI.slotSel] : null;
-  let h = top('캐릭터', `${lvTag()} · ${FACTIONS[S.fac].name}`);
+  const k = job().key, tab = UI.ctab || 'eq';
+  let h = top('캐릭터 정보', `${lvTag()} · ${FACTIONS[S.fac].name}`);
+  h += `<section class="card profcard">${myProfile()}</section>`;
   if (jqStage()) h += `<section class="card"><h2>${JQ_NAME[jqStage()]}</h2><p class="xs muted">${jqDone() ? '의뢰 완료! 마을의 리나에게 말을 걸면 전직할 수 있어요.' : S.jq && S.jq.st===jqStage() ? `전직 의뢰 진행 중 · ${jqText()}` : '레벨 달성! 마을의 리나에게 말을 걸어 전직 의뢰를 받으세요.'}</p><button class="cta" style="margin-top:10px" data-go="home">리나에게 가기</button></section>`;
-  h += `<section class="card">${equipWindow(null)}${slotDetail()}`;
-  h += `</section>`;
-  h += `<section class="card"><h2 class="row">능력치 <span class="row" style="gap:8px">${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:''}<button class="chipbtn" data-act="statinfo">상세 보기 ›</button></span></h2>
+  h += `<div class="seg ctabs" role="tablist">${[['eq','장비'],['stat',`능력치${S.points?' <i class="dotn"></i>':''}`],['grow',`성장${promoReady()?' <i class="dotn"></i>':''}`]].map(([v,n])=>`<button role="tab" aria-selected="${tab===v}" class="${tab===v?'on':''}" data-seg="ctab:${v}">${n}</button>`).join('')}</div>`;
+  if (tab==='eq'){
+    h += `<section class="card">${equipWindow(null)}${slotDetail()}</section>`;
+    h += `<section class="card"><h2>세트 효과</h2><div class="small">${setSummary()}</div><p class="xs muted" style="margin-top:6px">세트 장비는 방어구가 떨어질 때 드물게(3%, 승급 시험 10%) 나온다. 투구·상의·하의·신발·망토(한벌옷은 2칸) 중 3칸·5칸을 맞추면 효과. 노비스 세트: 와일드 로즈(Lv15)·발키리(Lv30)·이그드라실(Lv45) · 전직 세트는 직업마다 3개(Lv30·60·90), 5세트가 그 직업의 핵심 기술을 바꾼다.</p></section>`;
+    return h;
+  }
+  if (tab==='stat'){
+    h += `<section class="card"><h2 class="row">기본 능력치 <span class="row" style="gap:8px">${S.points?`<span class="aside" style="color:var(--accent);font-weight:700">남은 포인트 ${S.points}</span>`:''}<button class="chipbtn" data-act="statinfo">계산식 ›</button></span></h2>
     <div class="statgrid">${STATS.map(([s,n])=>{ const b = bonus(s);
       return `<div class="st ${k.includes(s)?'key':''}"><span class="k">${n} <small>${STAT_KO[s]}</small></span><span class="row" style="gap:6px"><b class="num">${eff(s)}</b>${b?`<span class="b">+${b}</span>`:''}${S.points?`<button class="plus ${UI.ptSel===s?'on':''}" data-act="ptsel" data-s="${s}" aria-label="${n} 올리기">+</button>`:''}</span></div>`; }).join('')}</div>
     ${S.points && UI.ptSel ? (() => { const s = UI.ptSel, nm = SN[s], q = Math.max(1, Math.min(S.points, +UI.ptN || 1));
@@ -4147,14 +4224,17 @@ function charView(){
           <button class="btn" data-act="ptadd" data-v="1">+1</button><button class="btn" data-act="ptadd" data-v="10">+10</button><button class="btn" data-act="ptadd" data-v="all">전부</button></div>
         <button class="cta" style="margin-top:8px" data-act="ptgo">${nm}에 ${q}포인트 올리기</button></div>`; })() : ''}
     ${calcPanel()}
-    <p class="xs muted" style="margin-top:10px">칸을 누르면 계산 과정이 보여요 · 굵은 글씨가 ${job().name}의 핵심 능력 · 전부 보기는 상세 보기</p></section>`;
+    <p class="xs muted" style="margin-top:10px">칸을 누르면 계산 과정이 보여요 · 굵은 글씨가 ${job().name}의 핵심 능력</p></section>`;
+    h += `<section class="card sd">${combatGroups()}</section>`;
+    return h;
+  }
   const nf = FACTIONS[S.fac+1];
   h += `<section class="card"><h2>소속 · ${FACTIONS[S.fac].name}</h2><p class="xs muted">소속이 오를수록 EXP·골드 +4%씩 (지금 +${Math.round(facBonus()*100)}%)</p>
     ${nf?`<div class="item" style="padding-bottom:0"><span class="ic blue">🛡️</span><span class="grow"><span class="t">${nf.name} 승급 시험</span><span class="d">조건 ${promoReqText(nf)} · 정예 몬스터 3연전(도망 불가)</span></span>
       <button class="btn sm ${promoReady()?'pri':''}" data-act="promo" ${promoReady()?'':'disabled'}>도전</button></div>`:'<p class="small">최고 소속이다.</p>'}</section>`;
   h += `<section class="card"><h2 class="row">훈련소 <span class="aside">1회 ${fmt(trainCost())}골드 · 할수록 비싸짐</span></h2>
     <div class="choices">${STATS.map(([s,n])=>`<button class="opt" style="text-align:center" data-act="train" data-s="${s}" ${S.gold<trainCost()?'disabled':''}><b>${n} +1</b><small>지금 ${S.stats[s]}</small></button>`).join('')}</div></section>`;
-  h += `<section class="card"><h2>세트 효과</h2><div class="small">${setSummary()}</div><p class="xs muted" style="margin-top:6px">세트 장비는 방어구가 떨어질 때 드물게(3%, 승급 시험 10%) 나온다. 투구·상의·하의·신발·망토(한벌옷은 2칸) 중 3칸·5칸을 맞추면 효과. 노비스 세트: 와일드 로즈(Lv15)·발키리(Lv30)·이그드라실(Lv45) · 전직 세트는 직업마다 3개(Lv30·60·90), 5세트가 그 직업의 핵심 기술을 바꾼다.</p></section>`;
+  h += `<section class="card"><h2>기록</h2><div class="sd">${sdRows('', [['처치한 몬스터', fmt(S.tot.kills)], ['승리', fmt(S.tot.wins||0)], ['약점 공격', fmt(S.tot.weak||0)], ['전설 장비', fmt(S.tot.legend||0)], ['도감 점수', dexScore()]])}</div></section>`;
   return h;
 }
 
@@ -4189,9 +4269,9 @@ function bagView(){
     if (info.def) parts.push(`방어력 <b>+${info.def}</b>${cmp('def',info.def)}`);
     for (const x in info.bon) parts.push(`${SN[x]} <b>+${info.bon[x]}</b>${cmp(x,info.bon[x])}`);
     const ok = canWear(info, it);
-    h += `<section class="card"><div class="row"><span class="sq rb${it.rar} ${it.sb?'setit':''}" style="width:56px;height:56px">${itemIcon(it)}</span>
+    h += `<section class="card itip ir${it.rar}"><div class="row ith"><span class="sq rb${it.rar} ${it.sb?'setit':''}" style="width:56px;height:56px">${itemIcon(it)}</span>
       <span class="grow"><span class="who" style="display:block">${info.kind||SLOTN[it.slot]} · <b class="rar${it.rar}">${RARITY[it.rar]}</b> · <span style="${ok?'':'color:var(--red)'}">${reqText(info)} 이상</span>${info.set!=null?` · <b class="setnm">${info.setName} 세트</b>`:''}</span>
-      <b style="font-size:18px" class="${it.sb?'setnm':''}">${info.name}</b></span></div>
+      <b style="font-size:18px" class="${it.sb?'setnm':'rar'+it.rar}">${info.name}</b></span></div>
       ${it.sb ? `<p class="xs" style="margin-top:6px"><b class="setnm">세트 효과</b> · 3세트 ${setEffText(setDef(it.sb).b3)} · 5세트 ${setEffText(setDef(it.sb).b5)}</p>` : ''}
       <p class="eff" style="margin-top:10px">${parts.join(' · ')}</p>${wearDiff(it)}
       ${cur.length && it.slot!=='ring' ? `<p class="xs muted">지금 착용: ${cur.map(c=>itemInfo(c).name).join(', ')}${it.slot==='suit'?' (한벌옷을 입으면 상의·하의를 벗는다)':''}</p>` : ''}
