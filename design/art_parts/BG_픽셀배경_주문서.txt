@@ -9,6 +9,30 @@
 - 모든 번호에 [공통 규칙]이 적용된다. 번호 칸에 적힌 것이 공통 규칙보다 우선한다.
 - 그림 안에 번호·파일 이름·이름표·글자를 절대 넣지 않는다(사람이 번호를 따로 알려 준다).
 
+[그림체 선택] — 사람이 아래 한 줄을 고쳐서 정한다. 모든 번호에 이 그림체를 쓴다.
+  ▶ 지금 쓰는 그림체: A
+  (사람이 "그림체 B로 N번 그려줘"처럼 말하면 그 번호만 B로 그린다)
+
+  A. 16비트 고밀도 픽셀 + 노을 파스텔 (1번 견본과 같음)
+     느낌: 스타듀 밸리·씨 오브 스타즈. 따뜻하고 포근함. 홈 파스텔 UI와 잘 맞음.
+     English: 16-bit high-detail pixel art, warm pastel sunset palette, soft dithered sky gradient, fluffy clouds, cozy fantasy, crisp pixels, no anti-aliasing
+  B. SNES 클래식 픽셀 (색 수 적게, 도트 굵게)
+     느낌: 크로노 트리거·성검전설2. 전투 몬스터·캐릭터 도트와 가장 잘 섞이고 용량이 가장 작음.
+     English: SNES-era 16-bit pixel art, limited 48-color palette, chunky pixels, bold dark outlines on props, flat cel shading, classic JRPG battle background
+  C. HD-2D 풍 픽셀 (빛 번짐·깊이감)
+     느낌: 옥토패스 트래블러. 가장 고급스럽지만 AI가 흐리게 그리기 쉬워 도트가 뭉개질 수 있음.
+     English: HD-2D style pixel art diorama, pixel textures with soft volumetric light, bloom, gentle depth of field on far background only, foreground kept sharp
+  D. 라그나로크 온라인풍 (밝은 판타지 페인팅, 픽셀 아님)
+     느낌: 라그나로크 마을·필드 원화. 장비·직업 이름과 세계관이 통일됨. 도트 캐릭터와는 조금 따로 놀 수 있음.
+     English: Ragnarok Online inspired hand-painted fantasy background, bright saturated colors, soft painterly texture, storybook European fantasy, clean edges
+  E. 동화 수채풍 (마비노기)
+     느낌: 부드럽고 몽환적. 애니 일러스트 NPC(리나 등)와 가장 잘 어울림. 도트 캐릭터와는 대비가 큼.
+     English: soft watercolor storybook fantasy background, gentle pastel washes, light paper texture, dreamy atmosphere, Mabinogi-like
+
+  ※ 추천: 지금 A를 유지하되 색을 조금 덜 쓰고 도트를 조금 굵게(= A와 B 사이).
+     이유: 전투에 서는 몬스터·캐릭터가 굵은 클래식 도트라서, 배경이 너무 섬세하면 캐릭터가 배경에 묻혀 보임.
+     그렇게 하려면 위 줄을 "▶ 지금 쓰는 그림체: A+B"로 바꾸면 된다 → A의 색감 + B의 굵은 도트·적은 색.
+
 [번호 한눈에 보기]
   1번        마을 노테라 (홈 화면)
   2번~6번    마을 시설 5곳: 2 상점 · 3 대장간 · 4 온천 · 5 여관 · 6 훈련소
@@ -30,6 +54,14 @@
    - 예) 원본 360×480 → 저장 1080×1440. 비율이 정확하면 크기는 조금 달라도 된다.
    - PNG, 투명 없음(7번만 투명).
 2-1) 캔버스 전체를 그림으로 채운다. 위·아래·옆에 빈 단색 띠(여백)를 넣지 않는다.
+2-2) 비율은 번호마다 적힌 원본 크기 그대로(예: 360×400이면 세로가 가로보다 조금 김). 정사각형이나 가로로 긴 그림으로 바꾸지 않는다.
+2-3) 오른쪽 아래 구석(가로 85~100%, 세로 85~100%)은 단순한 바닥·풀만. 작은 소품도 두지 않는다
+     (그림 도구가 자동으로 찍는 작은 표시를 지우기 쉽게).
+2-4) 도트 굵기: 원본 도트 1칸이 저장 그림에서 정확히 3×3 픽셀. 칸 크기가 섞이거나 반 칸 도트가 생기지 않게.
+     게임 몬스터·캐릭터 도트와 비슷한 굵기여서, 멀리 있는 작은 물건도 너무 잘게(1~2칸짜리 장식 남발) 그리지 않는다.
+2-5) 색: 한 장에 쓰는 색은 대략 48~64색. 가까운 바닥은 채도 낮게, 캐릭터가 서는 자리는 명암 대비 약하게
+     (캐릭터·몬스터가 배경보다 또렷해 보이게). 먼 곳은 살짝 푸르고 흐린 색(공기 원근).
+2-6) 시간대: 번호에 따로 적지 않았으면 맑은 낮~늦은 오후. 같은 묶음(사냥터 10장 등)은 빛 방향을 왼쪽 위로 통일.
 3) 그림 안에 넣지 말 것:
    - 사람·NPC·플레이어·몬스터·보스(캐릭터는 게임이 따로 올린다). 멀리 작은 새 떼, 양 정도의 배경 소품은 괜찮다.
    - 글자·숫자·간판 글씨·이름표·로고·워터마크·테두리·UI.
