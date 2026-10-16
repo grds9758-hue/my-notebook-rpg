@@ -80,6 +80,14 @@ details.inq .ans{margin-top:8px;padding:8px 10px;border-radius:10px;background:v
 .socbtn{position:relative;display:inline-flex;align-items:center;gap:2px;font-size:18px}.socbtn small{font-size:11px;font-weight:800;color:var(--accent)}
 .socbtn .dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--red)}
 .badge{display:inline-block;min-width:16px;padding:0 4px;border-radius:99px;background:var(--red);color:#fff;font-size:10px;font-style:normal;line-height:16px;vertical-align:1px}
+.minichat{position:fixed;left:50%;transform:translateX(-50%);width:min(560px,calc(100% - 24px));z-index:40;background:rgba(24,28,44,.78);color:#fff;border-radius:14px;padding:4px 10px 6px;box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(4px);opacity:.82;transition:opacity .3s}
+.minichat.fresh{opacity:1}.minichat.min{width:auto;left:auto;right:12px;transform:none;padding:4px 10px}
+.minichat button{all:unset;display:block;cursor:pointer;width:100%}
+.minichat .mc-h{font-size:11px;font-weight:800;color:#c9d2ff}.minichat .mc-h span{float:right;margin-left:8px}.minichat.min .mc-h span{float:none}
+.minichat .sl{font-size:12.5px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.minichat .sl.w{color:#ffc2e2}.minichat .sl.sys{color:#ffe08a}.minichat .sl.guild{color:#b8f5c8}.minichat .sl.muted{color:#aab}
+.minichat .badge{font-style:normal}
+body.hasmini .app:not(.notabs){padding-bottom:184px}
 .chatstrip{display:block;width:100%;text-align:left;border:0;padding:10px 14px;margin-top:10px;cursor:pointer}
 .chatstrip .cs-h{display:block;font-size:12px;font-weight:800;color:var(--sub)}.chatstrip .cs-h small{font-weight:600;color:var(--muted)}
 .chatstrip .sl{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
@@ -694,8 +702,8 @@ textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;color:var(
 (() => {
 const SAVE_KEY = 'hero-notebook-save-v2', VER = 4;
 /* 업데이트 알림: 배포할 때마다 tools/bump.py가 BUILD·CHANGES를 바꾼다. 사이트는 5분마다 새 버전을 확인해 띄움 */
-const BUILD = '2026-10-15.7'; /*BUILD*/
-const CHANGES = ["NPC 표정이 대사 내용에 맞게 바뀜(리나·상점·대장간·온천·여관·훈련소)", "명중률: DEX를 올릴수록 덜 오르고 100%는 안 됨(최대 98% 미만)"]; /*CHANGES*/
+const BUILD = '2026-10-16.1'; /*BUILD*/
+const CHANGES = ["채팅 로그: 화면 아래에 최근 채팅 3줄, 귓속말은 분홍·알림음(설정에서 끄기 가능)", "다시 접속하면 이전 채팅은 안 보이고 새로 시작"]; /*CHANGES*/
 const STATS = [['str','STR'],['agi','AGI'],['vit','VIT'],['int','INT'],['dex','DEX'],['luk','LUK']];
 const STAT_KO = {str:'힘', agi:'민첩', vit:'체력', int:'지능', dex:'솜씨', luk:'운'};
 const STAT_DESC = {str:'근접 공격력', agi:'속도 · 회피율', vit:'최대 HP · 방어력', int:'마법 공격력 · 최대 MP', dex:'명중률 · 원거리 공격력 · 공격력 약간', luk:'치명타 확률 · 치명타 피해'};
@@ -1425,7 +1433,7 @@ async function accSubmit(mode){
   } catch(e){ ACC.err = e.message; }
   ACC.busy = false; render();
 }
-async function accLogout(){ if (cloudTimer) await cloudSave(); if (cloudOn()) api('logout', {method:'POST'}).catch(()=>{}); ACC.u = null; store.del(AUTH_KEY); S = null; B = null; UI.guest = false; UI.slot = null; UI.place = null; UI.authMode = 'login'; UI.authF = {}; ACC.err = ''; render(); }
+async function accLogout(){ SOC.chatFor = null; if (cloudTimer) await cloudSave(); if (cloudOn()) api('logout', {method:'POST'}).catch(()=>{}); ACC.u = null; store.del(AUTH_KEY); S = null; B = null; UI.guest = false; UI.slot = null; UI.place = null; UI.authMode = 'login'; UI.authF = {}; ACC.err = ''; render(); }
 /* ---------- 문의·운영자 우편·공지·운영자(GM) 기능. 사이트에서는 서버(/api), 서버가 없으면 이 기기 안에서 같은 기능을 흉내 낸다 */
 const LKEY = {inq:'mnbrpg-local-inq', grant:'mnbrpg-local-grants', ban:'mnbrpg-local-bans', notice:'mnbrpg-local-notice', log:'mnbrpg-local-gmlog', coupon:'mnbrpg-local-coupons', cused:'mnbrpg-local-coupon-used', gmail:'mnbrpg-local-gmails', event:'mnbrpg-local-event'};
 const lget = k => store.get(LKEY[k]) || (k==='ban' || k==='cused' ? {} : k==='notice' ? {text:''} : k==='event' ? null : []);
@@ -1539,15 +1547,20 @@ const typing = () => { const a = document.activeElement; return a && /^(INPUT|TE
 let chatBusy = false;
 async function socChat(){
   if (!socOn() || chatBusy) return; chatBusy = true;
+  // 들어올 때마다 채팅은 새로: 접속 전(또는 캐릭터를 바꾸기 전) 대화는 안 보여 줌. 첫 요청은 마지막 번호만 기억
+  if (SOC.chatFor !== myPk()){ SOC.chatFor = myPk(); SOC.chat = []; SOC.unread = 0; SOC.since = 0; SOC.chatInit = false; }
   try {
     const r = await sapi('chat?since=' + SOC.since); const L = r.list || [];
+    if (!SOC.chatInit){ if (L.length) SOC.since = L[L.length-1].n; SOC.chatInit = true; paintChat(); return; }
     if (L.length){ SOC.chat = SOC.chat.concat(L).slice(-150); SOC.since = L[L.length-1].n;
       const me = myPk(), seen = UI.tab==='soc' && UI.soc==='chat';
       if (!seen) SOC.unread += L.filter(x => x.pk !== me && (x.ch==='w' || x.ch==='guild')).length;
-      paintChat(); }
+      const ws = L.filter(x => x.ch==='w' && x.pk !== me && !blocked().includes(x.pk));
+      if (ws.length && !seen){ const w = ws[ws.length-1]; SOC.lastW = w.pk; PNAMES[w.pk] = w.name; if (!document.getElementById('minichat') || UI.miniOff) toast(`💌 ${w.name}님의 귓속말: ${String(w.text).slice(0, 30)}`); sfx('tap'); buzz(60); }
+      SOC.miniAt = Date.now(); paintChat(); }
   } catch(e){} finally { chatBusy = false; }
 }
-setInterval(() => { if (document.hidden) return; socBeat(); const live = UI.tab==='soc' || (UI.tab==='home' && !UI.place); if (live || SOC.cache.tick++ % 6 === 0) socChat(); }, 5000);
+setInterval(() => { if (document.hidden) return; socBeat(); const live = UI.tab==='soc' || (UI.tab==='home' && !UI.place) || (!B && OPT.chatlog!=='off'); if (live || SOC.cache.tick++ % 6 === 0) socChat(); }, 5000);
 SOC.cache.tick = 0;
 function bcast(kind, extra){ if (socOn()) sapi('chat', {method:'POST', body:{ch:'sys', kind, ...extra}}).catch(()=>{}); }
 
@@ -1570,9 +1583,29 @@ function paintChat(){
     const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
     box.innerHTML = L.map(chatLine).join('') || '<p class="small muted" style="text-align:center;margin:20px 0">아직 대화가 없어요. 먼저 인사해 보세요!</p>';
     if (atBottom || !box.dataset.init){ box.scrollTop = box.scrollHeight; box.dataset.init = 1; } }
+  paintMini();
   const strip = document.getElementById('chatstrip');
   if (strip){ const L = SOC.chat.filter(x => !blocked().includes(x.pk)).slice(-2); strip.innerHTML = L.length ? L.map(x => `<div class="sl">${x.ch==='sys'?'📢 ':x.ch==='guild'?'<b class="ct g">길드</b> ':x.ch==='w'?'<b class="ct w">귓</b> ':''}${x.pk && x.ch!=='sys' ? `<b>${esc(x.name)}</b> ` : ''}${esc(x.text)}</div>`).join('') : '<div class="sl muted">채팅 · 눌러서 다른 모험가와 이야기해요</div>'; }
 }
+// 떠 있는 채팅 로그: 탭 화면 아래(메뉴 바로 위)에 최근 3줄. 귓속말은 분홍, 누르면 채팅(귓속말이면 바로 답장). 설정 '채팅 로그'로 전체/귓속말·길드만/끄기
+function paintMini(){
+  let el = document.getElementById('minichat');
+  const nav = document.querySelector('nav.tabs');
+  const show = socOn() && OPT.chatlog!=='off' && nav && !B && !(UI.tab==='soc' && UI.soc==='chat') && !(UI.tab==='home' && !UI.place);
+  document.body.classList.toggle('hasmini', !!show);
+  if (!show){ if (el) el.remove(); return; }
+  if (!el){ el = document.createElement('div'); el.id = 'minichat'; el.className = 'minichat'; document.body.appendChild(el); }
+  el.style.bottom = (nav.offsetHeight + 6) + 'px';
+  const me = myPk(), L = SOC.chat.filter(x => !blocked().includes(x.pk) && (OPT.chatlog!=='w' || x.ch==='w' || x.ch==='guild')).slice(-3);
+  const fresh = Date.now() - (SOC.miniAt || 0) < 8000;
+  el.classList.toggle('fresh', fresh); el.classList.toggle('min', !!UI.miniOff);
+  const head = `<button class="mc-h" data-act="minitog" aria-label="채팅 로그 접기·펴기">💬 채팅${SOC.unread?` <i class="badge">${SOC.unread}</i>`:''} <span>${UI.miniOff?'▴':'▾'}</span></button>`;
+  el.innerHTML = head + (UI.miniOff ? '' : `<button class="mc-b" data-act="miniopen" aria-label="채팅 열기">${L.length ? L.map(x => `<div class="sl ${x.ch}">${x.ch==='sys'?'📢 ':x.ch==='guild'?'<b class="ct g">길드</b> ':x.ch==='w'?`<b class="ct w">${x.pk===me?'→ '+esc(nameCache(x.to)):'귓'}</b> `:''}${x.pk && x.ch!=='sys' && !(x.ch==='w' && x.pk===me) ? `<b>${esc(x.name)}</b> ` : ''}${esc(x.text)}</div>`).join('') : '<div class="sl muted">아직 조용해요 · 눌러서 채팅</div>'}</button>`);
+}
+document.addEventListener('click', e => { const b = e.target.closest('#minichat [data-act]'); if (!b) return;
+  if (b.dataset.act==='minitog'){ UI.miniOff = !UI.miniOff; paintMini(); return; }
+  const lw = SOC.chat.filter(x => x.ch==='w' && x.pk !== myPk()).slice(-1)[0];
+  UI.tab = 'soc'; UI.soc = 'chat'; if (lw && Date.now() - lw.at < 5*60e3 && SOC.chat.slice(-3).includes(lw)){ UI.chatTo = lw.pk; UI.fv['soc-ch'] = 'w'; UI.chatF = 'w'; } render(); });
 // 서버 목록 불러오기 (화면마다 캐시, '새로고침'으로 다시)
 const SD = {};
 async function sLoad(key, fn){ SD[key] = {loading:true}; try { SD[key] = {v: await fn(), at: Date.now()}; } catch(e){ SD[key] = {err:e.message}; } if (!typing()) render(); }
@@ -1967,7 +2000,7 @@ function wearDiff(it){
   return parts.length ? `<div class="weardiff"><b>장착하면</b>${parts.join('<br>')}</div>` : '';
 }
 
-function toCharSelect(){ if (S) save(); if (cloudTimer) cloudSave(); S = null; B = null; UI.slot = null; UI.place = null; UI.delAsk = false; UI.tab = 'home'; render(); window.scrollTo({top:0}); }
+function toCharSelect(){ SOC.chatFor = null; if (S) save(); if (cloudTimer) cloudSave(); S = null; B = null; UI.slot = null; UI.place = null; UI.delAsk = false; UI.tab = 'home'; render(); window.scrollTo({top:0}); }
 function slotCard(n){
   const d = store.get(slotKey(n)), on = (UI.slotSel ?? 0) === n;
   if (!d) return `<button class="cslot empty" data-act="slotpick" data-v="${n}" aria-pressed="${on}"><span class="csfig"><i>＋</i></span><b>새 캐릭터</b><small class="muted">빈 칸</small></button>`;
@@ -2653,7 +2686,7 @@ function fxFoeHit(){  // a monster's blow lands on me
 let foeTimer = null;
 /* ---------- 환경 설정 (이 기기에 저장, 캐릭터·계정과 무관) */
 const OPT_KEY = 'mnbrpg-opt';
-const OPT_DEF = {theme:'auto', font:'m', motion:'auto', speed:1, dmg:true, autoPot:30, sfx:true, vol:60, vib:true, typing:'normal', skipTalk:false};
+const OPT_DEF = {theme:'auto', font:'m', motion:'auto', speed:1, dmg:true, autoPot:30, sfx:true, vol:60, vib:true, typing:'normal', skipTalk:false, chatlog:'all'};
 let OPT = {...OPT_DEF, ...(store.get(OPT_KEY) || {})};
 function applyOpt(){
   const r = document.documentElement;
@@ -4379,7 +4412,8 @@ function settingsView(){
     <div class="optrow"><div class="ol"><b>음량</b><small>${OPT.vol}%</small></div><input type="range" id="opt-vol" min="0" max="100" step="10" value="${OPT.vol}" aria-label="음량" ${OPT.sfx?'':'disabled'}></div>
     ${optRow('진동', 'vib', onoff, '맞았을 때 (지원하는 폰만)')}</section>
   <section class="card"><h2>대화</h2>
-    ${optRow('글자 나오는 속도', 'typing', [['slow','느리게'],['normal','보통'],['fast','빠르게'],['off','바로']])}</section>`;
+    ${optRow('글자 나오는 속도', 'typing', [['slow','느리게'],['normal','보통'],['fast','빠르게'],['off','바로']])}
+    ${socOn() ? optRow('채팅 로그', 'chatlog', [['all','전체'],['w','귓속말·길드만'],['off','끄기']], '화면 아래에 최근 채팅 3줄') : ''}</section>`;
   if (isAdmin()) h += `<section class="card gmcard"><h2>운영자</h2><p class="small muted">문의 답변 · 계정 관리 · 아이템 지급 · 레벨 조정 · 공지</p><div class="btns"><button class="btn pri" data-go="gm">운영자 메뉴 열기</button></div></section>`;
   h += inquiryCard();
   h += saveCard();
@@ -4444,12 +4478,12 @@ function renderView(){
   if (!S){ app.className = 'app notabs'; app.innerHTML = createView(); return; }
   ensureDaily();
   if (B){ app.className = 'app notabs'; { const fk = (B.deep && artSrc('bg/deep_'+B.g)) ? 'deep_'+B.g : 'ground_'+B.g, fc = BGFIT[fk];
-    app.innerHTML = `<div class="bscene"${fc ? ` style="background:${fc.c}"` : ''}>${sceneArt(B.g, B.deep, -165)}<div class="bwrap">${battleView()}</div></div>`; fitScene(); } if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
+    app.innerHTML = `<div class="bscene"${fc ? ` style="background:${fc.c}"` : ''}>${sceneArt(B.g, B.deep, -165)}<div class="bwrap">${battleView()}</div></div>`; fitScene(); paintMini(); } if (!fxRaf && B.foes.some(f=>f.stun)){ fxLast = performance.now(); fxRaf = requestAnimationFrame(fxTick); } return; }
   if (S.onsen) onsenTick();
   const V = {home:UI.place ? placeView : homeView, hunt:huntView, char:charView, skill:skillView, bag:bagView, rec:recView, set:settingsView, gm:gmView, soc:socView}[UI.tab] || homeView;
   const dots = {home:!!jqStage() && (jqDone() || !(S.jq && S.jq.st===jqStage())), hunt:false, char:!!S.points || promoReady(), skill:!!S.sp, bag:S.bag.some(x=>x.isNew), rec:dailyReady()>0};
   app.className = 'app';
-  setTimeout(runTyper, 0);
+  setTimeout(runTyper, 0); setTimeout(paintMini, 0);
   app.innerHTML = V() + `<nav class="tabs" aria-label="메뉴"><div class="in">${TABS.map(([k,n])=>`<button class="tab ${UI.tab===k?'on':''}" data-go="${k}" ${UI.tab===k?'aria-current="page"':''}>${icoImg('ui/tab_'+k, 'tabi') || svg(k,24)}${n}${dots[k]&&UI.tab!==k?'<span class="dot"></span>':''}</button>`).join('')}</div></nav>`;
   if (UI.innAsk) app.insertAdjacentHTML('beforeend', innSheet());
   if (UI.upId) app.insertAdjacentHTML('beforeend', upSheet());
